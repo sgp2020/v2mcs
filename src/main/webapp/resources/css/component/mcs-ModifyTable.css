@@ -1,0 +1,84 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-ModifyTable.css
+ * @brief       追加・更新画面用の編集テーブルCSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+.mcs-modifytable-wrapper {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.mcs-modifytable-wrapper th,
+.mcs-modifytable-wrapper td {
+    border: none;
+    vertical-align: top;
+}
+
+table.mcs-modifytable {
+    width: auto;
+    float: left;
+    table-layout: fixed;
+    min-width: 300px;
+    margin: 0 15px 15px 0;
+}
+
+table.mcs-modifytable thead th {
+    white-space: nowrap;
+}
+
+table.mcs-modifytable .mcs-modifytable-name,
+table.mcs-modifytable .mcs-modifytable-value {
+    padding: 5px 10px;
+    height: 50px;
+    min-height: 50px;
+    max-height: 50px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+table.mcs-modifytable .mcs-modifytable-value {
+    min-width: 250px;
+}
+
+/* 文字列入力欄 */
+.mcs-modifytable-input.type-string {
+    text-align: left;
+}
+
+/* 数値入力欄 */
+.mcs-modifytable-input.type-number {
+    text-align: right;
+}
+
+/* チェックボックス */
+.mcs-modifytable-input-checkbox {
+    text-align: center;
+}
+
+/* セレクトボックス */
+.mcs-modifytable-input.type-select {
+    text-align: left;
+}
+
+/* 状態保存ボタン */
+.mcs-modifytable-save-button {
+    margin-left: 10px;
+    display: inline-block;
+}
+

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+  <!-- Root Context: defines shared resources visible to all other web components -->
+  
+  <bean id="dbPlaceConf" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="location" value="/WEB-INF/spring/DbConfig.properties"/>
+  </bean>
+
+  <!-- データソースの設定 -->
+  <bean id="mcsDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    <property name="driverClassName"   value="${db.driverClassName}" />
+    <property name="url"               value="${db.url}" />
+    <property name="username"          value="${db.username}" />
+    <property name="password"          value="${db.password}" />
+    <property name="maxTotal"          value="${db.maxTotal}" />
+    <property name="defaultAutoCommit" value="${db.defaultAutoCommit}" />
+  </bean>   
+
+  <!-- 
+    その他設定は./appServlet/servlet-context.xmlに移動しました。
+  -->
+</beans>

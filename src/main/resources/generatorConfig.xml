@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+    <!-- コメント設定 -->
+    <commentGenerator>
+      <!-- コメントに日付を出力しない -->
+      <property name="suppressDate" value="true" />
+    </commentGenerator>
+
+    <!-- 接続情報 -->
+    <jdbcConnection connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:orcl" driverClass="oracle.jdbc.OracleDriver" password="C##INFO" userId="C##INFO" />
+    <javaModelGenerator targetPackage="net.muratec.mcs.model" targetProject="v2mcs" />
+    <sqlMapGenerator targetPackage="net.muratec.mcs.mapper" targetProject="v2mcs" />
+    <javaClientGenerator targetPackage="net.muratec.mcs.mapper" targetProject="v2mcs" type="XMLMAPPER" />
+
+    <!-- 対象のテーブルの設定(CSC) -->
+    <table tableName="TABLE_COMP_CONFIG"></table>
+    <table tableName="TABLE_COMP_CONFIG_M"></table>
+    <table tableName="HANDS_ON_TABLE_CONFIG"></table>
+
+    <!-- 対象のテーブルの設定 -->
+    <table tableName="ALARM">
+      <columnOverride column="SET_TIME" javaType="java.sql.Timestamp" />
+      <!-- Java予約語のためプロパティ名のマッピング変更 -->
+      <columnOverride column="CLASS" property="clazz" />
+    </table>
+    <table tableName="ALARM_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="SET_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CLEAR_TIME" javaType="java.sql.Timestamp" />
+      <!-- Java予約語のためプロパティ名のマッピング変更 -->
+      <columnOverride column="CLASS" property="clazz" />
+    </table>
+    <table tableName="ALARM_REPORT_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="ALT_DEVICE"></table>
+    <table tableName="AMHS"></table>
+    <table tableName="AMHS_ALIAS"></table>
+    <table tableName="AMHS_STATE">
+      <columnOverride column="AMHS_L_STATE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="ASTAR_HEURISTIC_COST">
+      <columnOverride column="LAST_MODIFIED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="BIN_UTILIZATION_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="BIN_UTIL_STATS_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER">
+      <columnOverride column="STORED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_IN_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_OUT_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="INSYSTEM_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CARRIER_ACTION_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_ATTRIBUTE_INFO">
+      <columnOverride column="SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_JOB">
+      <columnOverride column="MACRO_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="MACRO_CMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ETA" javaType="java.sql.Timestamp" />
+      <columnOverride column="PTA" javaType="java.sql.Timestamp" />
+      <columnOverride column="PTD" javaType="java.sql.Timestamp" />
+      <columnOverride column="JOB_ACTION_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CREATE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="RESCHEDULE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_JOB_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="RCV_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ETA" javaType="java.sql.Timestamp" />
+      <columnOverride column="PTA" javaType="java.sql.Timestamp" />
+      <columnOverride column="PTD" javaType="java.sql.Timestamp" />
+      <columnOverride column="CANCEL_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="LAST_REROUTE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CREATE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_JOB_PROGRESS">
+      <columnOverride column="REQ_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ANS_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="INI_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="SRC_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPARTED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DST_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="UNASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CRANE_ACTIVE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CRANE_IDLE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_REQ_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_ANS_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_INIT_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="EST_PASS_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="PASSED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_MOTION_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="CARRIER_SHAPE"></table>
+    <table tableName="CARRIER_SHAPE_RLT"></table>
+    <table tableName="CARRIER_TYPE"></table>
+    <table tableName="CONNECT_ALARM_SERVER"></table>
+    <table tableName="CRJOB_STATS_HISTORY">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="END_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="DATA_SYNC">
+        <columnOverride column="SYNC_ACTION_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="DEFAULT_PROCESS"></table>
+    <table tableName="DESTINATION"></table>
+    <table tableName="DUAL_PORT"></table>
+    <table tableName="EJECT_DEVICE"></table>
+    <table tableName="EMPTY_CARRIER"></table>
+    <table tableName="EMPTY_CARRIER_CONTAMI"></table>
+    <table tableName="EMPTY_CARRIER_CONTROLLER"></table>
+    <table tableName="EMPTY_CARRIER_DISTRIBUTION"></table>
+    <table tableName="EMPTY_CARRIER_SUPPLY_SOURCE"></table>
+    <table tableName="EQP_TYPE"></table>
+    <table tableName="ERROR_CARRIER">
+      <columnOverride column="SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="EXERCISE"></table>
+    <table tableName="EXERCISE_MASTER"></table>
+    <table tableName="EXERCISE_PATTERN"></table>
+    <table tableName="FAILOVER_RULE"></table>
+    <table tableName="FAILOVER_RULE_RLT"></table>
+    <table tableName="FLOOR_TRANSFER_CONFIG"></table>
+    <table tableName="FLOOR_TRANSFER_COUNT"></table>
+    <table tableName="FLOOR_TRANSFER_PATTERN"></table>
+    <table tableName="GRP"></table>
+    <table tableName="GRP_RLT">
+      <columnOverride column="USE_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="GUI_COLOR"></table>
+    <table tableName="GUI_FUNC_GROUP"></table>
+    <table tableName="GUI_FUNC_GROUP_RLT"></table>
+    <table tableName="GUI_FUNCTION"></table>
+    <table tableName="HOST"></table>
+    <table tableName="HOST_ALARM_DEFINE"></table>
+    <table tableName="HOST_ALARM_INFO"></table>
+    <table tableName="HOST_ALARM_HISTORY">
+      <columnOverride column="SND_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="RCV_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="HOST_ALARM_MASTER"></table>
+    <table tableName="HOST_ALIAS"></table>
+    <table tableName="HOST_GRP"></table>
+    <table tableName="HOST_GRP_RLT">
+      <columnOverride column="USE_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="HOST_REPORT_INFO"></table>
+    <table tableName="HOST_STATE">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="END_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="HOSTLOG_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="HOSTLOG_STATS_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="MAX_SEC" javaType="java.math.BigDecimal" />
+      <columnOverride column="MIN_SEC" javaType="java.math.BigDecimal" />
+      <columnOverride column="TOTAL_NUM" javaType="java.math.BigDecimal" />
+      <columnOverride column="DEVIATION_NUM" javaType="java.math.BigDecimal" />
+      <columnOverride column="ERROR_NUM" javaType="java.math.BigDecimal" />
+    </table>
+    <table tableName="JOB">
+      <columnOverride column="RECEIVED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="JOB_PRIORITY"></table>
+    <table tableName="JOB_RLT"></table>
+    <table tableName="JOBSTATE_REASON">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="JOB_TIMEOUT">
+      <columnOverride column="TIMEOUT_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="JOB_TIMEOUT_LOG">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="JOB_TIMEOUT_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <table tableName="JOBSTATE_REASON_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="LOG_CODE_MASTER"></table>
+    <table tableName="MCS">
+      <columnOverride column="MCS_L_STATE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="MCS_ALARM"></table>
+    <table tableName="MCS_CONSTS">
+      <columnOverride column="LOWER_LIMIT" javaType="java.lang.Long" />
+      <columnOverride column="UPPER_LIMIT" javaType="java.lang.Long" />
+    </table>
+    <table tableName="MCS_RET_CODE"></table>
+    <table tableName="MESSAGE_RETENTION"></table>
+    <table tableName="MICRO_CMD_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="REQ_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ANS_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="INI_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="SRC_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPARTED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DST_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="UNASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CRANE_ACTIVE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CRANE_IDLE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_IN_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_OUT_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CARRIER_REMOVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ETA" javaType="java.sql.Timestamp" />
+      <columnOverride column="PASSED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_REQ_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_ANS_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_INIT_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ABORT_COMP_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="MICROCMD_STATS_HISTORY">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="END_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="MICRO_CMD_ROUTE">
+        <columnOverride column="LAST_MODIFIED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="MODULE"></table>
+    <table tableName="NODE"></table>
+    <table tableName="OHBIF_AREA"></table>
+    <table tableName="OHBIF_AREA_CONTROLLER"></table>
+    <table tableName="OHBIF_AREA_IFOHB"></table>
+    <table tableName="OHBIF_JDG"></table>
+    <table tableName="OHB">
+      <columnOverride column="OHB_L_STATE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="OHB_PORT_RLT">
+      <columnOverride column="USE_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="OPERATION_LOG">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="OPERATION_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="PERFORMANCE_DATA_LOG">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="PERF_DATA_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <table tableName="PORT"></table>
+    <table tableName="PORT_CONN_UNIT">
+      <columnOverride column="USE_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="PORT_STATE">
+      <columnOverride column="PORT_L_STATE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="PROCESS"></table>
+    <table tableName="PROCESS_STATE">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="PROC_EVENT"></table>
+    <table tableName="PROC_TIME_STATS">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="PURPOSE_TYPE"></table>
+    <table tableName="RELATIONAL_PORT"></table>
+    <table tableName="RESERVE">
+      <columnOverride column="UPDATE_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="ROUTE"></table>
+    <table tableName="ROUTE_DETAIL"></table>
+    <table tableName="ROUTE_PATTERN_RLT"></table>
+    <table tableName="SITEMAP_TABLE_CONFIG"></table>
+    <table tableName="STAGE_CMD">
+      <columnOverride column="S1_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S1_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F49_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F50_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F49_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F50_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="EXPECTED_DURATION_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="NOBLOCKING_TIME_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_INVALIDED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_REACHED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_TIMEOUT_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_VEHICLE_ASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_VEHICLE_UNASSIGNED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="STAGE_CMD_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="S1_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S1_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F49_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F50_STAGE_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F49_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="S2F50_TRANSFER_CMD" javaType="java.sql.Timestamp" />
+      <columnOverride column="EXPECTED_DURATION_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="NOBLOCKING_TIME_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_INVALIDED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_REACHED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_TIMEOUT_EXPIRED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_VEHICLE_ASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="STAGE_VEHICLE_UNASSIGNED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="STOCKER">
+      <columnOverride column="CRANE_ACTIVE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="CRANE_IDLE_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="TOTAL_SHELVES" javaType="java.math.BigDecimal" />
+      <columnOverride column="TOTAL_OPE_COUNT" javaType="java.math.BigDecimal" />
+      <columnOverride column="TOTAL_ERROR_COUNT" javaType="java.math.BigDecimal" />
+    </table>
+    <table tableName="STORAGE_TIME_HISTORY">
+      <columnOverride column="STORED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="WAIT_OUT_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="STRING_MASTER"></table>
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="SYSTEM_LOG">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="SYSTEM_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <table tableName="TAKE_AWAY_HISTORY">
+      <columnOverride column="WAIT_OUT_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="REMOVED_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="TAKEOVER_RULE"></table>
+    <table tableName="TAKEOVER_RULE_RLT"></table>
+    <table tableName="TEST_CARRIER"></table>
+    <table tableName="TIMER">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="TOOL_BUFFER_PORT"></table>
+    <table tableName="TRACE_LOG_LEVEL"></table>
+    <table tableName="TRANS_MODE"></table>
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="TREND_CARRIER_JOB">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="TREND_CRJOB_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <!-- MACS4#0109 Mod Start -->
+    <!-- 
+    <table tableName="TREND_VEHICLE">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    -->
+    <table tableName="TREND_VEHICLE_HISTORY">
+      <columnOverride column="TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <!-- MACS4#0109 Mod End -->
+    <table tableName="USER_ACCOUNT">
+      <columnOverride column="LAST_LOGIN" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="UNIT">
+        <columnOverride column="UNIT_L_STATE_SET_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="UTILIZATION_HISTORY">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="END_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="UTIL_STATS_HISTORY">
+      <columnOverride column="START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="END_TIME" javaType="java.sql.Timestamp" />
+    </table>
+    <table tableName="VEHICLE">
+      <columnOverride column="INSTALLED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="REMOVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="SRC_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="ACQ_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPARTED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DST_ARRIVED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_START_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="DEPO_COMP_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="UNASSIGNED_TIME" javaType="java.sql.Timestamp" />
+      <columnOverride column="TOTAL_OPE_COUNT" javaType="java.math.BigDecimal" />
+      <columnOverride column="TOTAL_ERROR_COUNT" javaType="java.math.BigDecimal" />
+      <columnOverride column="ID_ERROR_COUNT" javaType="java.math.BigDecimal" />
+      <columnOverride column="INCORRECT_COUNT" javaType="java.math.BigDecimal" />
+    </table>
+    <table tableName="VIP"></table>
+    <table tableName="VIP_RLT"></table>
+    <table tableName="ZONE"></table>
+    <table tableName="ZONE_CARRIER_TYPE_RLT"></table>
+    <table tableName="ZONE_RLT"></table>
+  </context>
+</generatorConfiguration>

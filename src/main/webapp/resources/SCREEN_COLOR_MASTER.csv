@@ -1,0 +1,14 @@
+'GREEN','01.All up','0,255,0;
+'RED','02.Error','255,0,0;
+'GRAY','03.Disable','100,100,100;
+'BLUE','04.Test','110,120,255;
+'ORANGE','05.PMMode','255,140,0;
+'ORANGE2','06.Hold','250,50,10;
+'YELLOW','07.Manual','255,255,0;
+'YELLOW2','08.Pausing','255,255,106;
+'ROUGE','09.Alarm','190,80,30;
+'PINK','10.Offline','250,0,250;
+'BLOWN','11.Dummy','42,0,0;
+'INDIGO','12.Block','75,0,130;
+'VIOLET','13.Timeout','238,130,238;
+'WHITE','99.Other','235,235,235;

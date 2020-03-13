@@ -1,0 +1,1646 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        design.css
+ * @brief       デザイン用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/03/31 0.2         Step2_2リリース                                   CSC
+ ******************************************************************************
+ */
+/* SourceHanSans 和文
+------------------------------------------------------------- */
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-ExtraLight.woff") format("woff");
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-Light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-Regular.woff") format("woff");
+    font-weight: 350;/*20170321 rev*/
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-Normal.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-Medium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    src: url("../font/SourceHanSans-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceHanSans';
+    /* Step4 2017_08_17 */
+    src: url("../font/SourceHanSans-Heavy.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* SourceCodePro 英数データ用
+------------------------------------------------------------- */
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-ExtraLightIt.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-LightIt.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-It.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-MediumIt.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Semibold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-SemiboldIt.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-BoldIt.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SourceCodePro';
+    src: url('../font/SourceCodePro-BlackIt.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* webfont icons
+------------------------------------------------------------- */
+@font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.woff?55297124') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+}
+
+.icon-icon-menu-hmbgr:before {
+    content: '\e800';
+}
+
+.icon-attention:before {
+    content: '\e801';
+}
+
+.icon-icon-select-off:before {
+    content: '\e802';
+}
+
+.icon-icon-select-on:before {
+    content: '\e803';
+}
+
+.icon-icon-user:before {
+    content: '\e804';
+}
+
+.icon-asterisk:before {
+    content: '\e805';
+}
+
+.icon-info-circled:before {
+    content: '\e806';
+}
+
+/* 共通背景色、文字色
+------------------------------------------------------------- */
+body {
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 400;
+    background: #24272D;
+    color: #CCC;
+    /*add 20170321*/
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* 共通ヘッダ
+------------------------------------------------------------- */
+/** mcs-common.css 71 **/
+#mcs-header-menu {
+    padding: 12px 10px 12px 0;
+    background-color: #24272D;
+}
+
+/** mcs-common.css 86 **/
+#mcs-header-menu h1 {
+    padding-left: 10px;
+    padding-top: .4em;
+    padding-bottom: .4em;
+    border-left: 8px solid #5877BA;
+    color: #CCC;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+/* ログイン情報
+------------------------------ */
+.mcs-user-info {
+    position: absolute;
+    top: 12px;
+    right: 90px;	/* 90→120 メッセージ表示用の領域を確保 */
+    width: auto;
+    border-bottom: 2px solid #5877BA;
+}
+
+.mcs-user-info-ul {
+    margin-bottom: 4px;
+    padding: 0;
+}
+
+.mcs-user-info-ul>li {
+    display: inline-block;
+    margin: 0;
+    padding-right: 1em;
+    font-family: 'SourceHanSans', sans-serif;
+    color: #E6E6E6;
+}
+
+.mcs-user-info-ul>li:last-child {
+    padding-right: .2em;
+}
+
+.mcs-user-info-status {
+}
+
+.mcs-user-info-status:before {
+    font-family: "fontello";
+    content: "\e804\00a0";
+    font-size: 20px;
+    color: #5877BA;
+}
+
+#mcs-user-info-status-value,
+#mcs-user-info-name-value {
+    font-weight: 500;
+}
+
+.mcs-user-info-name {
+}
+
+.mcs-user-info-date {
+}
+
+.mcs-user-info-time {
+}
+
+/* ハンバーガーメニュー
+------------------------------ */
+/* bootstram.min.css */
+#mcs-icon-menu {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+}
+
+.glyphicon-menu-hamburger::before {
+    color: #5877BA;
+    font-family: 'fontello';
+    content: "\e800";
+}
+
+/*201702 modified*/
+.glyphicon-menu-hamburger:hover::before {
+    color: #E6E6E6;
+    font-family: 'fontello';
+    content: "\e800";
+}
+
+/* トップ画面 メッセージ表示アイコン
+------------------------------------------------------------- */
+#mcs-msg-icon-menu {
+    position: absolute;
+    top: 15px;
+    right: 70px;
+    color: #5877BA;
+}
+
+/* トップ画面 情報
+------------------------------------------------------------- */
+/*css/top/mcs-SystemMonitor.css*/
+/*reset*/
+#mcs-top-info.mcs-top-info-block {
+    z-index: 1000;
+    position: absolute;
+    top: 64px;
+    right: auto;
+    left: 8px;
+    height: auto;
+    /*width: 100%;*/
+    width: calc(100% - 16px);
+    padding: .8em;
+    border: 0 none;
+    background: #181A1E;
+    color: #ffffff;
+    font-size: 16px;
+    text-shadow: none;
+}
+
+.mcs-top-info-ul {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 2px;
+}
+
+.mcs-top-info-ul>li {
+    display: inline-block;
+    padding: 0 .8em 4px .8em;
+    border-left: 1px solid #5877BA;
+    vertical-align: top;
+}
+
+.mcs-top-info-ul>li.mcs-info-com {
+    padding-bottom: 0;
+}
+
+.mcs-top-info-ul>li.mcs-info-schm {
+    border-right: 1px solid #5877BA;
+    vertical-align: middle;
+}
+
+.mcs-top-info-ul>li.mcs-btn-login-wrapper {
+    padding-bottom: 0;
+    border-left: none;
+    vertical-align: middle;
+}
+
+.mcs-info-com-ttl,
+.mcs-info-cntrl-ttl,
+.mcs-info-cntrl-ttl,
+.mcs-info-cntrl-ttl,
+.mcs-info-soft-ttl,
+.mcs-info-schm-ttl {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+    color: #E6E6E6;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.mcs-btn-login-wrapper {
+}
+
+.mcs-btn-login-wrapper>#mcs-btn-login,
+.mcs-btn-login-wrapper>#mcs-btn-logout {
+    display: inline;
+    position: static;
+    top: auto;
+}
+
+/* 通信 ステータス
+------------------------------ */
+/*20200115 Song Del Start */
+/*
+#mcs-info-com-value {
+    display: inline-block;
+    box-sizing: content-box;
+    width: 180px;
+    padding-bottom: 2px;
+    padding-right: 1em;
+    padding-left: 1em;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    text-align: center;
+}
+
+#mcs-info-com-value.communicating {
+    border-color: #3DCC5A;
+    color: #3DCC5A;
+}
+
+#mcs-info-com-value.not-communicating {
+    border-color: #F7E87C;
+    color: #F7E87C;
+}
+
+#mcs-info-com-value.disable {
+    border-color: #A5A5A5;
+    color: #A5A5A5;
+}
+*/
+/*20200115 Song Del End */
+
+/* トップ画面 ステータスアイコンエリア
+------------------------------ */
+.mcs-content.mcs-content-top {
+    position: absolute;
+    left: 0;
+    top: 180px;
+    bottom: 0;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 10px;
+    border: 0 none;
+}
+
+/* スライドメニューエリア
+------------------------------------------------------------- */
+/** mcs-common.css 119 **/
+#mcs-right-menu {
+    background-color: #31353D;
+    border: 1px solid #3E434D;
+    border-top: 1px solid #5877BA;
+}
+
+/* スライドメニュー部品CSS
+------------------------------------------------------------- */
+/** mcs-SlideMenu.css **/
+.mcs-slidemenu {
+    top: 68px;
+    border: 1px solid #31353D;
+    border-top: 1px solid #5877BA;
+    background: #181B1E;
+    box-shadow: 8px 0 8px -8px rgba(0, 0, 0, 0.75), -8px 0 8px -8px rgba(0, 0, 0, 0.75);
+}
+
+#mcs-slideMenu-transportCarrier {
+    box-shadow: -16px 0 16px -8px rgba(0, 0, 0, 0.95);
+}
+
+/* コンテンツ表示エリア
+------------------------------------------------------------- */
+/** mcs-common.css 125 **/
+.mcs-content {
+    bottom: 0;
+    padding: 0 15px;
+}
+
+/* サブヘッダーがあるときのコンテンツ表示エリア
+---------------------------------------- */
+.mcs-content.mcs-with-subheader {
+    top: 68px;
+}
+
+/* サブタイトルがあるときのコンテンツ表示エリア
+---------------------------------------- */
+/*キャリア > 追加 > メインエリア*/
+.mcs-content.mcs-with-subtitle {
+    /*20191226 DQY DEL
+    top: 114px;
+    top: 214px;*/
+    top: 114px;
+}
+
+/* サブヘッダーが２段のときのコンテンツ表示エリア
+ポート構成
+---------------------------------------- */
+.mcs-content.mcs-with-subheader-large .mcs-content-subtitle {
+    top: 148px;
+}
+
+/* サブタイトルが２行あるときのコンテンツ表示エリア
+ポート構成
+一覧が148px、下の要素との差を48pxとる
+---------------------------------------- */
+.mcs-content.mcs-with-subheader-large.mcs-with-subtitle {
+    top: 196px;
+}
+
+/* サブヘッダーとサブタイトルがあるときのコンテンツ表示エリア
+---------------------------------------- */
+.mcs-content.mcs-with-subheader.mcs-with-subtitle {
+    top: 101px;
+}
+
+/* サブコンテンツ名
+---------------------------------------- */
+.mcs-content .mcs-content-subtitle {
+    background: transparent;
+    color: #ccc;
+}
+
+/* 固定ヘッダの位置
+---------------------------------------- */
+.mcs-content {
+    top: 68px;
+}
+
+.mcs-content .mcs-content-subtitle {
+    z-index: 2;
+    /*top: 48px;*/
+    top: 66px;
+    /*20170218_rev*/
+    height: 36px;
+    font-weight: 500;
+    box-shadow: 0px 2px 8px 2px rgba(36, 39, 45, 1);
+}
+
+div.mcs-graph-subtitle {
+    top: 66px;
+    background: transparent;
+    color: #ccc;
+}
+
+/*サブタイトル 一覧 上部にタイプ選択あるもの
+AMHS構成
+---------------------------------------- */
+.mcs-content.mcs-with-subheader .mcs-content-subtitle {
+    /*top: 94px;*/
+    top: 112px;
+    /*20170218_rev*/
+}
+
+/*サブタイトル タイプ選択
+---------------------------------------- */
+#mcs-subheader-menu {
+    top: 66px;
+    width: calc(100% - 40px);
+    height: 45px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-top: 0;
+    padding-left: 0;
+    border-bottom: 1px solid #4D4D4D;
+    background: transparent;
+}
+
+/** mcs-common.css 158 **/
+.mcs-content.mcs-with-subheader.mcs-with-subtitle {
+    top: 164px;
+}
+
+/*ホスト構成 > 追加 > メインエリア*/
+#host-add-table-target {
+}
+
+/*AMHS構成 > 修正 > メインエリア*/
+#mod-table-target {
+}
+
+/*キャリア > 追加 > メインエリア*/
+/*AMHS構成 > 追加 > メインエリア*/
+#add-table-target {
+}
+
+.table.mcs-modifytable>thead>tr>th {
+    border-bottom: 0 none;
+}
+
+table>thead>tr>th {
+    border-color: #808080;
+}
+
+.mcs-modifytable-name {
+    border-top: 0 none;
+}
+
+/* DataTables ナビゲーション部
+------------------------------------------------------------- */
+/* mcs-DataTables.css 55*/
+.mcs-datatables-buttons-wrapper,
+.mcs-modifytable-buttons-wrapper {
+    padding-top: 8px;
+    padding-bottom: 16px;
+}
+
+.btn-group.mcs-datatables-pagebuttons>button {
+    background: #32373F;
+    box-shadow: none;
+    color: #fff;
+}
+
+.btn-group.mcs-datatables-pagebuttons>button:hover {
+    background-color: #e6e6e6;
+    color: #333333;
+}
+
+/* 表示切替 パネル内
+------------------------------------------------------------- */
+.dt-button-collection.dropdown-menu>.dt-button.buttons-columnVisibility:last-child {
+    margin-bottom: 10px;
+}
+
+.dt-button.buttons-columnVisibility {
+    background: #5877BA;
+}
+
+/*Add 20170316 ホバーをしないように見せる仕様*/
+.dt-button-collection.dropdown-menu > li > a:focus,
+.dt-button-collection.dropdown-menu> li > a:hover {
+    background: #5877BA;
+}
+
+/*focusのリセット*/
+.dropdown-menu>li.dt-button.buttons-columnVisibility a:focus {
+    background: none;
+    outline: none;
+}
+
+.dt-button.buttons-columnVisibility:after,
+.dt-button.buttons-columnVisibility.active::after {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: block;
+    margin-top: -8px;
+    width: 10px;
+    height: 10px;
+    font-family: 'fontello';
+}
+
+.dt-button.buttons-columnVisibility:after {
+    content: '\e802';
+    color: #25324C;
+}
+
+.dt-button.buttons-columnVisibility.active:after {
+    content: '\e803';
+    color: #fff;
+}
+
+/*focusのリセット*/
+.dt-button-collection.dropdown-menu>li.dt-button>a:focus {
+    background: none;
+    outline: none;
+}
+
+.dt-button-collection.dropdown-menu>.dt-button {
+    position: relative;
+    border: 1px solid #000;
+    margin-bottom: 4px;
+    background: #5877BA;
+}
+
+.dt-button-collection.dropdown-menu>.dt-button::after,
+.dt-button-collection.dropdown-menu>.dt-button.active::after {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: block;
+    margin-top: -8px;
+    width: 10px;
+    height: 10px;
+    font-family: 'fontello';
+}
+
+.dt-button-collection.dropdown-menu .dt-button::after {
+    content: '\e802';
+    color: #25324C;
+}
+
+.dt-button-collection.dropdown-menu .dt-button.active::after {
+    content: '\e803';
+    color: #fff;
+}
+
+/*ページネーション*/
+/** mcs-DataTables.css 124 **/
+.btn-group.mcs-datatables-pagebuttons>button.mcs-datatables-pagebuttons-selected {
+    background: #616979;
+    background-image: none;
+    background-repeat: repeat-x;
+    border-color: #000;
+    box-shadow: none;
+    opacity: 1;
+}
+
+/* DataTables テーブル部
+------------------------------------------------------------- */
+/* Font指定 */
+table.mcs-datatables td {
+    font-family: 'SourceCodePro', monospace;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+table.dataTable {
+    color: #ffffff;
+}
+
+table.dataTable thead th {
+    border: 1px solid #494949;
+}
+
+/* テーブルヘッダ */
+table.mcs-datatables th {
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 500;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc {
+    line-height: 18px;
+    background: url(../img/datatables-corner.svg)no-repeat left top, linear-gradient(to bottom, #4d4d4d 0%, #333333 100%);
+    background-size: 8px 8px, 100% 100%;
+}
+
+table.dataTable tr.odd td,
+table.dataTable tr.even td {
+    border-color: #494949;
+    border-color: #000;
+}
+
+table.dataTable tbody>tr.odd {
+    background-color: #000;
+    background-color: #1E2126;
+}
+
+table.dataTable tbody>tr.even {
+    background-color: #141414;
+    background-color: #24272D;
+}
+
+/** datatables.css **/
+table.dataTable tbody>tr.selected,
+table.dataTable tbody>tr>.selected {
+    background-color: #474D59;
+}
+
+div.DTCR_pointer {
+    width: 2px;
+    background-color: #fff;
+}
+
+/** original ref datatables.css **/
+table.dataTable tbody>tr.odd.selected td,
+table.dataTable tbody>tr>.odd.selected td,
+table.dataTable tbody>tr.even.selected td,
+table.dataTable tbody>tr>.even.selected td {
+    border-color: #000;
+    border-right-color: #474D59;
+}
+
+/** bootstram.min.css **/
+.table-bordered {
+    border: 1px solid #494949;
+}
+
+/** datatables.min.css **/
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after,
+table.dataTable thead .sorting_asc_disabled::after,
+table.dataTable thead .sorting_desc_disabled::after {
+    bottom: 8px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+    opacity: 1;
+    position: absolute;
+    right: 8px;
+}
+
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after {
+    color: #CCDCFF;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+table.dataTable thead .sorting::after {
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.95);
+    opacity: 0.4;
+}
+
+/* データデーブルの右に配置されるテキストボックス
+------------------------------------------------------------- */
+#mcs-textdetail {
+    /*margin-top: 60px;*/
+    /*インライン属性で指定されている*/
+    margin-bottom: 0;
+}
+
+/* 汎用ボタン
+------------------------------------------------------------- */
+/** bootstrap-theme.min.css **/
+.btn-default {
+    background: #5877BA;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: 500;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Step4 2017_08_24 */
+/*201702 add*/
+.btn-default:focus {
+    background-color: #5877BA;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    text-shadow: none;
+    outline: none;
+}
+
+.btn-default:hover {
+    background-color: #e6e6e6;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #333333;
+    text-shadow: none;
+}
+
+.btn-default:active {
+    background-color: #5877BA;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #333333;
+    text-shadow: none;
+}
+
+.btn-default.disabled,
+.btn-default.disabled.active,
+.btn-default.disabled.focus,
+.btn-default.disabled:active,
+.btn-default.disabled:focus,
+.btn-default.disabled:hover,
+.btn-default[disabled],
+.btn-default.active[disabled],
+.btn-default.focus[disabled] {
+    background-color: #616979;
+    background-image: none;
+    border-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-default[disabled]:active,
+.btn-default[disabled]:focus,
+.btn-default[disabled]:hover,
+fieldset[disabled] .btn-default,
+fieldset[disabled] .btn-default.active,
+fieldset[disabled] .btn-default.focus,
+fieldset[disabled] .btn-default:active,
+fieldset[disabled] .btn-default:focus,
+fieldset[disabled] .btn-default:hover {
+    background-color: #A2A3A5;
+    background-image: none;
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+.btn-danger.disabled,
+.btn-danger[disabled],
+.btn-default.disabled,
+.btn-default[disabled],
+.btn-info.disabled,
+.btn-info[disabled],
+.btn-primary.disabled,
+.btn-primary[disabled],
+.btn-success.disabled,
+.btn-success[disabled],
+.btn-warning.disabled,
+.btn-warning[disabled],
+fieldset[disabled] .btn-danger,
+fieldset[disabled] .btn-default,
+fieldset[disabled] .btn-info,
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-success,
+fieldset[disabled] .btn-warning {
+    box-shadow: none;
+}
+
+.bootstrap-select.btn-group .dropdown-menu li a {
+    color: #fff;
+}
+
+.bootstrap-select.btn-group .dropdown-menu li.selected a {
+    color: #000;
+}
+
+.dropdown-menu.open .dropdown-menu.inner li>a:hover {
+    color: #000;
+}
+
+/* 汎用パネル
+------------------------------------------------------------- */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 300px;
+    margin: 2px 0 0;
+    padding: 10px;
+    background-clip: padding-box;
+    background-color: #33383F;
+    border: 1px solid #3E434D;
+    border-top-color: #5877BA;
+    border-radius: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .75);
+    display: none;
+    float: left;
+    font-size: 14px;
+    list-style: outside none none;
+    text-align: left;
+}
+
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:focus,
+.dropdown-menu>.active>a:hover {
+    background: #5877BA;
+}
+
+/* 汎用マルチセレクトボックス
+------------------------------------------------------------- */
+.mcs-multiselectbox-container .ui-widget.ui-multiselect {
+    background: #5877ba none repeat scroll 0 0;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 500;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+}
+
+.mcs-multiselectbox-container .ui-widget.ui-multiselect:hover {
+    background-color: #e6e6e6;
+    border-color: rgba(0, 0, 0, 0.8);
+    color: #333333;
+    text-shadow: none;
+    font-weight: 500;
+}
+
+.mcs-multiselectbox-container .ui-widget.ui-multiselect.ui-state-active {
+    background-color: #e6e6e6;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+    color: #333333;
+    text-shadow: none;
+    font-weight: 500;
+}
+
+.mcs-multiselectbox-container .ui-state-default .ui-icon {
+    background-image: url("../lib/jquery-ui/images/ui-icons_ffffff_256x240.png");
+}
+
+.mcs-multiselectbox-container .ui-widget.ui-multiselect:hover .ui-icon {
+    background-image: url("../lib/jquery-ui/images/ui-icons_454545_256x240.png");
+}
+
+.mcs-multiselectbox-container .ui-state-active .ui-icon,
+.mcs-multiselectbox-container .ui-button:active .ui-icon {
+    background-image: url("../lib/jquery-ui/images/ui-icons_888888_256x240.png");
+}
+
+.mcs-multiselectbox-container .ui-widget.ui-widget-content {
+    padding-bottom: 10px;
+    background-color: #33383F;
+    border: 1px solid #3E434D;
+    border-top-color: #5877BA;
+    border-radius: 0;
+    box-shadow: 0 0 8px rgba(0, 0, 0, .75);
+}
+
+.mcs-multiselectbox-container .ui-widget-header {
+    background: #33383F;
+}
+
+.ui-multiselect-checkboxes.ui-helper-reset {
+    padding: 10px;
+    padding-top: 0;
+}
+
+/*テキストの自動改行をする*/
+.mcs-multiselectbox-container .ui-multiselect-checkboxes span {
+    word-break: break-all;
+    display: -ms-inline-flexbox;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    white-space: normal;
+    padding-right: 10px;
+}
+
+/*全て選択、解除アイコン*/
+.mcs-multiselectbox-container .ui-widget-header .ui-icon {
+    display: inline-block;
+    margin-top: 2px;
+    vertical-align: middle;
+    background-image: url("../lib/jquery-ui/images/ui-icons_888888_256x240.png");
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header ul li {
+    padding: 10px 6px 6px 0;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    vertical-align: middle;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header ul li:last-child {
+    padding-right: 0;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all .ui-icon,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none .ui-icon {
+    margin: 0 1px 0 0;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-close {
+    /*padding: 0;*/
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none,
+.mcs-multiselectbox-container .ui-multiselect-header a.ui-multiselect-close {
+    display: inline-block;
+    padding-left: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 14px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all:hover,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none:hover,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-close:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all:hover .ui-icon,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none:hover .ui-icon,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-close:hover .ui-icon {
+    background-image: url("../lib/jquery-ui/images/ui-icons_ffffff_256x240.png");
+}
+
+/*リスト部分*/
+.ui-multiselect-checkboxes>li {
+    margin-bottom: 2px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes label {
+    margin-bottom: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #5877ba none repeat scroll 0 0;
+    font-weight: 400;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes label.ui-corner-all {
+    border: 0 none;
+    border-radius: 0;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes .ui-state-hover {
+    color: #000;
+    background: #e8e8e8;
+    background-image: linear-gradient(to bottom, #f5f5f5 0px, #e8e8e8 100%);
+}
+
+/* 右スライドパネル
+------------------------------------------------------------- */
+/*右スライドパネル > 検索 > キャリアジョブ状態*/
+.dropdown-menu.inner>li {
+    margin-bottom: 2px;
+    background: #5877BA;
+}
+
+.dropdown-menu>li>a {
+    color: #1A1A1A;
+    padding: 8px 26px 8px 10px;
+    white-space: normal;
+}
+
+.dt-button-collection.dropdown-menu>.dt-button.buttons-columnVisibility {
+    position: relative;
+    border: 1px solid #000;
+    margin-bottom: 4px;
+}
+
+/*右スライドパネル > 検索 > コンボボックス*/
+.combobox-container .dropdown-menu>li{
+    margin-bottom: 2px;
+    background: #5877BA;
+}
+
+.combobox-container .dropdown-menu>li>a{
+    color: #fff;
+    padding: 8px 26px 8px 10px;
+    white-space: normal;
+}
+
+.combobox-container .dropdown-menu>a:focus,
+.combobox-container .dropdown-menu>a:hover,
+.combobox-container .dropdown-menu>.active, /* key操作 */
+.combobox-container .dropdown-menu>.active>a, /* key操作 */
+.combobox-container .dropdown-menu>.active>a:focus,
+.combobox-container .dropdown-menu>.active>a:hover {
+    color: #000;
+    background: #e8e8e8;
+}
+
+/* 右スライドパネル内テーブル
+------------------------------------------------------------- */
+/**
+#mcs-table tbodyを追加
+Step4 2017_08_30
+**/
+#mcs-table tbody,
+#mcs-table td {
+    font-family: 'SourceCodePro', 'SourceHanSans', monospace;
+}
+
+.mcs-headerTable-wrapper {
+    border-width: 1px;
+    background: linear-gradient(to bottom, #4d4d4d 0%, #333333 100%);
+}
+
+#mcs-table.table-hover>tbody>tr.info:hover td {
+    background: #474d59;
+}
+
+/*resources/css/component/mcs-component.css*/
+.mcs-table tbody.mcs-table-body>tr:first-child>td {
+    border-top: none;
+}
+
+.mcs-table tbody.mcs-table-body td.mcs-table-align-left {
+    /*20170317 rev*/
+    /*color: #fff;*/
+}
+
+/*resources/lib/bootstrap/bootstrap.min.css*/
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+    /*border: 1px solid #494949;*/
+    border: 1px solid #000;
+}
+
+/*.table>tbody>tr.info>td,
+.table>tbody>tr.info>th,
+.table>tbody>tr>td.info,
+.table>tbody>tr>th.info,
+.table>tfoot>tr.info>td,
+.table>tfoot>tr.info>th,
+.table>tfoot>tr>td.info,
+.table>tfoot>tr>th.info,
+.table>thead>tr.info>td,
+.table>thead>tr.info>th,
+.table>thead>tr>td.info,
+.table>thead>tr>th.info {
+    background-color: #474D59;
+}*/
+
+.table>tbody>tr.info>td,
+.table>tbody>tr.info>th,
+.table>tbody>tr>td.info,
+.table>tbody>tr>th.info,
+.table>tfoot>tr.info>td,
+.table>tfoot>tr.info>th,
+.table>tfoot>tr>td.info,
+.table>tfoot>tr>th.info {
+    background-color: #474D59;
+}
+
+/*2170317 rev*/
+.table-hover>tbody>tr.info:hover>td,
+.table-hover>tbody>tr.info:hover>th,
+.table-hover>tbody>tr:hover>.info,
+.table-hover>tbody>tr>td.info:hover,
+.table-hover>tbody>tr>th.info:hover {
+    background-color: #474d59;
+}
+
+.table-hover>tbody>tr:nth-child(odd) {
+    background: #24272D;
+}
+
+/*.table-hover>tbody>tr:nth-child(odd):hover td {
+    background: #1E2126;
+}*/
+
+.table-hover>tbody>tr:nth-child(even) {
+    background: #1E2126;
+}
+
+#mcs-table.table-hover>tbody>tr.info td {
+    border-right: 1px solid #474d59;
+}
+
+/* メインエイリア内のテーブル
+代替機器 > 追加、修正
+------------------------------------------------------------- */
+.mcs-modifytable-value .mcs-multiselectbox-container {
+    margin-bottom: .5em;
+}
+
+.table.mcs-modifytable .mcs-headerTable {
+    border-width: 1px;
+    background: linear-gradient(to bottom, #4d4d4d 0%, #333333 100%);
+}
+
+.table.mcs-modifytable .mcs-table {
+    background: #181B1E;
+}
+
+.table.mcs-modifytable #mcs-table>tbody.mcs-table-body>tr.info:hover td {
+    background: #474d59;
+}
+
+/* 右スライドパネル内のデータ選択プルダウンなどのフォント指定
+------------------------------------------------------------- */
+.dropdown-menu.inner {
+    font-family: 'SourceCodePro', 'SourceHanSans', monospace;
+    font-weight: 400;
+}
+
+.btn.ropdown-toggle.btn-default,
+.ui-widget button,
+.mcs-multiselectbox-container .ui-multiselect,
+.mcs-multiselectbox-container .ui-multiselect-checkboxes,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none {
+    font-family: 'SourceCodePro', 'SourceHanSans', monospace;
+    font-weight: 400;
+}
+
+/* 右スライドパネル内ボタン
+------------------------------------------------------------- */
+/*戻る
+---------------------------------- */
+.btn-mcs-slide.btn-mcs-slide-return>button {
+    margin: 20px auto 10px auto;
+    border: 1px solid #7A7C80;
+    background: #616979;
+}
+
+/*戻る hover
+---------------------------------- */
+.btn-mcs-slide.btn-mcs-slide-return>button:hover {
+    background: #e6e6e6;
+    color: #333333;
+    text-shadow: none;
+}
+
+/*抽出、決定、実行
+---------------------------------- */
+/*抽出*/
+.btn-mcs-slide.btn-mcs-slide-extact>button {
+    margin-top: 24px;
+}
+
+/*決定*/
+.btn-mcs-slide.btn-mcs-slide-confirm>button {
+    margin-top: 24px;
+}
+
+/*実行 トップ画面>AMHS操作＞キャリア同期*/
+/*
+#mcs-synchroCarrier-btn-confirm>button {
+    margin: 24px auto;
+}
+
+*/
+/*実行 トップ画面>AMHS操作＞キャリア同期 (CSC)*/
+#mcs-synchroCarrier-btn-confirm>button {
+    margin-top: 24px;
+}
+
+/*上部ラベルテキストとのマージン
+---------------------------------- */
+.search-queuedTime-from,
+.mcs-selectbox-container,
+.mcs-multiselectbox-container,
+#mcs-search-storedTime-start,
+#mcs-createjob-entrydata {
+    margin-top: .25em;
+}
+
+/* ダイアログボックス
+------------------------------------------------------------- */
+/*ログイン*/
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: 'SourceHanSans', monospace;
+    font-weight: 400;
+}
+
+/** lib/ jquery-ui.min.css **/
+.ui-widget.ui-widget-content {
+    padding: 0;
+    border: 1px solid #3E434D;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .9);
+}
+
+/*プログレスバー*/
+.mcs-progressBarWrapper.ui-widget.ui-widget-content {
+    padding: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.ui-progressbar .ui-progressbar-value.ui-widget-header {
+    border-radius: 0;
+}
+
+div.ui-progressbar-value.ui-widget-header {
+    padding: 0;
+    background: #000 url("../img/progresbar.svg") repeat-x scroll 50% 50%;
+    box-shadow: 0 0 2px -2px rgba(0, 0, 0, 0.5);
+}
+
+.mcs-progressBarWrapper .mcs-progressBarLabel {
+    display: none;
+}
+
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+    border-bottom-right-radius: 5px;
+}
+
+.ui-widget-content {
+    background: #31353D;
+    color: #fff;
+}
+
+.ui-widget-content,
+.ui-dialog-title {
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 400;
+}
+
+.ui-widget-header {
+    padding-top: .25em;
+    padding-bottom: .25em;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background: linear-gradient(to bottom, #CED2D9 0%, #B5B8BF 100%);
+    border: 0 none;
+    color: #000;
+    line-height: 1;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding-top: 1em;
+    font-family: 'SourceHanSans', sans-serif;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    border: 0 none;
+}
+
+.mcs-dialogbox-td-message {
+    vertical-align: middle;
+}
+
+/* ダイアログボックス ボタン
+------------------------------------------------------------- */
+.ui-dialog-titlebar {
+    font-family: 'SourceHanSans', sans-serif;
+}
+
+.mcs-dialogbox-layout-table {
+    width: 100%;
+}
+
+.mcs-dialogbox-td-message p {
+    min-height: 3em;
+}
+
+/** mcs-components.css **/
+/*テキストボックス*/
+/*データテーブル+テキストエリアでのヘッダーずれ対応
+margin-bottomがテキストエリアにかからないように修正*/
+.form-control.mcs-textbox,
+.form-control.mcs-textarea {
+    /*margin-bottom: 0.5em;*/
+    border-radius: 2px;
+    background: #FAFAFA;
+    box-shadow: 2px 2px 2px 0 rgba(36, 39, 45, 0.4) inset;
+}
+
+.form-control.mcs-textbox {
+    margin-bottom: 0.5em;
+}
+
+/*テキストボックスとボタン 上部ラベルテキストとのマージン*/
+/*.mcs-button,*/
+.form-control.mcs-textbox,
+/*.btn-group.bootstrap-select.mcs- キャリアID*/
+.search-startTime {
+    margin-top: 0.25em;
+}
+
+.mcs-location-button-wrapper>button {
+    margin-top: 0.25em;
+}
+
+.ui-dialog-buttonset .ui-button.ui-corner-all.ui-widget {
+    border: 2px solid #000;
+    background: #fff;
+}
+
+.ui-state-default a,
+.ui-state-default a:link,
+.ui-state-default a:visited,
+a.ui-button,
+a.ui-button:link,
+a.ui-button:visited,
+.ui-button {
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+}
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default,
+.ui-button,
+html .ui-button.ui-state-disabled:hover,
+html .ui-button.ui-state-disabled:active {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+    background: #fff;
+    border: 1px solid #000;
+    color: #e17009;
+    font-weight: bold;
+}
+
+.mcs-dialogbox-td-icon {
+    width: 2em;
+    margin: 0;
+    padding: 0 10px 0 0;
+    font-weight: 400;
+    vertical-align: top;
+}
+
+.glyphicon-remove-sign::before {
+    font-family: 'fontello';
+    content: "\e801";
+}
+
+.glyphicon-info-sign::before {
+    font-family: 'fontello';
+    content: "\e806";
+    color: #5877BA;
+}
+
+.mcs-dialogbox-icon {
+    color: #e17009;
+    font-size: 16px;
+    height: auto;
+    width: auto;
+}
+
+/*確認アイコン*/
+.glyphicon-question-sign {
+}
+
+.ui-dialog-buttonset .ui-button.ui-corner-all.ui-widget {
+    border-width: 2px;
+    border-radius: 4px;
+    font-family: 'SourceHanSans', sans-serif;
+    font-size: 16px;
+    padding: 5px 15px;
+    border: 1px solid #24272D;
+    color: #fff;
+    font-weight: 500;
+    background: #5877BA;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+}
+
+.ui-dialog-buttonset .ui-button.ui-corner-all.ui-widget:hover {
+    background-color: #e6e6e6;
+    color: #333333;
+    text-shadow: none;
+}
+
+/* エラーテキスト
+------------------------------------------------------------- */
+/*エラー*/
+.mcs-component-errorText {
+    color: #e17009;
+    font-weight: 400;
+}
+
+/*必須*/
+.mcs-required::before {
+    color: #e17009;
+    font-family: 'fontello';
+    content: "\e805";
+    font-size: 12px;
+    font-weight: 400;
+    display: block;
+    left: -12px;
+    position: absolute;
+    top: 0;
+}
+
+/* フォーム エラー
+------------------------------------------------------------- */
+.mcs-component-errorBack {
+    background: #ffa14d !important;
+    border-color: #fff;
+}
+
+/* フォーム非活性
+------------------------------------------------------------- */
+.mcs-datetimepicker input.mcs-datetimepicker-text:disabled {
+    border-color: rgba(255, 255, 255, 0.5);
+    /*background: #616979;*/
+    background: #000;
+}
+
+/* /resources/lib/bootstrap/bootstrap.min.css */
+.form-control[disabled],
+fieldset[disabled] .form-control {
+    border-color: #4d4d4d;
+    background: #000;
+}
+
+input[type="text"][disabled],
+textarea[disabled] {
+    border-color: #4d4d4d;
+    box-shadow: none;
+    background: #000;
+    color: #fff;
+}
+
+/*ユーザ管理マスタメンテナンス > ユーザ修正 > 旧パスワードを確認*/
+/*input[type="text"][disabled] .form-control.mcs-textbox {
+    border-color: #4d4d4d;
+}*/
+
+/*bootstrap-datetimepicker
+------------------------------------------------------------- */
+.bootstrap-datetimepicker-widget table td.today:before,
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover,
+.bootstrap-datetimepicker-widget table td span.active {
+    background-color: #5877BA;
+}
+
+.btn-primary .badge {
+    color: #5877BA;
+}
+
+/*編集画面 メインエリアで展開するもの
+------------------------------------------------------------- */
+.table.mcs-modifytable {
+    margin-right: 2em;
+    /*font-family: 'SourceHanSans', 'SourceCodePro', sans-serif;*/
+}
+
+.table.mcs-modifytable th,
+.table.mcs-modifytable td {
+    padding-right: 0;
+    border-color: #4D4D4D;
+}
+
+.table.mcs-modifytable th {
+    padding-right: 1em;
+}
+
+/*20170322 add*/
+.table.mcs-modifytable td.mcs-modifytable-value:not(.has-table) {
+    width: 300px;
+}
+
+.mcs-idListSelect-textbox-wrapper {
+    vertical-align: middle;
+}
+

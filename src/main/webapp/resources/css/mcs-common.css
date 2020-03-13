@@ -1,0 +1,251 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-common.css
+ * @brief       共通CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+/** フォント **/
+/* Step4 2017_08_17
+@font-face {
+    font-family: 'mplus-1m';
+    font-style: normal;
+    font-weight: 100;
+    src: url('../font/mplus-1m-thin.eot') format('eot'),
+         url('../font/mplus-1m-thin.woff2') format('woff2'),
+         url('../font/mplus-1m-thin.woff') format('woff'),
+         url('../font/mplus-1m-thin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'mplus-1m';
+    font-style: normal;
+    font-weight: 300;
+    src: url('../font/mplus-1m-light.eot') format('eot'),
+         url('../font/mplus-1m-light.woff2') format('woff2'),
+         url('../font/mplus-1m-light.woff') format('woff'),
+         url('../font/mplus-1m-light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'mplus-1m';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../font/mplus-1m-regular.eot') format('eot'),
+         url('../font/mplus-1m-regular.woff2') format('woff2'),
+         url('../font/mplus-1m-regular.woff') format('woff'),
+         url('../font/mplus-1m-regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'mplus-1m';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../font/mplus-1m-medium.eot') format('eot'),
+         url('../font/mplus-1m-medium.woff2') format('woff2'),
+         url('../font/mplus-1m-medium.woff') format('woff'),
+         url('../font/mplus-1m-medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'mplus-1m';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../font/mplus-1m-bold.eot') format('eot'),
+         url('../font/mplus-1m-bold.woff2') format('woff2'),
+         url('../font/mplus-1m-bold.woff') format('woff'),
+         url('../font/mplus-1m-bold.ttf') format('truetype');
+}
+
+*/
+/** HTML BODYエリア **/
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-size: 14px;
+    overflow: hidden;
+    position: relative;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+/** 画面タイトルエリア **/
+#mcs-header-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    z-index: 5000;
+    background: #4169e1;
+    color: #ffffff;
+    /*border: solid 1px gray;*/
+    padding: 10px;
+    /*box-shadow: 0 0 5px 1px rgba(0,0,0,0.4);*/
+}
+
+/*** 画面タイトル ラベル ***/
+#mcs-header-menu h1 {
+    display: inline-block;
+    float: left;
+    margin: 0 10px 10px 0;
+    padding: 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/*** ヘッダ部の右寄せ ***/
+#mcs-header-menu .mcs-header-menu-right {
+    display: inline-block;
+    float: right;
+    text-align: right;
+}
+
+/*** ログイン情報 ***/
+.mcs-user-info {
+    display: inline-block;
+}
+
+.mcs-user-info-ul {
+    display: inline-block;
+    padding: 2px 0;
+}
+
+.mcs-user-info-ul li {
+    display: inline-block;
+}
+
+/*** メニューアイコン ***/
+#mcs-icon-menu {
+    display: inline-block;
+    float: right;
+    margin: -2px 5px 0 10px;
+    color: white;
+    font-size: 24px;
+}
+
+#mcs-icon-menu span {
+    cursor: pointer;
+}
+
+/*** メッセージ表示アイコン ***/
+#mcs-msg-icon-menu {
+    display: inline-block;
+    float: right;
+    margin: -2px 5px 0 10px;
+    color: white;
+    font-size: 24px;
+}
+
+#mcs-msg-icon-menu span {
+    cursor: pointer;
+}
+
+/** サブヘッダー（selectボックスなどの配置箇所） **/
+#mcs-subheader-menu {
+    position: fixed;
+    top: 45px;/* mcs-header-menuの高さ */
+    left: 0;
+    width: 100%;
+    /* right: 200px;mcs-right-menuの幅 */
+    height: 45px;
+    z-index: 5000;
+    background: #b0c4de;
+    padding: 5px 10px;
+}
+
+#mcs-subheader-menu.mcs-height-large {
+    height: 83px;
+}
+
+/** 右メニューエリア **/
+#mcs-right-menu {
+    width: 220px;
+    background: #8da5ff;
+}
+
+#mcs-right-menu.mcs-width-middle {
+    width: 320px;
+}
+
+#mcs-right-menu.mcs-width-large {
+    width: 420px;
+}
+
+/** コンテンツ表示エリア **/
+.mcs-content {
+    /*border: solid 1px gray;*/
+    position: fixed;
+    top: 45px;
+    /* right: 200px;*/
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%;
+    /*max-width: 100%;*/
+    overflow: auto;
+}
+
+/* サブヘッダーがあるときのコンテンツ表示エリア */
+.mcs-content.mcs-with-subheader {
+    top: 90px;
+}
+
+/* サブタイトルがあるときのコンテンツ表示エリア */
+.mcs-content.mcs-with-subtitle {
+    top: 90px;
+}
+
+/* サブヘッダーとサブタイトルがあるときのコンテンツ表示エリア */
+.mcs-content.mcs-with-subheader.mcs-with-subtitle {
+    top: 125px;
+}
+
+/* サブヘッダー(大)とサブタイトルがあるときのコンテンツ表示エリア */
+.mcs-content.mcs-with-subheader-large.mcs-with-subtitle {
+    top: 160px;
+}
+
+/** サブコンテンツ名 **/
+.mcs-content .mcs-content-subtitle {
+    position: fixed;
+    top: 45px;
+    left: 0;
+    width: 100%;
+    /* right: 200px;mcs-right-menuの幅 */
+    height: 35px;
+    padding: 5px 10px 5px 20px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    background: #E0E0E0;
+    color: #323232;
+}
+
+/** サブヘッダーがあるときのサブタイトルの高さ **/
+.mcs-content.mcs-with-subheader .mcs-content-subtitle {
+    top: 90px;
+}
+
+/** サブヘッダー(大)があるときのサブタイトルの高さ **/
+.mcs-content.mcs-with-subheader-large .mcs-content-subtitle {
+    top: 125px;
+}
+

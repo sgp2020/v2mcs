@@ -1,0 +1,45 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-IdListSelect.css
+ * @brief       IDリスト選択部品用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/01/31 0.2         Step2_1リリース                                   CSC
+ ******************************************************************************
+ */
+/* IDリスト選択の入力欄（テキストボックス、ボタン）のエリア */
+.mcs-idListSelect-inputArea {
+    min-width: 320px;
+}
+
+/* テキストボックスのラッパー */
+.mcs-idListSelect-textbox-wrapper {
+    display: inline-block;
+    width: 50%;
+}
+
+/* 選択ボタンのラッパー */
+.mcs-idListSelect-select-wrapper {
+    display: inline-block;
+    width: 25%;
+    padding-left: 10px;
+}
+
+/* クリアボタンのラッパー */
+.mcs-idListSelect-clear-wrapper {
+    display: inline-block;
+    width: 25%;
+    padding-left: 10px;
+}
+

@@ -1,0 +1,42 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-SlideMenu.css
+ * @brief       スライドメニュー部品CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+.mcs-slidemenu {
+    display: none;
+    position: absolute;
+    top: 45px;/* mcs-header-menuの高さ */
+    right: -1000px;
+    bottom: 0;
+    /* z-index: 500;*/ /* z-indexについてはJS中で操作している */
+    /* height: 100%;*/
+    padding-top: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 15px;
+    border-radius: 0;
+    background: #ECEFF1;
+    border-left: solid 1px #78909C;
+    overflow: auto;
+}
+
+/* マージン */
+.mcs-slidemenu > div {
+    margin-bottom: 10px;
+}

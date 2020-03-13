@@ -1,0 +1,153 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-SystemMonitor.css
+ * @brief       システムモニタ表示画面用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/03/31 0.2         Step2_2リリース                                   CSC
+ ******************************************************************************
+ */
+/* トップ画面用インフォメーションエリア */
+#mcs-top-info {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 45px;
+    padding: 5px;
+    background: #b0c4de;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.mcs-top-info-ul {
+    display: inline-block;
+    margin: 0;
+}
+
+.mcs-top-info-ul li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+}
+
+.mcs-top-info-ul h2 {
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+}
+
+#mcs-top-menu>div {
+    margin-bottom: 10px;
+}
+
+/* トップ画面用コンテンツエリア */
+.mcs-content-top {
+    top: 180px;
+}
+
+/* 全体モニタ画面ヘッダ */
+.mcs-system-monitor-header {
+    position: absolute;
+    top: 135px;
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+}
+
+/* 凡例ボタン */
+#remarks-btn {
+    width: 100px;
+    float: left;
+}
+
+/* システムモニタ／サイトマップ切替セレクトボックス */
+#mcs-selb-content {
+    width: 200px;
+    float: right;
+    align: right;
+}
+
+/* サイトマップテーブル関連 */
+#siteMap-largeTable {
+    width: 100%;
+    height: 100%;
+    float: left;
+    display: table;
+}
+
+/* サイトマップテーブル関連 */
+#siteMap-largeTable div.mcs-table-wrapper {
+    overflow-x: hidden;
+}
+
+/* サイトマップテーブル関連 */
+div.siteMap-tr {
+    display: table-row;
+}
+
+/* サイトマップテーブル関連 */
+div.sitemap-td {
+  height: 100%;
+  display: table-cell;
+}
+
+/* サイトマップテーブル関連 */
+div.mcs-table-wrapper {
+    height: calc( 100vh - 250px );
+}
+
+/* 来歴スライド */
+#mcs-top-slideMenu-his {
+    width: 320px;
+}
+
+/* ログスライド */
+#mcs-top-slideMenu-log {
+    width: 320px;
+}
+
+/* 統計スライド */
+#mcs-top-slideMenu-st {
+    width: 320px;
+}
+
+/* 保守スライド */
+#mcs-top-slideMenu-mainte {
+    /*width: 380px;*/
+    width: 400px;
+}
+
+/* amhs構成 */
+#mcs-top-slideMenu-amhsCons {
+    width: 300px;
+}
+
+/* amhs操作 */
+#mcs-top-slideMenu-amhsOpe {
+    width: 350px;
+}
+
+/* システム操作 */
+#mcs-top-slideMenu-systemOpe {
+    width: 300px;
+}
+
+/* hasスライド */
+#mcs-top-slideMenu-has {
+    width: 380px;
+}
+

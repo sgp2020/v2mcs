@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+/**
+ ******************************************************************************
+ * @file        mcs-AMHSModeChangeDialog.css
+ * @brief       AMHSモード変更ダイアログ用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2018/10/01 v1.0.0      初版作成                                          CSC
+ ******************************************************************************
+ */
+#amhsModeChangeDialog-controlMode-label {
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+#amhsModeChangeDialog-semState-label {
+    font-family: 'SourceHanSans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+#mcs-amhsModeChangeDialog-btn-online {
+    margin-bottom: 10px;
+}
+
+#mcs-amhsModeChangeDialog-btn-offline {
+    margin-bottom: 10px;
+}
+
+#mcs-amhsModeChangeDialog-btn-paused {
+    margin-bottom: 10px;
+}
+
+#mcs-amhsModeChangeDialog-btn-auto {
+    margin-bottom: 10px;
+}

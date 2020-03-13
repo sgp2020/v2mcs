@@ -1,0 +1,44 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-OperationLog.css
+ * @brief       操作ログ表示用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/09/20 0.5         Step4リリース                                     CSC
+ ******************************************************************************
+ */
+/**
+スライドの横幅を指定
+**/
+div#mcs-searchMenu {
+    width: 350px;
+}
+
+/**
+スライドの横幅を指定
+**/
+div#mcs-saveMenu {
+    width: 350px;
+}
+
+/**
+dataTableの横幅
+**/
+div.mcs-operationLogDatatable {
+    width: 100%;
+    height: 100%;
+    float: left;
+    display: inline-block;
+}
+

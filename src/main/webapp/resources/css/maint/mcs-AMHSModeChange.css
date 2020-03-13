@@ -1,0 +1,30 @@
+﻿@charset "UTF-8";
+
+/**
+ ******************************************************************************
+ * @file        mcs-AMHSModeChange.css
+ * @brief       AMHSモード変更用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/03/31 0.2         Step2_2リリース                                   CSC
+ ******************************************************************************
+ */
+/* スライド */
+#mcs-AMHSModeChange-slide {
+    width: 350px;
+}
+
+/* オートボタンのマージン */
+#mcs-AMHSModeChange-btn-auto {
+    margin-bottom: 30px;
+}
+

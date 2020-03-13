@@ -1,0 +1,28 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-PortLStateChange.css
+ * @brief       ポート論理状態変更用CSS
+ * @par
+ * @author      T.Iga/CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2018/01/31 0.8         Step4                                       T.Iga/CSC
+ ******************************************************************************
+ */
+/* Port論理状態変更スライド */
+#mcs-portLStateChange {
+    width: 350px;
+}
+
+#mcs-portLStateChange .mcs-table-wrapper{
+    height: 180px;
+}

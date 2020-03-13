@@ -1,0 +1,60 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-Location.css
+ * @brief       ロケーション選択用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+/* 全体のラッパー */
+.mcs-location-wrapper {
+    min-width: 300px;
+}
+
+/* floatを解除する */
+.mcs-location-wrapper:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* ロケーション選択のラッパー */
+.mcs-location-location-wrapper {
+    margin-top: 10px;
+}
+
+/* ボタンのラッパー */
+.mcs-location-button-wrapper {
+    display: inline-block;
+    float: left;
+    width: 30%;
+}
+
+/* テキストボックス①のラッパー */
+.mcs-location-text-wrapper1 {
+    display: inline-block;
+    float: right;
+    width: 70%;
+    padding: 0 0 5px 10px;
+}
+
+/* テキストボックス②のラッパー */
+.mcs-location-text-wrapper2 {
+    display: inline-block;
+    float: right;
+    width: 70%;
+    padding: 0 0 0 10px;
+}
+

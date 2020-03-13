@@ -1,0 +1,112 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-Remarks.css
+ * @brief       凡例用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/09/20 0.5         Step4リリース                                     CSC
+ ******************************************************************************
+ */
+/* 色表示部 */
+.remarks-content-color {
+    position: relative;
+    /*20200108 DQY MOD*/
+    /*padding-top: 65px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-top: 47px;*/
+    padding-top: 10px;
+    padding-right: 15px;
+    margin: 0 auto;
+    float: left;
+}
+
+/* 各色 */
+.remarks-content-color>div {
+    width: 34px;
+    height: 34px;
+    margin-top: 0.55em;
+    margin-bottom: 0.5em;
+}
+
+/* テキストボックス表示部 */
+/* 20200109 DQY DEL
+.remarks-content {
+    position: relative;
+    padding-top: 50px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 19%;
+    float: left;
+}
+*/
+.remarks-content {
+    position: relative;
+    padding-top: 14px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 19%;
+    float: left;
+}
+
+/* アイコン採番用 */
+.stat-num {
+    /*
+     Step4 2017_08_10：font-size修正
+     Step4 2017_08_10：font-styleを追加
+     Step4 2017_08_10：width,heightを削除
+     Step4 2017_08_21：font-size修正
+     Step4 2017_08_21：colorを追加
+     Step4 2017_08_25
+     */
+    font-size: 4px;
+    font-weight: 40;
+    text-align: center;
+    font-style: normal;
+    fill: black;
+}
+
+/* アイコン表示領域 */
+.container {
+    width: 300px;
+    padding: 1em;
+}
+
+/* アイコン表示領域(位置調整) */
+#container-screen {
+    margin: 0 auto;
+}
+
+/* アイコン外枠 */
+.status-block {
+    fill: #3DCC5A;
+}
+
+/* アイコンステータス */
+.status-box {
+    fill: #38FF61;
+    stroke: #000000;
+    stroke-width: 0.5;
+    stroke-miterlimit: 10;
+    /* Step4 2017_08_10：width,heightを削除 */
+}
+
+/*20200108 DQY ADD*/
+/* Span left*/
+.remarks-condition {
+	position: relative;
+    padding-top: 20px;
+    float: left;
+}
+

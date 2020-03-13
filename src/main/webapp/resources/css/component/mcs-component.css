@@ -1,0 +1,491 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-component.css
+ * @brief       コンポーネント用共通CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+/********************************
+ * jQuery-uiのCSS上書き *
+ ********************************/
+html body .ui-front {
+    /* ダイアログなどのz-index */
+    z-index: 10000;/* !important;*/
+}
+
+/********************************
+ * コンポーネント共通 *
+ ********************************/
+.mcs-component-errorBack {
+    background: #FF0 !important;
+}
+
+.mcs-component-errorText {
+    color: #F00;
+    font-weight: bold;
+}
+
+/********************************
+ * McsTextBox用 *
+ ********************************/
+input.mcs-textbox {
+}
+
+input.mcs-textbox-number {
+    text-align: right;
+}
+
+/********************************
+ * McsTextArea用 *
+ ********************************/
+textarea.mcs-textarea {
+    resize: none;
+    white-space: pre-wrap;
+}
+
+/********************************
+ * McsCheckBox用 *
+ ********************************/
+label.mcs-checkbox-label {
+    padding: 2px 5px;
+    font-weight: normal;
+}
+
+label.mcs-checkbox-label .mcs-checkbox {
+    vertical-align: top;
+    margin-right: 2px;
+}
+
+/********************************
+ * McsButton用 *
+ ********************************/
+button.mcs-button {
+    width: 100%;
+}
+
+/********************************
+ * McsDialog用 *
+ ********************************/
+.ui-dialog-title {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-size: 14px;
+}
+
+.ui-dialog-content {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-size: 14px;
+}
+
+.ui-dialog-buttonset .ui-button.ui-corner-all.ui-widget {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+}
+
+.mcs-dialogbox-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: #2196F3;
+}
+
+.mcs-dialogbox-message {
+}
+
+.mcs-dialogbox-td-icon {
+    margin: 0;
+    padding: 0 10px 0 0;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+.mcs-dialogbox-td-message {
+    vertical-align: middle;
+}
+
+.mcs-dialogbox-td-message p {
+    padding: 0;
+    margin: 0;
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-height: 350px;
+    overflow: auto;
+}
+
+/********************************
+ * McsTable用 *
+ ********************************/
+/*--- ※スクロール対応にてヘッダー部とデータ部のセル幅ズレが発生しているためセル幅固定で暫定対応中 ---*/
+/* ヘッダ部 */
+/* ヘッダ部のラッパ① スクロールバーを出すためのボックス */
+.mcs-headerTable-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin: 0 17px 0 0;
+    /*border-bottom: none;*/
+    /*
+    border-top: none;
+    border-right: solid 1px #dddddd;
+    border-bottom: none;
+    border-left: solid 1px #dddddd;
+    */
+    border-top: solid 1px #dddddd;
+    border-right: solid 1px #dddddd;
+    border-bottom: solid 2px #dddddd;
+    border-left: solid 1px #dddddd;
+}
+
+/* ヘッダ部のラッパ② 実際の領域のボックス */
+.mcs-headerTable-wrapper2 {
+    position: relative;
+    margin: -1px;
+}
+
+/* ヘッダ部のテーブル */
+.mcs-headerTable {
+    position: relative;
+    height: 35px;
+    width: auto;
+    margin: 0;
+    padding-right: 17px;/* スクロールバー分 */
+    border-bottom: none;
+    table-layout: auto;
+}
+
+/* ヘッダ部 */
+.mcs-headerTable th.mcs-headerTable-cell {
+    border-bottom: none;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* データ部 */
+/* データ部のラッパ① スクロールバーを出すためのボックス */
+.mcs-table-wrapper {
+    position: relative;
+    overflow: scroll;
+    /*height: 180px;*/
+    height: 280px;
+    border-top: none;
+    border-right: solid 1px #dddddd;
+    border-bottom: solid 1px #dddddd;
+    border-left: solid 1px #dddddd;
+}
+
+/* データ部のラッパ② 実際の領域のボックス */
+.mcs-table-wrapper2 {
+    position: relative;
+    margin: -1px;
+}
+
+/* データ部のテーブル */
+.mcs-table {
+    margin-bottom: 0;
+    position: relative;
+    overflow-y: scroll;
+    height: auto;
+    width: auto;
+    table-layout: auto;
+}
+
+/* 列幅調整用の不可視のヘッダ */
+.mcs-table thead tr.mcs-table-hiddenHead th {
+    height: 0px;
+    min-height: 0px;
+    max-height: 0px;
+    font-size: 0px;
+    margin: 0px;
+    padding: 0;
+    border: none;
+}
+
+/* データ部の各セル */
+.mcs-table tbody.mcs-table-body td {
+    word-break: break-all;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+    height: 36px !important;
+    min-height: 36px;
+    max-height: 36px;
+    width: auto;
+}
+
+/* データ部の各セルに文字寄せを設定する */
+.mcs-table tbody.mcs-table-body td.mcs-table-align-left {
+    text-align: left;
+}
+
+.mcs-table tbody.mcs-table-body td.mcs-table-align-center {
+    text-align: center;
+}
+
+.mcs-table tbody.mcs-table-body td.mcs-table-align-right {
+    text-align: right;
+}
+
+/* データ部テーブルの1行目のボーダーを非表示にする */
+.mcs-table tbody.mcs-table-body > tr:first-child > td {
+    border-top: none;
+}
+
+/********************************
+ * McsListTable用 *
+ ********************************/
+.mcs-list-table {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.mcs-list-table .mcs-table-wrapper {
+    height: 400px;
+}
+
+/********************************
+ * McsSelectBox用 *
+ ********************************/
+/*** btn-groupクラスのサイズが有効になり、セレクトボックスサイズが100％にならない事象への対応 ***/
+.mcs-selectbox-container .btn-group.bootstrap-select {
+    width: 100% !important;
+}
+
+.ui-widget button {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+}
+
+/********************************
+ * McsMultiSelectBox用 *
+ ********************************/
+/*** btn-groupクラスのサイズが有効になり、セレクトボックスサイズが100％にならない事象への対応 ***/
+.ui-multiselect {
+    width: 100% !important;
+}
+
+.ui-multiselect-header ul li {
+    padding: 10px 6px 6px 0;
+}
+
+.mcs-multiselectbox-container {
+    position: relative;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-menu {
+    left: 0 !important;
+    width: 100% !important;
+    position: absolute !important;
+}
+
+.mcs-multiselectbox-container .ui-multiselect {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-size: 14px;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    color: #333;
+    font-weight: normal;
+    text-shadow: 0 1px 0 #fff;
+    background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e0e0e0));
+    background-image: linear-gradient(to bottom, #fff 0%, #e0e0e0 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+    filter: progid: DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    border-color: #dbdbdb;
+    border-color: #ccc;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+}
+
+.mcs-multiselectbox-container .ui-multiselect:hover {
+    color: #333;
+    border-color: #adadad;
+    background-color: #e0e0e0;
+    background-position: 0 -15px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header {
+    padding: 0 0 0 4px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect span.ui-icon {
+    margin-top: 3px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes li {
+    /* jquery-uiのfont-size指定を上書き */
+    font-size: 14px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    padding: 6px;
+    display: inline;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-all .ui-icon,
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-none .ui-icon {
+    margin: 0 1px 0 0;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-close {
+    /*padding: 6px 3px;*/
+    text-align: center;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-header .ui-multiselect-close .ui-icon {
+    margin: 1px 1px 0 5px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes {
+    font-family: "mplus-1m", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-weight: normal;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes span {
+    padding-left: 5px;
+}
+
+.mcs-multiselectbox-container .ui-multiselect-checkboxes label {
+    padding: 3px 6px 6px 6px;
+}
+
+/********************************
+ * McsComboBox用 *
+ ********************************/
+/*** btn-groupクラスのサイズが有効になり、セレクトボックスサイズが100％にならない事象への対応 ***/
+.mcs-combobox-container .input-group {
+    width: 100%;
+}
+
+.mcs-combobox-container .dropdown-menu {
+    width: 100% !important;
+}
+
+.mcs-combobox-container .dropdown-toggle {
+    width: 39px;
+    text-align: center;
+}
+
+/********************************
+ * McsDateTime用 *
+ ********************************/
+.mcs-datetimepicker-wrapper {
+    margin: 0;
+}
+
+/*** btn-groupクラスのサイズが有効になり、セレクトボックスサイズが100％にならない事象への対応 ***/
+.mcs-datetimepicker {
+    width: 100%;
+}
+
+/*** readonlyのテキストボックスの見た目を変更（bootstrapのcssを打ち消す） ***/
+.mcs-datetimepicker input.mcs-datetimepicker-text {
+    background-color: #ffffff;
+}
+
+.mcs-datetimepicker input.mcs-datetimepicker-text.mcs-readonly {
+    background-color: #eeeeee;
+}
+
+.mcs-datetimepicker input.mcs-datetimepicker-text:disabled {
+    background-color: #eeeeee;
+}
+
+/* Step4 2017_08_30 */
+/*** ボタンの非活性 ***/
+.input-group.mcs-datetimepicker span.inactive {
+    cursor: not-allowed;
+}
+
+/********************************
+ * McsButtonGroup用 *
+ ********************************/
+div .button-group {
+    display: inline-block;
+    margin: 0 0.5em 0 0;
+    width: 100px;
+}
+
+div .button-group:last-child {
+    margin: 0;
+}
+
+/********************************
+ * McsColorPicker用 *
+ ********************************/
+.mcs-colorpicker-wrapper {
+    display: inline-block;
+    width: 195px;
+}
+
+.mcs-colorpicker-picker {
+    display: inline-block;
+    width: 195px;
+}
+
+.mcs-colorpicker-dst {
+    display: inline-block;
+    width: 195px;
+}
+
+.mcs-colorpicker-picker .farbtastic {
+    /* farbtasticの標準の指定を上書き */
+    display: inline-block;
+}
+
+/********************************
+ * McsTree用 *
+ ********************************/
+.mcs-tree {
+    overflow: scroll;
+}
+
+/* Step4 2017_08_30 */
+/********************************
+ * McsLoading用 *
+ ********************************/
+#mcs-loading-overlay:focus {
+    outline: none;
+}
+
+/********************************
+ * 下層ページ入力必須項目用 *
+ ********************************/
+.mcs-required {
+    /*display: block*/;
+    position: relative;
+}
+
+.mcs-required:before {
+    content: "*";
+    color: #f00;
+    display: block;
+    position: absolute;
+    left: -10px;
+    top: 2px;
+}
+
+/* Step4P2 2017_11_17：未使用設定削除 */

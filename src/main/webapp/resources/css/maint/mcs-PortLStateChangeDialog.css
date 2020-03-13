@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-PortLStateChangeDialog.css
+ * @brief       ポート論理状態変更ダイアログ用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2018/10/01 v1.0.0      初版作成                                          CSC
+ ******************************************************************************
+ */
+
+.mcs-listTable-element {
+    margin-bottom: 10px;
+}
+
+.mcs-dialogTable-element {
+    height:280px;
+}
+
+.mcs-dialogTable-element .mcs-table-wrapper {
+      height:205px;
+}

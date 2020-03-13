@@ -1,0 +1,55 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-Carrier.css
+ * @brief       キャリア情報表示用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2016/12/26 0.1         Step1リリース                                     CSC
+ ******************************************************************************
+ */
+/* 検索スライド */
+#mcs-slideMenu-search {
+    width: 350px;
+}
+
+/* 搬送Job作成スライド */
+#mcs-slideMenu-createjob {
+    width: 400px;
+}
+
+#mcs-slideMenu-createjob .mcs-createjob-buttons {
+    text-align: center;
+}
+
+#mcs-slideMenu-createjob .createjob-add,
+#mcs-slideMenu-createjob .createjob-del {
+    display: inline-block;
+    width: 235px;
+}
+
+/* 搬送Job作成 子スライド */
+#mcs-slideMenu-transportCarrier {
+    width: 350px;
+}
+
+/* 保存スライド */
+#mcs-saveMenu {
+    width: 350px;
+}
+
+#mcs-groupMenu {
+    width: 250px;
+}
+
+

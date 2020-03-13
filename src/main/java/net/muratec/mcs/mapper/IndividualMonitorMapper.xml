@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ******************************************************************************
+ * @file        IndividualMonitorMapper.xml
+ * @brief       個別モニタ関連のマッパー
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=2
+ *
+ ******************************************************************************
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ ******************************************************************************
+ * 2017/09/20 0.5         Step4リリース                                     CSC
+ ******************************************************************************
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.muratec.mcs.mapper.IndividualMonitorMapper">
+  <!--
+    SCモニタ用状態を取得する。
+   -->
+  <select id="getScMonitorState" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.model.IndividualMonitorStateInfo">
+    select
+      (select STRING from STRING_MASTER where KEY = 'COMMUNICATION_STATE_STRING' and CODE = ast.COMM_STATE) as COMM_STATE,
+      (select STRING from STRING_MASTER where KEY = 'CTRL_STATE_STRING' and CODE = ast.CONTROL_STATE) as CONTROL_STATE,
+      (select STRING from STRING_MASTER where KEY = 'AMHS_SYSTEM_STRING' and CODE = ast.SYSTEM_STATE) as SYSTEM_STATE,
+      (select STRING from STRING_MASTER where KEY = 'AVAIL_STRING' and CODE = ast.AVAILABLE) as AVAILABLE,
+      (select STRING from STRING_MASTER where KEY = 'AMHS_LOGICAL_STATE_STRING' and CODE = ast.AMHS_L_STATE) as AMHS_L_STATE,
+      zr.ZONE_OCCUPIED,
+      zr.ZONE_CAPACITY,
+      zr.ZONE_UTILITY
+    from
+      AMHS a
+      inner join AMHS_STATE ast
+        on a.AMHS_ID = ast.AMHS_ID
+      left outer join ZONE_RLT zr
+        on ast.AMHS_ID = zr.KEY
+        and zr.ZONE_ID = 'STORAGE'
+    where
+      ast.AMHS_ID = #{amhsId}
+  </select>
+
+  <!--
+    コンベア・TSCモニタ用状態を取得する。
+   -->
+  <select id="getConvAndTscMonitorState" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.model.IndividualMonitorStateInfo">
+    select
+      (select STRING from STRING_MASTER where KEY = 'COMMUNICATION_STATE_STRING' and CODE = ast.COMM_STATE) as COMM_STATE,
+      (select STRING from STRING_MASTER where KEY = 'CTRL_STATE_STRING' and CODE = ast.CONTROL_STATE) as CONTROL_STATE,
+      (select STRING from STRING_MASTER where KEY = 'AMHS_SYSTEM_STRING' and CODE = ast.SYSTEM_STATE) as SYSTEM_STATE,
+      (select STRING from STRING_MASTER where KEY = 'AVAIL_STRING' and CODE = ast.AVAILABLE) as AVAILABLE
+    from
+      AMHS a
+      inner join AMHS_STATE ast
+        on a.AMHS_ID = ast.AMHS_ID
+    where
+      ast.AMHS_ID = #{amhsId}
+  </select>
+
+  <!--
+    OHBモニタ用状態を取得する。
+   -->
+  <select id="getOhbMonitorState" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorOhbEntity" resultType="net.muratec.mcs.model.IndividualMonitorStateInfo">
+    <!-- 20191225 DQY DEL
+    select
+      zr.ZONE_OCCUPIED as ZONE_OCCUPIED,
+      zr.ZONE_CAPACITY as ZONE_CAPACITY,
+      zr.ZONE_UTILITY as ZONE_UTILITY
+    from
+      ZONE_RLT zr
+    where
+      zr.KEY = #{ohbId}
+      and zr.ZONE_ID = 'STORAGE' -->
+    select
+      ohb_id,
+	  TRUNC( (
+		  CASE total_shelves
+		    WHEN 0
+		    THEN 0               
+		    ELSE ( total_shelves - empty_shelves ) / total_shelves * 100 
+		  END ), 0 ) AS ZONE_UTILITY,
+	   ( total_shelves - empty_shelves ) AS ZONE_OCCUPIED,
+	   total_shelves AS ZONE_CAPACITY 
+	FROM ohb
+    where
+      ohb_id = #{ohbId}
+  </select>
+
+  <!--
+    ポート情報を取得する。
+   -->
+  <select id="getIndividualMonitorPortList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorPortEntity">
+   
+   <!--  20191231 Song Del For v4
+    select
+      p.PORT_ID as PORT_ID,
+      (select STRING from STRING_MASTER where KEY = 'PORT_TYPE_STRING' and CODE = p.PORT_TYPE) as PORT_TYPE,
+      (select STRING from STRING_MASTER where KEY = 'IO_MODE_STRING' and CODE = p.IO_MODE) as PORT_IO,
+      (select STRING from STRING_MASTER where KEY = 'AVAIL_STRING' and CODE = ps.PORT_AVAIL) as PORT_AVAIL,
+      (select STRING from STRING_MASTER where KEY = 'PORT_LOGICAL_STATE_STRING' and CODE = ps.PORT_L_STATE) as PORT_L_STATE,
+      ps.PORT_AVAIL as HIDE_PORT_AVAIL
+    from
+      PORT p
+      left outer join PORT_STATE ps
+        on p.PORT_ID = ps.PORT_ID
+    where
+      p.AMHS_ID = #{amhsId}
+    order by
+      p.PORT_ID asc
+     --> 
+   <!-- 20191231 Song Add Start For v2   -->
+    SELECT DISTINCT  
+     port.port_abbreviation,  
+     port.port_mode,  
+     port.available,  
+     port.ibsem_avail,  
+     port.management_tsc_id<!-- ,  
+     #{displayId}    -->
+	 FROM   port  
+	 LEFT OUTER JOIN port_conn ON port.port_id = port_conn.port_id  
+	 WHERE  ( ( port.management_tsc_id =   #{displayId}   AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.available &lt;&gt; 'Available' ) ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &gt; 0 AND  
+	      port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &lt; 0 AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	     ( port.management_tsc_id =  #{displayId}   OR  
+	    port_conn.conn_to_tsc_id =   #{displayId}   )   
+	  ORDER BY port.port_abbreviation
+   <!-- 20191231 Song Add End For v2   -->
+  </select>
+  
+   <!-- 20200121 Song Add Start -->
+   <!-- ポート情報を取得する。-->
+  <select id="getIndividualMonitorPortPieceList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorPortEntity">
+    SELECT DISTINCT  
+	   port.port_abbreviation,  
+	   port.port_mode,  
+	   port.available,  
+	   port.ibsem_avail,  
+	   port.management_tsc_id 
+	FROM   port  
+	LEFT OUTER JOIN port_conn_piece ON port.port_id = port_conn_piece.port_id  
+	WHERE  ( ( port.management_tsc_id = #{displayId}  AND  
+		 ( port.port_mode &lt;&gt; 'Up' OR   
+		   port.available &lt;&gt; 'Available' ) ) OR  
+		 ( port.management_tsc_id &lt;&gt; #{displayId} AND  
+		   port.management_tsc_id &gt; 0 AND  
+		   port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+		 ( port.management_tsc_id &lt;&gt;   #{displayId} AND  
+		   port.management_tsc_id &lt; 0 AND  
+		 ( port.port_mode &lt;&gt; 'Up' OR   
+		   port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	   ( port.management_tsc_id = #{displayId} OR  
+		 port_conn_piece.conn_from_piece_id =  #{pieceId} OR   
+		 port_conn_piece.conn_to_piece_id = #{pieceId} )  
+	ORDER BY port.port_abbreviation
+  </select>
+   <!-- 20200121 Song Add End -->
+
+  <!--
+    OHBモニタ用ポート情報を取得する。
+   -->
+  <select id="getOhbMonitorPortList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorOhbEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorPortEntity">
+    <!-- 
+    select
+      opr.OHB_PRIORITY as OHB_PRIORITY,
+      opr.PORT_ID as PORT_ID,
+      (select STRING from STRING_MASTER where KEY = 'PORT_TYPE_STRING' and CODE = p.PORT_TYPE) as PORT_TYPE,
+      (select STRING from STRING_MASTER where KEY = 'IO_MODE_STRING' and CODE = p.IO_MODE) as PORT_IO,
+      (select STRING from STRING_MASTER where KEY = 'AVAIL_STRING' and CODE = ps.PORT_AVAIL) as PORT_AVAIL,
+      ps.PORT_AVAIL as HIDE_PORT_AVAIL,
+      c.CARRIER_ID as CARRIER_ID
+    from
+      PORT p
+      left join PORT_STATE ps
+        on p.PORT_ID = ps.PORT_ID
+      left join OHB_PORT_RLT opr
+        on p.PORT_ID = opr.PORT_ID
+      left join CARRIER c
+        on p.PORT_ID = c.CURRENT_LOC
+    where
+      opr.OHB_ID = #{ohbId}
+    order by
+      p.PORT_ID asc 
+    
+    SELECT DISTINCT
+    port.port_abbreviation,  
+    port.port_mode,  
+    port.available,  
+    port.ibsem_avail,  
+    port.management_tsc_id,  
+    #{displayId}   
+	FROM   port  
+	LEFT OUTER JOIN port_conn ON port.port_id = port_conn.port_id  
+	WHERE  ( ( port.management_tsc_id =   #{displayId}   AND  
+	   ( port.port_mode != 'Up' OR 
+	     port.available != 'Available' ) ) OR  
+	   ( port.management_tsc_id !=   #{displayId}   AND  
+	     port.management_tsc_id > 0 AND  
+	     port.ibsem_avail != 'Avail' ) OR  
+	   ( port.management_tsc_id !=   #{displayId}   AND  
+	     port.management_tsc_id < 0 AND  
+	   ( port.port_mode != 'Up' OR   
+	     port.ibsem_avail != 'Avail' ) ) ) AND  
+	    ( port.management_tsc_id = #{displayId} OR  
+	   port_conn.conn_to_tsc_id =   #{displayId}   )   
+	 ORDER BY port.port_abbreviation-->
+	 
+	 <!-- SELECT DISTINCT  
+     port.port_abbreviation,  
+     port.port_mode,  
+     port.available,  
+     port.ibsem_avail,  
+     port.management_tsc_id,  
+     501   
+	 FROM   port  
+	 LEFT OUTER JOIN port_conn ON port.port_id = port_conn.port_id  
+	 WHERE  ( ( port.management_tsc_id =   501   AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.available &lt;&gt; 'Available' ) ) OR  
+	    ( port.management_tsc_id &lt;&gt;   501   AND  
+	      port.management_tsc_id &gt; 0 AND  
+	      port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+	    ( port.management_tsc_id &lt;&gt;   501   AND  
+	      port.management_tsc_id &lt; 0 AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	     ( port.management_tsc_id =   501   OR  
+	    port_conn.conn_to_tsc_id =   501   )   
+	  ORDER BY port.port_abbreviation -->
+	 
+	  
+	 SELECT DISTINCT  
+     port.port_abbreviation,  
+     port.port_mode,  
+     port.available,  
+     port.ibsem_avail,  
+     port.management_tsc_id<!-- ,  
+     #{displayId}    -->
+	 FROM   port  
+	 LEFT OUTER JOIN port_conn ON port.port_id = port_conn.port_id  
+	 WHERE  ( ( port.management_tsc_id =   #{displayId}   AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.available &lt;&gt; 'Available' ) ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &gt; 0 AND  
+	      port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &lt; 0 AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	     ( port.management_tsc_id =   #{displayId}   OR  
+	    port_conn.conn_to_tsc_id =   #{displayId}   )   
+	  ORDER BY port.port_abbreviation
+  </select>
+  
+  <!-- 20200103 DQY ADD FOR OHB PORT -->
+  <select id="getOhbMonitorOHBPortList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorOhbEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorPortEntity">
+	 SELECT DISTINCT  
+     port.port_abbreviation,  
+     port.port_mode,  
+     port.available,  
+     port.ibsem_avail,  
+     port.management_tsc_id<!-- ,  
+     #{displayId}    -->
+	 FROM   port  
+	 LEFT OUTER JOIN port_conn ON port.port_id = port_conn.port_id  
+	 WHERE  ( ( port.management_tsc_id =   #{displayId}   AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.available &lt;&gt; 'Available' ) ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &gt; 0 AND  
+	      port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+	    ( port.management_tsc_id &lt;&gt;   #{displayId}   AND  
+	      port.management_tsc_id &lt; 0 AND  
+	    ( port.port_mode &lt;&gt; 'Up' OR   
+	      port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	     ( port.management_tsc_id =   #{displayId}   OR  
+	    port_conn.conn_to_tsc_id =   #{displayId}   )   
+	    <!-- 20200103 DQY ADD FOR OHBID -->
+	    <if test="ohbId !=null">
+	    	AND port.port_id like '%${ohbId}%' 
+	    </if>
+	  ORDER BY port.port_abbreviation
+  </select>
+  
+  
+   <!-- 20200121 Song Add FOR OHB PORT -->
+  <select id="getOhbMonitorOHBPortPieceList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorOhbEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorPortEntity">
+	SELECT DISTINCT  
+	   port.port_abbreviation,  
+	   port.port_mode,  
+	   port.available,  
+	   port.ibsem_avail,  
+	   port.management_tsc_id 
+	FROM   port  
+	LEFT OUTER JOIN port_conn_piece ON port.port_id = port_conn_piece.port_id  
+	WHERE  ( ( port.management_tsc_id = #{displayId}  AND  
+		 ( port.port_mode &lt;&gt; 'Up' OR   
+		   port.available &lt;&gt; 'Available' ) ) OR  
+		 ( port.management_tsc_id &lt;&gt; #{displayId} AND  
+		   port.management_tsc_id &gt; 0 AND  
+		   port.ibsem_avail &lt;&gt; 'Avail' ) OR  
+		 ( port.management_tsc_id &lt;&gt;   #{displayId} AND  
+		   port.management_tsc_id &lt; 0 AND  
+		 ( port.port_mode &lt;&gt; 'Up' OR   
+		   port.ibsem_avail &lt;&gt; 'Avail' ) ) ) AND  
+	   ( port.management_tsc_id = #{displayId} OR  
+		 port_conn_piece.conn_from_piece_id =  #{pieceId} OR   
+		 port_conn_piece.conn_to_piece_id = #{pieceId} ) 
+	    <if test="ohbId !=null">
+	    	AND port.port_id like '%${ohbId}%' 
+	    </if> 
+	ORDER BY port.port_abbreviation
+  </select>
+  
+  <!--
+    Microコマンド情報を取得する。
+   -->
+  <select id="getIndividualMonitorMicroCmdList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorMicroCmdEntity">
+    select
+      cjp.COMMAND_ID,
+      cjp.PRIORITY,
+      c.CARRIER_ID,
+      cjp.SRC_LOC,
+      cjp.DST_LOC,
+      (select STRING from STRING_MASTER where KEY = 'CARRIER_JOB_STATE_STRING' and CODE = cjp.CARRIER_JOB_STATE) AS CARRIER_JOB_STATE,
+      cjp.CARRIER_JOB_STATE as HIDE_CARRIER_JOB_STATE,
+      cjp.WAIT_IN_TIME
+    from
+      CARRIER_JOB_PROGRESS cjp
+      left outer join CARRIER_JOB cj
+        on cjp.CARRIER_JOB_ID = cj.CARRIER_JOB_ID
+      left outer join CARRIER c
+        on c.ENTITY_ID = cj.ENTITY_ID
+    where
+      cjp.AMHS_ID = #{amhsId}
+    order by
+      cjp.COMMAND_ID asc
+  </select>
+
+  <!--
+    搬送Jobを取得する。
+  -->
+  <select id="getScMonitorTransferJobList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.model.IndividualMonitorTransferJob">
+    select
+      J.RECEIVED_TIME,
+      J.JOB_OWNER,
+      C.CARRIER_ID,
+      CJ.PRIORITY,
+      (select STRING from STRING_MASTER where KEY = 'CARRIER_JOB_STATE_STRING' and CODE = CJ.CARRIER_JOB_STATE) as CARRIER_JOB_STATE,
+      C.CURRENT_LOC,
+      CJ.SRC_AMHS_ID,
+      CJ.SRC_LOC,
+      CJ.DST_AMHS_ID,
+      CJ.DST_LOC,
+      CJP.SRC_LOC as MICRO_FROM,
+      CJP.DST_LOC as MICRO_TO,
+      CJP.AMHS_ID,
+      CJ.CARRIER_JOB_STATE as HIDE_CARRIER_JOB_STATE,
+      CJP.WAIT_IN_TIME
+    from
+      CARRIER_JOB CJ
+      inner join JOB_RLT JR
+        on CJ.CARRIER_JOB_ID = JR.CARRIER_JOB_ID
+        and CJ.DST_AMHS_ID = #{amhsId}
+      inner join JOB J
+        on JR.JOB_ID = J.JOB_ID
+      inner join CARRIER C
+        on CJ.ENTITY_ID = C.ENTITY_ID
+      inner join CARRIER_JOB_PROGRESS CJP
+        on CJ.CARRIER_JOB_ID = CJP.CARRIER_JOB_ID
+        and CJ.TABLE_NO = CJP.TABLE_NO
+        and CJ.ROUTE_NO = CJP.ROUTE_NO
+        and CJ.SEQ_NO = CJP.SEQ_NO
+    order by
+      J.RECEIVED_TIME asc
+  </select>
+
+  <!--
+    台車情報を取得する。
+  -->
+  <!--20191220 DQY DEL  -->
+  <!--<select id="getTscMonitorVehicleList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorVehicleEntity">
+    select
+      VEHICLE_ID,
+      (select STRING from STRING_MASTER where KEY = 'VEHICLE_STATE_STRING' and CODE = VEHICLE_STATE) as VEHICLE_STATE
+    from
+      VEHICLE
+    where
+      AMHS_ID = #{amhsId}
+    order by
+      VEHICLE_ID asc
+  </select>-->
+  <!--20191220 DQY ADD START  -->
+  <select id="getTscMonitorVehicleList" parameterType="net.muratec.mcs.entity.top.ReqIndividualMonitorEntity" resultType="net.muratec.mcs.entity.top.IndividualMonitorVehicleEntity">
+    select
+      VEHICLE_ID,
+      VEHICLE_STATE
+    from
+      VEHICLE
+    where
+      TSC_ID = #{displayId}
+    order by
+      VEHICLE_ID asc
+  </select>
+</mapper>

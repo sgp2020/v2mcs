@@ -1,0 +1,60 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-TransferLocation.css
+ * @brief       搬送ロケーション選択用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2018/01/31 0.8         Step4リリース                                     CSC
+ ******************************************************************************
+ */
+/* 全体のラッパー */
+.mcs-transferLocation-wrapper {
+    min-width: 300px;
+}
+
+/* floatを解除する */
+.mcs-transferLocation-wrapper:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* 搬送ロケーション選択のラッパー */
+.mcs-transferLocation-transferLocation-wrapper {
+    margin-top: 10px;
+}
+
+/* ボタンのラッパー */
+.mcs-transferLocation-button-wrapper {
+    display: inline-block;
+    float: left;
+    width: 30%;
+}
+
+/* テキストボックス①のラッパー */
+.mcs-transferLocation-text-wrapper1 {
+    display: inline-block;
+    float: right;
+    width: 70%;
+    padding: 0 0 5px 10px;
+}
+
+/* テキストボックス②のラッパー */
+.mcs-transferLocation-text-wrapper2 {
+    display: inline-block;
+    float: right;
+    width: 70%;
+    padding: 0 0 0 10px;
+}
+

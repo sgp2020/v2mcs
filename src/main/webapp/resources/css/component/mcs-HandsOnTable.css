@@ -1,0 +1,206 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-HandsOnTable.css
+ * @brief       McsHandsOnTable システムモニタ表示用CSS
+ * @par
+ * @author      CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2017/09/20 0.5         Step4リリース                                     CSC
+ ******************************************************************************
+ */
+/* アイコン */
+.container {
+    /*width: 45px;
+    width: 65px;*/ /*20191218 DQY DEL*/
+    width: 75px;  /*20191218 SONG ADD*/
+    display: inline-block;
+    padding: 5px;
+}
+
+/*20191218 DQY ADD*/
+.container-cdc {
+    width: 90px;
+    display: inline-block;
+    padding: 5px;
+}
+/* 横長アイコン */
+.container-l {
+    width: 65px;
+}
+
+/* アイコン点滅アニメーション */
+@-webkit-keyframes flash {
+    from {
+        fill-opacity: 1;
+    }
+    to {
+        fill-opacity: 0;
+    }
+}
+
+@keyframes flash {
+    from {
+        fill-opacity: 1;
+    }
+    to {
+        fill: #ffffff;
+    }
+}
+
+.flash {
+    -webkit-animation-name: flash;/* keyframe名 */
+    -webkit-animation-duration: 0.5s;/* アニメーションにかける時間 */
+    -webkit-animation-iteration-count: infinite;/*infiniteで無限ループ */
+    -webkit-animation-timing-function: ease-in-out;/* イーズインアウト */
+    -webkit-animation-direction: alternate;/* alternateにするとアニメーションが反復 */
+    -webkit-animation-delay: 0s;/* 実行までの待ち時間 */
+    animation-name: flash;/* keyframe名 */
+    animation-duration: 0.5s;/* アニメーションにかける時間 */
+    animation-iteration-count: infinite;/*infiniteで無限ループ */
+    animation-timing-function: ease-in-out;/* イーズインアウト */
+    animation-direction: alternate;/* alternateにするとアニメーションが反復 */
+    animation-delay: 0s;/* 実行までの待ち時間 */
+}
+
+/* アイコンの外枠 */
+.status-block {
+    font-style: normal;
+    fill: #3dcc5a;
+}
+
+/* 未定義のアイコンとサンプルアイコン2の外枠 */
+.undefined.status-block,
+.smp-02.status-block {
+    fill: #5b5a5a;
+}
+
+/* アイコンのステータス */
+.status-box {
+    fill: #38ff61;
+    stroke: #000000;
+    stroke-width: 0.5;
+    stroke-miterlimit: 10;
+    width: 14px;
+    height: 6px;
+}
+
+/* 20191229 Song Add For McsHandsOnTableService.java  Method  createStatusBoxRect_1*/
+.status-box1 {
+    fill: #38ff61;
+    stroke: #000000;
+    stroke-width: 0.5;
+    stroke-miterlimit: 10;
+    /*width: 28px;*/
+    width: 33px;
+    height: 8px;
+}
+
+/* 未定義のアイコンとサンプルアイコン2のステータス */
+.undefined .status-box,
+.smp-02 .status-box {
+    fill: #9fa0a0;
+}
+
+/* アイコンのテキスト */
+.status-txt {
+   /* font-size: 7px;
+      font-weight: 700;
+   */
+    font-size: 6px;
+    font-weight: 700;
+    text-align: center;
+    fill: #000000;
+}
+
+/* 20191219 Song Add Start */
+.status-txt-small {
+    font-size: 4.4px;
+    font-weight: 700;
+    text-align: center;
+    fill: #000000;
+}
+/* 20191219 Song Add End */
+
+/* 枠線は個別に引く */
+.handsontable td {
+    background-color: #24272d;
+    border: transparent 0px solid;
+}
+
+/* 端の枠を透明に */
+.handsontable tr:first-child td {
+    border-top: 1px solid transparent;
+}
+
+.handsontable tr:last-child td {
+    border-bottom: 1px solid transparent;
+}
+
+.handsontable tr td:first-child {
+    border-left: 1px solid transparent;
+}
+
+.handsontable tr td:last-child {
+    border-right: 1px solid transparent;
+}
+
+/* ボーダーの色 */
+.handsontable .htCore td {
+    color: #ffffff;
+}
+
+.handsontable .wtBorder {
+    background-color: #ffffff;
+}
+
+/* ボーダーのスタイル変更 */
+.wtBorder.change-border {
+    background-color: #24272d;
+}
+
+/* top */
+.wtBorder.change-border.top {
+    border-top-color: #ffffff;
+}
+
+.wtBorder.change-border.top.type-01 {
+    border-top-style: dashed;
+}
+
+/* left */
+.wtBorder.change-border.left {
+    border-left-color: #ffffff;
+}
+
+.wtBorder.change-border.left.type-01 {
+    border-left-style: dashed;
+}
+
+/* bottom */
+.wtBorder.change-border.bottom {
+    border-bottom-color: #ffffff;
+}
+
+.wtBorder.change-border.bottom.type-01 {
+    border-bottom-style: dashed;
+}
+
+/* right */
+.wtBorder.change-border.right {
+    border-right-color: #ffffff;
+}
+
+.wtBorder.change-border.right.type-01 {
+    border-right-style: dashed;
+}
+

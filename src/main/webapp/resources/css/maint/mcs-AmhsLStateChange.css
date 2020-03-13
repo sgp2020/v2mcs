@@ -1,0 +1,24 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-AmhsLStateChange.css
+ * @brief       AMHS論理状態変更用CSS
+ * @par
+ * @author      T.Iga/CSC
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2018/01/31 0.8         Step4                                       T.Iga/CSC
+ ******************************************************************************
+ */
+/* 同期スライド */
+#mcs-amhsLStateChange {
+    width: 350px;
+}
