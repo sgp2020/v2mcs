@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import net.muratec.mcs.model.OhbPortRlt;
 import net.muratec.mcs.model.OhbPortRltExample;
+import net.muratec.mcs.model.OhbPortRltModel;
 
 public interface OhbPortRltMapper {
     /**
@@ -63,4 +64,20 @@ public interface OhbPortRltMapper {
      * @mbg.generated
      */
     int updateByExample(@Param("record") OhbPortRlt record, @Param("example") OhbPortRltExample example);
+    
+
+    /**
+     ******************************************************************************
+     * @brief       Get OhbPortRlt
+     * @param
+     * @return      OhbPortRlt(List)
+     * @retval      List
+     * @attention
+     * @note        Get OhbPortRlt
+     * ----------------------------------------------------------------------------
+     * DATE       VER.        DESCRIPTION                                    AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    List<OhbPortRltModel> selectListByOhbId(String ohbId);
 }

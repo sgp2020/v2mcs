@@ -194,4 +194,31 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  
+  <!-- ここより、独自SQLを記載する -->
+  
+   <resultMap id="SearchResultMap" type="net.muratec.mcs.model.OhbPortRltModel">
+    <result column="OHB_ID" jdbcType="VARCHAR" property="ohbId" />
+    <result column="PORT_ID" jdbcType="VARCHAR" property="portId" />
+    <result column="CARRIER_ID" jdbcType="VARCHAR" property="carrierId" />
+    <result column="STORED_TIME" jdbcType="VARCHAR" property="storedTime" />
+    <result column="PORT_MODE" jdbcType="VARCHAR" property="portMode" />
+    <result column="AVAILABLE" jdbcType="VARCHAR" property="available" />
+    <result column="IBSEM_AVAIL" jdbcType="VARCHAR" property="ibsemAvail" />
+  </resultMap>
+  
+  <select id="selectListByOhbId" parameterType="net.muratec.mcs.model.OhbPortRltModel" resultMap="SearchResultMap">
+	    SELECT ohb_port_rlt.port_id,  
+		   carrier.carrier_id,  
+		   carrier.stored_time,  
+		   port.port_mode,  
+		   port.available,  
+		   port.ibsem_avail  
+		FROM   ohb_port_rlt   
+		LEFT OUTER JOIN carrier ON carrier.current_loc = ohb_port_rlt.port_id  
+		LEFT OUTER JOIN port ON port.port_id = ohb_port_rlt.port_id  
+		WHERE  ohb_port_rlt.ohb_id = #{ohbId,jdbcType=VARCHAR}   
+		ORDER BY ohb_port_rlt.ohb_priority, ohb_port_rlt.port_id
+  </select>
 </mapper>
