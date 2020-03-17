@@ -180,6 +180,13 @@ public class StockerExample {
             return (Criteria) this;
         }
 
+        // STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+        public Criteria andTscIdEqualTo(int value) {
+        	addCriterion("TSC_ID =", value, "tscId");
+        	return (Criteria) this;
+        }
+        // END APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+        
         public Criteria andAmhsIdNotEqualTo(String value) {
             addCriterion("AMHS_ID <>", value, "amhsId");
             return (Criteria) this;
