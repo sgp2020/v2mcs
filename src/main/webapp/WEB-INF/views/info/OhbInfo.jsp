@@ -66,9 +66,34 @@ var screenText = {
 <title><spring:message code="II-003-01-001" /></title>
 <link rel="stylesheet" href="<c:url value="/resources/css/info/mcs-OhbInfo.css?Ver=${version}" />">
 <script src="<c:url value='/resources/js/info/mcs-OhbInfo.js?Ver=${version}'/>"></script>
+<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor-RowClick.js?Ver=${version}'/>"></script>
 
 <%-- デザイン適用ヘッダ --%>
 <%@ include file="../common/designHeader.jsp"%>
+
+
+<script>
+  var screenText = {
+    ctrlText: {
+      Normal:  'Normal',
+      Low:     'Low',
+      High:    'High'
+    },
+    colorText: {	
+        Normal:    '#33FF00',
+        Low: 	   '#FFFF00',
+        High: 	   '#FF5555'
+    },
+    portText: {	
+    	PortID:    'PortID',
+    	CarriedID: 'CarriedID',
+    	LastStoredTime: 'Last Stored Time'
+   }
+  };
+
+</script>
+
+
 </head>
 
 <!-- <body onLoad="setTimeout('check()',100)"> -->
@@ -106,11 +131,39 @@ var screenText = {
     --%>
     <!-- 一覧画面 start -->
     <div id="list-screen" class="mcs-content mcs-with-subtitle">
+    
         <div id="mcs-subtitle-list" class="mcs-content-subtitle">
             <spring:message code="II-003-01-002" />
         </div>
-        <div id="lst-table-target" style="width: 100%; height: 100%;"></div>
+        
+       <!-- <div id="lst-table-target" style="width: 60%; height: 100%;"></div>  -->
+       <div id="lst-table-target"></div>
+       <div id="state-text-target-ohbPortRlt"></div> 
+        
+        <div id="ColorDiv" >
+	         <div id="colorColumn1" class="remarks-content-color">
+	             <div id="color1"></div>
+	         </div>
+	         <div id="ctrlColumn1" class="remarks-content">  
+	             <div id="ctrl1"></div>
+	         </div>
+	         
+	         <div id="colorColumn2" class="remarks-content-color">
+	             <div id="color2"></div>
+	         </div>
+	         <div id="ctrlColumn2" class="remarks-content">  
+	             <div id="ctrl2"></div>
+	         </div>
+	         
+	         <div id="colorColumn3" class="remarks-content-color">
+	             <div id="color3"></div>
+	         </div>
+	         <div id="ctrlColumn3" class="remarks-content">  
+             	<div id="ctrl3"></div>
+             </div>
+        </div>
     </div>
+
     <!-- 一覧画面 end -->
 
     <%-- MACS4#0047 Add Start --%>

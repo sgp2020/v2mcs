@@ -29,8 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.info.OhbInfoListEntity;
 import net.muratec.mcs.entity.info.ReqGetOhbInfoListEntity;
+import net.muratec.mcs.entity.info.ReqGetOhbPortRltEntity;
 import net.muratec.mcs.mapper.OhbMapper;
+import net.muratec.mcs.mapper.OhbPortRltMapper;
 import net.muratec.mcs.model.OhbModel;
+import net.muratec.mcs.model.OhbPortRlt;
+import net.muratec.mcs.model.OhbPortRltExample;
+import net.muratec.mcs.model.OhbPortRltModel;
 import net.muratec.mcs.service.common.BaseService;
 
 //@formatter:off
@@ -55,6 +60,8 @@ public class OhbService extends BaseService {
     // アラーム情報マッパー
     // ------------------------------------
     @Autowired private OhbMapper ohbMapper;
+    
+    @Autowired private OhbPortRltMapper ohbPortRltMapper;
 
 
     //@formatter:off
@@ -126,6 +133,35 @@ public class OhbService extends BaseService {
             
             retRecList.add(entity);
         }
+        
+        
+    	
+    	
+       
+        
         return retRecList;
+    }
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getOhbPortRltList(アラーム情報一覧の取得)機能
+     * @param     reqEntity      リクエスト(検索条件)
+     * @return    アラーム情報一覧
+     * @retval    アラーム情報のLIST形式で返却
+     * @attention
+     * @note      検索条件に一致したアラーム情報一覧の取得を行う
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional
+    public List<OhbPortRltModel> getOhbPortRltList(String ohbId) {
+
+    	List<OhbPortRltModel> ohbPortRltList = ohbPortRltMapper.selectListByOhbId(ohbId);
+        
+        return ohbPortRltList;
     }
 }

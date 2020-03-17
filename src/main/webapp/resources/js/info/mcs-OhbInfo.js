@@ -16,12 +16,85 @@
  * 2020/03/12  2                                           SGP
  ******************************************************************************
  */
-$(function() {
+$(function() { 
+	
+  // ステータス色一覧
+  $('#color1').css('background-color', screenText.colorText.Normal);
+  $('#color2').css('background-color', screenText.colorText.Low);
+  $('#color3').css('background-color', screenText.colorText.High);
+  var ctrl1 = new McsTextBox($('#ctrl1'));
+  var ctrl2 = new McsTextBox($('#ctrl2'));
+  var ctrl3 = new McsTextBox($('#ctrl3'));
+  ctrl1.setReadonly(true);
+  ctrl2.setReadonly(true);
+  ctrl3.setReadonly(true);
+  ctrl1.setValue(screenText.ctrlText.Normal);
+  ctrl2.setValue(screenText.ctrlText.Low);
+  ctrl3.setValue(screenText.ctrlText.High);
+		
   // 画面初期化時の処理
 
   // データテーブル
-  var dataTables = new McsDataTables($('#lst-table-target'), true);
+  //var dataTables = new McsDataTables($('#lst-table-target'), true);
+  var dataTables = new McsDataTablesBgColorRowClick($('#lst-table-target'), true);
+  // 行選択時のイベントをセット
+  dataTables.onSelectRow(function() {
+    var record = dataTables.getSelectedRowData();
+    if (record) {
+    	searchOhbPortRltList(record[0].ohbId);
+    }
+  });
+  
+  var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
+  ohbPortRltTable.setNotRowSelect(true);
+  
+  // 状態テーブルヘッダ(状態テーブル)
+  var ohbPortRltHeader = [{
+    name: 'portId',
+    text: screenText.portText.PortID,
+    display: true
+  }, {
+    name: 'carrierId',
+    text: screenText.portText.CarriedID,
+    display: true
+  }, {
+    name: 'storedTime',
+    text: screenText.portText.LastStoredTime,
+    display: true
+  }];
+	  
+  // ヘッダ設定(状態テーブル)
+  ohbPortRltTable.setHeader(ohbPortRltHeader);
+	  
+  
+  /**
+   ******************************************************************************
+   * @brief   ポートリストの検索を行う
+   * @param
+   * @return
+   * @retval
+   * @attention
+   * @note
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   ******************************************************************************
+   */
+  function searchOhbPortRltList(ohbId) {
+      var url = getUrl('/OhbInfo/GetOhbPortRltList');
+      var cond = {
+    		  ohbId:ohbId//'32BCU13HB2'
+      };
+      var flag = false;
+      var success = function(retObj) {
+    	  ohbPortRltTable.clear();
+    	  ohbPortRltTable.addDataList(retObj.ohbPortRltList);
+      };
+      callAjax(url, JSON.stringify(cond), flag, success);
+  }
 
+  
+  
   // 戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
 
@@ -54,6 +127,8 @@ $(function() {
       searchDataFlag: true,
       tableCompId: 'I-003-dataTables', // テーブルコンポーネントID
       success: function(data) {
+    	//var d = data.body[0].ohbId;
+    	//searchOhbPortRltList(d);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない
@@ -69,7 +144,11 @@ $(function() {
         // 特にすることなし
       }
     });
+    
   }
+  
+ 
+
 
   
 //DEL STD APL 2020.02.20 song 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000 

@@ -18,6 +18,52 @@
  * 2020/03/12  2                                           SGP
  ******************************************************************************
  */
+ 
+ /* 色表示部 */
+.remarks-content-color {
+    position: relative;
+    /*padding-bottom: 15px;*/
+    padding-top: 10px;
+    padding-right: 15px;
+    margin: 0 auto;
+    float: left;
+}
+
+/* 各色 */
+.remarks-content-color>div {
+    width: 34px;
+    height: 34px;
+    margin-top: 0.55em;
+    margin-bottom: 0.5em;
+}
+
+.remarks-content {
+    position: relative;
+    padding-top: 14px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 8%;
+    float: left;
+}
+ 
+ 
+ /* 状態画面テキスト部用 */
+ 
+div#lst-table-target {
+    width: 60%;
+    padding-right: 15px;
+    float:left;
+    height: 100%;
+}
+
+div#state-text-target-ohbPortRlt {
+    width: 40%;
+    padding-left: 15px;
+    padding-top: 66px;
+    float:left;
+    height: 50%;
+}
+
 /**
 スライドの横幅を指定
 **/

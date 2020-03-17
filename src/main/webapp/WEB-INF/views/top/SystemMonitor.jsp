@@ -58,6 +58,7 @@
       processMonitor: '<spring:message code="IT-001-02-006" />',
       testCarrierList: '<spring:message code="IT-001-02-007" />',
       //stageInfo: '<spring:message code="IT-001-02-004" />',      // MACS4#0049 Add
+      stockerInfo: '<spring:message code="IT-001-02-005" />',
       // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000
    	  //MACSV4用なLabelを削除する
       //history: '<spring:message code="IT-001-02-004" />',
