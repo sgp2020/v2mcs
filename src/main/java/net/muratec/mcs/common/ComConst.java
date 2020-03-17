@@ -679,6 +679,11 @@ public class ComConst {
         INFO_STAGEINFO("I004", 20400000L, "I004_REF", "I004_CHG"),
 
         /**
+         * STOCKER情報 - 2020.03.10 DONG ADD
+         */
+        INFO_STOCKERINFO("I005", 20500000L, "I005_REF", "I005_CHG"),
+        
+        /**
          * 搬送Job来歴
          */
         HIST_TRANSFERJOBHISTORY("H001", 30100000L, "H001_REF", ""),

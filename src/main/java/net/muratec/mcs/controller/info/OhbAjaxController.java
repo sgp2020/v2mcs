@@ -20,6 +20,8 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -47,7 +49,9 @@ import net.muratec.mcs.entity.common.AuthenticationEntity;
 //import net.muratec.mcs.entity.common.OpeLogInfoEntity;
 import net.muratec.mcs.entity.info.ReqGetOhbInfoListEntity;
 import net.muratec.mcs.entity.info.ReqGetOhbInfoListValidateEntity;
+import net.muratec.mcs.entity.info.ReqGetOhbPortRltEntity;
 import net.muratec.mcs.entity.info.ResGetOhbInfoListEntity;
+import net.muratec.mcs.entity.info.ResGetOhbPortRltListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.McsDataTablesService;
@@ -156,7 +160,54 @@ public class OhbAjaxController extends BaseAjaxController {
             // 全体レコード数取得、設定
             // ------------------------------------
             resEntity.pageInfo.totalRecords = ohbService.getCount(reqEntity);
+            
+            List<String> color = new ArrayList<String>();
+            color.add("#FF0000");
+            color.add("#00FF00");
+            resEntity.rowColorList = color;
+            
+            
         }
+
+        return resEntity;
+    }
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getOhbPortRltList（ポートリストの取得を行う）
+     * @param     session     セッション情報（Frameworkより付加）
+     * @param     reqEntity   検索条件
+     * @param     errors      エラー情報（Frameworkより付加）
+     * @param     locale      ロケーション情報（Frameworkより付加）
+     * @param     model       モデル情報（Frameworkより付加）
+     * @return    検索結果
+     * @retval    JSON形式で返却
+     * @attention
+     * @note      ポートリストの取得を行う。
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/OhbInfo/GetOhbPortRltList", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResGetOhbPortRltListEntity getOhbPortRltList(HttpSession session,
+            @Valid @RequestBody ReqGetOhbPortRltEntity reqEntity, Errors errors, Locale locale, Model model)
+                    throws AjaxAurgumentException, McsException {
+
+        // ------------------------------------
+        // レスポンスエンティティ生成
+        // 返すJSON全体のオブジェクトをnew
+        // ------------------------------------
+        ResGetOhbPortRltListEntity resEntity = new ResGetOhbPortRltListEntity();
+
+        // ------------------------------------
+        // ポートリスト取得
+        // ------------------------------------
+        resEntity.ohbPortRltList = ohbService.getOhbPortRltList(reqEntity.ohbId);
 
         return resEntity;
     }
