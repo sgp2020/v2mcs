@@ -1,6 +1,6 @@
 ﻿<%--
  ******************************************************************************
- * @file        StockerInformation.jsp
+ * @file        StockerInfo.jsp
  * @brief       StockerInformation　画面用JSP
  * @par
  * @author      天津村研　董

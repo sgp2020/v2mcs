@@ -42,7 +42,7 @@ import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.info.StockerInformationService;
+import net.muratec.mcs.service.info.StockerInfoService;
 
 //@formatter:off
 /**
@@ -70,7 +70,7 @@ public class StockerInfoController extends BaseController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private StockerInformationService stockerInfoService;
+    @Autowired private StockerInfoService stockerInfoService;
     
     @Autowired private SelectBoxService selBoxService;
 

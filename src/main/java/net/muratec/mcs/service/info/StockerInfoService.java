@@ -59,7 +59,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  */
 //@formatter:on
 @Service
-public class StockerInformationService extends BaseService {
+public class StockerInfoService extends BaseService {
 
     /** 個別モニタ用マッパー生成 */
     @Autowired private IndividualMonitorMapper iMonitorMapper;

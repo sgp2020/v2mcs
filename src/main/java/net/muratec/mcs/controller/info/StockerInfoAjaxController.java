@@ -60,7 +60,7 @@ import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.info.StockerInformationService;
+import net.muratec.mcs.service.info.StockerInfoService;
 
 //@formatter:off
 /**
@@ -91,7 +91,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private StockerInformationService stockerInfoService;
+    @Autowired private StockerInfoService stockerInfoService;
 
     /** グリッド用サービス */
     @Autowired private McsDataTablesService mcsDataTablesService;
