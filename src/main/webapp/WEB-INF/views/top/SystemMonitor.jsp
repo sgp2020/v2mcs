@@ -59,6 +59,7 @@
       testCarrierList: '<spring:message code="IT-001-02-007" />',
       //stageInfo: '<spring:message code="IT-001-02-004" />',      // MACS4#0049 Add
       stockerInfo: '<spring:message code="IT-001-02-005" />',
+      hostCommInfo: '<spring:message code="IT-001-02-009" />',//2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000
       // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000
    	  //MACSV4用なLabelを削除する
       //history: '<spring:message code="IT-001-02-004" />',
@@ -323,6 +324,8 @@
         <div id="menu-btn-stageInfo" class="btn-mcs-slide" data-auth="${I004_REF}"></div>
         <!-- STOCKER情報表示 - 2020.03.10 董 天津村研  MCSV4 開発  Ver2.0 Rev.000 -->
         <div id="menu-btn-stockerInfo" class="btn-mcs-slide" data-auth="${I005_REF}"></div>
+        <!-- HOST COMM 情報表示 - 2020.03.18 董 天津村研  MCSV4 開発  Ver2.0 Rev.000 -->
+        <div id="menu-btn-hostCommInfo" class="btn-mcs-slide" data-auth="${I009_REF}"></div>
         <!-- 【来歴】 -->
         <%--<div id="menu-btn-history" class="btn-mcs-slide"></div>                                      MACS4#0047 Del --%>
         <div id="menu-btn-history" class="btn-mcs-slide" data-auth="${MENU_HISTORY_ENABLE}"></div>  <%-- MACS4#0047 Add --%>

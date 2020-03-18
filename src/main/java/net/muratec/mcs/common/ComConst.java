@@ -684,6 +684,11 @@ public class ComConst {
         INFO_STOCKERINFO("I005", 20500000L, "I005_REF", "I005_CHG"),
         
         /**
+         * STOCKER情報 - 2020.03.18 DONG ADD
+         */
+        INFO_HOSTCOMMINFO("I009", 20500000L, "I009_REF", "I009_CHG"),
+        
+        /**
          * 搬送Job来歴
          */
         HIST_TRANSFERJOBHISTORY("H001", 30100000L, "H001_REF", ""),

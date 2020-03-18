@@ -232,6 +232,10 @@ $(function() {
     // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     var stockerInfo = new McsButton($('#menu-btn-stockerInfo'), screenText.menuText.stockerInfo);
     // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
+    // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    var hostCommInfo = new McsButton($('#menu-btn-hostCommInfo'), screenText.menuText.hostCommInfo);
+    // END APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     // アラーム情報表示、ページ遷移
     alarm.onClick(function() {
       openScreen(getUrl('Alarm'), 'Alarm');
@@ -277,6 +281,13 @@ $(function() {
     	openScreen(getUrl('StockerInfo'), 'StockerInfo');
     });
     // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
+    // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    hostCommInfo.onClick(function() {
+    	openScreen(getUrl('HostCommInfo'), 'HostCommInfo');
+    });
+    // END APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
     // 来歴ボタン、子スクリーン表示
     history.onClick(function() {
       slideMenuHistory.toggle();
