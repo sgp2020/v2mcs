@@ -160,12 +160,12 @@ public class OhbAjaxController extends BaseAjaxController {
             // 全体レコード数取得、設定
             // ------------------------------------
             resEntity.pageInfo.totalRecords = ohbService.getCount(reqEntity);
-            
+            /*
             List<String> color = new ArrayList<String>();
             color.add("#FF0000");
             color.add("#00FF00");
             resEntity.rowColorList = color;
-            
+            */
             
         }
 
