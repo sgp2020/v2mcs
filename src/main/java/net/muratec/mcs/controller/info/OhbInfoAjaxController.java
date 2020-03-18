@@ -20,8 +20,6 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -56,7 +54,7 @@ import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.McsDataTablesService;
 //import net.muratec.mcs.service.common.OpeLogService;
-import net.muratec.mcs.service.info.OhbService;
+import net.muratec.mcs.service.info.OhbInfoService;
 
 //@formatter:off
 /**
@@ -73,14 +71,14 @@ import net.muratec.mcs.service.info.OhbService;
  */
 //@formatter:on
 @Controller
-public class OhbAjaxController extends BaseAjaxController {
+public class OhbInfoAjaxController extends BaseAjaxController {
 
-    private static final Logger logger = LoggerFactory.getLogger(OhbAjaxController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OhbInfoAjaxController.class);
 
     // ------------------------------------
     // アラーム情報画面用サービス
     // ------------------------------------
-    @Autowired private OhbService ohbService;
+    @Autowired private OhbInfoService ohbInfoService;
 
     // ------------------------------------
     // グリッド用サービス
@@ -154,12 +152,12 @@ public class OhbAjaxController extends BaseAjaxController {
             // ------------------------------------
             // データ取得、設定
             // ------------------------------------
-            resEntity.body = ohbService.getOhbInfoList(reqEntity);
+            resEntity.body = ohbInfoService.getOhbInfoList(reqEntity);
 
             // ------------------------------------
             // 全体レコード数取得、設定
             // ------------------------------------
-            resEntity.pageInfo.totalRecords = ohbService.getCount(reqEntity);
+            resEntity.pageInfo.totalRecords = ohbInfoService.getCount(reqEntity);
             /*
             List<String> color = new ArrayList<String>();
             color.add("#FF0000");
@@ -207,7 +205,7 @@ public class OhbAjaxController extends BaseAjaxController {
         // ------------------------------------
         // ポートリスト取得
         // ------------------------------------
-        resEntity.ohbPortRltList = ohbService.getOhbPortRltList(reqEntity.ohbId);
+        resEntity.ohbPortRltList = ohbInfoService.getOhbPortRltList(reqEntity.ohbId);
 
         return resEntity;
     }
