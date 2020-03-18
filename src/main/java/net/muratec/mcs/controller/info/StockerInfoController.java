@@ -65,7 +65,7 @@ import net.muratec.mcs.service.info.StockerInformationService;
  */
 //@formatter:on
 @Controller
-public class StockerInformationController extends BaseController {
+public class StockerInfoController extends BaseController {
 
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;

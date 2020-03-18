@@ -79,9 +79,9 @@ import net.muratec.mcs.service.info.StockerInformationService;
  */
 //@formatter:on
 @Controller
-public class StockerInformationAjaxController extends BaseAjaxController {
+public class StockerInfoAjaxController extends BaseAjaxController {
 
-    public static final Logger logger = LoggerFactory.getLogger(StockerInformationAjaxController.class);
+    public static final Logger logger = LoggerFactory.getLogger(StockerInfoAjaxController.class);
 
     public static Logger getLogger() {
 
