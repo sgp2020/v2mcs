@@ -141,8 +141,9 @@ $(function() {
       searchDataFlag: true,
       tableCompId: 'I-003-dataTables', // テーブルコンポーネントID
       success: function(data) {
-    	//var d = data.body[0].ohbId;
-    	//searchOhbPortRltList(d);
+    	var d = data.body[0].ohbId;
+    	var ohbId=d.replace("<br>","");
+    	searchOhbPortRltList(ohbId);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない

@@ -29,12 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.info.OhbInfoListEntity;
 import net.muratec.mcs.entity.info.ReqGetOhbInfoListEntity;
-import net.muratec.mcs.entity.info.ReqGetOhbPortRltEntity;
 import net.muratec.mcs.mapper.OhbMapper;
 import net.muratec.mcs.mapper.OhbPortRltMapper;
 import net.muratec.mcs.model.OhbModel;
-import net.muratec.mcs.model.OhbPortRlt;
-import net.muratec.mcs.model.OhbPortRltExample;
 import net.muratec.mcs.model.OhbPortRltModel;
 import net.muratec.mcs.service.common.BaseService;
 
@@ -54,7 +51,7 @@ import net.muratec.mcs.service.common.BaseService;
  */
 //@formatter:on
 @Service
-public class OhbService extends BaseService {
+public class OhbInfoService extends BaseService {
 
     // ------------------------------------
     // アラーム情報マッパー
