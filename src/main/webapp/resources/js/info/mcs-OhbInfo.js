@@ -19,24 +19,37 @@
 $(function() { 
 	
   // ステータス色一覧
-  $('#color1').css('background-color', screenText.colorText.Normal);
-  $('#color2').css('background-color', screenText.colorText.Low);
-  $('#color3').css('background-color', screenText.colorText.High);
+  $('#color1').css('background-color', screenText.colorText.Enable);
+  $('#color2').css('background-color', screenText.colorText.Disable);
+  $('#color3').css('background-color', screenText.colorText.Test);
+  $('#color4').css('background-color', screenText.colorText.PM);
+  $('#color5').css('background-color', screenText.colorText.Hold);
+  $('#color6').css('background-color', screenText.colorText.NotReady);
   var ctrl1 = new McsTextBox($('#ctrl1'));
   var ctrl2 = new McsTextBox($('#ctrl2'));
   var ctrl3 = new McsTextBox($('#ctrl3'));
+  var ctrl4 = new McsTextBox($('#ctrl4'));
+  var ctrl5 = new McsTextBox($('#ctrl5'));
+  var ctrl6 = new McsTextBox($('#ctrl6'));
   ctrl1.setReadonly(true);
   ctrl2.setReadonly(true);
   ctrl3.setReadonly(true);
-  ctrl1.setValue(screenText.ctrlText.Normal);
-  ctrl2.setValue(screenText.ctrlText.Low);
-  ctrl3.setValue(screenText.ctrlText.High);
+  ctrl4.setReadonly(true);
+  ctrl5.setReadonly(true);
+  ctrl6.setReadonly(true);
+  ctrl1.setValue(screenText.ctrlText.Enable);
+  ctrl2.setValue(screenText.ctrlText.Disable);
+  ctrl3.setValue(screenText.ctrlText.Test);
+  ctrl4.setValue(screenText.ctrlText.PM);
+  ctrl5.setValue(screenText.ctrlText.Hold);
+  ctrl6.setValue(screenText.ctrlText.NotReady);
+  
 		
   // 画面初期化時の処理
 
   // データテーブル
-  //var dataTables = new McsDataTables($('#lst-table-target'), true);
-  var dataTables = new McsDataTablesBgColorRowClick($('#lst-table-target'), true);
+  //var dataTables = new McsDataTables($('#lst-table-target'), false);
+  var dataTables = new McsDataTablesBgColorRowClick($('#lst-table-target'), false);
   // 行選択時のイベントをセット
   dataTables.onSelectRow(function() {
     var record = dataTables.getSelectedRowData();
@@ -45,6 +58,7 @@ $(function() {
     }
   });
   
+ 
   var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
   ohbPortRltTable.setNotRowSelect(true);
   
@@ -65,7 +79,7 @@ $(function() {
 	  
   // ヘッダ設定(状態テーブル)
   ohbPortRltTable.setHeader(ohbPortRltHeader);
-	  
+	 
   
   /**
    ******************************************************************************

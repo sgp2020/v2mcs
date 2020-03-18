@@ -75,14 +75,20 @@ var screenText = {
 <script>
   var screenText = {
     ctrlText: {
-      Normal:  'Normal',
-      Low:     'Low',
-      High:    'High'
+        Enable:    'Enable',
+        Disable:   'Disable',
+        Test:      'Test',
+        PM:        'PM',
+        Hold:      'Hold',
+        NotReady:  'Not Ready'
     },
     colorText: {	
-        Normal:    '#33FF00',
-        Low: 	   '#FFFF00',
-        High: 	   '#FF5555'
+        Enable:    '#00FF00',
+        Disable:   '#808080',
+        Test: 	   '#6E78FF',
+        PM: 	   '#FF8C00',
+        Hold: 	   '#FA320A',
+        NotReady:  '#FF0000'
     },
     portText: {	
     	PortID:    'PortID',
@@ -160,6 +166,27 @@ var screenText = {
 	         </div>
 	         <div id="ctrlColumn3" class="remarks-content">  
              	<div id="ctrl3"></div>
+             </div>
+             
+              <div id="colorColumn4" class="remarks-content-color">
+	             <div id="color4"></div>
+	         </div>
+	         <div id="ctrlColumn4" class="remarks-content">  
+             	<div id="ctrl4"></div>
+             </div>
+             
+              <div id="colorColumn5" class="remarks-content-color">
+	             <div id="color5"></div>
+	         </div>
+	         <div id="ctrlColumn5" class="remarks-content">  
+             	<div id="ctrl5"></div>
+             </div>
+             
+              <div id="colorColumn6" class="remarks-content-color">
+	             <div id="color6"></div>
+	         </div>
+	         <div id="ctrlColumn6" class="remarks-content">  
+             	<div id="ctrl6"></div>
              </div>
         </div>
     </div>

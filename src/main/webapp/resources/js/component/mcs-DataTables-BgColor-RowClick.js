@@ -154,17 +154,14 @@ McsDataTablesBgColorRowClick.prototype = {
     var self = this;
     // 行選択のクリックイベントの後に処理し、コールバックを呼ぶ。
     tbody.on('click', 'tr', function() {
-
       var $this = $(this);
-      
-      /*
       var isSelected = $this.hasClass('selected');
       if (isSelected && self.onSelectRowCallback) {
         self.onSelectRowCallback(self._getRowsData($this[0]));
       } else if (!isSelected && self.onDeselectRowCallback) {
         self.onDeselectRowCallback(self._getRowsData($this[0]));
       }
-      */
+      
     }); 
   },
   
