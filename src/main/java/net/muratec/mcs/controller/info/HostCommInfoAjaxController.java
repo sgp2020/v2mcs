@@ -1,4 +1,4 @@
-﻿//@formatter:off
+//@formatter:off
 /**
  ******************************************************************************
  * @file        StockerInformationAjaxController.java
@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import net.muratec.mcs.common.defines.State;
 import net.muratec.mcs.annotation.OpLog;
 
 import net.muratec.mcs.common.ComConst;
@@ -51,15 +52,16 @@ import net.muratec.mcs.controller.common.BaseAjaxController;
 
 import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
+import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
 import net.muratec.mcs.entity.info.ReqGetStockerInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ResGetStockerInfoListEntity;
-import net.muratec.mcs.entity.info.ResGetStockerInfoSelectBoxEntity;
+import net.muratec.mcs.entity.info.ResGetHostCommInfoListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
+import net.muratec.mcs.service.info.HostCommInfoService;
 import net.muratec.mcs.service.info.StockerInfoService;
 
 //@formatter:off
@@ -79,9 +81,9 @@ import net.muratec.mcs.service.info.StockerInfoService;
  */
 //@formatter:on
 @Controller
-public class StockerInfoAjaxController extends BaseAjaxController {
+public class HostCommInfoAjaxController extends BaseAjaxController {
 
-    public static final Logger logger = LoggerFactory.getLogger(StockerInfoAjaxController.class);
+    public static final Logger logger = LoggerFactory.getLogger(HostCommInfoAjaxController.class);
 
     public static Logger getLogger() {
 
@@ -91,7 +93,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private StockerInfoService stockerInfoService;
+    @Autowired private HostCommInfoService hostCommInfoService;
 
     /** グリッド用サービス */
     @Autowired private McsDataTablesService mcsDataTablesService;
@@ -118,24 +120,24 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerInformationList", method = RequestMethod.POST)
+    @RequestMapping(value = "/HostCommInfo/GetHostCommInfoList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKERINFO, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMMINFO, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetStockerInfoListEntity getStockerInfoList(HttpSession session,
+    public ResGetHostCommInfoListEntity getStockerInfoList(HttpSession session,
             @Valid @RequestBody ReqGetStockerInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKERINFO.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMMINFO.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
-        ReqGetStockerInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetStockerInfoEntity.class);
+        ReqGetHostCommInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetHostCommInfoEntity.class);
 
         // レスポンスエンティティ生成
         // 返すJSON全体のオブジェクトをnew
-        ResGetStockerInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetStockerInfoListEntity.class,
+        ResGetHostCommInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetHostCommInfoListEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
         // 検索処理実装判定
@@ -145,34 +147,23 @@ public class StockerInfoAjaxController extends BaseAjaxController {
                     ReqGetStockerInfoListValidateEntity.class);*/
 
             // データ取得、設定
-//            resEntity.body = ecService.getEmptyCarrierList(reqEntity);
-            resEntity.body = stockerInfoService.getStockerInfoList(reqEntity);
+            resEntity.body = hostCommInfoService.getHostCommInfoList(reqEntity);
+            
             // 全体レコード数取得、設定
-            resEntity.pageInfo.totalRecords = stockerInfoService.getStockerInfoCount(reqEntity);
-         // STD APL 2020.03.16 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            resEntity.pageInfo.totalRecords = hostCommInfoService.getHostommInfoCount(reqEntity);
+            
+            //異常Rowを色へ変更する
             List<String> color = new ArrayList<String>();
             int rowSize = resEntity.body.size();
             for(int i = 0;i<rowSize; i++) {
-            	int fill = resEntity.body.get(i).usedCell; 
-            	int low  = resEntity.body.get(i).lowWaterMark; 
-            	int high = resEntity.body.get(i).highWaterMark; 
-            	if( fill >= low && fill < high ) 
+            	String commState = resEntity.body.get(i).commState; 
+            	if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
         		{
-            		//LOW YELLOW
-            		color.add("#FFFF00");
-        		}
-        		else if( fill >= high ) 
-        		{
-        			//HIGH RED
-        			color.add("#FF5555");
-        		}
-        		else {
-        			//NORMAL GREEN
-        			color.add("#33FF00");
+            		// Selected/Communicating以外は異常とする.
+            		color.add("#08336B");
         		}
             	resEntity.rowColorList = color;
             }
-         // END APL 2020.03.16 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
         }
         return resEntity;
@@ -197,7 +188,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResGetStockerInfoSelectBoxEntity getStockerInfoSelectBoxList(HttpSession session,
@@ -207,7 +198,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_STOCKERINFO.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_HOSTCOMMINFO.getRefAuthFuncId());
 
         // ------------------------------------
         // 戻り値宣言
@@ -226,5 +217,5 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         resEntity.result.message = "";
 
         return resEntity;
-    }
+    }*/
 }

@@ -100,7 +100,8 @@ public interface StockerZoneRltMapper {
     // STD APL 2020.03.12 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 //    List<StockerInfoModel> selectStockerInfoList(ReqGetStockerInfoEntity record);
     List<StockerZoneRlt> selectStockerInfoList(ReqGetStockerInfoEntity record);
-    List<StockerZoneRlt> getCount(ReqGetStockerInfoEntity record);
+//    List<StockerZoneRlt> getCount(ReqGetStockerInfoEntity record);
+    int getCount(ReqGetStockerInfoEntity record);
     // END APL 2020.03.12 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 }

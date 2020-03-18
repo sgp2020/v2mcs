@@ -1,4 +1,4 @@
-﻿//@formatter:off
+//@formatter:off
 /**
  ******************************************************************************
  * @file        IndividualScMonitorService.java
@@ -28,13 +28,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
-import net.muratec.mcs.entity.info.StockerInfoListEntity;
+import net.muratec.mcs.entity.info.HostCommInfoListEntity;
+import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.mapper.GuiColorMapper;
+import net.muratec.mcs.mapper.HostMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.StockerMapper;
 import net.muratec.mcs.mapper.StockerZoneRltMapper;
+import net.muratec.mcs.model.Host;
 import net.muratec.mcs.model.Stocker;
 import net.muratec.mcs.model.StockerExample;
 import net.muratec.mcs.model.StockerZoneRlt;
@@ -59,7 +62,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  */
 //@formatter:on
 @Service
-public class StockerInfoService extends BaseService {
+public class HostCommInfoService extends BaseService {
 
     /** 個別モニタ用マッパー生成 */
     @Autowired private IndividualMonitorMapper iMonitorMapper;
@@ -75,8 +78,7 @@ public class StockerInfoService extends BaseService {
     @Autowired ExeForeignFileService exeForeignFileService;
     
     // STD APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-    @Autowired private StockerMapper stockerMapper;
-    @Autowired private StockerZoneRltMapper stockerZoneRltMapper;
+    @Autowired private HostMapper hostMapper;
     // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
     //@formatter:off
@@ -96,37 +98,33 @@ public class StockerInfoService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<StockerInfoListEntity> getStockerInfoList(ReqGetStockerInfoEntity reqEntity) throws McsException {
+    public List<HostCommInfoListEntity> getHostCommInfoList(ReqGetHostCommInfoEntity reqEntity) throws McsException {
 
         // -----------------------------------------
         // 返却データの生成
         // -----------------------------------------
-        List<StockerInfoListEntity> retRecList = new ArrayList<StockerInfoListEntity>();
+        List<HostCommInfoListEntity> retRecList = new ArrayList<HostCommInfoListEntity>();
 
         // -----------------------------------------
         // stockerZoneRltデータ取得
         // -----------------------------------------
 //        
-        List<StockerZoneRlt> stockerZoneRlt = stockerZoneRltMapper.selectStockerInfoList(reqEntity);
+        List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
         
-        if (stockerZoneRlt == null ) {
+        if (host == null ) {
         	return retRecList;
         }
 	 	
         int rowNum = 1;
-	 	for (StockerZoneRlt stockerZoneRltRec : stockerZoneRlt) {
-	 		StockerInfoListEntity retRec = new StockerInfoListEntity();
+	 	for (Host hostRec : host) {
+	 		HostCommInfoListEntity retRec = new HostCommInfoListEntity();
 
 	 		retRec.rum = rowNum;
-	 		retRec.tscId = stockerZoneRltRec.getTscId();
-	 		retRec.zoneId = stockerZoneRltRec.getZoneId();
-	 		retRec.lOccupancy = stockerZoneRltRec.getlOccupancy();
-	 		retRec.occupancy = stockerZoneRltRec.getOccupancy();
-	 		retRec.usedCell = stockerZoneRltRec.getUsedCell();
-	 		retRec.totalShelves = stockerZoneRltRec.getTotalShelves();
-	 		retRec.lowWaterMark = stockerZoneRltRec.getLowWaterMark();
-	 		retRec.highWaterMark = stockerZoneRltRec.getHighWaterMark();
-	 		retRec.tscAbbreviation = stockerZoneRltRec.getTscAbbreviation();
+	 		retRec.hostIP = hostRec.getHostIp();
+	 		retRec.hostName = hostRec.getHostName();
+	 		retRec.commState = hostRec.getCommState();
+	 		retRec.passageTime = hostRec.getPassageTime();
+	 		
 	 		rowNum++;
 	 		
         	retRecList.add(retRec);
@@ -134,6 +132,7 @@ public class StockerInfoService extends BaseService {
 
 		return retRecList;
     }
+    
     //@formatter:off
     /**
      ******************************************************************************
@@ -147,36 +146,71 @@ public class StockerInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311   getStockerInfoIdBox										董 天津村研
+     * 20200318   getStockerInfoIdBox										董 天津村研
      ******************************************************************************
      */
     //@formatter:on
-    // STD APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000 
     @Transactional(readOnly = true)
-    public List<String[]> getStockerInfoIdBox() {
+    public List<String[]> getHostNameBox() {
     	
-    	// STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-    	StockerExample stockerExample = new StockerExample();
-    	stockerExample.createCriteria().andTscIdEqualTo(0);
-    	stockerExample.setOrderByClause("TSC_ABBREVIATION ASC");
-    	
-//        List<Stocker> stockerInfoIdList = stockerMapper.selectStockerIdList();
-    	List<Stocker> stockerInfoIdList = stockerMapper.selectStockerIdList(stockerExample);
-    	// END APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    	List<Host> hostNameList = hostMapper.selectHostNameList();
 
         List<String[]> selBoxList = new ArrayList<String[]>();
 
-        for (Stocker stocker : stockerInfoIdList) {
+        for (Host hostName : hostNameList) {
             String[] data = new String[2];
-            data[0] = String.valueOf(stocker.getTscId());
-            data[1] = stocker.getTscAbbreviation();
+            data[0] = hostName.getHostName();
+            data[1] = hostName.getHostName();
             
             selBoxList.add(data);
         }
 
         return selBoxList;
     }
-  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getStockerInfoIdBox
+     *            （StockerZoneRltのTscIDセレクトボックスリスト取得機能)
+     * @param     reqEntity      画面項目情報
+     * @return    検索条件に該当するレコード
+     * @retval    List形式で返却
+     * @attention
+     * @note      コントローラIDリストを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200318   getStockerInfoIdBox										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<String[]> getCommStateBox() {
+    	
+        List<String[]> selBoxList = new ArrayList<String[]>();
+
+        for (int i = 0;i<4; i++) {
+        	
+            String[] data1 = new String[2];
+            data1[0] = "Selected";
+            data1[1] = "Selected";
+            
+            String[] data2 = new String[2];
+            data2[0] = "Selected/NotCommuncating";
+            data2[1] = "Selected/NotCommuncating";
+            
+            String[] data3 = new String[2];
+            data3[0] = "Selected/Communicating";
+            data3[1] = "Selected/Communicating";
+            
+            selBoxList.add(data1);
+            selBoxList.add(data2);
+            selBoxList.add(data2);
+        }
+
+        return selBoxList;
+    }
   //@formatter:off
     /**
      ******************************************************************************
@@ -194,33 +228,19 @@ public class StockerInfoService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public int getStockerInfoCount(ReqGetStockerInfoEntity record) {
+    public int getHostommInfoCount(ReqGetHostCommInfoEntity record) {
 
         int ret = 0;
-        String tscId = record.tscId;
-        if (tscId != null && !"".equals(tscId)) {
-            ret = (int) stockerZoneRltMapper.getCount(record);
+        String hostName = record.hostName;
+        String commState = record.commState;
+        if (hostName != null && !"".equals(hostName)) {
+            ret = (int) hostMapper.getCount(record);
         }
-        else if(tscId==null ||"".equals(tscId)){
-        	ret = (int) stockerZoneRltMapper.getCount(record);
+        else if(commState==null ||"".equals(commState)){
+        	ret = (int) hostMapper.getCount(record);
         }
         return ret;
     }
-/*    public int getStockerInfoCount(String tscId) {
-    	
-    	int ret = 0;
-    	
-    	if (tscId != null && !"".equals(tscId)) {
-    		StockerZoneRltExample stockerZoneRltExample = new StockerZoneRltExample();
-    		stockerZoneRltExample.createCriteria().andTscIdEqualTo(Integer.valueOf(tscId));
-    		ret = (int) stockerZoneRltMapper.countByExample(stockerZoneRltExample);
-    	}
-    	else if(tscId==null ||"".equals(tscId)){
-    		StockerZoneRltExample stockerZoneRltExample = new StockerZoneRltExample();
-    		ret = (int) stockerZoneRltMapper.countByExample(stockerZoneRltExample);
-    	}
-    	return ret;
-    }
-*/  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
+  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
 
 }
