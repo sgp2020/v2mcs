@@ -1,0 +1,96 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-HostCommInfo.css
+ * @brief       HostCommInformation用CSS
+ * @par
+ * @author      天津村研　董
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津村研　董
+ ******************************************************************************
+ */
+/* ヘッダー部のセレクトボックス */
+#mcs-right-menu{
+    width: 275px;
+}
+
+div#sel-ctrl {
+    display: flex;
+}
+
+div#sel-ctrl>div {
+    display: flex;
+}
+
+td.mcs-td-selectbox {
+    padding-left: 10px;
+}
+
+/* 保存スライド */
+div.mcs-saveMenu {
+    width: 350px;
+}
+ /* 色表示部 */
+.remarks-content-color {
+    position: relative;
+    padding-top: 10px;
+    padding-left: 15px;
+    margin: 0 auto;
+    float: left;
+}
+
+/* 各色 */
+.remarks-content-color>div {
+    width: 34px;
+    height: 34px;
+    margin-top: 0.55em;
+    margin-bottom: 0.5em;
+}
+
+.remarks-content {
+    position: relative;
+    padding-top: 74px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 120px;
+    float: left;
+}
+div#list-table-target {
+    width: 100%;
+    height: 100%;
+    padding-left: 15px;
+    float:left;
+}
+div#ColorDiv {
+    width: 	100%;
+    height: 100%;
+    padding-top: 15px;
+    padding-left: 15px;
+    float:left;
+}
+.mcs-content-CommState {
+    position: relative;
+    padding-top: 15px;
+    padding-left: 0px;
+    padding-bottom: 15px;
+    width: 200px;
+    High: 15px;
+    float: left;
+}
+.mcs-content-CommError {
+    position: relative;
+    padding-top: 63px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    width: 120px;
+    float: left;
+}
