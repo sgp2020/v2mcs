@@ -45,6 +45,6 @@ import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 @Setter
 public class ReqGetHostCommInfoEntity extends AjaxDataTablesReqBaseEntity {
 
-    @FieldNameKey(key = "II-009-04-001") public String hostName = null;
-    @FieldNameKey(key = "II-009-04-002") public String commState = null;
+    @FieldNameKey(key = "II-009-04-001") public String hostName ;
+    @FieldNameKey(key = "II-009-04-002") public String commState;
 }

@@ -61,12 +61,26 @@ $(function() {
     slideDiv: $('#mcs-slideMenu-search')
   });
   
+  // テーブル
+  //20200318 DQY MOD
+  var dataTables = new McsDataTablesBgColorRowClick($('#list-table-target'), true);
+ 
+  //戻るボタン押下時にスライドを閉じないようにするためのフラグ
+  var retFlag = false;
+  //初期表示処理
+  // ---------------------------------------
+  
+  //右スライドメニュー生成メソッド
   creTopMenu();
-//初回検索
+  
+  //初回検索
   extract({
 	  hostName: '',
 	  commState: ''
   });
+  
+  //検索ボタンを設定する
+  createSearchSlide();
   /**
    ******************************************************************************
    * @brief   抽出して画面へ表示する
@@ -81,40 +95,41 @@ $(function() {
    ******************************************************************************
    */
   function extract(cond) {
-    //searchComp.clearErrors();
-    
-    dataTables.getDataAjax({
-      url: getUrl('/HostCommInfo/GetHostCommInfoList'),
-      cond: cond,
-      searchDataFlag: true,
-      tableCompId: 'I-009-dataTables', // テーブルコンポーネントID
-      success: function(data) {
-    	// 成功時
-      },
-      serverError: function(data) {
-        // 特にすることなし
-        searchComp.setErrors(data.result.errorInfoList);
-      },
-      ajaxError: function(status, error) {
-        // 特にすることなし
-      }
-    });
-    
+	  //searchComp.clearErrors();
+	  
+	  dataTables.getDataAjax({
+		  url: getUrl('/HostCommInfo/GetHostCommInfoList'),
+		  cond: cond,
+		  searchDataFlag: true,
+		  tableCompId: 'I-009-dataTables', // テーブルコンポーネントID
+		  success: function(data) {
+			  // 成功時
+			  // 特にすることなし
+			  if (retFlag) {
+				  // 戻るボタンが押されたときは閉じない
+				  // 戻るボタン用フラグを下す
+				  retFlag = false;
+				  return;
+			  }
+		  },
+		  serverError: function(data) {
+			  // 特にすることなし
+			  //searchComp.setErrors(data.result.errorInfoList);
+		  },
+		  ajaxError: function(status, error) {
+			  // 特にすることなし
+		  }
+	  });
   }
-  // テーブル
-  //20200318 DQY MOD
-  var dataTables = new McsDataTablesBgColorRowClick($('#list-table-target'), true);
 
-  // 初期表示処理
-  // ---------------------------------------
-  showListScreen(false);
+  //showListScreen(false);
   // 一覧画面のデータ取得、表示
   // 自動更新有効化
-  AutoReloadTimerManager.addTimeoutCallback(function() {
-    	showListScreen(false);
+  /*AutoReloadTimerManager.addTimeoutCallback(function() {
+    	//showListScreen(false);
     	AutoReloadTimerManager.start();
   });
-  AutoReloadTimerManager.start();
+  AutoReloadTimerManager.start();*/
 
   /**
    ******************************************************************************
@@ -150,9 +165,9 @@ $(function() {
  // 検索ボタン押下
     searchBtn.onClick(function() {
       // 画面の内容を消去
-      searchComp.get('currentTscId').clear();
-      searchComp.get('carrierId').clear();
-      searchComp.clearErrors();
+//      searchComp.get('hostName').clear();
+//      searchComp.get('commState').clear();
+//      searchComp.clearErrors();
 
       /*// 前回の条件を復元
       var datas = dataTables.getLatestCond();
@@ -188,21 +203,24 @@ $(function() {
    ******************************************************************************
    */
   function createSearchSlide() {
+	  
+	searchComp.clearErrors();
     // 検索項目の生成
-
-    var hostNameBox  = new McsSelectBox($('#mcs-search-hostName'));
-    var commStateBox = new McsSelectBox($('#mcs-search-commState'));
+    var hostName  = new McsSelectBox($('#mcs-search-hostName'));
+    var commState = new McsSelectBox($('#mcs-search-commState'));
+    var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
+    var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
+    var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
+    
     var hostNameList = screenValue.hostName;
     var commStateList= screenValue.commState;
     
-    hostNameBox.setList(hostNameList);
-    commStateBox.setList(commStateList);
-    
-    var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
-    var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
     // コンポーネントマネージャーに各検索項目を入れる
-    searchComp.add('hostName', hostNameBox);
-    searchComp.add('commState', commStateBox);
+    searchComp.add('hostName', hostName);
+    searchComp.add('commState', commState);
+    
+    hostName.setList(hostNameList);
+    commState.setList(commStateList);
 
     // 抽出ボタン押下
     extract.onClick(function() {
@@ -211,8 +229,8 @@ $(function() {
       // 検索処理
       var url = getUrl('/HostCommInfo/GetHostCommInfoList');
       var cond = {
-    	hostName: hostNameBox.getValue(),
-    	commState: commStateBox.getValue(),
+    		  hostName: hostName.getValue(),
+    		  commState: commState.getValue()
       };
       var tableCompId = 'I-009-dataTables';
       var options = {
@@ -223,12 +241,15 @@ $(function() {
         success: function() {
           // 検索成功時
           if (retFlag) {
+//        	  hostName.clear();
+//        	  commState.clear();
+        	
             // 戻るボタン押下時
             // 戻るボタン用フラグを下す
             retFlag = false;
             return;
           }
-          firstSearchFlag = false;
+          //firstSearchFlag = false;
         },
         serverError: function(result) {
           // 検索失敗時
@@ -241,7 +262,12 @@ $(function() {
       };
       dataTables.getDataAjax(options);
     });
-
+ // クリアボタン押下
+    clear.onClick(function() {
+      // 各項目を初期化する
+    	hostName.clear();
+    	commState.clear();
+    });
     // 戻るボタン押下
     ret.onClick(function() {
       slideMenuSearch.hide();

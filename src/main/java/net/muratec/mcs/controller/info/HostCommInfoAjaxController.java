@@ -50,11 +50,9 @@ import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseAjaxController;
 
-import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
-import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
-import net.muratec.mcs.entity.info.ReqGetStockerInfoListValidateEntity;
+import net.muratec.mcs.entity.info.ReqGetHostCommListValidateEntity;
 import net.muratec.mcs.entity.info.ResGetHostCommInfoListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
@@ -62,7 +60,6 @@ import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
 import net.muratec.mcs.service.info.HostCommInfoService;
-import net.muratec.mcs.service.info.StockerInfoService;
 
 //@formatter:off
 /**
@@ -126,7 +123,7 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
     @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMMINFO, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetHostCommInfoListEntity getStockerInfoList(HttpSession session,
-            @Valid @RequestBody ReqGetStockerInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+            @Valid @RequestBody ReqGetHostCommListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMMINFO.getRefAuthFuncId());

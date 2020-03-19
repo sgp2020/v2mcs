@@ -36,7 +36,7 @@
 
 <%-- 画面固有ヘッダ --%>
 <title><spring:message code="II-009-01-001" /></title>
-<link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-StockerInfo.css?Ver=${version}'/>" media="all">
+<link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-HostCommInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-HostCommInfo.js?Ver=${version}'/>"></script>
 <!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor-RowClick.js?Ver=${version}'/>"></script>
@@ -53,7 +53,11 @@
     },
     slideSearch: {
         hostName: '<spring:message code="II-009-04-001" />',
-        commState: '<spring:message code="II-009-04-002" />'
+        commState: '<spring:message code="II-009-04-002" />',
+        extract:   '<spring:message code="II-009-04-003" />',
+        clear:     '<spring:message code="II-009-04-004" />',
+        ret: 	   '<spring:message code="II-009-04-005" />'
+        
     },
     ctrlText: {
         CommError:    'CommError'
@@ -87,7 +91,7 @@
     <div id="mcs-confirm-dialog"></div>
     <div id="mcs-information-dialog"></div>
 
-    <!-- 空FOUP一覧画面ヘッダー -->
+    <!-- 一覧画面ヘッダー -->
     <div id="mcs-subheader-menu">
         <table>
             <tr>
@@ -109,23 +113,17 @@
             <div id="list-table-target"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
-			         	 <div id="mcs-content-Occupancy">
+			         	 <div id="mcs-content-CommState">
 			         	 	<spring:message code="II-009-03-001" />
 			         	 </div>	
 			             <div id="color1"></div>
 			         </div>
-			         <!-- 
-			         <div id="ctrlColumn1" class="remarks-content" >  
-			             <div id="ctrl1" style="background:#000; color:#FFF"></div>
-			             <div id="ctrl2" style="background:#000; color:#FFF"></div>
-		             	 <div id="ctrl3" style="background:#000; color:#FFF"></div>
-		             -->
 			         <div id="ctrlColumn" >  
-		             	  <div class="mcs-content-OccupancyN">
+		             	  <div class="mcs-content-CommError">
 			         	 	<spring:message code="II-009-03-002" />
 			         	 </div>	
 			         </div>
-        		</div>
+        	 </div>
         </div>
         <!-- 一覧画面 end -->
     </div>
@@ -139,6 +137,7 @@
         
         <!-- ボタン類 -->
         <div id="mcs-search-extract" class="btn-mcs-slide btn-mcs-slide-extact"></div>
+        <div id="mcs-search-clear" class="btn-mcs-slide btn-mcs-slide-clear"></div>
         <div id="mcs-search-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
 
@@ -146,9 +145,9 @@
     <nav id="mcs-right-menu">
         <!-- 一覧 -->
         <div id="list-btn-reload" class="btn-mcs-slide" data-auth="${I009_REF}"></div>
-        <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
         <div id="list-btn-search" class="btn-mcs-slide" data-auth="${I009_REF}"></div>
         <div id="list-btn-color"  class="btn-mcs-slide" data-auth="${I009_REF}"></div>
+        <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
 
 

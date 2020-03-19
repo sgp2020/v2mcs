@@ -118,11 +118,9 @@ public class HostCommInfoController extends BaseController {
         List<String[]> hostNameBoxList = hostCommInfoService.getHostNameBox();
         List<String[]> commStateBoxList = hostCommInfoService.getCommStateBox();
        
-	   // STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
        //tscIdBoxはAllを初期化表示する
         hostNameBoxList.add(0, allTerms);
-       // END APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-
+        commStateBoxList.add(0, allTerms);
 
         // セレクトボックス要素をJSON化
        String hostNameJson = super.objectToJson(hostNameBoxList);
