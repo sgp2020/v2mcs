@@ -20,6 +20,8 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -52,6 +54,7 @@ import net.muratec.mcs.entity.info.ResGetOhbInfoListEntity;
 import net.muratec.mcs.entity.info.ResGetOhbPortRltListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
+import net.muratec.mcs.model.OhbPortRltModel;
 import net.muratec.mcs.service.common.McsDataTablesService;
 //import net.muratec.mcs.service.common.OpeLogService;
 import net.muratec.mcs.service.info.OhbInfoService;
@@ -206,9 +209,65 @@ public class OhbInfoAjaxController extends BaseAjaxController {
         // ポートリスト取得
         // ------------------------------------
         resEntity.ohbPortRltList = ohbInfoService.getOhbPortRltList(reqEntity.ohbId);
+        
+        //データに応じたセルの背景色の設定を行います。
+        List<String> rowColorList = new ArrayList<String>();
+        List<OhbPortRltModel> ohbPortRltList = resEntity.ohbPortRltList;
+        for (OhbPortRltModel ohbPortRltModel : ohbPortRltList) {
+        	rowColorList.add(getRowColorList(ohbPortRltModel));
+		}
+        resEntity.rowColor = rowColorList;
+        /*
+        List<String> rowColor = new ArrayList<String>();
+        rowColor.add("#00FF00");
+        rowColor.add("#808080");
+        rowColor.add("#6E78FF");
+        resEntity.rowColor = rowColor;*/
 
         return resEntity;
     }
+    
+    /*
+	  MODE や COMM_STATE に合わせて色を返す
+	   ルールとして、MODEが一番強いが
+	  MODEがUPの場合のみ、COMM_STATEが強くなる
+	  セル描画用の拡張レンダラクラス。
+	   データに応じたセルの背景色の設定を行います。
+	*/
+	public String getRowColorList( OhbPortRltModel ohbPortRltModel )
+	{
+		String color;
+		
+		if( "Up".equals( ohbPortRltModel.portMode ) &&
+			"Available".equals( ohbPortRltModel.available ) &&
+			"Avail".equals( ohbPortRltModel.ibsemAvail ) )
+		{
+			color = "#00FF00";
+		}
+		else if( "Down".equals( ohbPortRltModel.portMode ) )
+		{
+			color = "#808080";
+		}
+		else if( "Test".equals( ohbPortRltModel.portMode ) )
+		{
+			color = "#6E78FF";
+		}
+		else if( "PM".equals( ohbPortRltModel.portMode ) )
+		{
+			color = "#FF8C00";
+		}
+		else if( "Hold".equals( ohbPortRltModel.portMode ) )
+		{
+			color = "#FA320A";
+		}
+		else
+		{
+			color = "#FF0000";
+		}
+
+		return color;
+	}
+	
 
    
 }

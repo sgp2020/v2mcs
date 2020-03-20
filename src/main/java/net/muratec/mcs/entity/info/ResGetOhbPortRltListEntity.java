@@ -46,4 +46,5 @@ import net.muratec.mcs.model.OhbPortRltModel;
 public class ResGetOhbPortRltListEntity extends AjaxResBaseEntity {
 
     public List<OhbPortRltModel> ohbPortRltList = new ArrayList<OhbPortRltModel>();
+    public List<String> rowColor = new ArrayList<String>();
 }
