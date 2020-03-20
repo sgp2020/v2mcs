@@ -687,6 +687,7 @@ McsDataTablesBgColor.prototype = {
         var color = options.rowColors[dataIndex];
         if (color) {
           //$(row).css('color', color);   //20200318 Del Song
+        	tr.css('color', '#000000');  //20200320  Add Song
         	$(row).css('background-color', color);  //20200318 Add Song
         }
       };

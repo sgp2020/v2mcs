@@ -158,7 +158,15 @@ public class OhbInfoService extends BaseService {
     public List<OhbPortRltModel> getOhbPortRltList(String ohbId) {
 
     	List<OhbPortRltModel> ohbPortRltList = ohbPortRltMapper.selectListByOhbId(ohbId);
-        
+    	for (OhbPortRltModel ohbPortRltModel : ohbPortRltList) {
+    		String storedTime = ohbPortRltModel.getStoredTime();
+    		if(storedTime != null && !"".equals(storedTime)) {
+        		String storedTime1 = storedTime.substring(0,4) + "/" + storedTime.substring(4,6) + "/" + storedTime.substring(6,8) + " " + storedTime.substring(8,10) + ":" + storedTime.substring(10,12) + ":" + storedTime.substring(12,14);
+        		ohbPortRltModel.setStoredTime(storedTime1);
+    		}
+    		
+		}
+       
         return ohbPortRltList;
     }
 }

@@ -385,7 +385,8 @@ McsTableBgColor.prototype = {
     }
     // 文字色設定
     if (color != null) {
-      //tr.css('color', color);  //20200320  Del Song
+        //tr.css('color', color);  //20200320  Del Song
+    	tr.css('color', '#000000');  //20200320  Add Song
     	tr.css('background-color', color);  //20200320  Add Song
     }
     // 生成した行をテーブルに追加
