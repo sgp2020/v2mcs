@@ -66,7 +66,8 @@ var screenText = {
 <title><spring:message code="II-003-01-001" /></title>
 <link rel="stylesheet" href="<c:url value="/resources/css/info/mcs-OhbInfo.css?Ver=${version}" />">
 <script src="<c:url value='/resources/js/info/mcs-OhbInfo.js?Ver=${version}'/>"></script>
-<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor-RowClick.js?Ver=${version}'/>"></script>
+<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
+<script src="<c:url value='/resources/js/component/mcs-Table-BgColor.js?Ver=${version}'/>"></script>
 
 <%-- デザイン適用ヘッダ --%>
 <%@ include file="../common/designHeader.jsp"%>

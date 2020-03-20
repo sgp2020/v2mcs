@@ -49,7 +49,7 @@ $(function() {
 
   // データテーブル
   //var dataTables = new McsDataTables($('#lst-table-target'), false);
-  var dataTables = new McsDataTablesBgColorRowClick($('#lst-table-target'), false);
+  var dataTables = new McsDataTablesBgColor($('#lst-table-target'), false);
   // 行選択時のイベントをセット
   dataTables.onSelectRow(function() {
     var record = dataTables.getSelectedRowData();
@@ -59,7 +59,8 @@ $(function() {
   });
   
  
-  var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
+  //var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
+  var ohbPortRltTable = new McsTableBgColor($('#state-text-target-ohbPortRlt'));
   ohbPortRltTable.setNotRowSelect(true);
   
   // 状態テーブルヘッダ(状態テーブル)
@@ -102,7 +103,7 @@ $(function() {
       var flag = false;
       var success = function(retObj) {
     	  ohbPortRltTable.clear();
-    	  ohbPortRltTable.addDataList(retObj.ohbPortRltList);
+    	  ohbPortRltTable.addDataList(retObj.ohbPortRltList,retObj.rowColor);
       };
       callAjax(url, JSON.stringify(cond), flag, success);
   }

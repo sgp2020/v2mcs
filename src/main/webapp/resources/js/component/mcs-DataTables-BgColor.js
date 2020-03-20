@@ -1,6 +1,6 @@
 ﻿/**
  ******************************************************************************
- * @file        mcs-DataTables-BgColor-RowClick.js
+ * @file        mcs-DataTables-BgColor.js
  * @brief       グリッド表示に関する部品
  * @par
  * @author      SGP
@@ -29,7 +29,7 @@
  * @note    グリッド表示を実現するコンポーネント 利用する場合、
  *           以下のような手順で使う。
  *             ・newする。第二引数にtrueを渡すと、複数行選択が可能になる。
- *             ・getDataAjaxに各オプションを指定して呼び出すと、McsDataTablesBgColorRowClickは
+ *             ・getDataAjaxに各オプションを指定して呼び出すと、McsDataTablesBgColorは
  *               サーバからデータを取得し、表を生成する。
  *           内部的には、以下の順でメソッドを呼び出して初期化している。
  *             ・_setHeaderでヘッダ、カラム情報を設定する
@@ -40,7 +40,7 @@
  * ----------------------------------------------------------------------------
  ******************************************************************************
  */
-var McsDataTablesBgColorRowClick = function(containerDiv, multiRowSelect, attr, prop) {
+var McsDataTablesBgColor = function(containerDiv, multiRowSelect, attr, prop) {
   this._init(containerDiv, multiRowSelect, attr, prop);
 };
 
@@ -50,37 +50,37 @@ var McsDataTablesBgColorRowClick = function(containerDiv, multiRowSelect, attr, 
  *
  * @type {Number}
  */
-McsDataTablesBgColorRowClick.count = 0;
+McsDataTablesBgColor.count = 0;
 /**
  * カラム表示状態：表示
  *
  * @type {Number}
  */
-McsDataTablesBgColorRowClick.COLDISP_VISIBLE = 1;
+McsDataTablesBgColor.COLDISP_VISIBLE = 1;
 /**
  * カラム表示状態：非表示
  *
  * @type {Number}
  */
-McsDataTablesBgColorRowClick.COLDISP_INVISIBLE = 0;
+McsDataTablesBgColor.COLDISP_INVISIBLE = 0;
 /**
  * カラム表示状態：隠しカラム
  *
  * @type {Number}
  */
-McsDataTablesBgColorRowClick.COLDISP_HIDDEN = 2;
+McsDataTablesBgColor.COLDISP_HIDDEN = 2;
 /**
  * カラムの文字列の最大文字数
  *
  * @type {Number}
  */
-McsDataTablesBgColorRowClick.COL_MAX_LENGTH = 100;
+McsDataTablesBgColor.COL_MAX_LENGTH = 100;
 
 
 
 
 // メソッド類
-McsDataTablesBgColorRowClick.prototype = {
+McsDataTablesBgColor.prototype = {
 
   /**
    ******************************************************************************
@@ -192,7 +192,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   テーブルの解放
    * @param
-   * @return  {McsDataTablesBgColorRowClick} このコンポーネント自身
+   * @return  {McsDataTablesBgColor} このコンポーネント自身
    * @retval
    * @attention このメソッドを実行した後、すべてのメソッドは利用できなくなります。
    * @note
@@ -228,7 +228,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   ヘッダ、データすべて解放
    * @param
-   * @return  {McsDataTablesBgColorRowClick} このコンポーネント自身
+   * @return  {McsDataTablesBgColor} このコンポーネント自身
    * @retval
    * @attention
    * @note    このメソッドを実行した後、再度
@@ -253,7 +253,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   テーブルヘッダー設定
    * @param   {Array} headerList           ヘッダーIDと表示名のリスト
-   * @return  {McsDataTablesBgColorRowClick} このコンポーネント自身
+   * @return  {McsDataTablesBgColor} このコンポーネント自身
    * @retval
    * @attention
    * @note    引数headerListの設定内容
@@ -316,11 +316,11 @@ McsDataTablesBgColorRowClick.prototype = {
       });
 
       // 非表示にするカラムの番号リストを生成しておく
-      if (colDisplay != McsDataTablesBgColorRowClick.COLDISP_VISIBLE)
+      if (colDisplay != McsDataTablesBgColor.COLDISP_VISIBLE)
         this.invisibleColNumList.push(i);
 
       // 隠しカラムはクラスを設定しておく
-      if (colDisplay == McsDataTablesBgColorRowClick.COLDISP_HIDDEN)
+      if (colDisplay == McsDataTablesBgColor.COLDISP_HIDDEN)
         th.addClass('mcs-datatables-column-hidden');
 
       // 主キーのカラムIDをリストにしておく
@@ -359,7 +359,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   テーブルのデータをまとめて追加する
    * @param   {Array} data    データの配列
-   * @return  {McsDataTablesBgColorRowClick} このコンポーネント自身
+   * @return  {McsDataTablesBgColor} このコンポーネント自身
    * @retval
    * @attention
    * @note
@@ -404,7 +404,7 @@ McsDataTablesBgColorRowClick.prototype = {
             val = String(val);
           }
           // _getAutoReturnStrはHTMLサニタイジング処理も含む
-          data[i][colId] = this._getAutoReturnStr(val, McsDataTablesBgColorRowClick.COL_MAX_LENGTH);
+          data[i][colId] = this._getAutoReturnStr(val, McsDataTablesBgColor.COL_MAX_LENGTH);
         }
       }
     }
@@ -533,15 +533,15 @@ McsDataTablesBgColorRowClick.prototype = {
    */
   _toDataTables: function(options) {
     var self = this;
-    McsDataTablesBgColorRowClick.count++;
+    McsDataTablesBgColor.count++;
 
     // このテーブル全体のクラス名。
-    // 画面内でユニークにするため、McsDataTablesBgColorRowClick.countの数値を付与する。
-    this.mainClassName = 'mcs-datatables-wrapper-count-' + McsDataTablesBgColorRowClick.count;
+    // 画面内でユニークにするため、McsDataTablesBgColor.countの数値を付与する。
+    this.mainClassName = 'mcs-datatables-wrapper-count-' + McsDataTablesBgColor.count;
 
     // 表示切替ボタンのクラス名。
-    // 画面内でユニークにするため、McsDataTablesBgColorRowClick.countの数値を付与する。
-    this.colvisButtonClassName = 'mcs-datatable-colvis-count-' + McsDataTablesBgColorRowClick.count;
+    // 画面内でユニークにするため、McsDataTablesBgColor.countの数値を付与する。
+    this.colvisButtonClassName = 'mcs-datatable-colvis-count-' + McsDataTablesBgColor.count;
 
     // domオプションの生成
     // mcs-datatables-pagebuttons-wrapperはページボタンの追加先
@@ -686,8 +686,8 @@ McsDataTablesBgColorRowClick.prototype = {
         // MEMO dataIndexは渡したデータ上のインデックス
         var color = options.rowColors[dataIndex];
         if (color) {
-          //$(row).css('color', color);
-        	$(row).css('background-color', color);
+          //$(row).css('color', color);   //20200318 Del Song
+        	$(row).css('background-color', color);  //20200318 Add Song
         }
       };
     }
@@ -1009,7 +1009,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   スクロール部分の高さを再設定
    * @param
-   * @return  {McsDataTablesBgColorRowClick} このコンポーネント自身
+   * @return  {McsDataTablesBgColor} このコンポーネント自身
    * @retval
    * @attention
    * @note
@@ -1134,7 +1134,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   Ajaxでデータを取得して、テーブルを生成する。
    * @param   {Object} options  オプション類
-   * @return  {McsDataTablesBgColorRowClick}   このコンポーネント自身
+   * @return  {McsDataTablesBgColor}   このコンポーネント自身
    * @retval
    * @attention
    * @note    引数optionsに以下の通り値を設定する。
@@ -1215,8 +1215,8 @@ McsDataTablesBgColorRowClick.prototype = {
         self.modalLoading.hide();
         // データベースの設定に誤りが無ければここのコードに到達することはないので
         // eslintでエラー（Unexpected alert）と判定されるが、無視する。
-        alert('サーバからの取得値をMcsDataTablesBgColorRowClickに設定できませんでした。フォーマットを見直してください。');
-        options.ajaxError('サーバからの取得値をMcsDataTablesBgColorRowClickに設定できませんでした。フォーマットを見直してください。', '200');
+        alert('サーバからの取得値をMcsDataTablesBgColorに設定できませんでした。フォーマットを見直してください。');
+        options.ajaxError('サーバからの取得値をMcsDataTablesBgColorに設定できませんでした。フォーマットを見直してください。', '200');
       }
     };
     var onError = function(data) {
@@ -1654,12 +1654,12 @@ McsDataTablesBgColorRowClick.prototype = {
       // もともとのカラム表示状態（表示 or 非表示 or 隠しカラム）
       var originalColDisplay = self._getOriginalColDisplay(col);
       // 二つの状態を考慮して、現在のDisplayListを生成
-      if (originalColDisplay == McsDataTablesBgColorRowClick.COLDISP_HIDDEN) {
+      if (originalColDisplay == McsDataTablesBgColor.COLDISP_HIDDEN) {
         // 隠しカラムの場合は、引き続き隠しカラム
-        displayMap[colId] = McsDataTablesBgColorRowClick.COLDISP_HIDDEN;
+        displayMap[colId] = McsDataTablesBgColor.COLDISP_HIDDEN;
       } else {
         // 隠しカラム以外は、現状の表示・非表示を設定
-        displayMap[colId] = visible ? McsDataTablesBgColorRowClick.COLDISP_VISIBLE : McsDataTablesBgColorRowClick.COLDISP_INVISIBLE;
+        displayMap[colId] = visible ? McsDataTablesBgColor.COLDISP_VISIBLE : McsDataTablesBgColor.COLDISP_INVISIBLE;
       }
     });
     return displayMap;
@@ -1755,7 +1755,7 @@ McsDataTablesBgColorRowClick.prototype = {
     for (var i = 0; i < headerList.length; i++) {
       var colId = headerList[i].columnId;
       var disp = colDisplay[colId];
-      if (disp != McsDataTablesBgColorRowClick.COLDISP_VISIBLE)
+      if (disp != McsDataTablesBgColor.COLDISP_VISIBLE)
         hiddenList.push(i);
     }
     return hiddenList;
@@ -1854,7 +1854,7 @@ McsDataTablesBgColorRowClick.prototype = {
    * @param   {Number}   scrollTop  スクロール位置
    * @param   {Boolean}  animation  trueなら滑らかに移動する。デフォルトはfalse。
    * @param   {Function} onComplete アニメーション完了時のコールバック
-   * @return  {McsDataTablesBgColorRowClick}       このコンポーネント
+   * @return  {McsDataTablesBgColor}       このコンポーネント
    * @retval
    * @attention
    * @note
@@ -1881,7 +1881,7 @@ McsDataTablesBgColorRowClick.prototype = {
    * @param   {Number}   scrollLeft スクロール位置
    * @param   {Boolean}  animation  trueなら滑らかに移動する。デフォルトはfalse。
    * @param   {Function} onComplete アニメーション完了時のコールバック
-   * @return  {McsDataTablesBgColorRowClick}       このコンポーネント
+   * @return  {McsDataTablesBgColor}       このコンポーネント
    * @retval
    * @attention
    * @note
@@ -1960,7 +1960,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   再読み込みする。
    * @param
-   * @return  {McsDataTablesBgColorRowClick|Boolean} 再描画実行時：このコンポーネント、再描画未実行時：false
+   * @return  {McsDataTablesBgColor|Boolean} 再描画実行時：このコンポーネント、再描画未実行時：false
    * @retval
    * @attention
    * @note    内部処理としては、 サーバへ現在表示しているデータを取得した時と
@@ -2072,7 +2072,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   自動更新の有効無効を設定
    * @param   {Boolean} enabled  有効ならtrue、無効ならfalse
-   * @return  {McsDataTablesBgColorRowClick}    このコンポーネント自身
+   * @return  {McsDataTablesBgColor}    このコンポーネント自身
    * @retval
    * @attention
    * @note
@@ -2304,7 +2304,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   行選択時のコールバックを設定する。
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2322,7 +2322,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   行選択解除時のコールバックを設定する。
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2340,7 +2340,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   表示切替が開かれた時のイベントコールバックを設定する。
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2358,7 +2358,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   表示切替が閉じられた時のイベントコールバックを設定する。
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2376,7 +2376,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   カラム表示非表示が変更されたときのイベントコールバックを設定
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2394,7 +2394,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   カラム順序入れ替え開始時のイベントコールバックを設定
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2412,7 +2412,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   カラム順序が変更されたときのイベントコールバックを設定
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2430,7 +2430,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   ページ番号切り替え時のコールバックを設定する
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2448,7 +2448,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   自動リロード時のコールバックを設定する
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2466,7 +2466,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   リサイズ前イベントコールバックを設定する
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2484,7 +2484,7 @@ McsDataTablesBgColorRowClick.prototype = {
    ******************************************************************************
    * @brief   リサイズ後イベントコールバックを設定する
    * @param   {Function} callback コールバック
-   * @return  {McsDataTablesBgColorRowClick}     このコンポーネント
+   * @return  {McsDataTablesBgColor}     このコンポーネント
    * @retval
    * @attention
    * @note
@@ -2846,7 +2846,7 @@ McsDataTablesPageButton.prototype = {
    ******************************************************************************
    * @brief     ページが変わった時のイベントコールバックを設定。
    * @param     {Function} callback  コールバック
-   * @return    {McsDataTablesBgColorRowClick}      このコンポーネント
+   * @return    {McsDataTablesBgColor}      このコンポーネント
    * @retval
    * @attention
    * @note
