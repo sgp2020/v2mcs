@@ -403,7 +403,7 @@
         host_name = #{hostName}
       </if>
       <if test="commState != null and commState !='' ">
-        comm_state = #{commState}
+        and comm_state = #{commState}
       </if>
     </where>
   </sql>

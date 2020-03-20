@@ -1,10 +1,10 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        ReqEmptyCarrierEntity.java
- * @brief       空FOUP管理関連のエンティティ
- * * @par
- * @author      CSC
+ * @file        ReqGetStockerInfoListValidateEntity.java
+ * @brief       Stocker IDリスト取得用リクエストエンティティ
+ * @par
+ * @author      DONG
  * $Id:         $
  * @attention
  *
@@ -14,8 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2019/02/19 MACS4#0099  iFoup設定画面変更                           T.Iga/CSC
+ * 2020.03.10   Ver2.0	  MCSV4　GUI開発   							董 天津村研
  ******************************************************************************
  */
 //@formatter:on
@@ -30,21 +29,21 @@ import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief    空FOUP管理関連のエンティティクラス
+ * @brief    HOST_NAME,COMM_STATE リスト取得用リクエストエンティティクラス
  * @par
  * @attention
  * @note
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * MACS4#0099  iFoup設定画面変更                                      T.Iga/CSC
+ * 2020.03.12 	ReqGetHostCommListValidateEntity 					董 天津村研
  ******************************************************************************
  */
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetHostCommInfoEntity extends AjaxDataTablesReqBaseEntity {
+public class ReqGetHostCommListValidateEntity extends AjaxDataTablesReqBaseEntity {
 
-    @FieldNameKey(key = "II-009-04-001") public String hostName ;
+	@FieldNameKey(key = "II-009-04-001") public String hostName ;
     @FieldNameKey(key = "II-009-04-002") public String commState;
 }

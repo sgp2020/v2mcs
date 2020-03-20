@@ -38,6 +38,8 @@ import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.StockerMapper;
 import net.muratec.mcs.mapper.StockerZoneRltMapper;
 import net.muratec.mcs.model.Host;
+import net.muratec.mcs.model.ScreenMonitorMember;
+import net.muratec.mcs.model.ScreenMonitorMemberExample;
 import net.muratec.mcs.model.Stocker;
 import net.muratec.mcs.model.StockerExample;
 import net.muratec.mcs.model.StockerZoneRlt;
@@ -241,6 +243,5 @@ public class HostCommInfoService extends BaseService {
         }
         return ret;
     }
-  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
 
 }
