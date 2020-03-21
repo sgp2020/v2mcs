@@ -39,7 +39,8 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-HostCommInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-HostCommInfo.js?Ver=${version}'/>"></script>
 <!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
-<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor-RowClick.js?Ver=${version}'/>"></script>
+<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
+<!-- <script src="<c:url value='/resources/js/component/mcs-DataTables.js?Ver=${version}'/>"></script> -->
 
 <script>
   var screenText = {
@@ -59,9 +60,6 @@
         ret: 	   '<spring:message code="II-009-04-005" />'
         
     },
-    ctrlText: {
-        CommError:    'CommError'
-    },
     colorText: {	
     	CommError:    '#08336B'
     }
@@ -70,6 +68,7 @@
   var screenValue = {
 		  hostName: JSON.parse('${II_009_01_001}'),
 		  commState: JSON.parse('${II_009_01_002}')
+		  <%--,searchInfo: JSON.parse('${II_009_01_003}')--%>
   };
 </script>
 
@@ -96,8 +95,9 @@
         <table>
             <tr>
                 <td><spring:message code="II-009-01-003" /></td>
-                <!-- <td class="mcs-td-selectbox">
-                    <div id="sel-ctrl"></div>
+                <!-- <td><div id="searchInfo"></div></td> -->
+                <!-- <td class="mcs-td-search-information">
+                 	<div id="search-information"></div>
                 </td> -->
             </tr>
         </table>
@@ -110,7 +110,7 @@
                 <spring:message code="II-009-01-002" />
             </div>
             <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <div id="list-table-target"> </div>
+            <div id="list-table-target" style="color:#000000"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
 			         	 <div id="mcs-content-CommState">

@@ -38,7 +38,7 @@ import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseController;
-
+import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.SelectBoxService;
@@ -125,6 +125,9 @@ public class HostCommInfoController extends BaseController {
         // セレクトボックス要素をJSON化
        String hostNameJson = super.objectToJson(hostNameBoxList);
        String commStateJson = super.objectToJson(commStateBoxList);
+       
+//       String searchInfomation = hostCommInfoService.getSearchSelectData(reqEntity);
+       
        model.addAttribute("II_009_01_001", hostNameJson);
        model.addAttribute("II_009_01_002", commStateJson);
 

@@ -21,9 +21,21 @@ $(function() {
   focus();
   // コンポーネントマネージャ（検索用）
   var searchComp = new McsComponentManager();
+ /* var searchinformation = new McsTextBox($('#search-information'));
+  searchinformation.setReadonly(true);
   
+  if(screenValue.searchInfo != null || screenValue.searchInfo != "")
+	  {
+	  	searchinformation.setValue(screenValue.searchInfo);
+	  }
+*/
+ /* if(screenValue.searchInfo != null || screenValue.searchInfo != "")
+  {
+  	$('#searchInfo').text(screenValue.searchInfo);
+  }*/
   // ステータス色一覧
   $('#color1').css('background-color', screenText.colorText.CommError);
+  //$('#list-table-target').css('color', screenText.colorText.CommError);
 
   // 非アクティブ状態でも自動更新を行う
   AutoReloadTimerManager.setEnableBlurExecute();
@@ -63,7 +75,8 @@ $(function() {
   
   // テーブル
   //20200318 DQY MOD
-  var dataTables = new McsDataTablesBgColorRowClick($('#list-table-target'), true);
+  var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
+//  var dataTables = new McsDataTables($('#list-table-target'), true);
  
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
@@ -271,6 +284,9 @@ $(function() {
     // 戻るボタン押下
     ret.onClick(function() {
       slideMenuSearch.hide();
+      //20200320
+	  //hostName.clear();
+	  //commState.clear();
     });
 
     /**

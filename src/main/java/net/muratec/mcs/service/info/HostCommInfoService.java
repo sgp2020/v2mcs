@@ -36,14 +36,14 @@ import net.muratec.mcs.mapper.HostMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.StockerMapper;
-import net.muratec.mcs.mapper.StockerZoneRltMapper;
+import net.muratec.mcs.mapper.HostMapper;
 import net.muratec.mcs.model.Host;
 import net.muratec.mcs.model.ScreenMonitorMember;
 import net.muratec.mcs.model.ScreenMonitorMemberExample;
 import net.muratec.mcs.model.Stocker;
 import net.muratec.mcs.model.StockerExample;
-import net.muratec.mcs.model.StockerZoneRlt;
-import net.muratec.mcs.model.StockerZoneRltExample;
+import net.muratec.mcs.model.Host;
+import net.muratec.mcs.model.HostExample;
 import net.muratec.mcs.service.common.BaseService;
 import net.muratec.mcs.service.common.ExeForeignFileService;
 
@@ -52,7 +52,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  ******************************************************************************
  * @brief     個別モニタ(SCモニタ)関連のサービス
  * @par       機能:
- *              getStockerInfoIdBox（StockerZoneRltのTscIDセレクトボックスリスト取得）
+ *              getStockerInfoIdBox（HostのTscIDセレクトボックスリスト取得）
  *              getStockerInfoList（StokerInformation一覧取得（LIST））
  *              getStockerInfoCount（コントローラIDを指定し、合致するStockerレコード件数を取得する）
  * @attention
@@ -88,14 +88,14 @@ public class HostCommInfoService extends BaseService {
      ******************************************************************************
      * @brief     メイン画面用データ取得機能
      * @param     reqEntity      画面項目情報
-     * @return    stockerZoneRlt情報
+     * @return    Host情報
      * @retval    Entity形式で返却
      * @attention
      * @note
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311		stockerZoneRlt情報										董 天津村研
+     * 20200311		Host情報										董 天津村研
      ******************************************************************************
      */
     //@formatter:on
@@ -108,7 +108,7 @@ public class HostCommInfoService extends BaseService {
         List<HostCommInfoListEntity> retRecList = new ArrayList<HostCommInfoListEntity>();
 
         // -----------------------------------------
-        // stockerZoneRltデータ取得
+        // Hostデータ取得
         // -----------------------------------------
 //        
         List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
@@ -139,7 +139,7 @@ public class HostCommInfoService extends BaseService {
     /**
      ******************************************************************************
      * @brief     getStockerInfoIdBox
-     *            （StockerZoneRltのTscIDセレクトボックスリスト取得機能)
+     *            （HostのTscIDセレクトボックスリスト取得機能)
      * @param     reqEntity      画面項目情報
      * @return    検索条件に該当するレコード
      * @retval    List形式で返却
@@ -174,7 +174,7 @@ public class HostCommInfoService extends BaseService {
     /**
      ******************************************************************************
      * @brief     getStockerInfoIdBox
-     *            （StockerZoneRltのTscIDセレクトボックスリスト取得機能)
+     *            （HostのTscIDセレクトボックスリスト取得機能)
      * @param     reqEntity      画面項目情報
      * @return    検索条件に該当するレコード
      * @retval    List形式で返却
@@ -191,8 +191,6 @@ public class HostCommInfoService extends BaseService {
     public List<String[]> getCommStateBox() {
     	
         List<String[]> selBoxList = new ArrayList<String[]>();
-
-        for (int i = 0;i<4; i++) {
         	
             String[] data1 = new String[2];
             data1[0] = "Selected";
@@ -208,15 +206,14 @@ public class HostCommInfoService extends BaseService {
             
             selBoxList.add(data1);
             selBoxList.add(data2);
-            selBoxList.add(data2);
-        }
+            selBoxList.add(data3);
 
         return selBoxList;
     }
   //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStockerInfoCount（TSC_IDを指定し、合致する空FOUPレコード件数を取得する）機能
+     * @brief     getHostommInfoCount（ほＳＴ_IDを指定し、合致する空FOUPレコード件数を取得する）機能
      * @param     controllerId    検索条件
      * @return    検索条件に該当するレコード数
      * @retval    int形式で返却
@@ -233,15 +230,49 @@ public class HostCommInfoService extends BaseService {
     public int getHostommInfoCount(ReqGetHostCommInfoEntity record) {
 
         int ret = 0;
-        String hostName = record.hostName;
-        String commState = record.commState;
-        if (hostName != null && !"".equals(hostName)) {
-            ret = (int) hostMapper.getCount(record);
-        }
-        else if(commState==null ||"".equals(commState)){
-        	ret = (int) hostMapper.getCount(record);
-        }
+        ret = (int) hostMapper.getCount(record);
         return ret;
+    }
+    
+
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getSearchInfo（HOST_NAME,COMM_STATEを指定し、合致するHOSTレコード件数を取得する）機能
+     * @param     HOST_NAME,COMM_STATE    検索条件
+     * @return    検索条件に該当するレコード数
+     * @retval    String形式で返却
+     * @attention
+     * @note      HOST_NAME,COMM_STATEを指定し、合致する件数を取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200311   getSearchSelectData										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public String getSearchSelectData(ReqGetHostCommInfoEntity reqEntity) throws McsException {
+
+        // -----------------------------------------
+        // 返却データの生成
+        // -----------------------------------------
+        String ret = " " ;
+        
+        // -----------------------------------------
+        // 検索ボタン選択データ取得
+        // -----------------------------------------
+        String hostName = reqEntity.hostName;
+        String commState = reqEntity.commState;
+        
+        if (hostName != null && !"".equals(hostName)) {
+            ret = "Host Name " + "[" + hostName + "] ";
+        }
+        else if(commState!=null && !"".equals(commState)){
+        	ret = "Comm State " + "[" + commState + "]";
+        }
+
+		return ret;
     }
 
 }

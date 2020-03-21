@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-StockerInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-StockerInfo.js?Ver=${version}'/>"></script>
 <!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
-<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor-RowClick.js?Ver=${version}'/>"></script>
+<script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
 
 <script>
   var screenText = {

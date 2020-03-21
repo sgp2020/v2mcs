@@ -75,7 +75,7 @@ $(function() {
   //STD 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
   //var dataTables = new McsDataTables($('#list-table-target'), true);
   //20200318 DQY MOD
-  var dataTables = new McsDataTablesBgColorRowClick($('#list-table-target'), true);
+  var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
   //END 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
   // 初期表示処理

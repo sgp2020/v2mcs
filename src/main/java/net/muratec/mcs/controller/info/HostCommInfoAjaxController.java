@@ -122,7 +122,7 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
     @ResponseBody
     @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMMINFO, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetHostCommInfoListEntity getStockerInfoList(HttpSession session,
+    public ResGetHostCommInfoListEntity getHostCommInfoList(HttpSession session,
             @Valid @RequestBody ReqGetHostCommListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
@@ -148,6 +148,13 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = hostCommInfoService.getHostommInfoCount(reqEntity);
+            
+            //Search Information
+            /*String searchInfomation = hostCommInfoService.getSearchSelectData(reqEntity);
+            if("".equals(searchInfomation)|| searchInfomation ==null) {
+            	searchInfomation = " ";
+            }
+            model.addAttribute("II_009_01_003", searchInfomation);*/
             
             //異常Rowを色へ変更する
             List<String> color = new ArrayList<String>();
