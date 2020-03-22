@@ -126,8 +126,6 @@ public class HostCommInfoController extends BaseController {
        String hostNameJson = super.objectToJson(hostNameBoxList);
        String commStateJson = super.objectToJson(commStateBoxList);
        
-//       String searchInfomation = hostCommInfoService.getSearchSelectData(reqEntity);
-       
        model.addAttribute("II_009_01_001", hostNameJson);
        model.addAttribute("II_009_01_002", commStateJson);
 

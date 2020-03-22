@@ -40,7 +40,6 @@
 <script src="<c:url value='/resources/js/info/mcs-HostCommInfo.js?Ver=${version}'/>"></script>
 <!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
-<!-- <script src="<c:url value='/resources/js/component/mcs-DataTables.js?Ver=${version}'/>"></script> -->
 
 <script>
   var screenText = {
@@ -61,14 +60,13 @@
         
     },
     colorText: {	
-    	CommError:    '#08336B'
+    	CommError:    '#FF0000'
     }
   };
 
   var screenValue = {
 		  hostName: JSON.parse('${II_009_01_001}'),
 		  commState: JSON.parse('${II_009_01_002}')
-		  <%--,searchInfo: JSON.parse('${II_009_01_003}')--%>
   };
 </script>
 
@@ -94,8 +92,8 @@
     <div id="mcs-subheader-menu">
         <table>
             <tr>
-                <td><spring:message code="II-009-01-003" /></td>
-                <!-- <td><div id="searchInfo"></div></td> -->
+                <td style="color:#6495ED;"><spring:message code="II-009-01-003" /></td>
+                <td style="color:#6495ED;"><div id="searchInfo"></div></td>
                 <!-- <td class="mcs-td-search-information">
                  	<div id="search-information"></div>
                 </td> -->

@@ -233,46 +233,4 @@ public class HostCommInfoService extends BaseService {
         ret = (int) hostMapper.getCount(record);
         return ret;
     }
-    
-
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     getSearchInfo（HOST_NAME,COMM_STATEを指定し、合致するHOSTレコード件数を取得する）機能
-     * @param     HOST_NAME,COMM_STATE    検索条件
-     * @return    検索条件に該当するレコード数
-     * @retval    String形式で返却
-     * @attention
-     * @note      HOST_NAME,COMM_STATEを指定し、合致する件数を取得する
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     * 20200311   getSearchSelectData										董 天津村研
-     ******************************************************************************
-     */
-    //@formatter:on
-    @Transactional(readOnly = true)
-    public String getSearchSelectData(ReqGetHostCommInfoEntity reqEntity) throws McsException {
-
-        // -----------------------------------------
-        // 返却データの生成
-        // -----------------------------------------
-        String ret = " " ;
-        
-        // -----------------------------------------
-        // 検索ボタン選択データ取得
-        // -----------------------------------------
-        String hostName = reqEntity.hostName;
-        String commState = reqEntity.commState;
-        
-        if (hostName != null && !"".equals(hostName)) {
-            ret = "Host Name " + "[" + hostName + "] ";
-        }
-        else if(commState!=null && !"".equals(commState)){
-        	ret = "Comm State " + "[" + commState + "]";
-        }
-
-		return ret;
-    }
-
 }

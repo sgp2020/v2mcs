@@ -31,8 +31,8 @@ $(function() {
 */
  /* if(screenValue.searchInfo != null || screenValue.searchInfo != "")
   {
-  	$('#searchInfo').text(screenValue.searchInfo);
   }*/
+
   // ステータス色一覧
   $('#color1').css('background-color', screenText.colorText.CommError);
   //$('#list-table-target').css('color', screenText.colorText.CommError);
@@ -76,7 +76,6 @@ $(function() {
   // テーブル
   //20200318 DQY MOD
   var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
-//  var dataTables = new McsDataTables($('#list-table-target'), true);
  
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
@@ -239,12 +238,30 @@ $(function() {
     extract.onClick(function() {
       // エラー解除
       searchComp.clearErrors();
+      
+      
       // 検索処理
       var url = getUrl('/HostCommInfo/GetHostCommInfoList');
       var cond = {
     		  hostName: hostName.getValue(),
     		  commState: commState.getValue()
       };
+      
+      var searchInformationH = "";
+      var searchInformationC = "";
+      var searchInformation = "";
+      var searchHostName = hostName.getValue();
+      var searchCommState = commState.getValue();
+      if(searchHostName!=null && searchHostName !="")
+      {
+    	  searchInformationH = "	Host Name ["+searchHostName+"]	";
+      }
+      if(searchCommState!=null && searchCommState !="")
+      {
+    	  searchInformationC = "	Comm State " + "[" + searchCommState + "]";
+      }
+      $('#searchInfo').text(searchInformationH.concat("		") + searchInformationC);//space is not valid.
+      
       var tableCompId = 'I-009-dataTables';
       var options = {
         url: url,

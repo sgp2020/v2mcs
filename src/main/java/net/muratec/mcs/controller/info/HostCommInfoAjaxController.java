@@ -149,13 +149,6 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = hostCommInfoService.getHostommInfoCount(reqEntity);
             
-            //Search Information
-            /*String searchInfomation = hostCommInfoService.getSearchSelectData(reqEntity);
-            if("".equals(searchInfomation)|| searchInfomation ==null) {
-            	searchInfomation = " ";
-            }
-            model.addAttribute("II_009_01_003", searchInfomation);*/
-            
             //異常Rowを色へ変更する
             List<String> color = new ArrayList<String>();
             int rowSize = resEntity.body.size();
@@ -164,7 +157,7 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             	if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
         		{
             		// Selected/Communicating以外は異常とする.
-            		color.add("#08336B");
+            		color.add("#FF0000");
         		}
             	resEntity.rowColorList = color;
             }
