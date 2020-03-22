@@ -250,6 +250,7 @@ $(function() {
       var searchInformationH = "";
       var searchInformationC = "";
       var searchInformation = "";
+//      var space = '&nbsp &nbsp &nbsp &nbsp &nbsp';
       var searchHostName = hostName.getValue();
       var searchCommState = commState.getValue();
       if(searchHostName!=null && searchHostName !="")
@@ -260,7 +261,7 @@ $(function() {
       {
     	  searchInformationC = "	Comm State " + "[" + searchCommState + "]";
       }
-      $('#searchInfo').text(searchInformationH.concat("		") + searchInformationC);//space is not valid.
+      $('#searchInfo').text(searchInformationH + searchInformationC);//space is not valid.
       
       var tableCompId = 'I-009-dataTables';
       var options = {
