@@ -92,7 +92,7 @@
     <div id="mcs-subheader-menu">
         <table>
             <tr>
-                <td style="color:#6495ED;"><spring:message code="II-009-01-003" /></td>
+                <td style="color:#6495ED;"><spring:message code="II-009-01-003" /> &nbsp &nbsp</td>
                 <td style="color:#6495ED;"><div id="searchInfo"></div></td>
                 <!-- <td class="mcs-td-search-information">
                  	<div id="search-information"></div>

@@ -21,21 +21,9 @@ $(function() {
   focus();
   // コンポーネントマネージャ（検索用）
   var searchComp = new McsComponentManager();
- /* var searchinformation = new McsTextBox($('#search-information'));
-  searchinformation.setReadonly(true);
-  
-  if(screenValue.searchInfo != null || screenValue.searchInfo != "")
-	  {
-	  	searchinformation.setValue(screenValue.searchInfo);
-	  }
-*/
- /* if(screenValue.searchInfo != null || screenValue.searchInfo != "")
-  {
-  }*/
 
   // ステータス色一覧
   $('#color1').css('background-color', screenText.colorText.CommError);
-  //$('#list-table-target').css('color', screenText.colorText.CommError);
 
   // 非アクティブ状態でも自動更新を行う
   AutoReloadTimerManager.setEnableBlurExecute();
@@ -51,18 +39,6 @@ $(function() {
 
   // 現在表示している画面の番号
   var screenIndex;
-
- /*//20200318 dqy del
-   ctrlSelBox.onChange(function() {
-    // エラー表示をクリア
-    selComp.clearErrors();
-//    getData(ctrlSelBox.getValue(), true);
-    showListScreen(false);
-  });*/
-
-  // コンポーネントマネージャ
-  /*var selComp = new McsComponentManager();//20200318 dqy del
-  selComp.add('tscId', ctrlSelBox);*/
 
   // スライドメニュー生成
   var slideMenuTop = McsSlideMenu.primaryMenuSlide;
@@ -250,18 +226,18 @@ $(function() {
       var searchInformationH = "";
       var searchInformationC = "";
       var searchInformation = "";
-//      var space = '&nbsp &nbsp &nbsp &nbsp &nbsp';
+      var space = "&nbsp&nbsp"; 
       var searchHostName = hostName.getValue();
       var searchCommState = commState.getValue();
       if(searchHostName!=null && searchHostName !="")
       {
-    	  searchInformationH = "	Host Name ["+searchHostName+"]	";
+    	  searchInformationH = " Host Name ["+searchHostName+"]	";
       }
       if(searchCommState!=null && searchCommState !="")
       {
-    	  searchInformationC = "	Comm State " + "[" + searchCommState + "]";
+    	  searchInformationC = " Comm State " + "[" + searchCommState + "]";
       }
-      $('#searchInfo').text(searchInformationH + searchInformationC);//space is not valid.
+      $('#searchInfo').html(searchInformationH + space + searchInformationC);//space is not valid.
       
       var tableCompId = 'I-009-dataTables';
       var options = {
@@ -356,7 +332,6 @@ $(function() {
     //reloadButton.show();
     //cancelButton.show();
 
-   // changeSelectBoxList();//DQY DEL 20200313
 //    ctrlSelBox.setEnabled(true);//20200318 dqy del
 
     if (reloadFlg) {
@@ -386,36 +361,5 @@ $(function() {
 
     return true;
   }
-  /**
-   *******************************************************************************
-   * @brief       空FOUP一覧 コントローラIDセレクトボックス リスト更新処理
-   * @param
-   * @return
-   * @retval
-   * @attention
-   * @note
-   * ----------------------------------------------------------------------------
-   * VER.        DESCRIPTION                                               AUTHOR
-   * ----------------------------------------------------------------------------
-   *******************************************************************************
-   */
-  function changeSelectBoxList() {
-    var url = getUrl('/StockerInfo/GetStockerSelectBoxList');
-    var cond = {};
-    var datas = [];
-
-    var success = function(retObj) {
-      // コントローラID セレクトボックス
-      var values = {};
-      var selControllerId = ctrlSelBox.getValue();
-      ctrlSelBox.clear();
-//      ctrlSelBox.setList(retObj.controllerIdList);
-      ctrlSelBox.setList(retObj.tscIdList);
-      ctrlSelBox.setValue(selControllerId);
-    }
-    callAjax(url, JSON.stringify(cond), false, success);
-
-  }
-  
   
 });
