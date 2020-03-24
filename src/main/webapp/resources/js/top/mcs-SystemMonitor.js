@@ -233,6 +233,8 @@ $(function() {
     var stockerInfo = new McsButton($('#menu-btn-stockerInfo'), screenText.menuText.stockerInfo);
     // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     
+    var routeInfo = new McsButton($('#menu-btn-routeInfo'), screenText.menuText.routeInfo); //20200325 Song Add
+    
     // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     var hostCommInfo = new McsButton($('#menu-btn-hostCommInfo'), screenText.menuText.hostCommInfo);
     // END APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
@@ -281,6 +283,10 @@ $(function() {
     	openScreen(getUrl('StockerInfo'), 'StockerInfo');
     });
     // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
+    routeInfo.onClick(function() {
+    	openScreen(getUrl('RouteInfo'), 'RouteInfo');
+    });
     
     // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     hostCommInfo.onClick(function() {
