@@ -75,15 +75,19 @@
       cancel: '<spring:message code="IT-001-02-010" />'
     },
     slideHistoryText: {
-      trJobHis: '<spring:message code="IT-001-03-001" />',
-      AlarmHis: '<spring:message code="IT-001-03-002" />',
-      carrierRmHis: '<spring:message code="IT-001-03-004" />',
-      stTimeHis: '<spring:message code="IT-001-03-005" />',
-      carrierMtnTimeHis: '<spring:message code="IT-001-03-006" />',
-      alarmReportHis: '<spring:message code="IT-001-03-007" />',
-      alarmSystemHis: '<spring:message code="IT-001-03-008" />',
-      stageHis: '<spring:message code="IT-001-03-009" />',   // MACS4#0049 Add
-      cancel: '<spring:message code="IT-001-03-003" />'
+      //MCSV4用なLabelを削除する。
+      //trJobHis: '<spring:message code="IT-001-03-001" />',
+      //AlarmHis: '<spring:message code="IT-001-03-002" />',
+	  //carrierRmHis: '<spring:message code="IT-001-03-004" />',
+	  //stTimeHis: '<spring:message code="IT-001-03-005" />',
+	  //carrierMtnTimeHis: '<spring:message code="IT-001-03-006" />',
+	  //alarmReportHis: '<spring:message code="IT-001-03-007" />',
+	  //alarmSystemHis: '<spring:message code="IT-001-03-008" />',
+	  //stageHis: '<spring:message code="IT-001-03-009" />',   // MACS4#0049 Add
+	  //AlarmHis: '<spring:message code="IT-001-03-002" />',
+	  //cancel: '<spring:message code="IT-001-03-003" />'
+      AtomicActivityHis: '<spring:message code="IT-001-03-002" />',
+      cancel: '<spring:message code="IT-001-03-009" />'
     },
     slideLogText: {
       sysLog: '<spring:message code="IT-001-04-001" />',
@@ -347,7 +351,14 @@
         <!-- 搬送ジョブ来歴表示 -->
         <div class="his-job btn-mcs-slide" data-auth="${H001_REF}"></div>
         <!-- アラーム来歴表示 -->
-        <div class="his-alarm btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <!-- <div class="his-alarm btn-mcs-slide" data-auth="${H002_REF}"></div> -->
+        <!-- AtomicActivityHistory来歴表示 -->
+        <div class="his-atomicActivity btn-mcs-slide" data-auth="${H002_REF}"></div>
+        
+        
+        
+        
+        
         <!-- キャリア削除来歴表示 -->
         <div class="his-carrierRm btn-mcs-slide" data-auth="${H004_REF}"></div>
         <!-- 在籍時間来歴表示 -->

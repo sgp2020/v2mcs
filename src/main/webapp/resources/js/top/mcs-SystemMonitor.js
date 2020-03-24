@@ -343,13 +343,20 @@ $(function() {
     var stTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-stTime'), screenText.slideHistoryText.stTimeHis);
     var carrierMtnTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-carrierMtnTime'),
         screenText.slideHistoryText.carrierMtnTimeHis);
-//  var alarmReportHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarmReport'),
-//          screenText.slideHistoryText.alarmReportHis);
     var alarmSystemHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarmSystem'),
         screenText.slideHistoryText.alarmSystemHis);
     var stageHistory = new McsButton($('#mcs-top-slideMenu-his .his-stage'), screenText.slideHistoryText.stageHis);   // MACS4#0049 Add
     var cancel = new McsButton($('#mcs-top-slideMenu-his .his-cancel'), screenText.slideHistoryText.cancel);
 
+    // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    var atomicActivityHistory = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.AtomicActivityHis);
+    
+    // アラーム来歴表示、ページ遷移
+    atomicActivityHistory.onClick(function() {
+    	openScreen(getUrl('AtomicActivityHistory'), 'AtomicActivityHistory');
+    });
+    // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    
     // 搬送ジョブ来歴表示、ページ遷移
     transJobHist.onClick(function() {
       openScreen(getUrl('TransferJobHistory'), 'TransferJobHistory');
