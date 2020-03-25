@@ -692,7 +692,7 @@ public class ComConst {
         /**
          * Route情報
          */
-        INFO_Route("I008", 20800000L, "I008_REF", "I008_CHG"),
+        INFO_ROUTE("I008", 20800000L, "I008_REF", "I008_CHG"),
         
         /**
          * HOSTCOMM情報 - 2020.03.18 DONG ADD

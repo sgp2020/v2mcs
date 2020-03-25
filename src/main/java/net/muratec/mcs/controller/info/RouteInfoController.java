@@ -92,13 +92,13 @@ public class RouteInfoController extends BaseController {
      */
     //@formatter:on
     @RequestMapping(value = "/RouteInfo", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_Route, logOperationType = ComConst.LogOperationType.GET, number = 1L)
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_ROUTE, logOperationType = ComConst.LogOperationType.GET, number = 1L)
     public String routeInfo(HttpSession session, Locale locale, Model model) throws McsException {
 
         // ----------------------------------------------
         // アクセス権情報等
         // ----------------------------------------------
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_Route.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_ROUTE.getRefAuthFuncId());
 
         // ----------------------------------------------
         // 自動更新機能の有効化
