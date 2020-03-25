@@ -682,7 +682,7 @@ public class ComConst {
         /**
          * STOCKER情報 - 2020.03.10 DONG ADD
          */
-        INFO_STOCKERINFO("I005", 20500000L, "I005_REF", "I005_CHG"),
+        INFO_STOCKER("I005", 20500000L, "I005_REF", "I005_CHG"),
         
         
         PROCESS_MONITOR("I006", 20600000L, "I006_REF", "I006_CHG"),
@@ -697,7 +697,7 @@ public class ComConst {
         /**
          * HOSTCOMM情報 - 2020.03.18 DONG ADD
          */
-        INFO_HOSTCOMMINFO("I009", 20900000L, "I009_REF", "I009_CHG"),
+        INFO_HOSTCOMM("I009", 20900000L, "I009_REF", "I009_CHG"),
         
         
         /**

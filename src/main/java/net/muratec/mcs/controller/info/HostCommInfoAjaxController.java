@@ -120,13 +120,13 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
     @RequestMapping(value = "/HostCommInfo/GetHostCommInfoList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMMINFO, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMM, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetHostCommInfoListEntity getHostCommInfoList(HttpSession session,
             @Valid @RequestBody ReqGetHostCommListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMMINFO.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMM.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
         ReqGetHostCommInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,

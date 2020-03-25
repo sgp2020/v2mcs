@@ -121,13 +121,13 @@ public class StockerInfoAjaxController extends BaseAjaxController {
     @RequestMapping(value = "/StockerInfo/GetStockerInformationList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKERINFO, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKER, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetStockerInfoListEntity getStockerInfoList(HttpSession session,
             @Valid @RequestBody ReqGetStockerInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKERINFO.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
         ReqGetStockerInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
@@ -207,7 +207,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_STOCKERINFO.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
 
         // ------------------------------------
         // 戻り値宣言

@@ -95,12 +95,12 @@ public class HostCommInfoController extends BaseController {
      */
     //@formatter:on
     @RequestMapping(value = "/HostCommInfo", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMMINFO, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_HOSTCOMM, logOperationType = ComConst.LogOperationType.GET,
             number = 1L)
     public String HostCommInfo(HttpSession session, Locale locale, Model model) throws McsException {
 
         // アクセス権情報等
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMMINFO.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_HOSTCOMM.getRefAuthFuncId());
 
         // ---------------------------------------
         // 空FOUP 一覧画面 コントローラIDセレクトボックス

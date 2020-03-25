@@ -100,12 +100,12 @@ public class StockerInfoController extends BaseController {
      */
     //@formatter:on
     @RequestMapping(value = "/StockerInfo", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKERINFO, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKER, logOperationType = ComConst.LogOperationType.GET,
             number = 1L)
     public String StockerInfo(HttpSession session, Locale locale, Model model) throws McsException {
 
         // アクセス権情報等
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKERINFO.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
 
         // ---------------------------------------
         // 空FOUP 一覧画面 コントローラIDセレクトボックス
