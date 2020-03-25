@@ -1,0 +1,83 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-OhbInfo.css
+ * @brief       アラーム情報表示用CSS
+ * @par
+ * @author      SGP
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note       
+ * ----------------------------------------------------------------------------
+ * DATE        VER.        DESCRIPTION                   AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2020/03/12  2                                           SGP
+ ******************************************************************************
+ */
+ 
+ /* 色表示部 */
+.remarks-content-color {
+    position: relative;
+    /*padding-bottom: 15px;*/
+    padding-top: 10px;
+    padding-right: 15px;
+    margin: 0 auto;
+    float: left;
+}
+
+/* 各色 */
+.remarks-content-color>div {
+    width: 34px;
+    height: 34px;
+    margin-top: 0.55em;
+    margin-bottom: 0.5em;
+}
+
+.remarks-content {
+    position: relative;
+    padding-top: 14px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    width: 6%;
+    float: left;
+}
+ 
+ 
+div#lst-table-target {
+    width: 55%;
+    padding-right: 15px;
+    float:left;
+    height: 100%;
+}
+
+/*div#state-text-target-ohbPortRlt {*/
+#state-text-target-ohbPortRlt {
+    width: 45%;
+    padding-left: 15px;
+    padding-top: 66px;
+    float:left;
+}
+
+/* データ部のラッパ① スクロールバーを出すためのボックス */
+.mcs-table-wrapper {
+    position: relative;
+    overflow: scroll;
+    /*height: 180px;*/
+    height: 530px;
+    border-top: none;
+    border-right: solid 1px #dddddd;
+    border-bottom: solid 1px #dddddd;
+    border-left: solid 1px #dddddd;
+}
+
+/**
+スライドの横幅を指定
+**/
+
+div#mcs-saveMenu {
+    width: 350px;
+}

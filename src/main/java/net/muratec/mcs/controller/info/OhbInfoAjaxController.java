@@ -120,7 +120,7 @@ public class OhbInfoAjaxController extends BaseAjaxController {
     @RequestMapping(value = "/OhbInfo/GetOhbInfoList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.OHB_INFO, logOperationType = ComConst.LogOperationType.GET, number = 3L)
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_OHB, logOperationType = ComConst.LogOperationType.GET, number = 3L)
     public ResGetOhbInfoListEntity getAlarmList(HttpSession session,
             @Valid @RequestBody ReqGetOhbInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
@@ -128,7 +128,7 @@ public class OhbInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.OHB_INFO.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_OHB.getRefAuthFuncId());
 
         // ------------------------------------
         // ユーザ情報の取得

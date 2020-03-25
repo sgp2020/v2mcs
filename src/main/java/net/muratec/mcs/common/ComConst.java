@@ -669,10 +669,11 @@ public class ComConst {
          */
         //INFO_TRANSFERJOB("I003", 20300000L, "I003_REF", "I003_CHG"),
         
-        OHB_INFO("I003", 20300000L, "I003_REF", "I003_CHG"),
-        PROCESS_MONITOR("I006", 20600000L, "I006_REF", "I006_CHG"),
-        TEST_CARRIER_LIST("I007", 20700000L, "I007_REF", "I007_CHG"),
-
+        /**
+         * OHB情報
+         */
+        INFO_OHB("I003", 20300000L, "I003_REF", "I003_CHG"),
+        
         /**
          * ステージ情報 - MACS4#0049 Add
          */
@@ -683,10 +684,21 @@ public class ComConst {
          */
         INFO_STOCKERINFO("I005", 20500000L, "I005_REF", "I005_CHG"),
         
+        
+        PROCESS_MONITOR("I006", 20600000L, "I006_REF", "I006_CHG"),
+        
+        TEST_CARRIER_LIST("I007", 20700000L, "I007_REF", "I007_CHG"),
+        
         /**
-         * STOCKER情報 - 2020.03.18 DONG ADD
+         * Route情報
          */
-        INFO_HOSTCOMMINFO("I009", 20500000L, "I009_REF", "I009_CHG"),
+        INFO_Route("I008", 20800000L, "I008_REF", "I008_CHG"),
+        
+        /**
+         * HOSTCOMM情報 - 2020.03.18 DONG ADD
+         */
+        INFO_HOSTCOMMINFO("I009", 20900000L, "I009_REF", "I009_CHG"),
+        
         
         /**
          * 搬送Job来歴

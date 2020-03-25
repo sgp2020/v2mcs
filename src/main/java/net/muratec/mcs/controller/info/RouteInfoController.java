@@ -1,20 +1,20 @@
-﻿//@formatter:off
+//@formatter:off
 /**
  ******************************************************************************
- * @file        OhbInfoController.java
+ * @file        RouteInfoController.java
  * @brief       アラーム情報表示関連のコントローラ
  * @par
- * @author      CSC
+ * @author      SGP
  * $Id:         $
  * @attention
  *
  * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
  *
- * @note        Tabstop=4
+ * @note        
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/12  2                                     SGP                          
+ * 2020/03/25  2                                     SGP                          
  ******************************************************************************
  */
 //@formatter:on
@@ -39,14 +39,13 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
-//import net.muratec.mcs.service.info.OhbInfoService;
 
 //@formatter:off
 /**
  ******************************************************************************
  * @brief     アラーム情報表示関連のコントローラクラス
  * @par       機能:
- *              alarm（初期状態表示）
+ *              RouteInformation（初期状態表示）
  *              getCsvFile（CSV出力）
  *              createCsvHeaderRecords（CSVヘッダー情報生成）
  *              createCsvTitleRecords（CSVTitle情報生成）
@@ -60,14 +59,12 @@ import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
  */
 //@formatter:on
 @Controller
-public class OhbInfoController extends BaseController {
+public class RouteInfoController extends BaseController {
 
     /** メッセージリソース */
     //@Autowired private MessageSource messageSource;
 
-    //@Autowired private OhbInfoService ohbInfoService;
-
-    private static final Logger logger = LoggerFactory.getLogger(OhbInfoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouteInfoController.class);
 
     public static Logger getLogger() {
 
@@ -80,7 +77,7 @@ public class OhbInfoController extends BaseController {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     OhbInfo（初期状態表示）機能
+     * @brief     RouteInfo（初期状態表示）機能
      * @param     session        セッション情報（Frameworkより付加）
      * @param     locale         ロケーション情報（Frameworkより付加）
      * @param     model          モデル情報（Frameworkより付加）
@@ -94,14 +91,14 @@ public class OhbInfoController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/OhbInfo", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_OHB, logOperationType = ComConst.LogOperationType.GET, number = 1L)
-    public String ohbInfo(HttpSession session, Locale locale, Model model) throws McsException {
+    @RequestMapping(value = "/RouteInfo", method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_Route, logOperationType = ComConst.LogOperationType.GET, number = 1L)
+    public String routeInfo(HttpSession session, Locale locale, Model model) throws McsException {
 
         // ----------------------------------------------
         // アクセス権情報等
         // ----------------------------------------------
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_OHB.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_Route.getRefAuthFuncId());
 
         // ----------------------------------------------
         // 自動更新機能の有効化
@@ -111,7 +108,7 @@ public class OhbInfoController extends BaseController {
         // バージョン情報付与
         ComFunction.setVersion(model);
 
-        return "info/OhbInfo";
+        return "info/RouteInfo";
     }
     
 }
