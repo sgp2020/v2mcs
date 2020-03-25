@@ -708,7 +708,13 @@ public class ComConst {
         /**
          * アラーム来歴
          */
-        HIST_ALARMHISTORY("H002", 30200000L, "H002_REF", ""),
+//        HIST_ALARMHISTORY("H002", 30200000L, "H002_REF", ""),//2020.03.25 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 del
+        
+        /**
+         * 2020.03.25 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 ADD
+         * AtomicActivityHistory来歴
+         */
+        HIST_ATOMICACTIVITYHISTORY("H002", 30200000L, "H002_REF", ""),
 
         /**
          * 在籍時間来歴
