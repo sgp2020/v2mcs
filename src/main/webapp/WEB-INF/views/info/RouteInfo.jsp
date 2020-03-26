@@ -135,18 +135,37 @@ var screenText = {
             <spring:message code="II-008-01-002" />
         </div>
         
+        <!-- 情報表示部  -->
+        <div id="mcs-top-info" class="">
+           <ul class="mcs-top-info-ul">
+        
+            <li class="">
+                <h5 class="routeState">  
+                   Route State &nbsp; <%--  <spring:message code="IT-001-01-011" />  --%>
+                   <span id="routeState" >Completed</span> 
+                </h5>  
+            </li>
+
+            <li class="">
+                 <h5 class="currentTableNo">
+                	Current Table No: &nbsp;<%--  <spring:message code="IT-001-01-012" />   --%>
+                	<span id="currentTableNo" style="color:blue"> 1 </span> 
+                 </h5> 
+            </li>
+          </ul>
+        </div>
        <!-- <div id="lst-table-target" style="width: 60%; height: 100%;"></div>  -->
        <div id="lst-table-target"></div>
        <div id="state-text-target-dest"></div> 
         
-        <div id="ColorDiv" >
-	         <div id="colorColumn1" class="remarks-content-color">
-	             <div id="color1"></div>
-	         </div>
-	         <div id="ctrlColumn1" class="remarks-content">  
-	             <div id="ctrl1"></div>
-	         </div>
-        </div>
+       <div id="ColorDiv" >
+	       <div id="colorColumn1" class="remarks-content-color">
+	           <div id="color1"></div>
+	       </div>
+	       <div id="ctrlColumn1" class="remarks-content">  
+	           <div id="ctrl1"></div>
+	       </div>
+       </div>
     </div>
 
     <!-- 一覧画面 end -->

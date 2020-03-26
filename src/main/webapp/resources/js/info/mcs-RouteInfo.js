@@ -1,6 +1,6 @@
 ﻿/**
  ******************************************************************************
- * @file        mcs-OhbInfo.js
+ * @file        mcs-RouteInfo.js
  * @brief       アラーム情報表示画面用JavaScript
  * @par
  * @author      SGP
@@ -9,77 +9,65 @@
  *
  * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
  *
- * @note        Tabstop=2
+ * @note        
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                     AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/12  2                                           SGP
+ * 2020/03/25  2                                           SGP
  ******************************************************************************
  */
 $(function() { 
 	
   // ステータス色一覧
-  $('#color1').css('background-color', screenText.colorText.Enable);
-  $('#color2').css('background-color', screenText.colorText.Disable);
-  $('#color3').css('background-color', screenText.colorText.Test);
-  $('#color4').css('background-color', screenText.colorText.PM);
-  $('#color5').css('background-color', screenText.colorText.Hold);
-  $('#color6').css('background-color', screenText.colorText.NotReady);
+  $('#color1').css('background-color', screenText.colorText.Disable);
+  
   var ctrl1 = new McsTextBox($('#ctrl1'));
-  var ctrl2 = new McsTextBox($('#ctrl2'));
-  var ctrl3 = new McsTextBox($('#ctrl3'));
-  var ctrl4 = new McsTextBox($('#ctrl4'));
-  var ctrl5 = new McsTextBox($('#ctrl5'));
-  var ctrl6 = new McsTextBox($('#ctrl6'));
+
   ctrl1.setReadonly(true);
-  ctrl2.setReadonly(true);
-  ctrl3.setReadonly(true);
-  ctrl4.setReadonly(true);
-  ctrl5.setReadonly(true);
-  ctrl6.setReadonly(true);
-  ctrl1.setValue(screenText.ctrlText.Enable);
-  ctrl2.setValue(screenText.ctrlText.Disable);
-  ctrl3.setValue(screenText.ctrlText.Test);
-  ctrl4.setValue(screenText.ctrlText.PM);
-  ctrl5.setValue(screenText.ctrlText.Hold);
-  ctrl6.setValue(screenText.ctrlText.NotReady);
+ 
+  ctrl1.setValue(screenText.ctrlText.Disable);
+ 
   
 		
   // 画面初期化時の処理
 
   // データテーブル
+  
   //var dataTables = new McsDataTables($('#lst-table-target'), false);
   var dataTables = new McsDataTablesBgColor($('#lst-table-target'), false);
   // 行選択時のイベントをセット
+  /*
   dataTables.onSelectRow(function() {
     var record = dataTables.getSelectedRowData();
     if (record) {
     	searchOhbPortRltList(record[0].ohbId);
     }
   });
-  
+  */
  
   //var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
-  var ohbPortRltTable = new McsTableBgColor($('#state-text-target-ohbPortRlt'));
-  ohbPortRltTable.setNotRowSelect(true);
+  var destTable = new McsTableBgColor($('#state-text-target-dest'));
+  destTable.setNotRowSelect(true);
   
   // 状態テーブルヘッダ(状態テーブル)
-  var ohbPortRltHeader = [{
-    name: 'portId',
-    text: screenText.portText.PortID,
+  var destHeader = [{
+    name: 'DestNo',
+    text: screenText.destText.DestNo,
     display: true
   }, {
-    name: 'carrierId',
-    text: screenText.portText.CarriedID,
+    name: 'EQPID',
+    text: screenText.destText.EQPID,
     display: true
   }, {
-    name: 'storedTime',
-    text: screenText.portText.LastStoredTime,
+    name: 'Connection',
+    text: screenText.destText.Connection,
     display: true
   }];
 	  
   // ヘッダ設定(状態テーブル)
-  ohbPortRltTable.setHeader(ohbPortRltHeader);
+  destTable.setHeader(destHeader);
+  
+  $("#routeState").css("background-color","#008000");
 	 
   
   /**
@@ -95,20 +83,22 @@ $(function() {
    * ----------------------------------------------------------------------------
    ******************************************************************************
    */
-  function searchOhbPortRltList(ohbId) {
-      var url = getUrl('/OhbInfo/GetOhbPortRltList');
+  /*
+  function searchRouteList(srcPieceId,dstPieceId,tableNo) {
+      var url = getUrl('/RouteInfo/GetRouteList');
       var cond = {
-    		  ohbId:ohbId//'32BCU13HB2'
+    		  srcPieceId:srcPieceId,
+    		  dstPieceId:dstPieceId,
+    		  tableNo:tableNo
       };
       var flag = false;
       var success = function(retObj) {
-    	  ohbPortRltTable.clear();
-    	  ohbPortRltTable.addDataList(retObj.ohbPortRltList,retObj.rowColor);
+    	  destTable.clear();
+    	  //destTable.addDataList(retObj.ohbPortRltList,retObj.rowColor);
       };
       callAjax(url, JSON.stringify(cond), flag, success);
   }
-
-  
+*/
   
   // 戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
@@ -120,7 +110,12 @@ $(function() {
   var confirmDialog = new McsDialog($('#mcs-confirm-dialog'), window.mcsDialogTitleConfirm);  // MACS4#0047 Add
 
   // 初回検索
-  extract({});
+ // extract({});
+   extract({
+	      srcPieceId:'4512',
+		  dstPieceId:'3041',
+		  tableNo:'2'
+   });
 
   /**
    ******************************************************************************
@@ -137,14 +132,14 @@ $(function() {
    */
   function extract(cond) {
     dataTables.getDataAjax({
-      url: getUrl('/OhbInfo/GetOhbInfoList'),
+      url: getUrl('/RouteInfo/GetRouteInfoList'),
       cond: cond,
       searchDataFlag: true,
-      tableCompId: 'I-003-dataTables', // テーブルコンポーネントID
+      tableCompId: 'I-008-dataTables', // テーブルコンポーネントID
       success: function(data) {
-    	var d = data.body[0].ohbId;
-    	var ohbId=d.replace("<br>","");
-    	searchOhbPortRltList(ohbId);
+    	//var d = data.body[0].ohbId;
+    	//var ohbId=d.replace("<br>","");
+    	//searchOhbPortRltList(ohbId);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない
