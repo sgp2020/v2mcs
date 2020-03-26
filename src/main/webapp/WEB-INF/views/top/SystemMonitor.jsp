@@ -87,7 +87,7 @@
 	  //stageHis: '<spring:message code="IT-001-03-009" />',   // MACS4#0049 Add
 	  //AlarmHis: '<spring:message code="IT-001-03-002" />',
 	  //cancel: '<spring:message code="IT-001-03-003" />'
-      AtomicActivityHis: '<spring:message code="IT-001-03-002" />',
+      atomicActivityHist: '<spring:message code="IT-001-03-002" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
     slideLogText: {

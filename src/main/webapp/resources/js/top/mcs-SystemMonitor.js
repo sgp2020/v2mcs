@@ -355,11 +355,11 @@ $(function() {
     var cancel = new McsButton($('#mcs-top-slideMenu-his .his-cancel'), screenText.slideHistoryText.cancel);
 
     // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-    var atomicActivityHistory = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.AtomicActivityHis);
+    var atomicActivityHist = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.atomicActivityHist);
     
     // アラーム来歴表示、ページ遷移
-    atomicActivityHistory.onClick(function() {
-    	openScreen(getUrl('AtomicActivityHistory'), 'AtomicActivityHistory');
+    atomicActivityHist.onClick(function() {
+    	openScreen(getUrl('AtomicActivityHist'), 'AtomicActivityHist');
     });
     // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     

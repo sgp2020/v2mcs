@@ -371,7 +371,7 @@
   
    <!-- STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000 -->
   <!-- 以下独自SQL -->
-   <select id="getCount" parameterType="net.muratec.mcs.entity.info.ReqGetStockerInfoEntity" resultType="java.lang.Integer"> 
+   <select id="getCount" parameterType="net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity" resultType="java.lang.Integer"> 
 	   SELECT  
 		  count(*)
 	   FROM(
