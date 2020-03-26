@@ -1198,7 +1198,8 @@ public class ComConst {
         /** 来歴 */
         public static final String[] CHILD_MENU_HISTORY = {
                 ScreenInfo.HIST_TRANSFERJOBHISTORY.getRefAuthFuncId(),
-                ScreenInfo.HIST_ALARMHISTORY.getRefAuthFuncId(),
+//                ScreenInfo.HIST_ALARMHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  DEL
+                ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  ADD
                 ScreenInfo.HIST_CARRIERREMOVEHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_CARRIERMOTIONTIMEHISTORY.getRefAuthFuncId(),
