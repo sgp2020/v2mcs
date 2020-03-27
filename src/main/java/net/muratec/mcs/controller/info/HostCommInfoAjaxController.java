@@ -149,21 +149,10 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = hostCommInfoService.getHostommInfoCount(reqEntity);
             
+            // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
             //異常Rowを色へ変更する
-            List<String> color = new ArrayList<String>();
-            int rowSize = resEntity.body.size();
-            for(int i = 0;i<rowSize; i++) {
-            	String commState = resEntity.body.get(i).commState; 
-            	if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
-        		{
-            		// Selected/Communicating以外は異常とする.
-            		color.add("#FF0000");
-        		}
-            	else {
-            		color.add("");
-            	}
-            	resEntity.rowColorList = color;
-            }
+            resEntity.rowColorList = hostCommInfoService.getRowColor(reqEntity);
+            // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
         }
         return resEntity;

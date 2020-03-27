@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.muratec.mcs.common.defines.State;
+import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
 import net.muratec.mcs.entity.info.StockerInfoListEntity;
 import net.muratec.mcs.exception.McsException;
@@ -35,6 +37,7 @@ import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.StockerMapper;
 import net.muratec.mcs.mapper.StockerZoneRltMapper;
+import net.muratec.mcs.model.Host;
 import net.muratec.mcs.model.Stocker;
 import net.muratec.mcs.model.StockerExample;
 import net.muratec.mcs.model.StockerZoneRlt;
@@ -206,21 +209,55 @@ public class StockerInfoService extends BaseService {
         }
         return ret;
     }
-/*    public int getStockerInfoCount(String tscId) {
+   // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
+   // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getRowColor
+     * @param     reqEntity      画面項目情報
+     * @return    検索条件に該当するレコード
+     * @retval    List形式で返却
+     * @attention
+     * @note      コントローラIDリストを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200327   getRowColor										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<String> getRowColor(ReqGetStockerInfoEntity reqEntity) throws McsException {
     	
-    	int ret = 0;
-    	
-    	if (tscId != null && !"".equals(tscId)) {
-    		StockerZoneRltExample stockerZoneRltExample = new StockerZoneRltExample();
-    		stockerZoneRltExample.createCriteria().andTscIdEqualTo(Integer.valueOf(tscId));
-    		ret = (int) stockerZoneRltMapper.countByExample(stockerZoneRltExample);
-    	}
-    	else if(tscId==null ||"".equals(tscId)){
-    		StockerZoneRltExample stockerZoneRltExample = new StockerZoneRltExample();
-    		ret = (int) stockerZoneRltMapper.countByExample(stockerZoneRltExample);
-    	}
-    	return ret;
+    	List<String> color = new ArrayList<String>();
+    	List<StockerZoneRlt> stockerZoneRlt = stockerZoneRltMapper.selectStockerInfoList(reqEntity);
+        if (stockerZoneRlt == null ) {
+        	return color;
+        }
+        
+        for (StockerZoneRlt stockerZoneRltRec : stockerZoneRlt) {
+        	
+        	int fill = stockerZoneRltRec.getUsedCell();
+        	int low  = stockerZoneRltRec.getLowWaterMark();
+        	int high = stockerZoneRltRec.getHighWaterMark();
+        	if( fill >= low && fill < high ) 
+    		{
+        		//LOW YELLOW
+        		color.add("#FFFF00");
+    		}
+    		else if( fill >= high ) 
+    		{
+    			//HIGH RED
+    			color.add("#FF5555");
+    		}
+    		else {
+    			//NORMAL GREEN
+    			color.add("#33FF00");
+    		}
+	 	} 
+        return color;
     }
-*/  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
+   // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 }

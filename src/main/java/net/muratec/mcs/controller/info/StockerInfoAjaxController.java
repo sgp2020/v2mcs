@@ -149,30 +149,11 @@ public class StockerInfoAjaxController extends BaseAjaxController {
             resEntity.body = stockerInfoService.getStockerInfoList(reqEntity);
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = stockerInfoService.getStockerInfoCount(reqEntity);
-         // STD APL 2020.03.16 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-            List<String> color = new ArrayList<String>();
-            int rowSize = resEntity.body.size();
-            for(int i = 0;i<rowSize; i++) {
-            	int fill = resEntity.body.get(i).usedCell; 
-            	int low  = resEntity.body.get(i).lowWaterMark; 
-            	int high = resEntity.body.get(i).highWaterMark; 
-            	if( fill >= low && fill < high ) 
-        		{
-            		//LOW YELLOW
-            		color.add("#FFFF00");
-        		}
-        		else if( fill >= high ) 
-        		{
-        			//HIGH RED
-        			color.add("#FF5555");
-        		}
-        		else {
-        			//NORMAL GREEN
-        			color.add("#33FF00");
-        		}
-            	resEntity.rowColorList = color;
-            }
-         // END APL 2020.03.16 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            
+	        // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            //Rowを色へ変更する
+            resEntity.rowColorList = stockerInfoService.getRowColor(reqEntity);
+            // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
         }
         return resEntity;

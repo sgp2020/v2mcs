@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
+import net.muratec.mcs.common.defines.State;
 import net.muratec.mcs.entity.info.HostCommInfoListEntity;
 import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.exception.McsException;
@@ -116,7 +117,7 @@ public class HostCommInfoService extends BaseService {
         if (host == null ) {
         	return retRecList;
         }
-	 	
+        
         int rowNum = 1;
 	 	for (Host hostRec : host) {
 	 		HostCommInfoListEntity retRec = new HostCommInfoListEntity();
@@ -232,5 +233,45 @@ public class HostCommInfoService extends BaseService {
         int ret = 0;
         ret = (int) hostMapper.getCount(record);
         return ret;
+    }
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getRowColor
+     * @param     reqEntity      画面項目情報
+     * @return    検索条件に該当するレコード
+     * @retval    List形式で返却
+     * @attention
+     * @note      コントローラIDリストを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200327   getRowColor										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<String> getRowColor(ReqGetHostCommInfoEntity reqEntity) throws McsException {
+    	
+    	List<String> color = new ArrayList<String>();
+    	List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
+        
+        if (host == null ) {
+        	return color;
+        }
+        
+	 	for (Host hostRec : host) {
+	 		String commState = hostRec.getCommState();
+	 		if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
+    		{
+        		// Selected/Communicating以外は異常とする.
+        		color.add("#FF0000");
+    		}
+        	else {
+        		color.add("");
+        	}
+	 	} 
+        return color;
     }
 }
