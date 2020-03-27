@@ -159,6 +159,9 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             		// Selected/Communicating以外は異常とする.
             		color.add("#FF0000");
         		}
+            	else {
+            		color.add("");
+            	}
             	resEntity.rowColorList = color;
             }
 
