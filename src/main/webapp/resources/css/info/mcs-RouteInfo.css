@@ -77,10 +77,11 @@ div#lst-table-target {
 #mcs-top-info {
     position: absolute;
     top: 5px;
-    right: 0;
+    /*right: 0;*/
+    right: -130px;
     z-index: 1000;
     width: 100%;
-    height: 30px;
+    height: 40px;
     padding: 5px;
     /*background: #b0c4de;*/
     font-size: 16px;
@@ -88,12 +89,12 @@ div#lst-table-target {
 }
 
 .mcs-top-info-ul {
-    /*display: inline-block;*/
+    display: inline-block;
     margin: 0;
 }
 
 .mcs-top-info-ul li {
-    /*display: inline-block;*/
+    display: inline-block;
     padding: 0;
     margin: 0;
     vertical-align: top;
@@ -105,6 +106,15 @@ div#lst-table-target {
     margin: 0;
 }
 
+
+td.mcs-td-selectbox {
+    padding-left: 10px;
+}
+td.mcs-td-searchBtn {
+    padding-left: 40px;
+    padding-top: 5px;
+}
+
 /**
 スライドの横幅を指定
 **/
@@ -112,3 +122,4 @@ div#lst-table-target {
 div#mcs-saveMenu {
     width: 350px;
 }
+

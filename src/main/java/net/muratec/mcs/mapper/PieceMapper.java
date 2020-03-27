@@ -1,8 +1,13 @@
 package net.muratec.mcs.mapper;
 
 import java.util.List;
+
+import net.muratec.mcs.entity.info.ReqGetOhbInfoListEntity;
+import net.muratec.mcs.model.OhbModel;
 import net.muratec.mcs.model.Piece;
 import net.muratec.mcs.model.PieceExample;
+import net.muratec.mcs.model.RouteList;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface PieceMapper {
@@ -93,4 +98,25 @@ public interface PieceMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Piece record);
+    
+    // =============================
+    // v2MCS Unique Function From Here
+    // =============================
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief       Select Piece List
+     * @param       reqEntity   (search criteria)
+     * @return      Piece List
+     * @retval      List of Piece Model Style
+     * @attention
+     * @note        Select Piece List For SelectBox.
+     * ----------------------------------------------------------------------------
+     * DATE       VER.        DESCRIPTION                                    AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    List<Piece> selectPieceListForSelectBox();
+    
 }

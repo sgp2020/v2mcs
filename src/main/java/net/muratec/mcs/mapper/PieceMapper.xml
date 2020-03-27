@@ -396,4 +396,14 @@
       DISPLAY_FLG = #{displayFlg,jdbcType=DECIMAL}
     where PIECE_ID = #{pieceId,jdbcType=DECIMAL}
   </update>
+  
+  <!-- 以下独自SQL -->
+  <select id="selectPieceListForSelectBox" parameterType="net.muratec.mcs.model.Piece" resultMap="BaseResultMap">
+    	SELECT piece_abbreviation,  
+		       piece_id  
+		FROM   piece  
+		WHERE  piece_id &gt; 0  
+		AND  piece_id IN ( SELECT piece_id from piece where conn_tsc_id &lt; 900 )  
+		ORDER BY 1 
+  </select>
 </mapper>

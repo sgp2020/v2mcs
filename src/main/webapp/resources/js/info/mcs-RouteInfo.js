@@ -35,15 +35,20 @@ $(function() {
   
   //var dataTables = new McsDataTables($('#lst-table-target'), false);
   var dataTables = new McsDataTablesBgColor($('#lst-table-target'), false);
+  
   // 行選択時のイベントをセット
-  /*
   dataTables.onSelectRow(function() {
+	destTable.clear();
     var record = dataTables.getSelectedRowData();
-    if (record) {
-    	searchOhbPortRltList(record[0].ohbId);
-    }
+    var destTableList = new Array();
+    var i = 0;
+    var j = 1;
+    //destTableList[0]= ""{DestNo: " + i +", EQPID: "Down", Connection: "Available"};
+    destTableList[0]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
+    destTableList[1]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
+    destTable.addDataList(destTableList);
   });
-  */
+
  
   //var ohbPortRltTable = new McsTable($('#state-text-target-ohbPortRlt'));
   var destTable = new McsTableBgColor($('#state-text-target-dest'));
@@ -63,13 +68,39 @@ $(function() {
     text: screenText.destText.Connection,
     display: true
   }];
-	  
+  	  
   // ヘッダ設定(状態テーブル)
   destTable.setHeader(destHeader);
   
   $("#routeState").css("background-color","#008000");
-	 
   
+  var source  = new McsSelectBox($('#source'));
+  var destination  = new McsSelectBox($('#destination'));
+  var tableNo  = new McsSelectBox($('#tableNo'));
+  
+  var searchButton = new McsButton($('#btn-search'), "Search");
+  
+  
+  
+  searchButton.onClick(function() {
+	  var srcPieceIdValue = source.getValue();
+	  var dstPieceIdValue = destination.getValue();
+	  var tableNoValue = tableNo.getValue();
+	  extract({
+	      srcPieceId:source.getValue(),
+		  dstPieceId:destination.getValue(),
+		  tableNo:tableNo.getValue()
+	  });
+  });
+  
+  
+  var pieceListJson = screenValue.pieceListJson;
+  var tabelNoJson= screenValue.tabelNoJson; 
+  source.setList(pieceListJson);
+  destination.setList(pieceListJson);
+  tableNo.setList(tabelNoJson);
+  
+
   /**
    ******************************************************************************
    * @brief   ポートリストの検索を行う
@@ -110,7 +141,7 @@ $(function() {
   var confirmDialog = new McsDialog($('#mcs-confirm-dialog'), window.mcsDialogTitleConfirm);  // MACS4#0047 Add
 
   // 初回検索
- // extract({});
+  // extract({});
    extract({
 	      srcPieceId:'4512',
 		  dstPieceId:'3041',

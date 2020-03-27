@@ -20,6 +20,7 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -39,6 +40,7 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
+import net.muratec.mcs.service.info.RouteInfoService;
 
 //@formatter:off
 /**
@@ -73,6 +75,11 @@ public class RouteInfoController extends BaseController {
 
     // 自動更新機能
     @Autowired private AutoReloadTimerManagerService autoReload;
+    
+    // ------------------------------------
+    // アラーム情報画面用サービス
+    // ------------------------------------
+    @Autowired private RouteInfoService routeInfoService;
 
     //@formatter:off
     /**
@@ -105,10 +112,38 @@ public class RouteInfoController extends BaseController {
         // ----------------------------------------------
         autoReload.setInterval(model);
 
-        // バージョン情報付与
-        ComFunction.setVersion(model);
+        // ---------------------------------------
+        // 空FOUP 一覧画面 コントローラIDセレクトボックス
+        // ---------------------------------------
+        
+        /*
+        String[] allTerms = new String[2];
+        allTerms[0] = ComConst.StringSelectboxAll.VALUE;
+        allTerms[1] = ComConst.StringSelectboxAll.TEXT;
+        */
+        // ----------------------------------------------
+        // セレクトボックスの初期値を追加
+        // ----------------------------------------------
 
-        return "info/RouteInfo";
+        // セレクトボックス要素取得
+        List<String[]> pieceList = routeInfoService.getSourceDestinationPieceBox();
+        List<String[]> tabelNoList = routeInfoService.getTableNoBox();
+       
+        //tscIdBoxはAllを初期化表示する
+        //hostNameBoxList.add(0, allTerms);
+        //commStateBoxList.add(0, allTerms);
+
+        // セレクトボックス要素をJSON化
+       String pieceListJson = super.objectToJson(pieceList);
+       String tabelNoJson = super.objectToJson(tabelNoList);
+       
+       model.addAttribute("II_009_00_001", pieceListJson);
+       model.addAttribute("II_009_00_002", tabelNoJson);
+       
+       // バージョン情報付与
+       ComFunction.setVersion(model);
+
+       return "info/RouteInfo";
     }
     
 }
