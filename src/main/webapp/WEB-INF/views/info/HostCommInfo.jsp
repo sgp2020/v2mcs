@@ -128,7 +128,7 @@
     <!-- スライドメニュー 検索用 -->
     <div id="mcs-slideMenu-search">
         <spring:message code="II-009-04-001" />
-        <div id="mcs-search-hostName"></div>
+        <div id="mcs-search-hostName" style="width:200px"></div>
         
         <spring:message code="II-009-04-002" />
         <div id="mcs-search-commState"></div>
