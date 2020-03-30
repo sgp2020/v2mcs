@@ -1,4 +1,4 @@
-﻿//@formatter:off
+//@formatter:off
 /**
  ******************************************************************************
  * @file        StockerInformationAjaxController.java
@@ -19,7 +19,7 @@
  ******************************************************************************
  */
 //@formatter:on
-package net.muratec.mcs.controller.info;
+package net.muratec.mcs.controller.hist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import net.muratec.mcs.common.defines.State;
 import net.muratec.mcs.annotation.OpLog;
 
 import net.muratec.mcs.common.ComConst;
@@ -49,18 +50,16 @@ import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseAjaxController;
 
-import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
-import net.muratec.mcs.entity.info.ReqGetStockerInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ResGetStockerInfoListEntity;
-import net.muratec.mcs.entity.info.ResGetStockerInfoSelectBoxEntity;
+import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ResGetAtomicActivityHistListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.info.StockerInfoService;
+import net.muratec.mcs.service.hist.AtomicActivityHistService;
 
 //@formatter:off
 /**
@@ -79,9 +78,9 @@ import net.muratec.mcs.service.info.StockerInfoService;
  */
 //@formatter:on
 @Controller
-public class StockerInfoAjaxController extends BaseAjaxController {
+public class AtomicActivityHistAjaxController extends BaseAjaxController {
 
-    public static final Logger logger = LoggerFactory.getLogger(StockerInfoAjaxController.class);
+    public static final Logger logger = LoggerFactory.getLogger(AtomicActivityHistAjaxController.class);
 
     public static Logger getLogger() {
 
@@ -91,7 +90,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private StockerInfoService stockerInfoService;
+    @Autowired private AtomicActivityHistService atomicActivityHistService;
 
     /** グリッド用サービス */
     @Autowired private McsDataTablesService mcsDataTablesService;
@@ -118,24 +117,24 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerInformationList", method = RequestMethod.POST)
+    @RequestMapping(value = "/AtomicActivityHist/GetAtomicActivityHistList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKER, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetStockerInfoListEntity getStockerInfoList(HttpSession session,
-            @Valid @RequestBody ReqGetStockerInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+    public ResGetAtomicActivityHistListEntity getAtomicActivityHistList(HttpSession session,
+            @Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
-        ReqGetStockerInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetStockerInfoEntity.class);
+        ReqGetAtomicActivityHistEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetAtomicActivityHistEntity.class);
 
         // レスポンスエンティティ生成
         // 返すJSON全体のオブジェクトをnew
-        ResGetStockerInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetStockerInfoListEntity.class,
+        ResGetAtomicActivityHistListEntity resEntity = mcsDataTablesService.createResEntity(ResGetAtomicActivityHistListEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
         // 検索処理実装判定
@@ -145,15 +144,23 @@ public class StockerInfoAjaxController extends BaseAjaxController {
                     ReqGetStockerInfoListValidateEntity.class);*/
 
             // データ取得、設定
-//            resEntity.body = ecService.getEmptyCarrierList(reqEntity);
-            resEntity.body = stockerInfoService.getStockerInfoList(reqEntity);
-            // 全体レコード数取得、設定
-            resEntity.pageInfo.totalRecords = stockerInfoService.getStockerInfoCount(reqEntity);
+            resEntity.body = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
             
-	        // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-            //Rowを色へ変更する
-            resEntity.rowColorList = stockerInfoService.getRowColor(reqEntity);
-            // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            // 全体レコード数取得、設定
+            resEntity.pageInfo.totalRecords = atomicActivityHistService.getAtomicActivityHistCount(reqEntity);
+            
+            /*//異常Rowを色へ変更する
+            List<String> color = new ArrayList<String>();
+            int rowSize = resEntity.body.size();
+            for(int i = 0;i<rowSize; i++) {
+            	String commState = resEntity.body.get(i).commState; 
+            	if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
+        		{
+            		// Selected/Communicating以外は異常とする.
+            		color.add("#FF0000");
+        		}
+            	resEntity.rowColorList = color;
+            }*/
 
         }
         return resEntity;
@@ -178,7 +185,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResGetStockerInfoSelectBoxEntity getStockerInfoSelectBoxList(HttpSession session,
@@ -188,7 +195,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_AtomicActivityHistINFO.getRefAuthFuncId());
 
         // ------------------------------------
         // 戻り値宣言
@@ -207,5 +214,5 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         resEntity.result.message = "";
 
         return resEntity;
-    }
+    }*/
 }

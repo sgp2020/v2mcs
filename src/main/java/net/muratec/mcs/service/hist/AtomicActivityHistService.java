@@ -18,7 +18,7 @@
  ******************************************************************************
  */
 //@formatter:on
-package net.muratec.mcs.service.info;
+package net.muratec.mcs.service.hist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +27,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
-import net.muratec.mcs.common.defines.State;
-import net.muratec.mcs.entity.info.HostCommInfoListEntity;
-import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
+import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.exception.McsException;
+import net.muratec.mcs.mapper.AtomicTransferLogMapper;
 import net.muratec.mcs.mapper.GuiColorMapper;
-import net.muratec.mcs.mapper.HostMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
-import net.muratec.mcs.mapper.StockerMapper;
-import net.muratec.mcs.mapper.HostMapper;
-import net.muratec.mcs.model.Host;
-import net.muratec.mcs.model.ScreenMonitorMember;
-import net.muratec.mcs.model.ScreenMonitorMemberExample;
-import net.muratec.mcs.model.Stocker;
-import net.muratec.mcs.model.StockerExample;
-import net.muratec.mcs.model.Host;
-import net.muratec.mcs.model.HostExample;
+import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.model.Tsc;
+import net.muratec.mcs.model.Ohb;
+import net.muratec.mcs.model.Port;
 import net.muratec.mcs.service.common.BaseService;
 import net.muratec.mcs.service.common.ExeForeignFileService;
 
@@ -65,7 +58,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  */
 //@formatter:on
 @Service
-public class HostCommInfoService extends BaseService {
+public class AtomicActivityHistService extends BaseService {
 
     /** 個別モニタ用マッパー生成 */
     @Autowired private IndividualMonitorMapper iMonitorMapper;
@@ -80,9 +73,9 @@ public class HostCommInfoService extends BaseService {
     /** 外部ファイル参照用サービス生成 */
     @Autowired ExeForeignFileService exeForeignFileService;
     
-    // STD APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-    @Autowired private HostMapper hostMapper;
-    // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    @Autowired private AtomicTransferLogMapper atomicTransferLogMapper;
+    // END APL 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
     //@formatter:off
     /**
@@ -101,32 +94,52 @@ public class HostCommInfoService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<HostCommInfoListEntity> getHostCommInfoList(ReqGetHostCommInfoEntity reqEntity) throws McsException {
+    public List<AtomicActivityHistListEntity> getAtomicActivityHistList(ReqGetAtomicActivityHistEntity reqEntity) throws McsException {
 
         // -----------------------------------------
         // 返却データの生成
         // -----------------------------------------
-        List<HostCommInfoListEntity> retRecList = new ArrayList<HostCommInfoListEntity>();
+        List<AtomicActivityHistListEntity> retRecList = new ArrayList<AtomicActivityHistListEntity>();
 
         // -----------------------------------------
         // Hostデータ取得
         // -----------------------------------------
 //        
-        List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
+//        List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
+        List<AtomicTransferLog> atomicTransferLog = atomicTransferLogMapper.selectAtomicActivityHistList(reqEntity);
         
-        if (host == null ) {
+        if (atomicTransferLog == null ) {
         	return retRecList;
         }
-        
+	 	
         int rowNum = 1;
-	 	for (Host hostRec : host) {
-	 		HostCommInfoListEntity retRec = new HostCommInfoListEntity();
+	 	for (AtomicTransferLog atomicTransferLogRec : atomicTransferLog) {
+	 		AtomicActivityHistListEntity retRec = new AtomicActivityHistListEntity();
 
 	 		retRec.rum = rowNum;
-	 		retRec.hostIP = hostRec.getHostIp();
-	 		retRec.hostName = hostRec.getHostName();
-	 		retRec.commState = hostRec.getCommState();
-	 		retRec.passageTime = hostRec.getPassageTime();
+	 		retRec.time = atomicTransferLogRec.getTime();
+	 		retRec.carrierId = atomicTransferLogRec.getCarrierId();
+	 		retRec.tscAbbreviation = atomicTransferLogRec.getTscAbbreviation();
+	 		retRec.source = atomicTransferLogRec.getSrcLoc();
+	 		retRec.destination = atomicTransferLogRec.getDstLoc();
+	 		retRec.statusStr = atomicTransferLogRec.getStatusStr();
+	 		retRec.priority = atomicTransferLogRec.getPriority();
+	 		retRec.routeNo = atomicTransferLogRec.getRouteNo();
+	 		retRec.queuedTime = atomicTransferLogRec.getQueuedTime();
+	 		retRec.leadTime = atomicTransferLogRec.getLeadTime();
+	 		retRec.totalTime = atomicTransferLogRec.getTotalTime();
+	 		retRec.vehicleId = atomicTransferLogRec.getVehicleId();
+	 		retRec.commandId = atomicTransferLogRec.getCommandId();
+	 		retRec.atomicRequestTime = atomicTransferLogRec.getAtomicReqTime();
+	 		retRec.atomicAnswerTime = atomicTransferLogRec.getAtomicAnsTime();
+	 		retRec.atomicInitiateTime = atomicTransferLogRec.getAtomicIniTime();
+	 		retRec.atomicAcquiredTime = atomicTransferLogRec.getAtomicAcqTime();
+	 		retRec.atomicCompleteTime = atomicTransferLogRec.getAtomicCmpTime();
+	 		retRec.abortRequestTime = atomicTransferLogRec.getAbortReqTime();
+	 		retRec.abortAnswerTime = atomicTransferLogRec.getAbortAnsTime();
+	 		retRec.abortInitiateTime = atomicTransferLogRec.getAbortIniTime();
+	 		retRec.abortCompleteTime = atomicTransferLogRec.getAbortCmpTime();
+	 		retRec.abortReason = atomicTransferLogRec.getAbortReason();
 	 		
 	 		rowNum++;
 	 		
@@ -139,8 +152,8 @@ public class HostCommInfoService extends BaseService {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStockerInfoIdBox
-     *            （HostのTscIDセレクトボックスリスト取得機能)
+     * @brief     getTscIdBox
+     *            （TSCのTscIDセレクトボックスリスト取得機能)
      * @param     reqEntity      画面項目情報
      * @return    検索条件に該当するレコード
      * @retval    List形式で返却
@@ -149,21 +162,21 @@ public class HostCommInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200318   getStockerInfoIdBox										董 天津村研
+     * 20200326   getTscIdBox										董 天津村研
      ******************************************************************************
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<String[]> getHostNameBox() {
+    public List<String[]> getTscIdBox() {
     	
-    	List<Host> hostNameList = hostMapper.selectHostNameList();
+    	List<Tsc> tscIdList = atomicTransferLogMapper.selectTscNameList();
 
         List<String[]> selBoxList = new ArrayList<String[]>();
 
-        for (Host hostName : hostNameList) {
+        for (Tsc tscIds : tscIdList) {
             String[] data = new String[2];
-            data[0] = hostName.getHostName();
-            data[1] = hostName.getHostName();
+            data[0] = String.valueOf(tscIds.getTscId());
+            data[1] = tscIds.getTscAbbreviation();
             
             selBoxList.add(data);
         }
@@ -174,8 +187,8 @@ public class HostCommInfoService extends BaseService {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStockerInfoIdBox
-     *            （HostのTscIDセレクトボックスリスト取得機能)
+     * @brief     getStkData
+     *            （tscのTscIDセレクトボックスリスト取得機能)
      * @param     reqEntity      画面項目情報
      * @return    検索条件に該当するレコード
      * @retval    List形式で返却
@@ -184,30 +197,94 @@ public class HostCommInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200318   getStockerInfoIdBox										董 天津村研
+     * 20200326   getStkData										董 天津村研
      ******************************************************************************
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<String[]> getCommStateBox() {
+    public List<String[]> getStkData() {
     	
+    	List<Tsc> tscIdList = atomicTransferLogMapper.selectStkData();
+
         List<String[]> selBoxList = new ArrayList<String[]>();
-        	
-            String[] data1 = new String[2];
-            data1[0] = "Selected";
-            data1[1] = "Selected";
+
+        for (Tsc tscIds : tscIdList) {
+            String[] data = new String[2];
+            data[0] = String.valueOf(tscIds.getTscId());
+            data[1] = tscIds.getTscAbbreviation();
             
-            String[] data2 = new String[2];
-            data2[0] = "Selected/NotCommuncating";
-            data2[1] = "Selected/NotCommuncating";
+            selBoxList.add(data);
+        }
+
+        return selBoxList;
+    }
+ 
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getOhbData
+     *            （OHBのOHB_IDセレクトボックスリスト取得機能)
+     * @param     reqEntity      画面項目情報
+     * @return    検索条件に該当するレコード
+     * @retval    List形式で返却
+     * @attention
+     * @note      コントローラIDリストを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200326   getOhbData										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<String[]> getOhbData() {
+    	
+    	List<Ohb> ohbIdList = atomicTransferLogMapper.selectOhbData();
+
+        List<String[]> selBoxList = new ArrayList<String[]>();
+
+        for (Ohb ohbIds : ohbIdList) {
+            String[] data = new String[2];
+            data[0] = ohbIds.getOhbId();
+            data[1] = ohbIds.getOhbId();
             
-            String[] data3 = new String[2];
-            data3[0] = "Selected/Communicating";
-            data3[1] = "Selected/Communicating";
+            selBoxList.add(data);
+        }
+
+        return selBoxList;
+    }
+    
+  //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     getPortData
+     *            （PORTのOPORT_IDセレクトボックスリスト取得機能)
+     * @param     reqEntity      画面項目情報
+     * @return    検索条件に該当するレコード
+     * @retval    List形式で返却
+     * @attention
+     * @note      コントローラIDリストを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200326   getPortData										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<String[]> getPortData() {
+    	
+    	List<Port> porTIdList = atomicTransferLogMapper.selectPortData();
+
+        List<String[]> selBoxList = new ArrayList<String[]>();
+
+        for (Port porIds : porTIdList) {
+            String[] data = new String[2];
+            data[0] = porIds.getPortId();
+            data[1] = porIds.getPortAbbreviation();
             
-            selBoxList.add(data1);
-            selBoxList.add(data2);
-            selBoxList.add(data3);
+            selBoxList.add(data);
+        }
 
         return selBoxList;
     }
@@ -228,50 +305,10 @@ public class HostCommInfoService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public int getHostommInfoCount(ReqGetHostCommInfoEntity record) {
+    public int getAtomicActivityHistCount(ReqGetAtomicActivityHistEntity record) {
 
         int ret = 0;
-        ret = (int) hostMapper.getCount(record);
+        ret = (int) atomicTransferLogMapper.getCount(record);
         return ret;
-    }
-    
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     getRowColor
-     * @param     reqEntity      画面項目情報
-     * @return    検索条件に該当するレコード
-     * @retval    List形式で返却
-     * @attention
-     * @note      コントローラIDリストを取得する
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     * 20200327   getRowColor										董 天津村研
-     ******************************************************************************
-     */
-    //@formatter:on
-    @Transactional(readOnly = true)
-    public List<String> getRowColor(ReqGetHostCommInfoEntity reqEntity) throws McsException {
-    	
-    	List<String> color = new ArrayList<String>();
-    	List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
-        
-        if (host == null ) {
-        	return color;
-        }
-        
-	 	for (Host hostRec : host) {
-	 		String commState = hostRec.getCommState();
-	 		if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
-    		{
-        		// Selected/Communicating以外は異常とする.
-        		color.add("#FF0000");
-    		}
-        	else {
-        		color.add("");
-        	}
-	 	} 
-        return color;
     }
 }
