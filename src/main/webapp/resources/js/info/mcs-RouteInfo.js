@@ -39,13 +39,403 @@ $(function() {
   // 行選択時のイベントをセット
   dataTables.onSelectRow(function() {
 	destTable.clear();
+	var srcPieceIdText = source.getText();
+	var dstPieceIdText = destination.getText();
     var record = dataTables.getSelectedRowData();
+    var nextDstConnId1 = record[0].nextDstConnId1;
     var destTableList = new Array();
     var i = 0;
     var j = 1;
-    //destTableList[0]= ""{DestNo: " + i +", EQPID: "Down", Connection: "Available"};
-    destTableList[0]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
-    destTableList[1]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
+    
+    var dest = {
+    	    'DestNo':j,
+    	    'EQPID':srcPieceIdText,
+    	    'Connection':nextDstConnId1
+    	} ;
+    destTableList[i]= dest;
+    i++;j++;
+    //var nextDstPieceId1 = record[0].nextDstPieceId1;
+    if(record[0].nextDstPieceId1 == null || record[0].nextDstPieceId1 == "" || record[0].nextDstPieceId1 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+			    	    'DestNo':j,
+			    	    'EQPID':record[0].nextDstPieceId1,
+			    	    'Connection':record[0].nextDstConnId2
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId2 == null || record[0].nextDstPieceId2 == "" || record[0].nextDstPieceId2 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId2,
+	    	    		'Connection':record[0].nextDstConnId3
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId3 == null || record[0].nextDstPieceId3 == "" || record[0].nextDstPieceId3 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId3,
+	    	    		'Connection':record[0].nextDstConnId4
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId4 == null || record[0].nextDstPieceId4 == "" || record[0].nextDstPieceId4 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId4,
+	    	    		'Connection':record[0].nextDstConnId5
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId5 == null || record[0].nextDstPieceId5 == "" || record[0].nextDstPieceId5 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId5,
+	    	    		'Connection':record[0].nextDstConnId6
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId6 == null || record[0].nextDstPieceId6 == "" || record[0].nextDstPieceId6 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId6,
+	    	    		'Connection':record[0].nextDstConnId7
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId7 == null || record[0].nextDstPieceId7 == "" || record[0].nextDstPieceId7 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId7,
+	    	    		'Connection':record[0].nextDstConnId8
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId8 == null || record[0].nextDstPieceId8 == "" || record[0].nextDstPieceId8 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId8,
+	    	    		'Connection':record[0].nextDstConnId9
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId9 == null || record[0].nextDstPieceId9 == "" || record[0].nextDstPieceId9 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId9,
+	    	    		'Connection':record[0].nextDstConnId10
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId10 == null || record[0].nextDstPieceId10 == "" || record[0].nextDstPieceId10 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId10,
+	    	    		'Connection':record[0].nextDstConnId11
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId11 == null || record[0].nextDstPieceId11 == "" || record[0].nextDstPieceId11 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId11,
+	    	    		'Connection':record[0].nextDstConnId12
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId12 == null || record[0].nextDstPieceId12 == "" || record[0].nextDstPieceId12 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId12,
+	    	    		'Connection':record[0].nextDstConnId13
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId13 == null || record[0].nextDstPieceId13 == "" || record[0].nextDstPieceId13 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId13,
+	    	    		'Connection':record[0].nextDstConnId14
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId14 == null || record[0].nextDstPieceId14 == "" || record[0].nextDstPieceId14 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId14,
+	    	    		'Connection':record[0].nextDstConnId15
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId15 == null || record[0].nextDstPieceId15 == "" || record[0].nextDstPieceId15 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId15,
+	    	    		'Connection':record[0].nextDstConnId16
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId16 == null || record[0].nextDstPieceId16 == "" || record[0].nextDstPieceId16 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId16,
+	    	    		'Connection':record[0].nextDstConnId17
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId17 == null || record[0].nextDstPieceId17 == "" || record[0].nextDstPieceId17 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId17,
+	    	    		'Connection':record[0].nextDstConnId18
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId18 == null || record[0].nextDstPieceId18 == "" || record[0].nextDstPieceId18 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId18,
+	    	    		'Connection':record[0].nextDstConnId19
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    
+    i++;j++;
+    if(record[0].nextDstPieceId19 == null || record[0].nextDstPieceId19 == "" || record[0].nextDstPieceId19 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId19,
+	    	    		'Connection':record[0].nextDstConnId20
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+    i++;j++;
+    if(record[0].nextDstPieceId20 == null || record[0].nextDstPieceId20 == "" || record[0].nextDstPieceId20 == "0"){
+    	var dest1 = {
+		    	    	'DestNo':j,
+		    	    	'EQPID':dstPieceIdText,
+		    	    	'Connection':""
+    	    		} ;
+    	destTableList[i]= dest1;
+    	destTable.addDataList(destTableList);
+    	return;
+    }else{
+    	var dest1 = {
+	    	    		'DestNo':j,
+	    	    		'EQPID':record[0].nextDstPieceId20,
+	    	    		'Connection':record[0].nextDstConnId21
+	    			} ;
+	    destTableList[i]= dest1;
+    }
+   
+   
+    //destTableList[0]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
+    //destTableList[1]= {DestNo: "32BCU024-LB007", EQPID: "Down", Connection: "Available"};
     destTable.addDataList(destTableList);
   });
 
@@ -72,17 +462,22 @@ $(function() {
   // ヘッダ設定(状態テーブル)
   destTable.setHeader(destHeader);
   
-  $("#routeState").css("background-color","#008000");
-  
   var source  = new McsSelectBox($('#source'));
   var destination  = new McsSelectBox($('#destination'));
   var tableNo  = new McsSelectBox($('#tableNo'));
   
   var searchButton = new McsButton($('#btn-search'), "Search");
   
-  
-  
+  //routeState状態テキスト
+  var routeState1 = screenValue.routeState;
+  var routeState = $('#routeState');
+  routeState.text(routeState1[0][1]);
+  routeState.css("background-color",routeState1[0][0]);
+  routeState.css("color","black");
+ 
+
   searchButton.onClick(function() {
+	  destTable.clear();
 	  var srcPieceIdValue = source.getValue();
 	  var dstPieceIdValue = destination.getValue();
 	  var tableNoValue = tableNo.getValue();
@@ -101,36 +496,6 @@ $(function() {
   tableNo.setList(tabelNoJson);
   
 
-  /**
-   ******************************************************************************
-   * @brief   ポートリストの検索を行う
-   * @param
-   * @return
-   * @retval
-   * @attention
-   * @note
-   * ----------------------------------------------------------------------------
-   * VER.        DESCRIPTION                                               AUTHOR
-   * ----------------------------------------------------------------------------
-   ******************************************************************************
-   */
-  /*
-  function searchRouteList(srcPieceId,dstPieceId,tableNo) {
-      var url = getUrl('/RouteInfo/GetRouteList');
-      var cond = {
-    		  srcPieceId:srcPieceId,
-    		  dstPieceId:dstPieceId,
-    		  tableNo:tableNo
-      };
-      var flag = false;
-      var success = function(retObj) {
-    	  destTable.clear();
-    	  //destTable.addDataList(retObj.ohbPortRltList,retObj.rowColor);
-      };
-      callAjax(url, JSON.stringify(cond), flag, success);
-  }
-*/
-  
   // 戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
 
@@ -143,9 +508,9 @@ $(function() {
   // 初回検索
   // extract({});
    extract({
-	      srcPieceId:'4512',
-		  dstPieceId:'3041',
-		  tableNo:'2'
+	      srcPieceId:'3006',
+		  dstPieceId:'3006',
+		  tableNo:'1'
    });
 
   /**
@@ -168,9 +533,6 @@ $(function() {
       searchDataFlag: true,
       tableCompId: 'I-008-dataTables', // テーブルコンポーネントID
       success: function(data) {
-    	//var d = data.body[0].ohbId;
-    	//var ohbId=d.replace("<br>","");
-    	//searchOhbPortRltList(ohbId);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない
@@ -213,12 +575,13 @@ $(function() {
 //DEL END APL 2020.02.20 song 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000
 
   // CSV保存用スライドの初期化
+  /*
   var saveMenu = new McsSlideMenu({
     depth: 1,
     parent: null,
     slideDiv: $('#mcs-saveMenu')
   });
-
+  */
   // CSV保存用スライドの生成
   // saveCsvSlide();
 
@@ -239,6 +602,7 @@ $(function() {
    * MACS4#0047  GUI要望分                                              T.Iga/CSC
    ******************************************************************************
    */
+  /*
   function createList() {
     // 各ボタンのイベント登録
     // 再表示ボタン押下
@@ -260,6 +624,7 @@ $(function() {
       slideMenuTop.hide();
     });
   }
+  */
 
   /**
    ******************************************************************************
@@ -274,6 +639,7 @@ $(function() {
    * ----------------------------------------------------------------------------
    ******************************************************************************
    */
+  /*
   function saveCsvSlide() {
     // ******************************************************
     // 検索項目生成
@@ -323,69 +689,7 @@ $(function() {
       saveMenu.hide();
     });
   }
-
-  /**
-   ******************************************************************************
-   * @brief       アラーム削除機能
-   * @param
-   * @return
-   * @retval
-   * @attention
-   * @note        選択されたアラームの削除処理を実施する。
-   * ----------------------------------------------------------------------------
-   * VER.        DESCRIPTION                                               AUTHOR
-   * ----------------------------------------------------------------------------
-   * MACS4#0047  GUI要望分(新規作成)                                    T.Iga/CSC
-   * MACS4#0114  GUI MCSAlarmクリア対応                                 T.Iga/CSC
-   ******************************************************************************
-   */
-  function delAlarmList() {
-    var datas = dataTables.getSelectedRowData();
-    if (datas === null) {
-      errorDialog.openAlert(screenText.dialog.noSelectMsg, screenText.dialog.ret, 'alert');
-      return;
-    }
-    // 確認ダイアログ
-    // 対象レコード用の確認メッセージ組み立て
-    var delCfmMsg = screenText.dialog.delCfmMsg;
-    delCfmMsg = delCfmMsg.replace(/%3/, datas[0].alarmId);
-    delCfmMsg = delCfmMsg.replace(/%4/, datas[0].amhsId);
-
-    confirmDialog.openConfirm(delCfmMsg, screenText.dialog.confirm, screenText.dialog.ret, 'confirm', function(result) {
-      if (result) {
-        // 決定ボタン押下時
-        var arrayId = [];
-        for (var i = 0; i < datas.length; i++) {
-          arrayId.push({
-            alarmId: datas[i].alarmId,
-            alarmCode: datas[i].alarmCode,
-            alarmSubCode: datas[i].alarmSubCode,
-//          alarmLoc: datas[i].alarmLocation,       // MACS4#0114 Del
-//          machineId: datas[i].machineId,          // MACS4#0114 Del
-            amhsId: datas[i].amhsId,
-            setTime: datas[i].setTime,              // MACS4#0114 Add
-            amhsType: datas[i].amhsType             // MACS4#0114 Add
-          });
-        }
-
-        // 削除実行
-        var url = getUrl('/Alarm/ExeDeleteAlarmList');
-        var whereMapList = arrayId;
-        var options = {
-            url: url,
-            whereMapList: whereMapList,
-            onError: null,
-            successMessage: screenText.dialog.delCfmMsg,
-            completeMessage: screenText.dialog.delCompMsg,
-            onComplete: listReload
-        };
-        deleteTaskManager.start(options);
-      } else {
-        // 戻るボタン押下時
-        // 動作なし
-      }
-    });
-  }
+  */
   /**
    ******************************************************************************
    * @brief       一覧再表示処理
@@ -400,7 +704,9 @@ $(function() {
    * MACS4#0047  GUI要望分(新規作成)                                    T.Iga/CSC
    ******************************************************************************
    */
+  /*
   function listReload() {
     dataTables.reload();
   }
+  */
 });

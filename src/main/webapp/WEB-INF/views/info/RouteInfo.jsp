@@ -91,7 +91,8 @@ var screenText = {
   };
   var screenValue = {
 		  pieceListJson: JSON.parse('${II_009_00_001}'),
-		  tabelNoJson:   JSON.parse('${II_009_00_002}')
+		  tabelNoJson:   JSON.parse('${II_009_00_002}'),
+		  routeState:  JSON.parse('${II_009_00_003}')
   };
 
 </script>
@@ -139,11 +140,11 @@ var screenText = {
         	<tr>
                 <td>Route State :&nbsp;<!--<spring:message code="II-005-01-003" />--></td>
                 <td >
-                    <span id="routeState" >Completed  &nbsp;&nbsp;</span>
+                    <span id="routeState" ><!--Completed  -->  &nbsp;&nbsp;</span>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Table No :</td>
                 <td class="">
-                    <span id="currentTableNo" style="color:blue"> &nbsp;1 &nbsp;&nbsp;</span>
+                    <span id="currentTableNo" style="color:blue"> &nbsp;${II_009_00_004}&nbsp;&nbsp;</span>
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source :</td>
                 <td class="mcs-td-selectbox">
