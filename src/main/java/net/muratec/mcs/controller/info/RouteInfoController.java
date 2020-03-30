@@ -20,6 +20,7 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +40,8 @@ import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.exception.McsException;
+import net.muratec.mcs.model.Macs;
+import net.muratec.mcs.model.Piece;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
 import net.muratec.mcs.service.info.RouteInfoService;
 
@@ -126,9 +129,14 @@ public class RouteInfoController extends BaseController {
         // ----------------------------------------------
 
         // セレクトボックス要素取得
-        List<String[]> pieceList = routeInfoService.getSourceDestinationPieceBox();
-        List<String[]> tabelNoList = routeInfoService.getTableNoBox();
-       
+        List<String[]> pieceList = routeInfoService.getSourceDestinationPieceSelectBox();
+        List<String[]> tabelNoList = routeInfoService.getTableNoSelectBox();
+        Macs macs= routeInfoService.getTableNo();
+        
+        Short routeState = macs.getRouteState();
+        List<String[]> routeStateList = RouteState(routeState);
+        Short tableNo = macs.getTableNo();
+        
         //tscIdBoxはAllを初期化表示する
         //hostNameBoxList.add(0, allTerms);
         //commStateBoxList.add(0, allTerms);
@@ -136,9 +144,12 @@ public class RouteInfoController extends BaseController {
         // セレクトボックス要素をJSON化
        String pieceListJson = super.objectToJson(pieceList);
        String tabelNoJson = super.objectToJson(tabelNoList);
+       String routeStateJson = super.objectToJson(routeStateList);
        
        model.addAttribute("II_009_00_001", pieceListJson);
        model.addAttribute("II_009_00_002", tabelNoJson);
+       model.addAttribute("II_009_00_003", routeStateJson);
+       model.addAttribute("II_009_00_004", tableNo.toString());
        
        // バージョン情報付与
        ComFunction.setVersion(model);
@@ -146,4 +157,73 @@ public class RouteInfoController extends BaseController {
        return "info/RouteInfo";
     }
     
+    
+    
+	/**
+	 * Route Stateの色とキャプションを更新します
+	 * 
+	 * State : 0 -> None
+	 *         1 -> Creating
+	 *         2 -> Calculating
+	 *         3 -> Completed
+	 *         9 -> Failed
+	 */
+    private List<String[]> RouteState(Short routeState)
+	{
+		/** ROUTE_STATEの状態を表します */
+		String STATE_NONE        = "0";
+		String STATE_CREATING    = "1";
+		String STATE_CALCULATING = "2";
+		String STATE_COMPLETED   = "3";
+		String STATE_FAILED      = "9";
+		
+		String[] routeState1 = new String[2];
+		
+		if( routeState != null  )
+		{
+			String routeState2 = routeState.toString();
+			
+			if( STATE_NONE.equals( routeState2 ) )
+			{
+				routeState1[0] = "#00FFFF";  //java.awt.Color.cyan
+				routeState1[1] = "None" ;
+			}
+			else if( STATE_CREATING.equals( routeState2 ) )
+			{
+				routeState1[0] = "#FFC800";  //Color.orange
+				routeState1[1] = "Creating" ;
+			}
+			else if( STATE_CALCULATING.equals( routeState2 ) )
+			{
+				routeState1[0] = "#FFAFAF";  //Color.pink
+				routeState1[1] = "Calculating" ;
+			}
+			else if( STATE_COMPLETED.equals( routeState2 ) )
+			{
+				routeState1[0] = "#00FF00";  //Color.green
+				routeState1[1] = "Completed" ;
+			}
+			else if( STATE_FAILED.equals( routeState2 ) )
+			{
+				routeState1[0] = "#FF0000";  //Color.red
+				routeState1[1] = "Failed" ;
+			}
+			else
+			{
+				routeState1[0] = "#FF0000"; //Color.red
+				routeState1[1] = routeState2 ;
+			}
+		}
+		else
+		{
+			routeState1[0] = "";
+			routeState1[1] = "";
+		}
+		
+		List<String[]> selBoxrouteStateList = new ArrayList<String[]>();
+
+	    selBoxrouteStateList.add(routeState1);
+
+	    return selBoxrouteStateList;
+	}    
 }

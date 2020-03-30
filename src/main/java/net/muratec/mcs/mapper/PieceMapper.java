@@ -119,4 +119,20 @@ public interface PieceMapper {
     //@formatter:on
     List<Piece> selectPieceListForSelectBox();
     
+    /**
+     ******************************************************************************
+     * @brief       selectAllPieceList
+     * @param       reqEntity   (search criteria)
+     * @return      All Piece List
+     * @retval      List of Piece Model Style
+     * @attention
+     * @note        Select All Piece List .
+     * ----------------------------------------------------------------------------
+     * DATE       VER.        DESCRIPTION                                    AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    List<Piece> selectAllPieceList();
+    
 }

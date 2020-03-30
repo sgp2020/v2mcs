@@ -406,4 +406,9 @@
 		AND  piece_id IN ( SELECT piece_id from piece where conn_tsc_id &lt; 900 )  
 		ORDER BY 1 
   </select>
+  
+  <select id="selectAllPieceList" parameterType="net.muratec.mcs.model.Piece" resultMap="BaseResultMap">
+    	SELECT PIECE_ID, CONN_TSC_ID, PIECE_NAME, PIECE_ABBREVIATION, VENDOR_PIECE_NAME, PIECE_MODE, AVAILABLE, E10_STATE, STATE_SET_TIME, MODE_SET_TIME, MODE_SET_SID, MODE_SET_ORIGINATOR, DISPLAY_FLG  
+		FROM   PIECE
+  </select>
 </mapper>
