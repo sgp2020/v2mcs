@@ -270,22 +270,67 @@ $(function() {
     		  maxRecords: maxRecords.getValue()
       };
       
-      /*var searchInformationH = "";
-      var searchInformationC = "";
-      var searchInformation = "";
       var space = "&nbsp&nbsp"; 
-      var searchHostName = hostName.getValue();
-      var searchCommState = commState.getValue();
-      if(searchHostName!=null && searchHostName !="")
+      var searchInformation = "";
+      var searchInfoTscIds = "";
+      var searchInfoSources = "";
+      var searchInfoDestinations = "";
+      var searchInfoCarrierIds = "";
+      var searchInfoCommandIds = "";
+      var searchInfoDateFroms = "";
+      var searchInfoDateTos = "";
+      var searchInfoMaxRecords = "";
+      var searchInfoTscId = tscId.getValue();
+      var searchInfoSource = source.getValue();
+      var searchInfoDestination = destination.getValue();
+      var searchInfoCarrierId = carrierId.getValue();
+      var searchInfoCommandId = commandId.getValue();
+      var searchInfoDateFrom = dateFrom.getValue();
+      var searchInfoDateTo = dateTo.getValue();
+      var searchInfoMaxRecord = maxRecords.getValue();
+      
+      if(searchInfoTscId!=null && searchInfoTscId !="")
       {
-    	  searchInformationH = " Host Name ["+searchHostName+"]	";
+    	  searchInfoTscIds = " TSCID ["+searchInfoTscId+"]";
       }
-      if(searchCommState!=null && searchCommState !="")
+      if(searchInfoSource!=null && searchInfoSource !="")
       {
-    	  searchInformationC = " Comm State " + "[" + searchCommState + "]";
+    	  searchInfoSources = " Source " + "[" + searchInfoSource + "]";
       }
-      $('#searchInfo').html(searchInformationH + space + searchInformationC);//space is not valid.
-   */   
+      if(searchInfoDestination!=null && searchInfoDestination !="")
+      {
+    	  searchInfoDestinations = " Destination ["+searchInfoDestination+"]";
+      }
+      if(searchInfoCarrierId!=null && searchInfoCarrierId !="")
+      {
+    	  searchInfoCarrierIds = " Carrier ID " + "[" + searchInfoCarrierId + "]";
+      }
+      if(searchInfoCommandId!=null && searchInfoCommandId !="")
+      {
+    	  searchInfoCommandIds = " Carrier ID " + "[" + searchInfoCommandId + "]";
+      }
+      if(searchInfoDateFrom!=null && searchInfoDateFrom !="")
+      {
+    	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " - ";
+      }
+      if(searchInfoDateTo!=null && searchInfoDateTo !="")
+      {
+    	  searchInfoDateTos = searchInfoDateTo + "]";
+      }
+      if(searchInfoMaxRecord!=null && searchInfoMaxRecord !="")
+      {
+    	  searchInfoMaxRecords = " Max Records " + "[" + searchInfoMaxRecord + "]";
+      }
+      
+      $('#searchInfo').html(  searchInfoTscIds+ space + 
+				    		  searchInfoSources + space +
+				    		  searchInfoDestinations + space +
+				    		  searchInfoCarrierIds + space +
+				    		  searchInfoCommandIds + space +
+				    		  searchInfoDateFroms + 
+				    		  searchInfoDateTos + space +
+				    		  searchInfoMaxRecords);
+      
       var tableCompId = 'H-002-dataTables';
       var options = {
         url: url,

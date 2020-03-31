@@ -27,7 +27,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.muratec.mcs.annotation.FieldNameKey;
 import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
-import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 
 //@formatter:off
 /**
