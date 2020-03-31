@@ -1,25 +1,27 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        RouteInfoAjaxController.java
- * @brief       アラーム情報表示関連のコントローラ
+ * @file        VehicleInfoAjaxController.java
+ * @brief       ビックル情報表示関連のコントローラ
  * @par
- * @author      SGP
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
  * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
  *
- * @note        
+ * @note        Tabstop=4
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                     AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/25  2                                           SGP
+ * 2020/03/12  2                                          天津／張東江
  ******************************************************************************
  */
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -44,20 +46,22 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 //import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity;
-import net.muratec.mcs.entity.info.ReqGetRouteInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ResGetRouteInfoListEntity;
+//import net.muratec.mcs.entity.common.OpeLogInfoEntity;
+import net.muratec.mcs.entity.info.ReqGetVehicleInfoListEntity;
+import net.muratec.mcs.entity.info.ReqGetVehicleInfoListValidateEntity;
+import net.muratec.mcs.entity.info.ResGetVehicleInfoListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.McsDataTablesService;
-import net.muratec.mcs.service.info.RouteInfoService;
-
+//import net.muratec.mcs.service.common.OpeLogService;
+import net.muratec.mcs.service.info.VehicleInfoService;
+import net.muratec.mcs.common.defines.State;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     アラーム情報表示関連のコントローラクラス
+ * @brief     ビックル情報表示関連のコントローラクラス
  * @par       機能:
- *              getRouteInfoList(アラーム情報一覧の取得)
+ *              getVehicleInfo(ビックル情報一覧の取得)
  * @attention
  * @note
  * ----------------------------------------------------------------------------
@@ -67,61 +71,52 @@ import net.muratec.mcs.service.info.RouteInfoService;
  */
 //@formatter:on
 @Controller
-public class RouteInfoAjaxController extends BaseAjaxController {
+public class VehicleInfoAjaxController extends BaseAjaxController {
 
-    private static final Logger logger = LoggerFactory.getLogger(RouteInfoAjaxController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VehicleInfoAjaxController.class);
 
     // ------------------------------------
-    // アラーム情報画面用サービス
+    // ビックル情報画面用サービス
     // ------------------------------------
-    @Autowired private RouteInfoService routeInfoService;
+    @Autowired private VehicleInfoService vehicleInfoService;
 
     // ------------------------------------
     // グリッド用サービス
     // ------------------------------------
     @Autowired private McsDataTablesService mcsDataTablesService;
 
-    // ------------------------------------
-    // 操作ログサービス - MACS4#0047 Add
-    // ------------------------------------
-    //@Autowired private OpeLogService opeLogService;
-
-    // ------------------------------------
-    // メッセージリソース - MACS4#0047 Add
-    // ------------------------------------
-    // @Autowired private MessageSource messageSource;
 
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getRouteInfoList(アラーム情報表示一覧の取得)機能
+     * @brief     GetVehicleInfo(ビックル情報表示一覧の取得)機能
      * @param     session        セッション情報(Frameworkより付加)
      * @param     reqValidate    画面より入力された情報
      * @param     errors         エラー情報(Frameworkより付加)
      * @param     locale         ロケーション情報(Frameworkより付加)
      * @param     model          モデル情報(Frameworkより付加)
-     * @return    アラーム情報表示一覧検索結果
+     * @return    テストキャリア情報表示一覧検索結果
      * @retval    JSON形式で返却
      * @attention
-     * @note      アラーム情報表示一覧の検索処理を行う
+     * @note      ビックル情報表示一覧の検索処理を行う
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/RouteInfo/GetRouteInfoList", method = RequestMethod.POST)
+    @RequestMapping(value = "/VehicleInfo/GetVehicleInfo", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_ROUTE, logOperationType = ComConst.LogOperationType.GET, number = 3L)
-    public ResGetRouteInfoListEntity getRouteInfoList(HttpSession session,
-            @Valid @RequestBody ReqGetRouteInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_VEHICLE, logOperationType = ComConst.LogOperationType.GET, number = 3L)
+    public ResGetVehicleInfoListEntity getVehicleInfoList(HttpSession session,
+            @Valid @RequestBody ReqGetVehicleInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_ROUTE.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_VEHICLE.getRefAuthFuncId());
 
         // ------------------------------------
         // ユーザ情報の取得
@@ -131,13 +126,13 @@ public class RouteInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // エラーチェック(エラー時はAjaxAurgumentExceptionをthrow)
         // ------------------------------------
-        ReqGetRouteInfoListEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-                ReqGetRouteInfoListEntity.class);
+        ReqGetVehicleInfoListEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+                ReqGetVehicleInfoListEntity.class);
 
         // ------------------------------------
         // レスポンスエンティティ生成
         // ------------------------------------
-        ResGetRouteInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetRouteInfoListEntity.class, reqEntity,
+        ResGetVehicleInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetVehicleInfoListEntity.class, reqEntity,
                 sessionUserInfo.userName, locale);
 
         // ------------------------------------
@@ -145,37 +140,22 @@ public class RouteInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         if (reqEntity.searchDataFlag) {
 
-           
-            // ------------------------------------
-            // 全体レコード数取得、設定
-            // ------------------------------------
-            resEntity.pageInfo.totalRecords = routeInfoService.getCount(reqEntity);
-            
             // ------------------------------------
             // データ取得、設定
             // ------------------------------------
-            resEntity.body = routeInfoService.getRouteInfoList(reqEntity);
-
-            
-            // ------------------------------------
-            // 画面表示情報の取得
-            // ------------------------------------
-            ResGetRouteInfoListEntity resGetRouteListEntity = routeInfoService.getDispRowList(resEntity.body);
+            resEntity.body = vehicleInfoService.getVehicleInfo(reqEntity);
 
             // ------------------------------------
-            // 全体レコード、色情報設定
+            // 全体レコード数取得、設定
             // ------------------------------------
-            //resEntity.body = resGetRouteListEntity.body;
-            resEntity.rowColorList = resGetRouteListEntity.rowColorList;
-            /*
-            List<String> color = new ArrayList<String>();
-            color.add("#FF0000");
-            color.add("#00FF00");
-            resEntity.rowColorList = color;
-            */
+            resEntity.pageInfo.totalRecords = vehicleInfoService.getCount(reqEntity);
             
+            resEntity.rowColorList = vehicleInfoService.getVehicleColor(reqEntity);
+        
         }
 
         return resEntity;
     }
+
+   
 }

@@ -1,26 +1,31 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        RouteInfoAjaxController.java
- * @brief       アラーム情報表示関連のコントローラ
+ * @file        TestCarrierAjaxController.java
+ * @brief       テストキャリア情報表示関連のコントローラ
  * @par
- * @author      SGP
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
  * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
  *
- * @note        
+ * @note        Tabstop=4
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                     AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/25  2                                           SGP
+ * 2020/03/12  2                                          天津／張東江
  ******************************************************************************
  */
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.lang.String;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -44,20 +49,22 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 //import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity;
-import net.muratec.mcs.entity.info.ReqGetRouteInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ResGetRouteInfoListEntity;
+//import net.muratec.mcs.entity.common.OpeLogInfoEntity;
+import net.muratec.mcs.entity.info.ReqGetTestCarrierListEntity;
+import net.muratec.mcs.entity.info.ReqGetTestCarrierListValidateEntity;
+import net.muratec.mcs.entity.info.ResGetTestCarrierListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.McsDataTablesService;
-import net.muratec.mcs.service.info.RouteInfoService;
+//import net.muratec.mcs.service.common.OpeLogService;
+import net.muratec.mcs.service.info.TestCarrierService;
 
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     アラーム情報表示関連のコントローラクラス
+ * @brief     テストキャリア情報表示関連のコントローラクラス
  * @par       機能:
- *              getRouteInfoList(アラーム情報一覧の取得)
+ *              getTestCarrier(テストキャリア情報一覧の取得)
  * @attention
  * @note
  * ----------------------------------------------------------------------------
@@ -67,14 +74,14 @@ import net.muratec.mcs.service.info.RouteInfoService;
  */
 //@formatter:on
 @Controller
-public class RouteInfoAjaxController extends BaseAjaxController {
+public class TestCarrierAjaxController extends BaseAjaxController {
 
-    private static final Logger logger = LoggerFactory.getLogger(RouteInfoAjaxController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestCarrierAjaxController.class);
 
     // ------------------------------------
-    // アラーム情報画面用サービス
+    // テストキャリア情報画面用サービス
     // ------------------------------------
-    @Autowired private RouteInfoService routeInfoService;
+    @Autowired private TestCarrierService testCarrierService;
 
     // ------------------------------------
     // グリッド用サービス
@@ -82,7 +89,7 @@ public class RouteInfoAjaxController extends BaseAjaxController {
     @Autowired private McsDataTablesService mcsDataTablesService;
 
     // ------------------------------------
-    // 操作ログサービス - MACS4#0047 Add
+    //  操作ログサービス - MACS4#0047 Add
     // ------------------------------------
     //@Autowired private OpeLogService opeLogService;
 
@@ -94,34 +101,34 @@ public class RouteInfoAjaxController extends BaseAjaxController {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getRouteInfoList(アラーム情報表示一覧の取得)機能
+     * @brief     getTestCarrierList(テストキャリア情報表示一覧の取得)機能
      * @param     session        セッション情報(Frameworkより付加)
      * @param     reqValidate    画面より入力された情報
      * @param     errors         エラー情報(Frameworkより付加)
      * @param     locale         ロケーション情報(Frameworkより付加)
      * @param     model          モデル情報(Frameworkより付加)
-     * @return    アラーム情報表示一覧検索結果
+     * @return    テストキャリア情報表示一覧検索結果
      * @retval    JSON形式で返却
      * @attention
-     * @note      アラーム情報表示一覧の検索処理を行う
+     * @note      テストキャリア情報表示一覧の検索処理を行う
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/RouteInfo/GetRouteInfoList", method = RequestMethod.POST)
+    @RequestMapping(value = "/TestCarrierList/GetTestCarrierList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_ROUTE, logOperationType = ComConst.LogOperationType.GET, number = 3L)
-    public ResGetRouteInfoListEntity getRouteInfoList(HttpSession session,
-            @Valid @RequestBody ReqGetRouteInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST, logOperationType = ComConst.LogOperationType.GET, number = 3L)
+    public ResGetTestCarrierListEntity GetTestCarrierList(HttpSession session,
+            @Valid @RequestBody ReqGetTestCarrierListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_ROUTE.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getRefAuthFuncId());
 
         // ------------------------------------
         // ユーザ情報の取得
@@ -131,13 +138,13 @@ public class RouteInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         // エラーチェック(エラー時はAjaxAurgumentExceptionをthrow)
         // ------------------------------------
-        ReqGetRouteInfoListEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-                ReqGetRouteInfoListEntity.class);
+        ReqGetTestCarrierListEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+                ReqGetTestCarrierListEntity.class);
 
         // ------------------------------------
         // レスポンスエンティティ生成
         // ------------------------------------
-        ResGetRouteInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetRouteInfoListEntity.class, reqEntity,
+        ResGetTestCarrierListEntity resEntity = mcsDataTablesService.createResEntity(ResGetTestCarrierListEntity.class, reqEntity,
                 sessionUserInfo.userName, locale);
 
         // ------------------------------------
@@ -145,37 +152,48 @@ public class RouteInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         if (reqEntity.searchDataFlag) {
 
-           
-            // ------------------------------------
-            // 全体レコード数取得、設定
-            // ------------------------------------
-            resEntity.pageInfo.totalRecords = routeInfoService.getCount(reqEntity);
-            
             // ------------------------------------
             // データ取得、設定
             // ------------------------------------
-            resEntity.body = routeInfoService.getRouteInfoList(reqEntity);
+            resEntity.body = testCarrierService.getTestCarrierList(reqEntity);
 
+            // ------------------------------------
+            // 全体レコード数取得、設定
+            // ------------------------------------
+            resEntity.pageInfo.totalRecords = testCarrierService.getCount(reqEntity);
             
-            // ------------------------------------
-            // 画面表示情報の取得
-            // ------------------------------------
-            ResGetRouteInfoListEntity resGetRouteListEntity = routeInfoService.getDispRowList(resEntity.body);
-
-            // ------------------------------------
-            // 全体レコード、色情報設定
-            // ------------------------------------
-            //resEntity.body = resGetRouteListEntity.body;
-            resEntity.rowColorList = resGetRouteListEntity.rowColorList;
-            /*
+     
             List<String> color = new ArrayList<String>();
-            color.add("#FF0000");
-            color.add("#00FF00");
-            resEntity.rowColorList = color;
-            */
-            
+
+            SimpleDateFormat f = new SimpleDateFormat("YYYYMMDDHHMMSS00");
+            Date now = new Date();
+            for(int i = 0; i < resEntity.body.size(); i++) {
+            	
+            	String startTime = resEntity.body.get(i).testStartTime; 
+            	String endTime = resEntity.body.get(i).testEndTime;
+
+            	if( startTime != null && startTime != "" &&  (startTime.compareTo(f.format(new Date())) > 0))
+        		{
+            		// 以前の場合は背景を黄緑にする
+            		color.add("#80FF00");
+        		}
+            	else if( endTime != null && endTime != "" && (endTime.compareTo(f.format(new Date())) <= 0))
+        		{
+            		// 以降の場合は背景を黄土色にする
+            		color.add("#808000");
+        		}
+            	else
+            	{
+            		color.add("");           		
+            	}
+            	resEntity.rowColorList = color;
+      	
+            	
+            }
         }
 
         return resEntity;
     }
+
+   
 }

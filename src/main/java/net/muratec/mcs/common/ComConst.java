@@ -625,17 +625,17 @@ public class ComConst {
      */
     static public enum ScreenInfo {
         /**
-         * システム_ログイン
+                * システム_ログイン
          */
         SYS_LOGIN("SysLogin", 900100000L, "", ""),
 
         /**
-         * システム_ログアウト
+                * システム_ログアウト
          */
         SYS_LOGOUT("SysLogout", 900200000L, "", ""),
 
         /**
-         * システム_権限
+                *システム_権限
          */
         SYS_AUTH("SysAuth", 900300000L, "", ""),
 
@@ -650,22 +650,22 @@ public class ComConst {
         SYS_MODIFY_TABLE_MOD("SysMTMod", 900500000L, "", ""),
 
         /**
-         * システムモニタ
+                *システムモニタ
          */
         TOP_SYSTEMMONITOR("T001", 10100000L, "T001_REF", ""),
 
         /**
-         * アラーム - MACS4#0047 Mod "" → I001_CHG
+                * アラーム - MACS4#0047 Mod "" → I001_CHG
          */
         INFO_ALARM("I001", 20100000L, "I001_REF", "I001_CHG"),
 
         /**
-         * キャリア
+                 * キャリア
          */
         INFO_CARRIER("I002", 20200000L, "I002_REF", "I002_CHG"),
 
         /**
-         * 搬送Job
+                * 搬送Job
          */
         //INFO_TRANSFERJOB("I003", 20300000L, "I003_REF", "I003_CHG"),
         
@@ -675,7 +675,7 @@ public class ComConst {
         INFO_OHB("I003", 20300000L, "I003_REF", "I003_CHG"),
         
         /**
-         * ステージ情報 - MACS4#0049 Add
+                 * ステージ情報 - MACS4#0049 Add
          */
         //INFO_STAGEINFO("I004", 20400000L, "I004_REF", "I004_CHG"),
         
@@ -709,12 +709,12 @@ public class ComConst {
         
         
         /**
-         * 搬送Job来歴
+                * 搬送Job来歴
          */
         HIST_TRANSFERJOBHISTORY("H001", 30100000L, "H001_REF", ""),
 
         /**
-         * アラーム来歴
+                * アラーム来歴
          */
 //        HIST_ALARMHISTORY("H002", 30200000L, "H002_REF", ""),//2020.03.25 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 del
         
@@ -725,17 +725,17 @@ public class ComConst {
         HIST_ATOMICACTIVITYHISTORY("H002", 30200000L, "H002_REF", ""),
 
         /**
-         * 在籍時間来歴
+                * 在籍時間来歴
          */
         HIST_STORAGETIMEHISTORY("H003", 30300000L, "H003_REF", ""),
 
         /**
-         * キャリア削除来歴
+                * キャリア削除来歴
          */
         HIST_CARRIERREMOVEHISTORY("H004", 30400000L, "H004_REF", ""),
 
         /**
-         * キャリア監視来歴表示
+                * キャリア監視来歴表示
          */
         HIST_CARRIERMOTIONTIMEHISTORY("H005", 30500000L, "H005_REF", ""),
 
