@@ -98,3 +98,7 @@ div#ColorDiv {
     width: 120px;
     float: left;
 }
+/* 保存スライド */
+#mcs-saveMenu {
+    width: 350px;
+}

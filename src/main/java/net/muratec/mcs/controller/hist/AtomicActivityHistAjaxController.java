@@ -21,6 +21,7 @@
 //@formatter:on
 package net.muratec.mcs.controller.hist;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -44,16 +45,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import net.muratec.mcs.common.defines.State;
 import net.muratec.mcs.annotation.OpLog;
-
+import net.muratec.mcs.common.ComBeanConv;
 import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseAjaxController;
-
+import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ResGetAtomicActivityHistListEntity;
+import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
+import net.muratec.mcs.entity.info.ReqGetCarrierListValidateEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
@@ -166,53 +169,63 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
         return resEntity;
     }
 
-    //@formatter:off
+  //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStockerInfoSelectBoxList(空FOUP管理一覧 コントローラIDセレクトボックスリストの取得)機能
-     * @param     session        セッション情報(Frameworkより付加)
-     * @param     reqEntity      一覧検索条件
-     * @param     errors         エラー情報(Framworkより付加)
-     * @param     locale         ロケーション情報(Frameworkより付加)
-     * @param     model          モデル情報(Frameworkより付加)
-     * @return    処理結果
+     * @brief     SetCsvAtomicActivityHistList（CSV保存）機能
+     * @param     reqValidate    画面より入力された情報
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     errors         エラー情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    成功、または失敗
      * @retval    JSON形式で返却
      * @attention
-     * @note      セレクトボックスリスト情報を取得する
+     * @note      キャリアのCSV出力を行う。
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
+     * 20200331		DownLoad												DONG
      ******************************************************************************
      */
     //@formatter:on
-/*    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
+    @RequestMapping(value = "/AtomicActivityHist/SetCsvAtomicActivityHistList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResGetStockerInfoSelectBoxEntity getStockerInfoSelectBoxList(HttpSession session,
-            @RequestBody AjaxReqBaseEntity reqEntity, Errors errors, Locale locale, Model model)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqStrEntity,
+            HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        // ------------------------------------
         // アクセス権チェック
-        // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_AtomicActivityHistINFO.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
 
-        // ------------------------------------
+        // Entityの型変換
+        ComBeanConv bc = new ComBeanConv();
+        ReqGetAtomicActivityHistEntity reqEntity = bc.convert(reqStrEntity, ReqGetAtomicActivityHistEntity.class);
+
+        // 日付の大小関係を確認（修正）
+        if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
+            // 大小関係が入れ替わっている場合
+            // 現在の値を格納
+            Timestamp sbeforeFrom = reqEntity.dateFrom;
+            Timestamp sbeforeTo = reqEntity.dateTo;
+            // FromとToを入れ替え
+            reqEntity.dateFrom = sbeforeTo;
+            reqEntity.dateTo = sbeforeFrom;
+        }
+
         // 戻り値宣言
-        // ------------------------------------
-        ResGetStockerInfoSelectBoxEntity resEntity = new ResGetStockerInfoSelectBoxEntity();
+        AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 
-        // ------------------------------------
-        // パターンリスト取得
-        // ------------------------------------
-        resEntity.tscIdList = stockerInfoService.getStockerInfoIdBox();
+        String sessionKey = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
 
-        // ------------------------------------
+        super.setSessionAttribute(session, sessionKey, reqEntity);
         // 実行結果設定
-        // ------------------------------------
         resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
         resEntity.result.message = "";
 
         return resEntity;
-    }*/
+    }
+
 }

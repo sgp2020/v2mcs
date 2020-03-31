@@ -48,7 +48,12 @@ $(function() {
     parent: slideMenuTop,
     slideDiv: $('#mcs-slideMenu-search')
   });
-  
+//CSV保存用スライドの初期化
+  var saveMenu = new McsSlideMenu({
+    depth: 1,
+    parent: null,
+    slideDiv: $('#mcs-saveMenu')
+  });
   // テーブル
   //20200318 DQY MOD
 //  var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
@@ -76,6 +81,8 @@ $(function() {
   
   //検索ボタンを設定する
   createSearchSlide();
+  // CSV保存用スライドの生成
+  saveCsvSlide();
   /**
    ******************************************************************************
    * @brief   抽出して画面へ表示する
@@ -143,14 +150,8 @@ $(function() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
     var macroDataBtn = new McsButton($('#list-btn-macroData'),screenText.btnText.macroData);
-    var downloadBtn = new McsButton($('#list-btn-download'), screenText.btnText.download);
+    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
-    
-    
-//    var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-//    var macroDataBtn = new McsButton($('#list-btn-macroData'),screenText.btnText.macroData);
-//    var downloadBtn = new McsButton($('#list-btn-download'), screenText.btnText.download);
-//    var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
 
    /* // 再表示ボタン押下処理
     reloadBtn.onClick(function() {
@@ -160,9 +161,9 @@ $(function() {
     });*/
 
     // 戻るボタン押下処理
-    /*rtnBtn.onClick(function() {//20200330 dqy del
+    rtnBtn.onClick(function() {
       slideMenuTop.toggle();
-    });*/
+    });
     // 検索ボタン押下
     searchBtn.onClick(function() {
       // 画面の内容を消去
@@ -180,23 +181,15 @@ $(function() {
     });
     
     //macroData
-    /*macroDataBtn.onClick(function() {//20200330 dqy del
+    macroDataBtn.onClick(function() {
 
-    });*/
+    });
+    
     //download
-    /*downloadBtn.onClick(function() {//20200330 dqy del
-    	
-    });*/
-    /*// 色ボタン押下処理
-    colorBtn.onClick(function() {
-    	 var colorFlg = $('#ColorDiv').is(":hidden");
-         if(colorFlg){
-         	$('#ColorDiv').show();
-         }
-         else{
-         $('#ColorDiv').hide();
-         }
-    });*/
+    downLoadBtn.onClick(function() {
+    	saveMenu.show();
+    	//saveCsvSlide();
+    });
   }
   /**
    ******************************************************************************
@@ -459,5 +452,66 @@ $(function() {
 
     return true;
   }
-  
+  /**
+   ******************************************************************************
+   * @brief   CSV保存用スライドを生成
+   * @param
+   * @return
+   * @retval
+   * @attention
+   * @note
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   ******************************************************************************
+   */
+  function saveCsvSlide() {
+    // ******************************************************
+    // 検索項目生成
+    // ******************************************************
+    // datetimePicker生成
+    // 開始の項目
+    var saveStart = new McsDateTime($('#mcs-saveStartDatetime'), screenText.downLoadText.saveStart, 75);
+    // 終了の項目
+    var saveEnd = new McsDateTime($('#mcs-saveEndDatetime'), screenText.downLoadText.saveEnd, 75);
+
+    // 非活性項目の設定
+    saveStart.setEnabled(false);
+    saveEnd.setEnabled(false);
+
+    // 物件対応
+    saveStart.hide();
+    saveEnd.hide();
+
+    // ******************************************************
+    // ボタン生成
+    // ******************************************************
+    // 決定ボタン
+    var saveConfirmButton = new McsButton($('#btn-saveConfirm'), screenText.downLoadBtn.saveConfirm);
+
+    // CSV保存の戻るボタン
+    var saveReturnButton = new McsButton($('#btn-saveReturn'), screenText.downLoadBtn.saveReturn);
+
+    // ******************************************************
+    // 各イベント
+    // ******************************************************
+    // 決定ボタン押下
+    saveConfirmButton.onClick(function() {
+      var datas = dataTables.getLatestCond();
+      callAjax(getUrl('/AtomicActivityHist/SetCsvAtomicActivityHistList'), datas, false,
+      // 成功
+      function(retObj) {
+        window.location.href = getUrl('/AtomicActivityHist/SaveCsvAtomicActivityHistList');
+      },
+      // エラー
+      function(retObj) {
+        // 特にすることなし
+      });
+    });
+
+    // 戻るボタン押下
+    saveReturnButton.onClick(function() {
+      saveMenu.hide();
+    });
+  }
 });

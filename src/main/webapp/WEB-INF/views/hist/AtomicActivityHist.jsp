@@ -46,7 +46,7 @@
       btnText: {
     	  search: 	'<spring:message code="IH-002-02-001"/>',
       	macroData:  '<spring:message code="IH-002-02-002"/>',
-      	download:   '<spring:message code="IH-002-02-003"/>',
+      	downLoad:   '<spring:message code="IH-002-02-003"/>',
           cancel: 	'<spring:message code="IH-002-02-004"/>'
     },
     slideSearch: {
@@ -63,7 +63,15 @@
         clear:      '<spring:message code="IH-002-03-009" />',
         ret: 	    '<spring:message code="IH-002-03-010" />'
         
-    }
+    },
+    downLoadText: {
+        saveStart: '<spring:message code="IH-002-04-002"/>',
+        saveEnd: '<spring:message code="IH-002-04-003"/>'
+      },
+    downLoadBtn: {
+    	 saveConfirm: '<spring:message code="IH-002-04-004"/>',
+         saveReturn: '<spring:message code="IH-002-04-005"/>'
+      }
   };
 
   var screenValue = {
@@ -105,7 +113,7 @@
         <!-- 一覧 -->
         <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
         <div id="list-btn-macroData" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-download"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
         <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
     
@@ -163,7 +171,15 @@
         <div id="mcs-search-clear" class="btn-mcs-slide btn-mcs-slide-clear"></div>
         <div id="mcs-search-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
-
+    
+	<!-- スライドメニュー(CSV保存) start-->
+    <div id="mcs-saveMenu">
+        <div id="mcs-saveStartDatetime"></div>
+        <div id="mcs-saveEndDatetime"></div>
+        <div id="btn-saveConfirm" class="btn-mcs-slide btn-mcs-slide-confirm"></div>
+        <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
+    </div>
+    <!-- スライドメニュー(CSV保存) end -->
     
     <div id="mcs-alert-dialog"></div>
     <div id="mcs-confirm-dialog"></div>
