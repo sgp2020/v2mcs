@@ -1,0 +1,89 @@
+﻿@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-VehicleInfo.css
+ * @brief       テストキャリア情報表示画面用CSS
+ * @par
+ * @author      天津／張東江
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note       
+ * ----------------------------------------------------------------------------
+ * DATE        VER.        DESCRIPTION                   AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2020/03/12  1                                        天津／張東江
+ ******************************************************************************
+ */
+#mcs-right-menu{
+    width: 275px;
+}
+
+div#sel-ctrl {
+    display: flex;
+}
+
+div#sel-ctrl>div {
+    display: flex;
+}
+
+td.mcs-td-selectbox {
+    padding-left: 10px;
+}
+
+/* 保存スライド */
+div.mcs-saveMenu {
+    width: 350px;
+}
+ /* 色表示部 */
+.remarks-content-color {
+    position: relative;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    /* padding-right: 15px; */
+    margin: 0 auto;
+    float: left;
+}
+
+/* 各色 */
+.remarks-content-color>div {
+    width: 34px;
+    height: 34px;
+    margin-top: 0.55em;
+    margin-bottom: 0.5em;
+}
+
+.remarks-content {
+    position: relative;
+    /*padding-top: 14px;*/
+    padding-top: 74px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    /*width: 8%;*/
+    width: 120px;
+    float: left;
+}
+div#list-table-target {
+    width: 85%;
+    height: 100%;
+    padding-right: 15px;
+    float:left;
+}
+div#ColorDiv {
+    width: 15%;
+    height: 100%;
+    padding-top: 80px;
+    padding-left: 15px;
+    float:left;
+}
+.mcs-content-Assigned {
+    position: relative;
+    padding-top: 63px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    width: 120px;
+    float: left;
+}

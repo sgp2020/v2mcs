@@ -129,13 +129,7 @@ public class OhbInfoService extends BaseService {
             }
             
             retRecList.add(entity);
-        }
-        
-        
-    	
-    	
-       
-        
+        } 
         return retRecList;
     }
     
@@ -164,9 +158,7 @@ public class OhbInfoService extends BaseService {
         		String storedTime1 = storedTime.substring(0,4) + "/" + storedTime.substring(4,6) + "/" + storedTime.substring(6,8) + " " + storedTime.substring(8,10) + ":" + storedTime.substring(10,12) + ":" + storedTime.substring(12,14);
         		ohbPortRltModel.setStoredTime(storedTime1);
     		}
-    		
-		}
-       
+		}  
         return ohbPortRltList;
     }
 }

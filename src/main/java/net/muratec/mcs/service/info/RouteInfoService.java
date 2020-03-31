@@ -27,14 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.muratec.mcs.entity.info.CarrierDispListEntity;
-import net.muratec.mcs.entity.info.CarrierListEntity;
 import net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity;
-import net.muratec.mcs.entity.info.ResGetCarrierListEntity;
 import net.muratec.mcs.entity.info.ResGetRouteInfoListEntity;
 import net.muratec.mcs.entity.info.RouteListEntity;
 import net.muratec.mcs.mapper.MacsMapper;
-import net.muratec.mcs.mapper.OhbPortRltMapper;
 import net.muratec.mcs.mapper.PieceMapper;
 import net.muratec.mcs.mapper.RouteListMapper;
 import net.muratec.mcs.model.Macs;
@@ -69,9 +65,6 @@ public class RouteInfoService extends BaseService {
     @Autowired private PieceMapper pieceMapper;
     
     @Autowired private MacsMapper macsMapper;
-    
-    @Autowired private OhbPortRltMapper ohbPortRltMapper;
-
 
     //@formatter:off
     /**
@@ -360,38 +353,4 @@ public class RouteInfoService extends BaseService {
     	Macs macs = macsMapper.selectTableNo();
         return macs;
     }
-    
-    
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     getOhbPortRltList(アラーム情報一覧の取得)機能
-     * @param     reqEntity      リクエスト(検索条件)
-     * @return    アラーム情報一覧
-     * @retval    アラーム情報のLIST形式で返却
-     * @attention
-     * @note      検索条件に一致したアラーム情報一覧の取得を行う
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     ******************************************************************************
-     */
-    /*
-    //@formatter:on
-    @Transactional
-    public List<OhbPortRltModel> getOhbPortRltList(String ohbId) {
-
-    	List<OhbPortRltModel> ohbPortRltList = ohbPortRltMapper.selectListByOhbId(ohbId);
-    	for (OhbPortRltModel ohbPortRltModel : ohbPortRltList) {
-    		String storedTime = ohbPortRltModel.getStoredTime();
-    		if(storedTime != null && !"".equals(storedTime)) {
-        		String storedTime1 = storedTime.substring(0,4) + "/" + storedTime.substring(4,6) + "/" + storedTime.substring(6,8) + " " + storedTime.substring(8,10) + ":" + storedTime.substring(10,12) + ":" + storedTime.substring(12,14);
-        		ohbPortRltModel.setStoredTime(storedTime1);
-    		}
-    		
-		}
-       
-        return ohbPortRltList;
-    }
-    */
 }
