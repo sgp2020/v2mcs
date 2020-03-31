@@ -85,10 +85,7 @@
         </h1>
         <%@ include file="../common/headerCommonMenu.jsp"%>
     </header>
-
-    <div id="mcs-alert-dialog"></div>
-    <div id="mcs-confirm-dialog"></div>
-    <div id="mcs-information-dialog"></div>
+    
 
     <!-- 一覧画面ヘッダー -->
     <div id="mcs-subheader-menu">
@@ -102,6 +99,16 @@
             </tr>
         </table>
     </div>
+    
+     <!--  右メニュースライド -->
+    <nav id="mcs-right-menu">
+        <!-- 一覧 -->
+        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-macroData" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-download"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
+    </nav>
+    
 
     <div class="mcs-atomic-activity-history-content">
         <!-- 一覧画面 start -->
@@ -157,13 +164,9 @@
         <div id="mcs-search-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
 
-    <!--  右メニュースライド -->
-    <nav id="mcs-right-menu">
-        <!-- 一覧 -->
-        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-macroData" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-download"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
-    </nav>
+    
+    <div id="mcs-alert-dialog"></div>
+    <div id="mcs-confirm-dialog"></div>
+    <div id="mcs-information-dialog"></div>
 </body>
 </html>

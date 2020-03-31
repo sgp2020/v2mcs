@@ -677,7 +677,12 @@ public class ComConst {
         /**
          * ステージ情報 - MACS4#0049 Add
          */
-        INFO_STAGEINFO("I004", 20400000L, "I004_REF", "I004_CHG"),
+        //INFO_STAGEINFO("I004", 20400000L, "I004_REF", "I004_CHG"),
+        
+        /**
+         * VEHICLE情報 - 2020.03.10 Zhang Dong Jiang ADD
+         */
+        INFO_VEHICLE("I004", 20400000L, "I004_REF", "I004_CHG"),
 
         /**
          * STOCKER情報 - 2020.03.10 DONG ADD
@@ -687,7 +692,10 @@ public class ComConst {
         
         PROCESS_MONITOR("I006", 20600000L, "I006_REF", "I006_CHG"),
         
-        TEST_CARRIER_LIST("I007", 20700000L, "I007_REF", "I007_CHG"),
+        /**
+         * TEST_CARRIER_LIST情報 - 2020.03.10 Zhang Dong Jiang ADD
+         */
+        INFO_TEST_CARRIER_LIST("I007", 20700000L, "I007_REF", "I007_CHG"),
         
         /**
          * Route情報

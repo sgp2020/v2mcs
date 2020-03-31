@@ -358,7 +358,7 @@
         <!-- アラーム来歴表示 -->
         <!-- <div class="his-alarm btn-mcs-slide" data-auth="${H002_REF}"></div> -->
         <!-- AtomicActivityHistory来歴表示 -->
-        <div class="his-atomicActivity btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div class="his-atomicActivity btn-mcs-slide" data-auth="${H002_REF}"></div> 
         
         
         
