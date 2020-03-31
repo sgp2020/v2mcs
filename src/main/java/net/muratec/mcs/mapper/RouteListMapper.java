@@ -134,4 +134,21 @@ public interface RouteListMapper {
      */
     //@formatter:on
     int getCount(ReqGetRouteInfoListEntity reqEntity);
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     Get the total number of RouteList List
+     * @param     reqEntity     (search criteria)
+     * @return    the total number of RouteList List
+     * @retval    RouteList Style
+     * @attention
+     * @note      Select RouteList&tableNo For SelectBox
+     * ----------------------------------------------------------------------------
+     * DATE       VER.        DESCRIPTION                                    AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+     //@formatter:on
+     List<RouteList> selectTableNoListForSelectBox();
 }

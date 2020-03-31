@@ -1083,8 +1083,65 @@
     AND  DST_PIECE_ID =  #{dstPieceId,jdbcType=VARCHAR}
   </select>
   
+  <resultMap id="SearchResultMap" type="net.muratec.mcs.model.RouteListModel" >
+    <id column="TABLE_NO" property="tableNo" jdbcType="DECIMAL" />
+    <id column="ROUTE_NO" property="routeNo" jdbcType="DECIMAL" />
+    <result column="SELECT_ROUTE" property="selectRoute" jdbcType="DECIMAL" />
+    <result column="PRIORITY" property="priority" jdbcType="DECIMAL" />
+    <result column="LOW_LIMIT_PRIORITY" property="lowLimitPriority" jdbcType="DECIMAL" />
+    <result column="HIGH_LIMIT_PRIORITY" property="highLimitPriority" jdbcType="DECIMAL" />
+    <result column="TRANSFER_TIME" property="transferTime" jdbcType="DECIMAL" />
+    <result column="MIN_TIME" property="minTime" jdbcType="DECIMAL" />
+    <result column="MAX_TIME" property="maxTime" jdbcType="DECIMAL" />
+    <result column="TRANSFER_COUNT" property="transferCount" jdbcType="DECIMAL" />
+    <result column="ROUTE_COUNT" property="routeCount" jdbcType="DECIMAL" />
+    <result column="SRC_PIECE_ID" property="srcPieceId" jdbcType="DECIMAL" />
+    <result column="DST_PIECE_ID" property="dstPieceId" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID1" property="nextDstConnId1" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID1" property="nextDstPieceId1" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID2" property="nextDstConnId2" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID2" property="nextDstPieceId2" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID3" property="nextDstConnId3" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID3" property="nextDstPieceId3" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID4" property="nextDstConnId4" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID4" property="nextDstPieceId4" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID5" property="nextDstConnId5" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID5" property="nextDstPieceId5" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID6" property="nextDstConnId6" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID6" property="nextDstPieceId6" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID7" property="nextDstConnId7" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID7" property="nextDstPieceId7" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID8" property="nextDstConnId8" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID8" property="nextDstPieceId8" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID9" property="nextDstConnId9" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID9" property="nextDstPieceId9" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID10" property="nextDstConnId10" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID10" property="nextDstPieceId10" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID11" property="nextDstConnId11" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID11" property="nextDstPieceId11" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID12" property="nextDstConnId12" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID12" property="nextDstPieceId12" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID13" property="nextDstConnId13" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID13" property="nextDstPieceId13" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID14" property="nextDstConnId14" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID14" property="nextDstPieceId14" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID15" property="nextDstConnId15" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID15" property="nextDstPieceId15" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID16" property="nextDstConnId16" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID16" property="nextDstPieceId16" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID17" property="nextDstConnId17" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID17" property="nextDstPieceId17" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID18" property="nextDstConnId18" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID18" property="nextDstPieceId18" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID19" property="nextDstConnId19" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID19" property="nextDstPieceId19" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID20" property="nextDstConnId20" jdbcType="VARCHAR" />
+    <result column="NEXT_DST_PIECE_ID20" property="nextDstPieceId20" jdbcType="DECIMAL" />
+    <result column="NEXT_DST_CONN_ID21" property="nextDstConnId21" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <!--  RouteList情報一覧を取得する。 -->
-  <select id="selectRouteInfoList" parameterType="net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity" resultMap="BaseResultMap">
+  <select id="selectRouteInfoList" parameterType="net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity" resultMap="SearchResultMap">
    SELECT  
 	   route_no,  
 	   select_route,  
@@ -1188,5 +1245,9 @@
 			ORDER BY select_route DESC, priority, transfer_time, transfer_count, route_no
       )
        <include refid="selectRecordWhere" />
+  </select>
+  
+  <select id="selectTableNoListForSelectBox" parameterType="net.muratec.mcs.model.RouteList" resultMap="BaseResultMap">
+    	SELECT DISTINCT table_no, table_no FROM route_list
   </select>
 </mapper>

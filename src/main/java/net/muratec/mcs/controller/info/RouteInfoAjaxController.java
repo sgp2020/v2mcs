@@ -20,8 +20,6 @@
 //@formatter:on
 package net.muratec.mcs.controller.info;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -46,21 +44,13 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 //import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-//import net.muratec.mcs.entity.common.OpeLogInfoEntity;
-import net.muratec.mcs.entity.info.ReqGetOhbInfoListEntity;
-import net.muratec.mcs.entity.info.ReqGetOhbInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ReqGetOhbPortRltEntity;
 import net.muratec.mcs.entity.info.ReqGetRouteInfoListEntity;
 import net.muratec.mcs.entity.info.ReqGetRouteInfoListValidateEntity;
-import net.muratec.mcs.entity.info.ResGetOhbInfoListEntity;
-import net.muratec.mcs.entity.info.ResGetOhbPortRltListEntity;
 import net.muratec.mcs.entity.info.ResGetRouteInfoListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.model.OhbPortRltModel;
 import net.muratec.mcs.service.common.McsDataTablesService;
-//import net.muratec.mcs.service.common.OpeLogService;
-import net.muratec.mcs.service.info.OhbInfoService;
 import net.muratec.mcs.service.info.RouteInfoService;
 
 //@formatter:off
@@ -156,15 +146,28 @@ public class RouteInfoAjaxController extends BaseAjaxController {
         // ------------------------------------
         if (reqEntity.searchDataFlag) {
 
+           
+            // ------------------------------------
+            // 全体レコード数取得、設定
+            // ------------------------------------
+            resEntity.pageInfo.totalRecords = routeInfoService.getCount(reqEntity);
+            
             // ------------------------------------
             // データ取得、設定
             // ------------------------------------
             resEntity.body = routeInfoService.getRouteInfoList(reqEntity);
 
+            
             // ------------------------------------
-            // 全体レコード数取得、設定
+            // 画面表示情報の取得
             // ------------------------------------
-            resEntity.pageInfo.totalRecords = routeInfoService.getCount(reqEntity);
+            ResGetRouteInfoListEntity resGetRouteListEntity = routeInfoService.getDispRowList(resEntity.body);
+
+            // ------------------------------------
+            // 全体レコード、色情報設定
+            // ------------------------------------
+            //resEntity.body = resGetRouteListEntity.body;
+            resEntity.rowColorList = resGetRouteListEntity.rowColorList;
             /*
             List<String> color = new ArrayList<String>();
             color.add("#FF0000");

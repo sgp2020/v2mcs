@@ -89,6 +89,11 @@ var screenText = {
     	Connection: 'Connection'
    }
   };
+  var screenValue = {
+		  pieceListJson: JSON.parse('${II_009_00_001}'),
+		  tabelNoJson:   JSON.parse('${II_009_00_002}'),
+		  routeState:  JSON.parse('${II_009_00_003}')
+  };
 
 </script>
 
@@ -128,32 +133,45 @@ var screenText = {
         <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
     --%>
-    <!-- 一覧画面 start -->
-    <div id="list-screen" class="mcs-content mcs-with-subtitle">
     
-        <div id="mcs-subtitle-list" class="mcs-content-subtitle">
+    <!-- search -->
+    <div id="mcs-subheader-menu" style="font-size:18px;" >
+        <table>
+        	<tr>
+                <td>Route State :&nbsp;<!--<spring:message code="II-005-01-003" />--></td>
+                <td >
+                    <span id="routeState" ><!--Completed  -->  &nbsp;&nbsp;</span>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Table No :</td>
+                <td class="">
+                    <span id="currentTableNo" style="color:blue"> &nbsp;${II_009_00_004}&nbsp;&nbsp;</span>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source :</td>
+                <td class="mcs-td-selectbox">
+                    <div id="source"></div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination :</td>
+                <td class="mcs-td-selectbox">
+                    <div id="destination"></div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table No :</td>
+                <td class="mcs-td-selectbox">
+                    <div id="tableNo"></div>
+                </td>
+                <td class="mcs-td-searchBtn">
+                    <div id="btn-search"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 一覧画面 start -->
+    <!--<div id="list-screen" class="mcs-content mcs-with-subtitle">-->
+    <div id="list-screen" class="mcs-content mcs-with-subheader mcs-with-subtitle">
+    
+         <div id="mcs-subtitle-list" class="mcs-content-subtitle">
             <spring:message code="II-008-01-002" />
         </div>
         
-        <!-- 情報表示部  -->
-        <div id="mcs-top-info" class="">
-           <ul class="mcs-top-info-ul">
-        
-            <li class="">
-                <h5 class="routeState">  
-                   Route State &nbsp; <%--  <spring:message code="IT-001-01-011" />  --%>
-                   <span id="routeState" >Completed</span> 
-                </h5>  
-            </li>
-
-            <li class="">
-                 <h5 class="currentTableNo">
-                	Current Table No: &nbsp;<%--  <spring:message code="IT-001-01-012" />   --%>
-                	<span id="currentTableNo" style="color:blue"> 1 </span> 
-                 </h5> 
-            </li>
-          </ul>
-        </div>
        <!-- <div id="lst-table-target" style="width: 60%; height: 100%;"></div>  -->
        <div id="lst-table-target"></div>
        <div id="state-text-target-dest"></div> 
