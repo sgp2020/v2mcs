@@ -2,9 +2,9 @@
 /**
  ******************************************************************************
  * @file        TestCarrierModel.java
- * @brief       テストキャリアマスタメンテナンス一覧連携用モデル
+ * @brief       テストキャリア情報表示画面モデル
  * @par
- * @author      CSC
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2017/12/20 0.6         Step4phase2リリース                               CSC
+ * 2020/03/12  1                                        天津／張東江
  ******************************************************************************
  */
 //@formatter:on
@@ -42,57 +42,15 @@ import lombok.Setter;
 @Setter
 public class TestCarrierModel {
 
-    public String carrierId;
-
-    public String description;
-
-    public String carrierState;
-
-    public String prevCarrierState;
-
-    public String carrierTypeId;
-
-    public String carrierShapeId;
-
-    public String currentAmhsId;
-
+    public int rn;
+    public String testCarrierId;
+    public String currentTscId;
     public String currentLoc;
-
-    public String hostZoneId;
-
-    public String shelfNo;
-
-    public String prevAmhsId;
-
-    public String prevCarrierLoc;
-
-    public Timestamp storedTime;
-
-    public String carrierEmpty;
-
-    public Timestamp waitInTime;
-
-    public Timestamp waitOutTime;
-
-    public String insystemCarrierId;
-
-    public Timestamp insystemTime;
-
-    public String carrierAlarm;
-
-    public String passingMode;
-
-    public String carrierActionCtrl;
-
-    public Timestamp carrierActionTime;
-
-    public Short cleanRequest;
-
-    public String contamiId;
-
-    public String puroposeType;
-
-    public String mesMessege;
-
-    public Timestamp setTime;
+    public String currentZoneId;
+    public String atomicTscId;
+    public String atomicSource;
+    public String atomicDestination;
+    public String transferDestination;
+    public String testStartTime;
+    public String testEndTime;
 }

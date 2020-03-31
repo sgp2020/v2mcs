@@ -112,4 +112,7 @@ public interface TscMapper {
     Integer getExecSidByCarrier(@Param("carrierId")String carrierId);
     Integer getExecSidByPort(@Param("portId")String portId);
     
+    List<Tsc> selectDefaultTscID(TscExample example);
+    List<Tsc> selectOhbSemtTscID(TscExample example);
+    
 }

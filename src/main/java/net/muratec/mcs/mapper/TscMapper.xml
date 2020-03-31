@@ -714,6 +714,21 @@
 		WHERE tsc_id IN (SELECT ( CASE WHEN conn_from_tsc_id > 0 THEN conn_from_tsc_id ELSE conn_to_tsc_id END) 
                     FROM  port_conn
                     WHERE port_id = #{portId}) 
-  </select>  
-
+  </select>
+  
+  <select id="selectDefaultTscID" parameterType="net.muratec.mcs.model.TscExample" resultMap="BaseResultMap">
+      SELECT tsc_abbreviation,
+			tsc_id 
+	  FROM tsc 
+	  WHERE tsc_id > 0 
+	  ORDER BY 1 
+  </select> 
+  
+  <select id="selectOhbSemtTscID" parameterType="net.muratec.mcs.model.TscExample" resultMap="BaseResultMap">
+      SELECT tsc_abbreviation,
+			tsc_id 
+	  FROM tsc 
+	  WHERE  tsc_model = 'IBSEM'  
+	  ORDER BY 1 
+  </select> 
 </mapper>

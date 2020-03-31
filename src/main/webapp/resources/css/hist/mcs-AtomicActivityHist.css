@@ -23,6 +23,10 @@
     width: 275px;
 }
 
+#mcs-slideMenu-search{
+    width: 350px;
+}
+
 div#sel-ctrl {
     display: flex;
 }
