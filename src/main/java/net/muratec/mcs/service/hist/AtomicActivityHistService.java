@@ -28,13 +28,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
+import net.muratec.mcs.entity.hist.MacroDataListEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.mapper.AtomicTransferLogMapper;
 import net.muratec.mcs.mapper.GuiColorMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.model.MacroTransferLog;
 import net.muratec.mcs.model.Tsc;
 import net.muratec.mcs.model.Ohb;
 import net.muratec.mcs.model.Port;
@@ -310,5 +313,72 @@ public class AtomicActivityHistService extends BaseService {
         int ret = 0;
         ret = (int) atomicTransferLogMapper.getCount(record);
         return ret;
+    }
+  //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     メイン画面用データ取得機能
+     * @param     reqEntity      画面項目情報
+     * @return    Host情報
+     * @retval    Entity形式で返却
+     * @attention
+     * @note
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200311		Host情報										董 天津村研
+     ******************************************************************************
+     */
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public List<MacroDataListEntity> getMacroDataList(ReqGetMacroDataEntity reqEntity) throws McsException {
+
+        // -----------------------------------------
+        // 返却データの生成
+        // -----------------------------------------
+        List<MacroDataListEntity> retRecList = new ArrayList<MacroDataListEntity>();
+
+        // -----------------------------------------
+        // Hostデータ取得
+        // -----------------------------------------
+//        
+        List<MacroTransferLog> macroTransferLog = atomicTransferLogMapper.selectMacroDataList(reqEntity);
+        
+        if (macroTransferLog == null ) {
+        	return retRecList;
+        }
+	 	
+        int rowNum = 1;
+	 	for (MacroTransferLog macroTransferLogRec : macroTransferLog) {
+	 		MacroDataListEntity retRec = new MacroDataListEntity();
+
+	 		retRec.rum = rowNum;
+	 		retRec.time = macroTransferLogRec.getTime();
+	 		retRec.orgCarrierId = macroTransferLogRec.getOrgCarrierId();
+	 		retRec.orgRcvTime = macroTransferLogRec.getOrgRcvTime();
+	 		retRec.orgStartTime = macroTransferLogRec.getOrgStartTime() ;
+            retRec.orgCmpTime = macroTransferLogRec.getOrgCmpTime() ;
+            retRec.orgSrcTscId = macroTransferLogRec.getOrgSrcTscId() ;
+            retRec.orgSrcLoc = macroTransferLogRec.getOrgSrcLoc() ;
+            retRec.orgDstTscId = macroTransferLogRec.getOrgDstTscId() ;
+            retRec.orgDstLoc = macroTransferLogRec.getOrgDstLoc() ;
+            retRec.altTscId = macroTransferLogRec.getAltTscId() ;
+            retRec.altLoc = macroTransferLogRec.getAltLoc() ;
+            retRec.status = macroTransferLogRec.getStatus() ;
+            retRec.orgPriority = macroTransferLogRec.getOrgPriority() ;
+            retRec.cancelFlg = macroTransferLogRec.getCancelFlg() ;
+            retRec.orgDstGroup = macroTransferLogRec.getOrgDstGroup() ;
+            retRec.time = macroTransferLogRec.getTime() ;
+            retRec.orgHostCommandId = macroTransferLogRec.getOrgHostCommandId() ;
+            retRec.orgCommandId = macroTransferLogRec.getOrgCommandId() ;
+            retRec.orgOriginator = macroTransferLogRec.getOrgOriginator() ;
+            retRec.rerouteReq = macroTransferLogRec.getRerouteFlg() ;
+	 		
+	 		rowNum++;
+	 		
+        	retRecList.add(retRec);
+	 	} 
+
+		return retRecList;
     }
 }

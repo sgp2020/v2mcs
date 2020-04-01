@@ -64,6 +64,30 @@
         ret: 	    '<spring:message code="IH-002-03-010" />'
         
     },
+    macroData: {
+    	rum:		'<spring:message code="IH-002-05-001" />',
+    	carrierId:	'<spring:message code="IH-002-05-002" />',
+    	rcvTime:	'<spring:message code="IH-002-05-003" />',
+    	startTime:	'<spring:message code="IH-002-05-004" />',
+    	cmpTime:	'<spring:message code="IH-002-05-005" />',
+    	srcTscId:	'<spring:message code="IH-002-05-006" />',
+    	srcLoc:		'<spring:message code="IH-002-05-007" />',
+    	dstTscId:	'<spring:message code="IH-002-05-008" />',
+    	dstLoc:		'<spring:message code="IH-002-05-009" />',
+        dstGroup:	'<spring:message code="IH-002-05-010" />',
+        altTscId:	'<spring:message code="IH-002-05-011" />',
+        altLoc:		'<spring:message code="IH-002-05-012" />',
+        status:		'<spring:message code="IH-002-05-013" />',
+    	priority:	'<spring:message code="IH-002-05-014" />',
+    	cancelReq:	'<spring:message code="IH-002-05-015" />',
+    	time:		'<spring:message code="IH-002-05-016" />',
+    	hostCommand:'<spring:message code="IH-002-05-017" />',
+    	commandId:	'<spring:message code="IH-002-05-018" />',
+    	originator:	'<spring:message code="IH-002-05-019" />',
+    	rerouteReq: '<spring:message code="IH-002-05-020" />',
+        ret: 	    '<spring:message code="IH-002-05-021" />'
+        
+    },
     downLoadText: {
         saveStart: '<spring:message code="IH-002-04-002"/>',
         saveEnd: '<spring:message code="IH-002-04-003"/>'
@@ -71,7 +95,11 @@
     downLoadBtn: {
     	 saveConfirm: '<spring:message code="IH-002-04-004"/>',
          saveReturn: '<spring:message code="IH-002-04-005"/>'
-      }
+      },
+    dialog: {
+        listNotSelect: '<spring:message code="IH-002-01.001" />',
+        listRet: '<spring:message code="IH-002-01.002" />'
+    }
   };
 
   var screenValue = {
@@ -101,9 +129,6 @@
             <tr>
                 <td style="color:#6495ED;"><spring:message code="IH-002-01-003" /> &nbsp &nbsp</td>
                 <td style="color:#6495ED;"><div id="searchInfo"></div></td>
-                <!-- <td class="mcs-td-search-information">
-                 	<div id="search-information"></div>
-                </td> -->
             </tr>
         </table>
     </div>
@@ -116,7 +141,6 @@
         <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
         <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
-    
 
     <div class="mcs-atomic-activity-history-content">
         <!-- 一覧画面 start -->
@@ -125,20 +149,6 @@
                 <spring:message code="IH-002-01-002" />
             </div>
             <div id="list-table-target" style="width: 100%; height: 100%;"> </div>
-            <!-- <div id="list-table-target" style="color:#000000"> </div>
-            <div id="ColorDiv" >
-			         <div id="colorColumn" class="remarks-content-color">
-			         	 <div id="mcs-content-CommState">
-			         	 	<spring:message code="IH-002-03-001" />
-			         	 </div>	
-			             <div id="color1"></div>
-			         </div>
-			         <div id="ctrlColumn" >  
-		             	  <div class="mcs-content-CommError">
-			         	 	<spring:message code="IH-002-03-002" />
-			         	 </div>	
-			         </div>
-        	 </div> -->
         </div>
         <!-- 一覧画面 end -->
     </div>
@@ -172,6 +182,15 @@
         <div id="mcs-search-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
     
+	<!-- スライドメニュー(MACRODATA) start-->
+	<div id="macroData-screen">
+         <div class="mcs-content-subtitle">
+             <span><spring:message code="IH-002-05-022" /></span>
+         </div>
+    	<div id="macroData-table-target"></div>
+    </div>
+    <!-- スライドメニュー(MACRODATA) end -->
+    
 	<!-- スライドメニュー(CSV保存) start-->
     <div id="mcs-saveMenu">
         <div id="mcs-saveStartDatetime"></div>
@@ -184,5 +203,7 @@
     <div id="mcs-alert-dialog"></div>
     <div id="mcs-confirm-dialog"></div>
     <div id="mcs-information-dialog"></div>
+    <!-- ダイアログ -->
+    <div id="mcs-error-dialog"></div>
 </body>
 </html>

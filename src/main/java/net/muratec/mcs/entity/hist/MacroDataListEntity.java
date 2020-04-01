@@ -36,31 +36,27 @@ package net.muratec.mcs.entity.hist;
  ******************************************************************************
  */
 //@formatter:on
-public class AtomicActivityHistListEntity {
+public class MacroDataListEntity {
 
 	public int rum;
+	public String orgCarrierId;
+	public String orgRcvTime;
+	public String orgStartTime;
+	public String orgCmpTime;
+	public int orgSrcTscId;
+	public String orgSrcLoc;
+	public int orgDstTscId;
+	public String orgDstLoc;
+	public int altTscId;
+	public String altLoc;
+	public int status;
+	public int orgPriority;
+	public int cancelFlg;
+	public String orgDstGroup;
 	public String time;
-	public String carrierId;
-	public String tscAbbreviation;
-	public String source;
-	public String destination;
-	public String statusStr;
-	public int priority;
-	public int routeNo;
-	public String queuedTime;
-	public String leadTime;
-	public String totalTime;
-	public String vehicleId;
-	public String commandId;
-	public String atomicRequestTime;
-	public String atomicAnswerTime;
-	public String atomicInitiateTime;
-	public String atomicAcquiredTime;
-	public String atomicCompleteTime;
-	public String abortRequestTime;
-	public String abortAnswerTime;
-	public String abortInitiateTime;
-	public String abortCompleteTime;
-	public String abortReason;
+	public String orgHostCommandId;
+	public String orgCommandId;
+	public String orgOriginator;
+	public int rerouteReq;
 
 }

@@ -54,9 +54,15 @@ import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.entity.hist.ResGetAtomicActivityHistListEntity;
+import net.muratec.mcs.entity.hist.ResGetMacroDataListEntity;
 import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
 import net.muratec.mcs.entity.info.ReqGetCarrierListValidateEntity;
+import net.muratec.mcs.entity.top.ReqIndividualMonitorEntity;
+import net.muratec.mcs.entity.top.ReqIndividualMonitorValidateEntity;
+import net.muratec.mcs.entity.top.ResScMonitorPortListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
@@ -225,6 +231,78 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
         resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
         resEntity.result.message = "";
 
+        return resEntity;
+    }
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     macroData情報
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     reqEntity      検索条件
+     * @param     errors         エラー情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    検索結果
+     * @retval    JSON形式で返却
+     * @attention
+     * @note      macroData画面に表示する各データを取得する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/AtomicActivityHist/GetMacroData", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResGetMacroDataListEntity getMacroData(HttpSession session,
+            @Valid @RequestBody ReqGetMacroDataValidateEntity reqValidate, Errors errors, Locale locale,
+            Model model) throws AjaxAurgumentException, McsException {
+
+        // ------------------------------------
+        // アクセス権チェック
+        // ------------------------------------
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+
+        // ------------------------------------
+        // エラーチェック（エラー時はAjaxAurgumentExceptionをthrow）
+        // ------------------------------------
+        ReqGetMacroDataEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetMacroDataEntity.class);
+
+        // ------------------------------------
+        // レスポンスエンティティ生成
+        // 返すJSON全体のオブジェクトをnew
+        // ------------------------------------
+        ResGetMacroDataListEntity resEntity = new ResGetMacroDataListEntity();
+
+        // ------------------------------------
+        // SCモニタ ポート情報の取得
+        // ------------------------------------
+        resEntity.body = atomicActivityHistService.getMacroDataList(reqEntity);
+
+        // ------------------------------------
+        // 色情報取得、設定
+        // ------------------------------------
+//        resEntity.rowColorList = scMonitorService.getPortColorInfoList(resEntity.body);
+
+        resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
+        resEntity.result.message = "";
+
+        // コントローラ変更時のみ操作ログを出力
+        /*
+        if (reqEntity.ctrlChgFlag) {
+            // ------------------------------------
+            // // 操作ログの情報設定（アノテーション記載情報を転記）
+            // ------------------------------------
+            OpeLogInfoEntity opeLogInfo = ComFunction.createOpeLogInfo(session, ComConst.ScreenInfo.TOP_SYSTEMMONITOR,
+                    ComConst.LogOperationType.GET, 2L);
+
+            // 正常時に操作ログ出力
+            opeLogService.getOpeLog(opeLogInfo.logCode, ComFunction.toStringMcs(reqEntity), opeLogInfo.userName,
+                    opeLogInfo.ipAddress);
+        }
+        */
         return resEntity;
     }
 

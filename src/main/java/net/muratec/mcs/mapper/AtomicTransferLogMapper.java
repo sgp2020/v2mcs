@@ -3,11 +3,13 @@ package net.muratec.mcs.mapper;
 import java.util.List;
 
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.entity.info.ReqGetHostCommInfoEntity;
 import net.muratec.mcs.model.AtomicTransferLog;
 import net.muratec.mcs.model.AtomicTransferLogExample;
 import net.muratec.mcs.model.AtomicTransferLogKey;
 import net.muratec.mcs.model.Host;
+import net.muratec.mcs.model.MacroTransferLog;
 import net.muratec.mcs.model.Ohb;
 import net.muratec.mcs.model.Port;
 import net.muratec.mcs.model.Tsc;
@@ -111,6 +113,7 @@ public interface AtomicTransferLogMapper {
     List<Ohb> selectOhbData();
     List<Port> selectPortData();
     int getCount(ReqGetAtomicActivityHistEntity record);
+    List<MacroTransferLog> selectMacroDataList(ReqGetMacroDataEntity reqEntity);
     // END 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 }

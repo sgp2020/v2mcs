@@ -54,13 +54,17 @@ $(function() {
     parent: null,
     slideDiv: $('#mcs-saveMenu')
   });
+  
   // テーブル
-  //20200318 DQY MOD
-//  var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
   var dataTables = new McsDataTables($('#list-table-target'), true);
  
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
+  
+  /**
+   * ダイアログの生成
+   */
+  var errorDialog = new McsDialog($('#mcs-error-dialog'), window.mcsDialogTitleError);
   //初期表示処理
   // ---------------------------------------
   
@@ -83,6 +87,98 @@ $(function() {
   createSearchSlide();
   // CSV保存用スライドの生成
   saveCsvSlide();
+  
+  //MACRODATAテーブルmacroData
+  var macroDataTable = new McsTable($('#macroData-table-target'));
+  macroDataTable.setNotRowSelect(true);
+
+  // 状態テーブルヘッダ(状態テーブル)
+  var macroDataHeader = [{
+	    name: 'rum',
+	    text: screenText.macroData.rum,
+	    display: true
+	  }, {
+	    name: 'carrierId',
+	    text: screenText.macroData.carrierId,
+	    display: true
+	  }, {
+	    name: 'rcvTime',
+	    text: screenText.macroData.rcvTime,
+	    display: true
+	  }, {
+	    name: 'startTime',
+	    text: screenText.macroData.startTime,
+	    display: true
+	  }, {
+	    name: 'cmpTime',
+	    text: screenText.macroData.cmpTime,
+	    display: true
+	  },{
+	    name: 'srcTscId',
+	    text: screenText.macroData.srcTscId,
+	    display: true
+	  }, {
+	    name: 'srcLoc',
+	    text: screenText.macroData.srcLoc,
+	    display: true
+	  }, {
+	    name: 'dstTscId',
+	    text: screenText.macroData.dstTscId,
+	    display: true
+	  }, {
+	    name: 'dstLoc',
+	    text: screenText.macroData.dstLoc,
+	    display: true
+	  },{
+	    name: 'dstGroup',
+	    text: screenText.macroData.dstGroup,
+	    display: true
+	  }, {
+	    name: 'altTscId',
+	    text: screenText.macroData.altTscId,
+	    display: true
+	  }, {
+		  name: 'altLoc',
+		  text: screenText.macroData.altLoc,
+		  display: true
+	  }, {
+	    name: 'status',
+	    text: screenText.macroData.status,
+	    display: true
+	  }, {
+	    name: 'priority',
+	    text: screenText.macroData.priority,
+	    display: true
+	  },{
+	    name: 'cancelReq',
+	    text: screenText.macroData.cancelReq,
+	    display: true
+	  },{
+	    name: 'time',
+	    text: screenText.macroData.time,
+	    display: true
+	  },{
+	    name: 'hostCommand',
+	    text: screenText.macroData.hostCommand,
+	    display: true
+	  },{
+	    name: 'commandId',
+	    text: screenText.macroData.commandId,
+	    display: true
+	  },{
+	    name: 'originator',
+	    text: screenText.macroData.originator,
+	    display: true
+	  },{
+	    name: 'rerouteReq',
+	    text: screenText.macroData.rerouteReq,
+	    display: true
+	  }];
+
+  // ヘッダ設定(状態テーブル)
+  macroDataTable.setHeader(macroDataHeader);
+  macroDataTable.setBodyHeight($('.mcs-content.mcs-with-subheader.mcs-with-subtitle').outerHeight() - 40);
+  
   /**
    ******************************************************************************
    * @brief   抽出して画面へ表示する
@@ -182,7 +278,7 @@ $(function() {
     
     //macroData
     macroDataBtn.onClick(function() {
-
+    	getMacroData();
     });
     
     //download
@@ -208,6 +304,8 @@ $(function() {
   function createSearchSlide() {
 	  
 	searchComp.clearErrors();
+	// 表示画面番号の更新
+	   screenIndex = SCREEN.SEARCH;
     // 検索項目の生成
     var tscId  = new McsSelectBox($('#mcs-search-tscId'));
     var source = new McsSelectBox($('#mcs-search-source'));
@@ -452,6 +550,7 @@ $(function() {
 
     return true;
   }
+  
   /**
    ******************************************************************************
    * @brief   CSV保存用スライドを生成
@@ -466,6 +565,10 @@ $(function() {
    ******************************************************************************
    */
   function saveCsvSlide() {
+	  
+	// 表示画面番号の更新
+	   screenIndex = SCREEN.DOWNLOAD;
+	   
     // ******************************************************
     // 検索項目生成
     // ******************************************************
@@ -514,4 +617,96 @@ $(function() {
       saveMenu.hide();
     });
   }
+  
+  /**
+   ******************************************************************************
+   * @brief   MacroData取得メソッド
+   * @param   {String} commondId 検索条件
+   * @param   
+   * @param   
+   * @return
+   * @retval
+   * @attention
+   * @note    MacroDataの取得を行う。
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   * 20200401	MacroData													DONG
+   ******************************************************************************
+   */
+   function getMacroData() {
+	   
+	// メイン画面データの選択したデータを取る 
+	var datas = dataTables.getSelectedRowData();   
+	if (datas == null) {
+	      errorDialog.openAlert(screenText.dialog.listNotSelect, screenText.dialog.listRet, 'alert');
+	      return;
+	    }
+	var commandId = datas[0].commandId;
+    var url = getUrl('/AtomicActivityHist/GetMacroData');
+    var cond = {
+    	commandId: commandId
+    };
+
+    // 成功時処理
+    var onSuccess = function(retObj) {
+      // 直近の検索成功時のAMHSIDを更新
+
+      // テーブルのスクロール位置を保持
+//      var top = macroDataTable.getScrollTop();
+//      var left = macroDataTable.getScrollLeft();
+
+      // テーブルのクリア
+      macroDataTable.clear();
+      // データをテーブルにセット
+      macroDataTable.addDataList(retObj.body, retObj.rowColorList); 
+
+      // ポート画面の表示
+      showMacroDataScreen();
+
+      // テーブルのスクロール位置を設定
+//      if (scrollFixFlag !== undefined && scrollFixFlag) {
+//        macroDataTable.setScrollTop(top);
+//        macroDataTable.setScrollLeft(left);
+//      }
+    };
+
+    // エラー時処理
+    var onError = function(retObj) {
+      // 検索失敗時はエラーを反映
+//      selComp.setErrors(retObj.result.errorInfoList);
+    };
+
+    // 取得結果0件時処理
+    var onEmpty = onSuccess;
+
+    // 検索を実行
+    callAjax(url, cond, true, onSuccess, onError, null, true, onEmpty, 0,true);
+  }
+  
+   /**
+    ******************************************************************************
+    * @brief   画面表示メソッド
+    * @param
+    * @return
+    * @retval
+    * @attention
+    * @note    ポート画面の表示を行う。
+    * ----------------------------------------------------------------------------
+    * VER.        DESCRIPTION                                               AUTHOR
+    * ----------------------------------------------------------------------------
+    * * 20200401	MacroData SHOW											DONG
+    ******************************************************************************
+    */
+   function showMacroDataScreen() {
+     // 表示画面番号の更新
+     screenIndex = SCREEN.MACRODATA;
+
+     // 各画面の表示切替
+     $('#macroData-screen').show();
+
+     // テーブルのヘッダ幅調整
+     macroDataTable.resizeColWidth();
+   }
+  
 });
