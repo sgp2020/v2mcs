@@ -64,30 +64,6 @@
         ret: 	    '<spring:message code="IH-002-03-010" />'
         
     },
-    macroData: {
-    	rum:		'<spring:message code="IH-002-05-001" />',
-    	carrierId:	'<spring:message code="IH-002-05-002" />',
-    	rcvTime:	'<spring:message code="IH-002-05-003" />',
-    	startTime:	'<spring:message code="IH-002-05-004" />',
-    	cmpTime:	'<spring:message code="IH-002-05-005" />',
-    	srcTscId:	'<spring:message code="IH-002-05-006" />',
-    	srcLoc:		'<spring:message code="IH-002-05-007" />',
-    	dstTscId:	'<spring:message code="IH-002-05-008" />',
-    	dstLoc:		'<spring:message code="IH-002-05-009" />',
-        dstGroup:	'<spring:message code="IH-002-05-010" />',
-        altTscId:	'<spring:message code="IH-002-05-011" />',
-        altLoc:		'<spring:message code="IH-002-05-012" />',
-        status:		'<spring:message code="IH-002-05-013" />',
-    	priority:	'<spring:message code="IH-002-05-014" />',
-    	cancelReq:	'<spring:message code="IH-002-05-015" />',
-    	time:		'<spring:message code="IH-002-05-016" />',
-    	hostCommand:'<spring:message code="IH-002-05-017" />',
-    	commandId:	'<spring:message code="IH-002-05-018" />',
-    	originator:	'<spring:message code="IH-002-05-019" />',
-    	rerouteReq: '<spring:message code="IH-002-05-020" />',
-        ret: 	    '<spring:message code="IH-002-05-021" />'
-        
-    },
     downLoadText: {
         saveStart: '<spring:message code="IH-002-04-002"/>',
         saveEnd: '<spring:message code="IH-002-04-003"/>'
@@ -183,12 +159,12 @@
     </div>
     
 	<!-- スライドメニュー(MACRODATA) start-->
-	<div id="macroData-screen">
+	<!-- <div id="macroData-screen">
          <div class="mcs-content-subtitle">
              <span><spring:message code="IH-002-05-022" /></span>
          </div>
     	<div id="macroData-table-target"></div>
-    </div>
+    </div> -->
     <!-- スライドメニュー(MACRODATA) end -->
     
 	<!-- スライドメニュー(CSV保存) start-->
