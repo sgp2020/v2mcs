@@ -123,7 +123,7 @@ public class MacroDataAjaxController extends BaseAjaxController {
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_ALARM.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
 
         // ------------------------------------
         // ユーザ情報の取得

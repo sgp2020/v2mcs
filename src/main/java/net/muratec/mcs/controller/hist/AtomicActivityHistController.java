@@ -488,7 +488,7 @@ public class AtomicActivityHistController extends BaseController {
     //@formatter:on
     @RequestMapping(value = "/MacroData", method = RequestMethod.POST)
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET, number = 1L)
-    public String ports(HttpSession session, Locale locale, Model model) throws McsException {
+    public String macroData(HttpSession session, Locale locale, Model model) throws McsException {
 
         // ----------------------------------------------
         // アクセス権情報等
