@@ -252,7 +252,7 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist/GetMacroData", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/AtomicActivityHist/GetMacroData", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResGetMacroDataListEntity getMacroData(HttpSession session,
@@ -290,7 +290,7 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
         resEntity.result.message = "";
 
         // コントローラ変更時のみ操作ログを出力
-        /*
+        
         if (reqEntity.ctrlChgFlag) {
             // ------------------------------------
             // // 操作ログの情報設定（アノテーション記載情報を転記）
@@ -302,8 +302,8 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
             opeLogService.getOpeLog(opeLogInfo.logCode, ComFunction.toStringMcs(reqEntity), opeLogInfo.userName,
                     opeLogInfo.ipAddress);
         }
-        */
+        
         return resEntity;
-    }
+    }*/
 
 }

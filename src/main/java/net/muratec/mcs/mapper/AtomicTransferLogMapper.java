@@ -113,7 +113,7 @@ public interface AtomicTransferLogMapper {
     List<Ohb> selectOhbData();
     List<Port> selectPortData();
     int getCount(ReqGetAtomicActivityHistEntity record);
-    List<MacroTransferLog> selectMacroDataList(ReqGetMacroDataEntity reqEntity);
+//    List<MacroTransferLog> selectMacroDataList(ReqGetMacroDataEntity reqEntity);
     // END 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 }

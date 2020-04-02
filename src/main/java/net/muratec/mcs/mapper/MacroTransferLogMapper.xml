@@ -933,4 +933,81 @@
       and ORG_COMMAND_ID = #{orgCommandId,jdbcType=VARCHAR}
       and ORG_CARRIER_ID = #{orgCarrierId,jdbcType=VARCHAR}
   </update>
+  
+  <!-- STD 2020.04.02 DONG  ADD -->
+  <!-- 以下独自SQL -->
+  <resultMap id="SearchMacroDataResultMap" type="net.muratec.mcs.model.MacroTransferLog">
+        <id column="TIME" property="time" jdbcType="VARCHAR" />
+		<id column="ORG_CARRIER_ID" property="orgCarrierId" jdbcType="VARCHAR" />
+	    <id column="STATUS" property="status" jdbcType="DECIMAL" />
+	    <id column="ORG_COMMAND_ID" property="orgCommandId" jdbcType="VARCHAR" />
+		<result column="ORG_RCV_TIME" property="orgRcvTime" jdbcType="VARCHAR" />
+		<result column="ORG_CMP_TIME" property="orgCmpTime" jdbcType="VARCHAR" />
+	    <result column="ORG_SRC_TSC_ID" property="orgSrcTscId" jdbcType="DECIMAL" />
+	    <result column="ORG_SRC_LOC" property="orgSrcLoc" jdbcType="VARCHAR" />
+	    <result column="ORG_DST_TSC_ID" property="orgDstTscId" jdbcType="DECIMAL" />
+	    <result column="ORG_DST_LOC" property="orgDstLoc" jdbcType="VARCHAR" />
+	    <result column="ALT_TSC_ID" property="altTscId" jdbcType="DECIMAL" />
+	    <result column="ALT_LOC" property="altLoc" jdbcType="VARCHAR" />
+	    <result column="ORG_PRIORITY" property="orgPriority" jdbcType="DECIMAL" />
+	    <result column="CANCEL_FLG" property="cancelFlg" jdbcType="DECIMAL" />
+	    <result column="ORG_DST_GROUP" property="orgDstGroup" jdbcType="VARCHAR" />
+	    <result column="ORG_HOST_COMMAND_ID" property="orgHostCommandId" jdbcType="VARCHAR" />
+	    <result column="ORG_ORIGINATOR" property="orgOriginator" jdbcType="VARCHAR" />
+	    <result column="REROUTE_FLG" property="rerouteFlg" jdbcType="DECIMAL" />
+	</resultMap>
+    <select id="selectMacroDataList" parameterType="net.muratec.mcs.model.MacroTransferLog" resultMap="SearchMacroDataResultMap">
+       SELECT 0,
+			  org_carrier_id,
+			  org_rcv_time,
+			  org_start_time,
+			  org_cmp_time,
+			  org_src_tsc_id,
+			  org_src_loc,
+			  org_dst_tsc_id,
+			  org_dst_loc,
+			  alt_tsc_id, 
+			  alt_loc, 
+			  status, 
+			  org_priority,
+			  cancel_flg, +
+			  org_dst_group, +
+			  time,  +
+			  org_host_command_id, +
+			  org_command_id, +
+			  org_originator, +
+			  reroute_flg 
+	   FROM   macro_transfer_log 
+	   WHERE  org_command_id = #{commandId,jdbcType=VARCHAR}
+	   ORDER BY time DESC
+    </select>
+    <select id="getCount" parameterType="net.muratec.mcs.entity.hist.ReqGetMacroDataEntity" resultType="java.lang.Integer"> 
+	   SELECT  
+		  count(*)
+	   FROM(
+		   SELECT 0,
+				  org_carrier_id,
+				  org_rcv_time,
+				  org_start_time,
+				  org_cmp_time,
+				  org_src_tsc_id,
+				  org_src_loc,
+				  org_dst_tsc_id,
+				  org_dst_loc,
+				  alt_tsc_id, 
+				  alt_loc, 
+				  status, 
+				  org_priority,
+				  cancel_flg, +
+				  org_dst_group, +
+				  time,  +
+				  org_host_command_id, +
+				  org_command_id, +
+				  org_originator, +
+				  reroute_flg 
+		   FROM   macro_transfer_log 
+		   WHERE  org_command_id = #{commandId,jdbcType=VARCHAR}
+		   ORDER BY time DESC)
+		</select>
+    <!-- END 2020.04.02 DONG  ADD -->
 </mapper>

@@ -23,7 +23,7 @@ package net.muratec.mcs.entity.hist;
 import lombok.Getter;
 import lombok.Setter;
 import net.muratec.mcs.annotation.FieldNameKey;
-import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
+import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 
 //@formatter:off
 /**
@@ -41,7 +41,7 @@ import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetMacroDataEntity extends AjaxReqBaseEntity {
+public class ReqGetMacroDataEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-002-01-017") public String commandId; 
 //    public Integer pieceId;	 

@@ -317,20 +317,20 @@ public class AtomicActivityHistService extends BaseService {
   //@formatter:off
     /**
      ******************************************************************************
-     * @brief     メイン画面用データ取得機能
+     * @brief     MacroData画面用データ取得機能
      * @param     reqEntity      画面項目情報
-     * @return    Host情報
+     * @return    MacroData情報
      * @retval    Entity形式で返却
      * @attention
      * @note
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311		Host情報										董 天津村研
+     * 20200402				MacroData情報										DONG
      ******************************************************************************
      */
     //@formatter:on
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<MacroDataListEntity> getMacroDataList(ReqGetMacroDataEntity reqEntity) throws McsException {
 
         // -----------------------------------------
@@ -380,5 +380,5 @@ public class AtomicActivityHistService extends BaseService {
 	 	} 
 
 		return retRecList;
-    }
+    }*/
 }

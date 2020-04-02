@@ -89,7 +89,7 @@ $(function() {
   saveCsvSlide();
   
   //MACRODATAテーブルmacroData
-  var macroDataTable = new McsTable($('#macroData-table-target'));
+ /* var macroDataTable = new McsTable($('#macroData-table-target'));
   macroDataTable.setNotRowSelect(true);
 
   // 状態テーブルヘッダ(状態テーブル)
@@ -178,7 +178,7 @@ $(function() {
   // ヘッダ設定(状態テーブル)
   macroDataTable.setHeader(macroDataHeader);
   macroDataTable.setBodyHeight($('.mcs-content.mcs-with-subheader.mcs-with-subtitle').outerHeight() - 40);
-  
+  */
   /**
    ******************************************************************************
    * @brief   抽出して画面へ表示する
@@ -277,14 +277,34 @@ $(function() {
     });
     
     //macroData
-    macroDataBtn.onClick(function() {
+    /*macroDataBtn.onClick(function() {
     	getMacroData();
+    });*/
+//    var macroDataBtn = new McsButton($('#list-btn-macroData'), screenText.btnText.macroData);
+    var macroDataPopup = new McsPopupWinLoad();
+    macroDataBtn.onClick(function() {
+    	var datas = dataTables.getSelectedRowData();   
+    	if (datas == null) {
+    	      errorDialog.openAlert(screenText.dialog.listNotSelect, screenText.dialog.listRet, 'alert');
+    	      return;
+    	    }
+    	var commandId = datas[0].commandId;
+        var cond = {
+        	commandId: commandId
+        };
+      var options = {
+        url: getUrl('MacroData'),
+        winName: 'MacroData',
+        sendValue:cond,
+        width: 1280,
+        height: 800
+      };
+      macroDataPopup.open(options);
     });
     
     //download
     downLoadBtn.onClick(function() {
     	saveMenu.show();
-    	//saveCsvSlide();
     });
   }
   /**
@@ -634,7 +654,7 @@ $(function() {
    * 20200401	MacroData													DONG
    ******************************************************************************
    */
-   function getMacroData() {
+/*   function getMacroData() {
 	   
 	// メイン画面データの選択したデータを取る 
 	var datas = dataTables.getSelectedRowData();   
@@ -682,7 +702,7 @@ $(function() {
 
     // 検索を実行
     callAjax(url, cond, true, onSuccess, onError, null, true, onEmpty, 0,true);
-  }
+  }*/
   
    /**
     ******************************************************************************
@@ -698,7 +718,7 @@ $(function() {
     * * 20200401	MacroData SHOW											DONG
     ******************************************************************************
     */
-   function showMacroDataScreen() {
+   /*function showMacroDataScreen() {
      // 表示画面番号の更新
      screenIndex = SCREEN.MACRODATA;
 
@@ -707,6 +727,6 @@ $(function() {
 
      // テーブルのヘッダ幅調整
      macroDataTable.resizeColWidth();
-   }
+   }*/
   
 });

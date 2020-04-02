@@ -815,7 +815,7 @@
 	  ORDER BY 1
     </select>
     
-    <resultMap id="SearchMacroDataResultMap" type="net.muratec.mcs.model.MacroTransferLog">
+    <!-- <resultMap id="SearchMacroDataResultMap" type="net.muratec.mcs.model.MacroTransferLog">
         <id column="TIME" property="time" jdbcType="VARCHAR" />
 		<id column="ORG_CARRIER_ID" property="orgCarrierId" jdbcType="VARCHAR" />
 	    <id column="STATUS" property="status" jdbcType="DECIMAL" />
@@ -859,6 +859,6 @@
 	   FROM   macro_transfer_log 
 	   WHERE  org_command_id = #{commandId,jdbcType=VARCHAR}
 	   ORDER BY time DESC
-    </select>
+    </select> -->
 	<!-- END 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000 -->
 </mapper>

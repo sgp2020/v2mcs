@@ -1,6 +1,9 @@
 package net.muratec.mcs.mapper;
 
 import java.util.List;
+
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.model.MacroTransferLog;
 import net.muratec.mcs.model.MacroTransferLogExample;
 import net.muratec.mcs.model.MacroTransferLogKey;
@@ -94,4 +97,8 @@ public interface MacroTransferLogMapper {
      * @mbggenerated Thu Mar 26 09:25:19 CST 2020
      */
     int updateByPrimaryKey(MacroTransferLog record);
+	// STD 2020.04.02 DONG  ADD 
+    List<MacroTransferLog> selectMacroDataList(ReqGetMacroDataEntity reqEntity);
+    int getCount(ReqGetMacroDataEntity record);
+	// END 2020.04.02 DONG  ADD 
 }

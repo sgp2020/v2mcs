@@ -23,7 +23,7 @@ package net.muratec.mcs.entity.hist;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.muratec.mcs.entity.common.AjaxResBaseEntity;
+import net.muratec.mcs.entity.common.AjaxDataTablesResBaseEntity;
 
 //@formatter:off
 /**
@@ -38,9 +38,8 @@ import net.muratec.mcs.entity.common.AjaxResBaseEntity;
  ******************************************************************************
  */
 //@formatter:on
-public class ResGetMacroDataListEntity extends AjaxResBaseEntity {
+public class ResGetMacroDataListEntity extends AjaxDataTablesResBaseEntity {
 
     public List<MacroDataListEntity> body = new ArrayList<MacroDataListEntity>();
 
-    public List<String> rowColorList = new ArrayList<String>();
 }

@@ -29,15 +29,22 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import net.muratec.mcs.annotation.OpLog;
+import net.muratec.mcs.common.ComBeanConv;
 import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComCsvItem;
 import net.muratec.mcs.common.ComCsvOut;
@@ -45,11 +52,15 @@ import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
+import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
+import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
 import net.muratec.mcs.entity.info.CarrierListEntity;
 import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
 import net.muratec.mcs.service.common.SelectBoxService;
 import net.muratec.mcs.service.hist.AtomicActivityHistService;
 
@@ -77,7 +88,8 @@ public class AtomicActivityHistController extends BaseController {
     @Autowired private AtomicActivityHistService atomicActivityHistService;
     
     @Autowired private SelectBoxService selBoxService;
-
+    // 自動更新機能
+    @Autowired private AutoReloadTimerManagerService autoReload;
 /*    public static final Logger logger = LoggerFactory.getLogger(AMHSConfController.class);
 
     public static Logger getLogger() {
@@ -457,5 +469,40 @@ public class AtomicActivityHistController extends BaseController {
 
         return sbHeader.toString();
     }
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     凡例画面を表示する機能
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    遷移先パス
+     * @retval
+     * @attention
+     * @note
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/MacroData", method = RequestMethod.POST)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET, number = 1L)
+    public String ports(HttpSession session, Locale locale, Model model) throws McsException {
 
+        // ----------------------------------------------
+        // アクセス権情報等
+        // ----------------------------------------------
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        
+        // ----------------------------------------------
+        // 自動更新機能の有効化
+        // ----------------------------------------------
+        autoReload.setInterval(model);
+
+        // バージョン情報付与
+        ComFunction.setVersion(model);
+
+        return "hist/MacroData";
+    }
 }

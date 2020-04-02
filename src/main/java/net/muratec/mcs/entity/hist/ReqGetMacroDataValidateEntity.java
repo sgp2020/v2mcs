@@ -25,6 +25,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import net.muratec.mcs.annotation.FieldNameKey;
+import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 
 //@formatter:off
@@ -43,7 +44,7 @@ import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetMacroDataValidateEntity extends AjaxReqBaseEntity {
+public class ReqGetMacroDataValidateEntity extends AjaxDataTablesReqBaseEntity {
 
     @NotBlank @FieldNameKey(key = "IH-002-01-017") public String commandId;
 //    public String ctrlChgFlag;
