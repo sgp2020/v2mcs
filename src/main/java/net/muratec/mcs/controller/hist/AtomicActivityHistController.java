@@ -132,10 +132,6 @@ public class AtomicActivityHistController extends BaseController {
         allTerms[0] = ComConst.StringSelectboxAll.VALUE;
         allTerms[1] = ComConst.StringSelectboxAll.TEXT;
 
-        String[] stkTerms = new String[2];
-        String[] ohbTerms = new String[2];
-        String[] portTerms = new String[2];
-        
         // ----------------------------------------------
         // セレクトボックスの初期値を追加
         // ----------------------------------------------
@@ -147,7 +143,6 @@ public class AtomicActivityHistController extends BaseController {
         List<String[]> portData = atomicActivityHistService.getPortData();
         
         List<String[]> sourceBoxList = null;
-        List<String[]> destinationBoxList =null;
         if(stkData!=null) {
         	sourceBoxList = stkData;
         }
@@ -158,20 +153,18 @@ public class AtomicActivityHistController extends BaseController {
         	sourceBoxList.addAll(portData);
         }
        
-        destinationBoxList = sourceBoxList;
        //tscIdBoxはAllを初期化表示する
         tscIdBoxList.add(0, allTerms);
         sourceBoxList.add(0, allTerms);
-        destinationBoxList.add(0, allTerms);
 
         // セレクトボックス要素をJSON化
        String tscIdJson = super.objectToJson(tscIdBoxList);
        String sourceJson = super.objectToJson(sourceBoxList);
-       String destinationJson = super.objectToJson(destinationBoxList);
+       String destinationJson = super.objectToJson(sourceBoxList);
        
        model.addAttribute("IH_002_01_001", tscIdJson);
        model.addAttribute("IH_002_01_002", sourceJson);
-       model.addAttribute("IH_002_01_003", sourceJson);
+       model.addAttribute("IH_002_01_003", destinationJson);
 
         // -------------
         // バージョン情報付与
