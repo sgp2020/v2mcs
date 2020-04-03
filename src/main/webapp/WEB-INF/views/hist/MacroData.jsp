@@ -44,7 +44,7 @@
   System.out.println(request.toString());
   System.out.println(commandId);
 %>
-<input type="hidden" id="commandId" value=<%=commandId%>/>
+<input type="hidden" id="commandId" value=<%=commandId%>>
     <!-- ヘッダーエリア -->
     <header id="mcs-header-menu">
         <h1>
