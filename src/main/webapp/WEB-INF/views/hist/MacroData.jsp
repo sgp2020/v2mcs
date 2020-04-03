@@ -34,10 +34,17 @@
 
 <%-- デザイン適用ヘッダ --%>
 <%@ include file="../common/designHeader.jsp"%>
+
 </head>
 
 <body>
-${'commandId'}
+
+<%
+  String commandId = (String)request.getParameter("commandId");
+  System.out.println(request.toString());
+  System.out.println(commandId);
+%>
+<input type="hidden" id="commandId" value=<%=commandId%>/>
     <!-- ヘッダーエリア -->
     <header id="mcs-header-menu">
         <h1>

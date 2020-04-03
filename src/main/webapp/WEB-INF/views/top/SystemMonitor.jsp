@@ -86,7 +86,8 @@
 	  //alarmSystemHis: '<spring:message code="IT-001-03-008" />',
 	  //stageHis: '<spring:message code="IT-001-03-009" />',   // MACS4#0049 Add
 	  //AlarmHis: '<spring:message code="IT-001-03-002" />',
-	  //cancel: '<spring:message code="IT-001-03-003" />'
+	  //cancel: '<spring:message code="IT-001-03-003" />' 
+      activityHist: '<spring:message code="IT-001-03-001" />',
       atomicActivityHist: '<spring:message code="IT-001-03-002" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
@@ -354,24 +355,24 @@
     <!-- スライドメニュー 来歴 -->
     <div id="mcs-top-slideMenu-his">
         <!-- 搬送ジョブ来歴表示 -->
-        <div class="his-job btn-mcs-slide" data-auth="${H001_REF}"></div>
+        <!--<div class="his-job btn-mcs-slide" data-auth="${H001_REF}"></div> -->
         <!-- アラーム来歴表示 -->
         <!-- <div class="his-alarm btn-mcs-slide" data-auth="${H002_REF}"></div> -->
+        
+        <!-- ActivityHistory来歴表示 -->
+        <div class="his-activity btn-mcs-slide" data-auth="${H001_REF}"></div> 
         <!-- AtomicActivityHistory来歴表示 -->
         <div class="his-atomicActivity btn-mcs-slide" data-auth="${H002_REF}"></div> 
         
-        
-        
-        
-        
+      
         <!-- キャリア削除来歴表示 -->
         <div class="his-carrierRm btn-mcs-slide" data-auth="${H004_REF}"></div>
-        <!-- 在籍時間来歴表示 -->
-        <div class="his-stTime btn-mcs-slide" data-auth="${H003_REF}"></div>
+        <!-- 在籍時間来歴表示-->
+        <div class="his-stTime btn-mcs-slide" data-auth="${H003_REF}"></div> 
         <!-- キャリア監視来歴表示 -->
         <div class="his-carrierMtnTime btn-mcs-slide" data-auth="${H005_REF}"></div>
         <!-- アラーム報告来歴表示 -->
-        <%-- <div class="his-alarmReport btn-mcs-slide" data-auth="${H006_REF}"></div> --%>
+        <div class="his-alarmReport btn-mcs-slide" data-auth="${H006_REF}"></div> 
         <!-- アラームシステム来歴表示 -->
         <div class="his-alarmSystem btn-mcs-slide" data-auth="${H007_REF}"></div>
         <!-- ステージ来歴表示 - MACS4#0049 Add -->

@@ -30,12 +30,14 @@ $(function() {
 
   var errorDialog = new McsDialog($('#mcs-error-dialog'), window.mcsDialogTitleError);
   var confirmDialog = new McsDialog($('#mcs-confirm-dialog'), window.mcsDialogTitleConfirm);
+  
+  var commandId = $('#commandId').val();
 
   // 初回検索
   var cond = {
-      	commandId: '1123092019111916531957'
+      	commandId: commandId
       };
-  extract(cond);
+ extract(cond);
  
   /**
    ******************************************************************************

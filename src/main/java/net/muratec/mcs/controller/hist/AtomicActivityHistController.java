@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -489,7 +490,6 @@ public class AtomicActivityHistController extends BaseController {
     @RequestMapping(value = "/MacroData", method = RequestMethod.POST)
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET, number = 1L)
     public String macroData(HttpSession session, Locale locale, Model model) throws McsException {
-
         // ----------------------------------------------
         // アクセス権情報等
         // ----------------------------------------------

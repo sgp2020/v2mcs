@@ -342,27 +342,33 @@ $(function() {
       parent: null,
       slideDiv: $('#mcs-top-slideMenu-his')
     });
-    var transJobHist = new McsButton($('#mcs-top-slideMenu-his .his-job'), screenText.slideHistoryText.trJobHis);
-    var alarmHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarm'), screenText.slideHistoryText.AlarmHis);
-    var carrierRmHist = new McsButton($('#mcs-top-slideMenu-his .his-carrierRm'),
-        screenText.slideHistoryText.carrierRmHis);
-    var stTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-stTime'), screenText.slideHistoryText.stTimeHis);
-    var carrierMtnTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-carrierMtnTime'),
-        screenText.slideHistoryText.carrierMtnTimeHis);
-    var alarmSystemHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarmSystem'),
-        screenText.slideHistoryText.alarmSystemHis);
-    var stageHistory = new McsButton($('#mcs-top-slideMenu-his .his-stage'), screenText.slideHistoryText.stageHis);   // MACS4#0049 Add
+    //var transJobHist = new McsButton($('#mcs-top-slideMenu-his .his-job'), screenText.slideHistoryText.trJobHis);
+    //var alarmHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarm'), screenText.slideHistoryText.AlarmHis);
+    //var carrierRmHist = new McsButton($('#mcs-top-slideMenu-his .his-carrierRm'),screenText.slideHistoryText.carrierRmHis);
+    //var stTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-stTime'), screenText.slideHistoryText.stTimeHis);
+    //var carrierMtnTimeHistory = new McsButton($('#mcs-top-slideMenu-his .his-carrierMtnTime'),screenText.slideHistoryText.carrierMtnTimeHis);
+    //var alarmSystemHistory = new McsButton($('#mcs-top-slideMenu-his .his-alarmSystem'),screenText.slideHistoryText.alarmSystemHis);
+    //var stageHistory = new McsButton($('#mcs-top-slideMenu-his .his-stage'), screenText.slideHistoryText.stageHis);   // MACS4#0049 Add
     var cancel = new McsButton($('#mcs-top-slideMenu-his .his-cancel'), screenText.slideHistoryText.cancel);
 
+    var activityHistory = new McsButton($('#mcs-top-slideMenu-his .his-activity'), screenText.slideHistoryText.activityHist);
     // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     var atomicActivityHist = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.atomicActivityHist);
     
-    // アラーム来歴表示、ページ遷移
+    
+    // ActivityHistory来歴表示、ページ遷移
+    activityHistory.onClick(function() {
+    	openScreen(getUrl('ActivityHistory'), 'ActivityHistory');
+    });
+    
+    // AtomicActivity来歴表示、ページ遷移
     atomicActivityHist.onClick(function() {
     	openScreen(getUrl('AtomicActivityHist'), 'AtomicActivityHist');
     });
     // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     
+    
+    /*
     // 搬送ジョブ来歴表示、ページ遷移
     transJobHist.onClick(function() {
       openScreen(getUrl('TransferJobHistory'), 'TransferJobHistory');
@@ -404,7 +410,7 @@ $(function() {
       openScreen(getUrl('StageHistory'), 'StageHistory');
     });
     // MACS4#0049 Add End
-
+     */
     // 戻るボタン、スクリーン非表示
     cancel.onClick(function() {
       slideMenuHistory.hide();
