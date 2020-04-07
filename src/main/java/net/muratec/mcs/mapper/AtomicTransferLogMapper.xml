@@ -669,10 +669,12 @@
         and dst_loc = #{destination}
       </if>
       <if test="carrierId != null and carrierId !='' ">
-        and carrier_id = #{carrierId}
+        <!-- and carrier_id = #{carrierId} -->
+        and carrier_id LIKE #{carrierId}||'%' ESCAPE '${@net.muratec.mcs.common.ComConst@SQL_ESCAPE}'
       </if>
       <if test="commandId != null and commandId !='' ">
-        and command_id = #{commandId}
+        <!-- and command_id = #{commandId} -->
+        and command_id LIKE #{commandId}||'%' ESCAPE '${@net.muratec.mcs.common.ComConst@SQL_ESCAPE}'
       </if>
       <!--
       <if test="dateFrom != null and dateFrom !='' ">
@@ -730,7 +732,8 @@
 			   SELECT 
 			  		   row_number() over(order by time, carrier_id) rn,<!-- Paging -->
 			  		   rownum, 
-					   time,
+					   <!-- time, -->
+					   TO_CHAR(to_timestamp(time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS time,
 					   carrier_id,
 					   (select tsc_abbreviation from tsc where tsc.tsc_id = atomic_transfer_log.tsc_id) tsc_abbreviation,
 					   src_loc,
@@ -749,6 +752,7 @@
 								  TO_DATE( SUBSTR( atomic_req_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600 ), 0 ) total_Time,
 					   vehicle_id,
 					   command_id,
+					   <!-- 
 					   atomic_req_time,
 					   atomic_ans_time,
 					   atomic_ini_time,
@@ -757,7 +761,17 @@
 					   abort_req_time,
 					   abort_ans_time,
 					   abort_ini_time,
-					   abort_cmp_time,
+					   abort_cmp_time, 
+					   -->
+					   TO_CHAR(to_timestamp(atomic_req_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_req_time,
+					   TO_CHAR(to_timestamp(atomic_ans_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_ans_time,
+					   TO_CHAR(to_timestamp(atomic_ini_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_ini_time,
+					   TO_CHAR(to_timestamp(atomic_acq_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_acq_time,
+					   TO_CHAR(to_timestamp(atomic_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_cmp_time,
+					   TO_CHAR(to_timestamp(abort_req_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS abort_req_time,
+					   TO_CHAR(to_timestamp(abort_ans_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS abort_ans_time,
+					   TO_CHAR(to_timestamp(abort_ini_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS abort_ini_time,
+					   TO_CHAR(to_timestamp(abort_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS abort_cmp_time,
 					   abort_reason
 				FROM   atomic_transfer_log
 		    	<include refid="AtomicActivityWhere" />

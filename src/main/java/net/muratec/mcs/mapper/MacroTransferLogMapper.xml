@@ -959,9 +959,12 @@
     <select id="selectMacroDataList" parameterType="net.muratec.mcs.model.MacroTransferLog" resultMap="SearchMacroDataResultMap">
        SELECT 0,
 			  org_carrier_id,
-			  org_rcv_time,
+			  <!-- org_rcv_time,
 			  org_start_time,
-			  org_cmp_time,
+			  org_cmp_time, -->
+			  TO_CHAR(to_timestamp(org_rcv_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_rcv_time,
+			  TO_CHAR(to_timestamp(org_start_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_start_time,
+			  TO_CHAR(to_timestamp(org_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_cmp_time,
 			  org_src_tsc_id,
 			  org_src_loc,
 			  org_dst_tsc_id,
@@ -972,7 +975,8 @@
 			  org_priority,
 			  cancel_flg, +
 			  org_dst_group, +
-			  time,  +
+			  <!-- time,  + -->
+			  TO_CHAR(to_timestamp(time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS time,
 			  org_host_command_id, +
 			  org_command_id, +
 			  org_originator, +
@@ -987,9 +991,12 @@
 	   FROM(
 		   SELECT 0,
 				  org_carrier_id,
-				  org_rcv_time,
+				  <!-- org_rcv_time,
 				  org_start_time,
-				  org_cmp_time,
+				  org_cmp_time, -->
+				  TO_CHAR(to_timestamp(org_rcv_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_rcv_time,
+				  TO_CHAR(to_timestamp(org_start_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_start_time,
+				  TO_CHAR(to_timestamp(org_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_cmp_time,
 				  org_src_tsc_id,
 				  org_src_loc,
 				  org_dst_tsc_id,
@@ -1000,7 +1007,8 @@
 				  org_priority,
 				  cancel_flg, +
 				  org_dst_group, +
-				  time,  +
+				  <!-- time,  + -->
+				  TO_CHAR(to_timestamp(time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS time,
 				  org_host_command_id, +
 				  org_command_id, +
 				  org_originator, +
