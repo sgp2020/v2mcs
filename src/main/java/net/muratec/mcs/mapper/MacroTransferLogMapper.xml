@@ -53,6 +53,14 @@
     <result column="ALT_LOC" property="altLoc" jdbcType="VARCHAR" />
     <result column="ALT_REASON" property="altReason" jdbcType="VARCHAR" />
     <result column="ER_FLG" property="erFlg" jdbcType="DECIMAL" />
+    <!-- STD 20200408 SGP 天津村研   ADD-->
+    <result column="totalTime" property="totalTime" jdbcType="VARCHAR" />
+    <result column="tscId" property="tscId" jdbcType="VARCHAR" />
+    <result column="loc" property="loc" jdbcType="VARCHAR" />
+    <result column="statusStr" property="statusStr" jdbcType="VARCHAR" />
+    <result column="cancelFlgStr" property="cancelFlgStr" jdbcType="VARCHAR" />
+    <result column="rerouteFlgStr" property="rerouteFlgStr" jdbcType="VARCHAR" />
+    <!-- END 20200408 SGP 天津村研   ADD-->
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -1018,4 +1026,252 @@
 		   ORDER BY time DESC)
 		</select>
     <!-- END 2020.04.02 DONG  ADD -->
+    
+    <!-- STD 2020.04.07 SGP ADD -->
+    <resultMap id="SearchTscResultMap" type="net.muratec.mcs.model.Tsc">
+	  <id     column="TSC_ID" 		     jdbcType="DECIMAL" property="tscId" />
+	  <result column="TSC_ABBREVIATION"  jdbcType="VARCHAR" property="tscAbbreviation" />
+	  <result column="TSC_TYPE" 		 jdbcType="VARCHAR" property="tscType" />
+	  <result column="EXEC_SID"          jdbcType="DECIMAL" property="execSid" />
+	  <result column="LLC_SID"           jdbcType="DECIMAL" property="llcSid" />
+	</resultMap>
+    <select id="selectStkData" parameterType="net.muratec.mcs.model.Tsc" resultMap="SearchTscResultMap">
+       SELECT tsc_abbreviation, 
+			  tsc_id, 
+			  tsc_type 
+	   FROM   tsc 
+	   WHERE  tsc_type IN ( 'CDC', 'OCDC','XCDC','STC') 
+	   ORDER BY 1
+    </select>
+    <resultMap id="SearchOhbResultMap" type="net.muratec.mcs.model.Ohb">
+	  <id column="OHB_ID" jdbcType="VARCHAR" property="ohbId" />
+	</resultMap>
+    <select id="selectOhbData" parameterType="net.muratec.mcs.model.Ohb" resultMap="SearchOhbResultMap">
+        SELECT ohb_id,
+			   ohb_id,
+		   	   'OHB' 
+	    FROM   ohb 
+	    ORDER BY 1
+    </select>
+    <resultMap id="SearchPortResultMap" type="net.muratec.mcs.model.Port">
+	  <id column="PORT_ID" jdbcType="VARCHAR" property="portId" />
+	  <result column="PORT_ABBREVIATION" jdbcType="VARCHAR" property="portAbbreviation" />
+	</resultMap>
+    <select id="selectPortData" parameterType="net.muratec.mcs.model.Port" resultMap="SearchPortResultMap">
+       SELECT port_abbreviation,
+		      port_id,
+		      'PORT'
+	  FROM   port
+	  ORDER BY 1
+    </select>
+    
+    <select id="getCountActivityHistory" parameterType="net.muratec.mcs.entity.hist.ReqGetActivityHistoryEntity" resultType="java.lang.Integer"> 
+	   SELECT  
+		  count(*)
+	   FROM(
+		  	SELECT
+				   rownum, 
+				   org_rcv_time,  
+				   org_carrier_id,  
+				   ROUND( ( TO_DATE( SUBSTR( org_cmp_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
+						TO_DATE( SUBSTR( org_rcv_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0 ) totalTime,  
+				   org_src_tsc_id,  
+				   org_src_loc,  
+				   ( CASE WHEN status = 3 THEN alt_tsc_id  
+							  ELSE org_dst_tsc_id  
+				     END ) tscId,  
+				   ( CASE WHEN status = 3 THEN alt_loc  
+							  ELSE org_dst_loc  
+				     END ) loc,  
+			 
+				   ( CASE status WHEN 0 THEN 'Queued'  
+								 WHEN 1 THEN 'Executing'  
+								 WHEN 2 THEN 'Complete'  
+								 WHEN 3 THEN 'AlternateComp'  
+								 WHEN 4 THEN 'Cancel'  
+										ELSE 'Maintenance'  
+						END ) statusStr,  
+				   org_start_time,  
+				   org_cmp_time,  
+				   org_dst_group,  
+				   org_dst_tsc_id,  
+				   org_dst_loc,  
+				   alt_tsc_id,  
+				   alt_loc,  
+				   org_priority,  
+				   org_next_dst,  
+				   ( CASE cancel_flg WHEN 0 THEN 'Normal'  
+						WHEN 1 THEN 'Cancel'  
+						ELSE TO_CHAR(cancel_flg)  
+					END ) cancelFlgStr,  
+				   org_host_command_id,  
+				   org_command_id,  
+				   org_originator,  
+				   ( CASE reroute_flg WHEN 0 THEN 'Normal'  
+						WHEN 1 THEN 'Reroute'  
+						ELSE TO_CHAR(reroute_flg)  
+					END ) rerouteFlgStr  
+			 FROM   macro_transfer_log  
+		     <include refid="ActivityHistoryWhere" /> 
+			 ORDER BY time DESC
+	 	)
+  </select>
+  <!-- レコード取得範囲決定部 -->
+  <sql id="selectRecordWhere">
+    <where>
+      <if test="fromRecordNum != null and toRecordNum != null">
+       rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+  <sql id="ActivityHistoryWhere">
+    <where>
+      <if test="source != null and source !='' ">
+        and org_src_tsc_id = #{source}
+      </if>
+      <if test="destination != null and destination !='' ">
+        and org_dst_tsc_id = #{destination}
+      </if>
+      <if test="carrierId != null and carrierId !='' ">
+        <!-- and carrier_id = #{carrierId} -->
+        and org_carrier_id LIKE #{carrierId}||'%' ESCAPE '${@net.muratec.mcs.common.ComConst@SQL_ESCAPE}'
+      </if>
+      <if test="commandId != null and commandId !='' ">
+        <!-- and command_id = #{commandId} -->
+        and org_command_id LIKE #{commandId}||'%' ESCAPE '${@net.muratec.mcs.common.ComConst@SQL_ESCAPE}'
+      </if>
+      <if test="dateFrom != null">
+        and org_rcv_time &gt;= to_char(#{dateFrom},'yyyymmddhh24missff')
+      </if>
+      <if test="dateTo != null">
+        and org_rcv_time &lt; to_char(#{dateTo},'yyyymmddhh24missff')
+      </if>
+      <if test="maxRecords != null and maxRecords !='' ">
+        and rownum &lt;= #{maxRecords}
+      </if>
+    </where>
+  </sql>
+  <sql id="maxRecordsWhere">
+    <where>
+      <if test="maxRecords != null and maxRecords !='' ">
+        and num = #{maxRecords}
+      </if>
+    </where>
+  </sql>
+  <select id="selectActivityHistoryList" parameterType="net.muratec.mcs.entity.hist.ReqGetActivityHistoryEntity" resultMap="BaseResultMap">
+  		SELECT 	
+				   rownum, 
+				   org_rcv_time,  
+				   org_carrier_id,  
+				   totalTime,  
+				   org_src_tsc_id,  
+				   org_src_loc,  
+				   tscId,  
+				   loc,  
+			       statusStr,  
+				   org_start_time,  
+				   org_cmp_time,  
+				   org_dst_group,  
+				   org_dst_tsc_id,  
+				   org_dst_loc,  
+				   alt_tsc_id,  
+				   alt_loc,  
+				   org_priority,  
+				   org_next_dst,  
+				   cancelFlgStr,  
+				   org_host_command_id,  
+				   org_command_id,  
+				   org_originator,  
+				   rerouteFlgStr  
+		FROM(
+	         SELECT
+		           row_number() over(order by time, org_carrier_id) rn,<!-- Paging -->
+				   rownum, 
+				   org_rcv_time,  
+				   org_carrier_id,  
+				   ROUND( ( TO_DATE( SUBSTR( org_cmp_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
+						TO_DATE( SUBSTR( org_rcv_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0 ) totalTime,  
+				   org_src_tsc_id,  
+				   org_src_loc,  
+				   ( CASE WHEN status = 3 THEN alt_tsc_id  
+							  ELSE org_dst_tsc_id  
+				     END ) tscId,  
+				   ( CASE WHEN status = 3 THEN alt_loc  
+							  ELSE org_dst_loc  
+				     END ) loc,  
+			 
+				   ( CASE status WHEN 0 THEN 'Queued'  
+								 WHEN 1 THEN 'Executing'  
+								 WHEN 2 THEN 'Complete'  
+								 WHEN 3 THEN 'AlternateComp'  
+								 WHEN 4 THEN 'Cancel'  
+										ELSE 'Maintenance'  
+						END ) statusStr,  
+				   org_start_time,  
+				   org_cmp_time,  
+				   org_dst_group,  
+				   org_dst_tsc_id,  
+				   org_dst_loc,  
+				   alt_tsc_id,  
+				   alt_loc,  
+				   org_priority,  
+				   org_next_dst,  
+				   ( CASE cancel_flg WHEN 0 THEN 'Normal'  
+						WHEN 1 THEN 'Cancel'  
+						ELSE TO_CHAR(cancel_flg)  
+					END ) cancelFlgStr,  
+				   org_host_command_id,  
+				   org_command_id,  
+				   org_originator,  
+				   ( CASE reroute_flg WHEN 0 THEN 'Normal'  
+						WHEN 1 THEN 'Reroute'  
+						ELSE TO_CHAR(reroute_flg)  
+					END ) rerouteFlgStr  
+			   FROM   macro_transfer_log  
+		       <include refid="ActivityHistoryWhere" /> 
+			   ORDER BY time DESC
+			)
+			<include refid="selectRecordWhere" />
+    </select>
+    
+    
+   <resultMap id="SearchAtomicTransferLogResultMap" type="net.muratec.mcs.entity.hist.AtomicActivityHistListEntity">
+    <result column="atomic_req_time"    jdbcType="VARCHAR"    property="atomicRequestTime" />
+    <result column="atomic_time"        jdbcType="VARCHAR"    property="atomicTime" />
+    <result column="tsc_id"             jdbcType="VARCHAR"    property="tscId" />
+    <result column="src_loc"            jdbcType="VARCHAR"    property="srcLoc" />
+    <result column="dst_loc"            jdbcType="VARCHAR"    property="dstLoc" />
+    <result column="priority"           jdbcType="VARCHAR"    property="priority" />
+    <result column="route_no"           jdbcType="VARCHAR"    property="routeNo" />
+    <result column="originator"         jdbcType="VARCHAR"    property="originator" />
+    <result column="queued_time"        jdbcType="VARCHAR"    property="queuedTime" />
+    <result column="loaded_time"        jdbcType="VARCHAR"    property="loadedTime" />
+    <result column="abort_reason"       jdbcType="VARCHAR"    property="abortReason" />
+  </resultMap>
+  
+  <select id="selectAtomicTransferLogByCommandId" parameterType="net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity" resultMap="SearchAtomicTransferLogResultMap">
+	  SELECT 
+		  atomic_req_time,  
+	      ROUND( ( TO_DATE( SUBSTR(  
+					(CASE WHEN atomic_cmp_time IS NULL THEN abort_cmp_time   
+					ELSE atomic_cmp_time END) 
+				, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
+		     TO_DATE( SUBSTR( atomic_req_time, 1, 14 ), 'YYYYMMDDHH24MISS' )  
+		  ) * 24 * 3600, 0 ) atomic_time,  
+		  tsc_id,  
+		  src_loc,  
+		  dst_loc,  
+		  priority,  
+		  route_no,  
+		  originator,  
+		   ROUND( ( TO_DATE( SUBSTR( atomic_acq_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
+			TO_DATE( SUBSTR( atomic_req_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0) queued_time,  
+		   ROUND( ( TO_DATE( SUBSTR( (CASE WHEN atomic_cmp_time IS NULL THEN abort_cmp_time   
+					ELSE atomic_cmp_time END), 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
+			TO_DATE( SUBSTR( atomic_acq_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0) loaded_time,  
+		  abort_reason   
+      FROM   atomic_transfer_log  
+      WHERE  command_id = #{commandId,jdbcType=VARCHAR}
+  </select>
+  <!-- END 2020.04.07 SGP ADD -->
 </mapper>
