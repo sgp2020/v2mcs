@@ -62,5 +62,13 @@ public class AtomicActivityHistListEntity {
 	public String abortInitiateTime;
 	public String abortCompleteTime;
 	public String abortReason;
+	
+	public String atomicTime;
+	public String tscId;
+	public String srcLoc;
+	public String dstLoc;
+	public String originator;
+	public String loadedTime;
+	
 
 }
