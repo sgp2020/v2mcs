@@ -110,7 +110,7 @@ $(function() {
 		  url: getUrl('/AtomicActivityHist/GetAtomicActivityHistList'),
 		  cond: cond,
 		  searchDataFlag: true,
-		  tableCompId: 'H-002-dataTables', // テーブルコンポーネントID
+		  tableCompId: 'H-002-atomicActivityHistList', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
 			  // 特にすることなし
@@ -364,7 +364,7 @@ $(function() {
 				    		  searchInfoDateTos +
 				    		  searchInfoMaxRecords);
       
-      var tableCompId = 'H-002-dataTables';
+      var tableCompId = 'H-002-atomicActivityHistList';
       var options = {
         url: url,
         cond: cond,
