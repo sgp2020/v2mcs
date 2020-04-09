@@ -89,6 +89,7 @@
 	  //cancel: '<spring:message code="IT-001-03-003" />' 
       activityHist: '<spring:message code="IT-001-03-001" />',
       atomicActivityHist: '<spring:message code="IT-001-03-002" />',
+      statisticsHistoryJob: '<spring:message code="IT-001-03-005" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
     slideLogText: {
@@ -363,14 +364,15 @@
         <div class="his-activity btn-mcs-slide" data-auth="${H001_REF}"></div> 
         <!-- AtomicActivityHistory来歴表示 -->
         <div class="his-atomicActivity btn-mcs-slide" data-auth="${H002_REF}"></div> 
-        
+        <!-- Statistics History(Job)来歴表示 -->
+        <div class="his-statisticsHistoryJob btn-mcs-slide" data-auth="${H005_REF}"></div>
       
         <!-- キャリア削除来歴表示 -->
         <div class="his-carrierRm btn-mcs-slide" data-auth="${H004_REF}"></div>
         <!-- 在籍時間来歴表示-->
         <div class="his-stTime btn-mcs-slide" data-auth="${H003_REF}"></div> 
         <!-- キャリア監視来歴表示 -->
-        <div class="his-carrierMtnTime btn-mcs-slide" data-auth="${H005_REF}"></div>
+        <%-- <div class="his-carrierMtnTime btn-mcs-slide" data-auth="${H005_REF}"></div> --%>
         <!-- アラーム報告来歴表示 -->
         <div class="his-alarmReport btn-mcs-slide" data-auth="${H006_REF}"></div> 
         <!-- アラームシステム来歴表示 -->
