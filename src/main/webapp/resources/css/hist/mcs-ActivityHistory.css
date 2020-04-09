@@ -70,7 +70,12 @@ div.mcs-saveMenu {
 }
 div#list-table-target {
     width: 100%;
-    height: 100%;
+    height: 80%;
+    padding-left: 15px;
+    float:left;
+}
+div#atomicTransferLog-table-target {
+    width: 100%;
     padding-left: 15px;
     float:left;
 }
@@ -102,8 +107,4 @@ div#ColorDiv {
 #mcs-saveMenu {
     width: 350px;
 }
-/* 状態画面テーブル部用 */
-div#macroData-table-target {
-    width: 100%;
-    padding-left: 15px;
-}
+

@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 import net.muratec.mcs.annotation.OpLog;
 import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComCsvItem;
+import net.muratec.mcs.common.ComCsvOut;
 import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseController;
+import net.muratec.mcs.entity.hist.ActivityHistoryListEntity;
+import net.muratec.mcs.entity.hist.ReqGetActivityHistoryEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
@@ -166,23 +172,22 @@ public class ActivityHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
-    /*
     //@formatter:on
-    @RequestMapping(value = { "/AtomicActivityHist/SaveCsvAtomicActivityHistList" }, method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
+    @RequestMapping(value = { "/ActivityHistory/SaveCsvActivityHistoryList" }, method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
 
         // ----------------------------------------------
         // (1)アクセス権チェック(GET版)
         // ----------------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ACTIVITYHISTORY.getRefAuthFuncId());
 
         // ----------------------------------------------
         // (2)セッション取得
         // ----------------------------------------------
-        String sessionKey = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
-        ReqGetAtomicActivityHistEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetAtomicActivityHistEntity.class);
+        String sessionKey = ComConst.ScreenInfo.HIST_ACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        ReqGetActivityHistoryEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetActivityHistoryEntity.class);
         if (reqEntity == null) {
             // sessionに存在しない例外
             String[] args = { sessionKey };
@@ -202,7 +207,7 @@ public class ActivityHistoryController extends BaseController {
         // ----------------------------------------------
         reqEntity.fromRecordNum = null;
         reqEntity.toRecordNum = null;
-        List<AtomicActivityHistListEntity> atomicTransferLog = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
+        List<ActivityHistoryListEntity> macroTransferLog = activityHistoryService.getActivityHistoryList(reqEntity);
         // ----------------------------------------------
         // CSV形成
         // ----------------------------------------------
@@ -214,10 +219,10 @@ public class ActivityHistoryController extends BaseController {
         // #########################################
         // CSV出力
         // #########################################
-        ComCsvOut<AtomicActivityHistListEntity> csvOut = new ComCsvOut<AtomicActivityHistListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "AtomicActivityHist.csv", csvHeader, listCsvItem, atomicTransferLog);
+        ComCsvOut<ActivityHistoryListEntity> csvOut = new ComCsvOut<ActivityHistoryListEntity>();
+        csvOut.csvOut(res, messageSource, locale, "ActivityHist.csv", csvHeader, listCsvItem, macroTransferLog);
     }
-    */
+
     //@formatter:off
     /**
      ******************************************************************************
@@ -230,8 +235,6 @@ public class ActivityHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * MACS4#0021  LotID,ProductID表示                                    T.Iga/CSC
-     * MACS4#0099  iFoup設定画面変更                                      T.Iga/CSC
      ******************************************************************************
      */
     //@formatter:on
@@ -242,30 +245,29 @@ public class ActivityHistoryController extends BaseController {
         // ######################
         // CSV項目を生成し、ListにADD
         // ######################
-        listCsvItem.add(createCsvItem("IH-002-01-004", "rum", false));
-        listCsvItem.add(createCsvItem("IH-002-01-005", "time", false));
-        listCsvItem.add(createCsvItem("IH-002-01-006", "carrierId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-007", "tscAbbreviation", false));
-        listCsvItem.add(createCsvItem("IH-002-01-008", "source", false));
-        listCsvItem.add(createCsvItem("IH-002-01-009", "destination", false));
-        listCsvItem.add(createCsvItem("IH-002-01-010", "statusStr", false));
-        listCsvItem.add(createCsvItem("IH-002-01-011", "priority", false));
-        listCsvItem.add(createCsvItem("IH-002-01-012", "routeNo", false));
-        listCsvItem.add(createCsvItem("IH-002-01-013", "queuedTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-014", "leadTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-015", "totalTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-016", "vehicleId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-017", "commandId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-018", "atomicRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-019", "atomicAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-020", "atomicInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-021", "atomicAcquiredTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-022", "atomicCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-023", "abortRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-024", "abortAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-025", "abortInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-026", "abortCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-027", "abortReason", false));
+        listCsvItem.add(createCsvItem("IH-001-01-004", "rum", false));
+        listCsvItem.add(createCsvItem("IH-001-01-005", "rcvTime", false));
+        listCsvItem.add(createCsvItem("IH-001-01-006", "carrierId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-007", "totalTime", false));
+        listCsvItem.add(createCsvItem("IH-001-01-008", "srcTscId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-009", "srcLoc", false));
+        listCsvItem.add(createCsvItem("IH-001-01-010", "compTscId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-011", "compLoc", false));
+        listCsvItem.add(createCsvItem("IH-001-01-012", "status", false));
+        listCsvItem.add(createCsvItem("IH-001-01-013", "startTime", false));
+        listCsvItem.add(createCsvItem("IH-001-01-014", "cmpTime", false));
+        listCsvItem.add(createCsvItem("IH-001-01-015", "dstGroup", false));
+        listCsvItem.add(createCsvItem("IH-001-01-016", "dstTscId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-017", "dstLoc", false));
+        listCsvItem.add(createCsvItem("IH-001-01-018", "altTscId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-019", "altLoc", false));
+        listCsvItem.add(createCsvItem("IH-001-01-020", "priority", false));
+        listCsvItem.add(createCsvItem("IH-001-01-021", "nextDestination", false));
+        listCsvItem.add(createCsvItem("IH-001-01-022", "cancelReq", false));
+        listCsvItem.add(createCsvItem("IH-001-01-023", "hostCommandId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-024", "commandId", false));
+        listCsvItem.add(createCsvItem("IH-001-01-025", "originator", false));
+        listCsvItem.add(createCsvItem("IH-001-01-026", "rerouteReq", false));
         
         return listCsvItem;
     } 
@@ -310,13 +312,13 @@ public class ActivityHistoryController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    private String createCsvHeaderRecords(ReqGetAtomicActivityHistEntity reqEntity, Locale locale) {
+    private String createCsvHeaderRecords(ReqGetActivityHistoryEntity reqEntity, Locale locale) {
 
         StringBuilder sbHeader = new StringBuilder();
         // ######################
         // 1行目：タイトル
         // ######################
-        String csvTitle = messageSource.getMessage("IH-002-01-001", null, locale);
+        String csvTitle = messageSource.getMessage("IH-001-01-001", null, locale);
         sbHeader.append(ComConst.CSV_TITLE + ComConst.CSV_SEPARATOR + csvTitle + ComConst.BR);
 
         // ######################
@@ -331,18 +333,6 @@ public class ActivityHistoryController extends BaseController {
         boolean searchCondFlag = false;
         sbHeader.append(ComConst.CSV_SEARCH_COND + ComConst.CSV_SEPARATOR);
         
-        // ######################
-        // TSCID
-        // ######################
-        if (reqEntity.tscId != null && reqEntity.tscId.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
-            }
-            searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-001", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.tscId.toString()); // 比較値
-        }
         
         // ######################
         // Source
@@ -352,7 +342,7 @@ public class ActivityHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-002", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-001", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
             sbHeader.append(reqEntity.source.toString()); // 比較値
         }
@@ -365,7 +355,7 @@ public class ActivityHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-003", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-002", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
             sbHeader.append(reqEntity.destination.toString()); // 比較値
         }
@@ -378,7 +368,7 @@ public class ActivityHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-004", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-003", null, locale)); // 項目名
             sbHeader.append(" LIKE "); // 比較演算子
             sbHeader.append(reqEntity.carrierId); // 比較値
         }
@@ -391,7 +381,7 @@ public class ActivityHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-005", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-004", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
             sbHeader.append(reqEntity.commandId.toString()); // 比較値
         }
@@ -406,7 +396,7 @@ public class ActivityHistoryController extends BaseController {
             searchCondFlag = true;
             sbHeader.append(ComFunction.dateToString(reqEntity.dateFrom)); // 比較値
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(messageSource.getMessage("IH-002-03-011", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-010", null, locale)); // 項目名
         }
 
         // ######################
@@ -416,7 +406,7 @@ public class ActivityHistoryController extends BaseController {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
-            sbHeader.append(messageSource.getMessage("IH-002-03-012", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-011", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(ComFunction.dateToString(reqEntity.dateTo)); // 比較値
         }
@@ -429,7 +419,7 @@ public class ActivityHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-007", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-001-03-006", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(reqEntity.maxRecords.toString()); // 比較値
         }

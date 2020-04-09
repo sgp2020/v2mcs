@@ -538,7 +538,7 @@ $(function() {
   function saveCsvSlide() {
 	  
 	// 表示画面番号の更新
-	   screenIndex = SCREEN.DOWNLOAD;
+	screenIndex = SCREEN.DOWNLOAD;
 	   
     // ******************************************************
     // 検索項目生成
@@ -572,10 +572,10 @@ $(function() {
     // 決定ボタン押下
     saveConfirmButton.onClick(function() {
       var datas = dataTables.getLatestCond();
-      callAjax(getUrl('/ActivityHistory/SetCsvActivityHistListory'), datas, false,
+      callAjax(getUrl('/ActivityHistory/SetCsvActivityHistoryList'), datas, false,
       // 成功
       function(retObj) {
-        window.location.href = getUrl('/ActivityHistory/SaveCsvActivityHistListory');
+        window.location.href = getUrl('/ActivityHistory/SaveCsvActivityHistoryList');
       },
       // エラー
       function(retObj) {

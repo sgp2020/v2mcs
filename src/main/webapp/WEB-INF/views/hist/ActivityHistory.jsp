@@ -125,14 +125,14 @@
         <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
 
-    <div class="mcs-atomic-activity-history-content">
+    <div class="mcs-activity-history-content">
         <!-- 一覧画面 start -->
         <div id="list-screen" class="mcs-content mcs-with-subheader mcs-with-subtitle">
             <div class="mcs-content-subtitle">
                 <spring:message code="IH-001-01-002" />
             </div>
            <!--  <div id="list-table-target" style="width: 100%; height: 100%;"> </div> -->
-           <div id="list-table-target" style="width: 60%;"> </div> 
+           <div id="list-table-target"> </div> 
            <div id="atomicTransferLog-table-target"></div> 
         </div>
         <!-- 一覧画面 end -->

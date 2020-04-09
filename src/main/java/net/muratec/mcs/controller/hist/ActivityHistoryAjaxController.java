@@ -20,6 +20,7 @@
 //@formatter:on
 package net.muratec.mcs.controller.hist;
 
+import java.sql.Timestamp;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -40,9 +41,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import net.muratec.mcs.annotation.OpLog;
+import net.muratec.mcs.common.ComBeanConv;
 import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
+import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.hist.ReqGetActivityHistoryEntity;
 import net.muratec.mcs.entity.hist.ReqGetActivityHistoryListValidateEntity;
@@ -199,7 +202,7 @@ public class ActivityHistoryAjaxController extends BaseAjaxController {
   //@formatter:off
     /**
      ******************************************************************************
-     * @brief     SetCsvAtomicActivityHistList（CSV保存）機能
+     * @brief     SetCsvActivityHistoryList（CSV保存）機能
      * @param     reqValidate    画面より入力された情報
      * @param     session        セッション情報（Frameworkより付加）
      * @param     errors         エラー情報（Frameworkより付加）
@@ -215,22 +218,21 @@ public class ActivityHistoryAjaxController extends BaseAjaxController {
      * 20200331		DownLoad												DONG
      ******************************************************************************
      */
-    /*
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist/SetCsvAtomicActivityHistList", method = RequestMethod.POST)
+    @RequestMapping(value = "/ActivityHistory/SetCsvActivityHistoryList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqStrEntity,
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    public AjaxResBaseEntity SetCsvActivityHistoryList(@Valid @RequestBody ReqGetActivityHistoryListValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // アクセス権チェック
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ACTIVITYHISTORY.getRefAuthFuncId());
 
         // Entityの型変換
         ComBeanConv bc = new ComBeanConv();
-        ReqGetAtomicActivityHistEntity reqEntity = bc.convert(reqStrEntity, ReqGetAtomicActivityHistEntity.class);
+        ReqGetActivityHistoryEntity reqEntity = bc.convert(reqStrEntity, ReqGetActivityHistoryEntity.class);
 
         // 日付の大小関係を確認（修正）
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
@@ -246,7 +248,7 @@ public class ActivityHistoryAjaxController extends BaseAjaxController {
         // 戻り値宣言
         AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 
-        String sessionKey = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        String sessionKey = ComConst.ScreenInfo.HIST_ACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
 
         super.setSessionAttribute(session, sessionKey, reqEntity);
         // 実行結果設定
@@ -255,6 +257,4 @@ public class ActivityHistoryAjaxController extends BaseAjaxController {
 
         return resEntity;
     }
-    */
-
 }
