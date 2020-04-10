@@ -202,7 +202,7 @@ public class StatisticsHistoryJobController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = { "/AtomicActivityHist/SaveCsvAtomicActivityHistList" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/StatisticsHistoryJob/SaveCsvStatisticsHistoryJobList" }, method = RequestMethod.GET)
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
@@ -249,7 +249,7 @@ public class StatisticsHistoryJobController extends BaseController {
         // CSV出力
         // #########################################
         ComCsvOut<AtomicActivityHistListEntity> csvOut = new ComCsvOut<AtomicActivityHistListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "AtomicActivityHist.csv", csvHeader, listCsvItem, atomicTransferLog);
+        csvOut.csvOut(res, messageSource, locale, "StatisticsHistoryJob.csv", csvHeader, listCsvItem, atomicTransferLog);
     }
     //@formatter:off
     /**
@@ -473,40 +473,5 @@ public class StatisticsHistoryJobController extends BaseController {
         sbHeader.append(ComConst.BR);
 
         return sbHeader.toString();
-    }
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     凡例画面を表示する機能
-     * @param     session        セッション情報（Frameworkより付加）
-     * @param     locale         ロケーション情報（Frameworkより付加）
-     * @param     model          モデル情報（Frameworkより付加）
-     * @return    遷移先パス
-     * @retval
-     * @attention
-     * @note
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     ******************************************************************************
-     */
-    //@formatter:on
-    @RequestMapping(value = "/MacroData", method = RequestMethod.POST)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.GET, number = 1L)
-    public String macroData(HttpSession session, Locale locale, Model model) throws McsException {
-        // ----------------------------------------------
-        // アクセス権情報等
-        // ----------------------------------------------
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
-        
-        // ----------------------------------------------
-        // 自動更新機能の有効化
-        // ----------------------------------------------
-        autoReload.setInterval(model);
-
-        // バージョン情報付与
-        ComFunction.setVersion(model);
-
-        return "hist/MacroData";
     }
 }

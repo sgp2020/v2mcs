@@ -1216,7 +1216,10 @@ public class ComConst {
                 ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  ADD
                 ScreenInfo.HIST_CARRIERREMOVEHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
-                ScreenInfo.HIST_CARRIERMOTIONTIMEHISTORY.getRefAuthFuncId(),
+                // STD 2020.04.10 DONG  ADD 
+                //ScreenInfo.HIST_CARRIERMOTIONTIMEHISTORY.getRefAuthFuncId(),
+                ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId(),
+                // END 2020.04.10 DONG  ADD 
                 ScreenInfo.HIST_ALARMSYSTEMHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STAGEHISTORY.getRefAuthFuncId()         // MACS4#0049 Add
         };

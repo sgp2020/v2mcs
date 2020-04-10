@@ -205,41 +205,6 @@ public class StatisticsHistoryJobService extends BaseService {
         return selBoxList;
     }
  
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     getOhbData
-     *            （OHBのOHB_IDセレクトボックスリスト取得機能)
-     * @param     reqEntity      画面項目情報
-     * @return    検索条件に該当するレコード
-     * @retval    List形式で返却
-     * @attention
-     * @note      コントローラIDリストを取得する
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     * 20200326   getOhbData										董 天津村研
-     ******************************************************************************
-     */
-    //@formatter:on
-    @Transactional(readOnly = true)
-    public List<String[]> getOhbData() {
-    	
-    	List<Ohb> ohbIdList = transferOpeLogMapper.selectOhbData();
-
-        List<String[]> selBoxList = new ArrayList<String[]>();
-
-        for (Ohb ohbIds : ohbIdList) {
-            String[] data = new String[2];
-            data[0] = ohbIds.getOhbId();
-            data[1] = ohbIds.getOhbId();
-            
-            selBoxList.add(data);
-        }
-
-        return selBoxList;
-    }
-    
   //@formatter:off
     /**
      ******************************************************************************

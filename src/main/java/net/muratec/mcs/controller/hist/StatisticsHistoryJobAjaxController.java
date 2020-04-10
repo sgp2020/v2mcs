@@ -1,8 +1,8 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        StockerInformationAjaxController.java
- * @brief       StockerInformation画面関連のajaxコントローラ
+ * @file        StatisticsHistoryJobAjaxController.java
+ * @brief       StatisticsHistoryJob画面関連のajaxコントローラ
  * @par
  * @author      CSC
  * $Id:         $
@@ -14,16 +14,13 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020.04.10 			StockerInformationAjaxController			          董 天津村研
  ******************************************************************************
  */
 //@formatter:on
 package net.muratec.mcs.controller.hist;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -43,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import net.muratec.mcs.common.defines.State;
 import net.muratec.mcs.annotation.OpLog;
 import net.muratec.mcs.common.ComBeanConv;
 import net.muratec.mcs.common.ComConst;
@@ -52,24 +48,14 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGeStatisticsHistoryJobListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
-import net.muratec.mcs.entity.hist.ResGetMacroDataListEntity;
 import net.muratec.mcs.entity.hist.ResGetStatisticsHistoryJobListEntity;
-import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
-import net.muratec.mcs.entity.info.ReqGetCarrierListValidateEntity;
-import net.muratec.mcs.entity.top.ReqIndividualMonitorEntity;
-import net.muratec.mcs.entity.top.ReqIndividualMonitorValidateEntity;
-import net.muratec.mcs.entity.top.ResScMonitorPortListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.hist.AtomicActivityHistService;
 import net.muratec.mcs.service.hist.StatisticsHistoryJobService;
 
 //@formatter:off
@@ -134,7 +120,7 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetStatisticsHistoryJobListEntity getStatisticsHistoryJobList(HttpSession session,
-            @Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+            @Valid @RequestBody ReqGeStatisticsHistoryJobListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
@@ -183,11 +169,11 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist/SetCsvAtomicActivityHistList", method = RequestMethod.POST)
+    @RequestMapping(value = "/StatisticsHistoryJob/SetCsvStatisticsHistoryJobList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqStrEntity,
+    public AjaxResBaseEntity SetCsvStatisticsHistoryJobList(@Valid @RequestBody ReqGeStatisticsHistoryJobListValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
@@ -196,8 +182,8 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
 
         // Entityの型変換
         ComBeanConv bc = new ComBeanConv();
-        ReqGetAtomicActivityHistEntity reqEntity = bc.convert(reqStrEntity, ReqGetAtomicActivityHistEntity.class);
-
+        ReqGetStatisticsHistoryJobEntity reqEntity = bc.convert(reqStrEntity, ReqGetStatisticsHistoryJobEntity.class);
+        
         // 日付の大小関係を確認（修正）
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
             // 大小関係が入れ替わっている場合
