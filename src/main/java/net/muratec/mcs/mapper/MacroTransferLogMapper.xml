@@ -1071,7 +1071,8 @@
 	   FROM(
 		  	SELECT
 				   rownum, 
-				   org_rcv_time,  
+				   <!-- org_rcv_time,  -->
+				   TO_CHAR(to_timestamp(org_rcv_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_rcv_time,
 				   org_carrier_id,  
 				   ROUND( ( TO_DATE( SUBSTR( org_cmp_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
 						TO_DATE( SUBSTR( org_rcv_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0 ) totalTime,  
@@ -1090,9 +1091,11 @@
 								 WHEN 3 THEN 'AlternateComp'  
 								 WHEN 4 THEN 'Cancel'  
 										ELSE 'Maintenance'  
-						END ) statusStr,  
-				   org_start_time,  
-				   org_cmp_time,  
+						END ) statusStr, 
+				   TO_CHAR(to_timestamp(org_start_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_start_time, 
+				   TO_CHAR(to_timestamp(org_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_cmp_time, 
+				   <!-- org_start_time,  
+				   org_cmp_time, --> 
 				   org_dst_group,  
 				   org_dst_tsc_id,  
 				   org_dst_loc,  
@@ -1187,11 +1190,13 @@
 	         SELECT
 		           row_number() over(order by time, org_carrier_id) rn,<!-- Paging -->
 				   rownum, 
-				   org_rcv_time,  
+				   TO_CHAR(to_timestamp(org_rcv_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_rcv_time,
+				   <!--org_rcv_time, --> 
 				   org_carrier_id,  
 				   ROUND( ( TO_DATE( SUBSTR( org_cmp_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
 						TO_DATE( SUBSTR( org_rcv_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0 ) totalTime,  
-				   org_src_tsc_id,  
+				   <!-- org_src_tsc_id,  -->
+				   (select TSC.TSC_NAME from TSC WHERE TSC.TSC_ID = macro_transfer_log.org_src_tsc_id) org_src_tsc_id, 
 				   org_src_loc,  
 				   ( CASE WHEN status = 3 THEN alt_tsc_id  
 							  ELSE org_dst_tsc_id  
@@ -1206,9 +1211,11 @@
 								 WHEN 3 THEN 'AlternateComp'  
 								 WHEN 4 THEN 'Cancel'  
 										ELSE 'Maintenance'  
-						END ) statusStr,  
-				   org_start_time,  
-				   org_cmp_time,  
+						END ) statusStr, 
+				   TO_CHAR(to_timestamp(org_start_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_start_time, 
+				   TO_CHAR(to_timestamp(org_cmp_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS org_cmp_time,  
+				   <!-- org_start_time,  
+				   org_cmp_time,   --> 
 				   org_dst_group,  
 				   org_dst_tsc_id,  
 				   org_dst_loc,  
@@ -1250,8 +1257,9 @@
   </resultMap>
   
   <select id="selectAtomicTransferLogByCommandId" parameterType="net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity" resultMap="SearchAtomicTransferLogResultMap">
-	  SELECT 
-		  atomic_req_time,  
+	  SELECT
+	      TO_CHAR(to_timestamp(atomic_req_time,'yyyymmddhh24missff'),'YYYY/MM/DD HH24:MI:SS') AS atomic_req_time,  
+		  <!-- atomic_req_time,  -->
 	      ROUND( ( TO_DATE( SUBSTR(  
 					(CASE WHEN atomic_cmp_time IS NULL THEN abort_cmp_time   
 					ELSE atomic_cmp_time END) 

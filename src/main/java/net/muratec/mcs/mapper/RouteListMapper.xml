@@ -1084,19 +1084,19 @@
   </select>
   
   <resultMap id="SearchResultMap" type="net.muratec.mcs.model.RouteListModel" >
-    <id column="TABLE_NO" property="tableNo" jdbcType="DECIMAL" />
+   <!--  <id column="TABLE_NO" property="tableNo" jdbcType="DECIMAL" />  -->
     <id column="ROUTE_NO" property="routeNo" jdbcType="DECIMAL" />
     <result column="SELECT_ROUTE" property="selectRoute" jdbcType="DECIMAL" />
     <result column="PRIORITY" property="priority" jdbcType="DECIMAL" />
-    <result column="LOW_LIMIT_PRIORITY" property="lowLimitPriority" jdbcType="DECIMAL" />
-    <result column="HIGH_LIMIT_PRIORITY" property="highLimitPriority" jdbcType="DECIMAL" />
+   <!-- <result column="LOW_LIMIT_PRIORITY" property="lowLimitPriority" jdbcType="DECIMAL" />
+    <result column="HIGH_LIMIT_PRIORITY" property="highLimitPriority" jdbcType="DECIMAL" />  -->
     <result column="TRANSFER_TIME" property="transferTime" jdbcType="DECIMAL" />
-    <result column="MIN_TIME" property="minTime" jdbcType="DECIMAL" />
-    <result column="MAX_TIME" property="maxTime" jdbcType="DECIMAL" />
+   <!-- <result column="MIN_TIME" property="minTime" jdbcType="DECIMAL" />
+    <result column="MAX_TIME" property="maxTime" jdbcType="DECIMAL" />  -->
     <result column="TRANSFER_COUNT" property="transferCount" jdbcType="DECIMAL" />
-    <result column="ROUTE_COUNT" property="routeCount" jdbcType="DECIMAL" />
+   <!-- <result column="ROUTE_COUNT" property="routeCount" jdbcType="DECIMAL" />
     <result column="SRC_PIECE_ID" property="srcPieceId" jdbcType="DECIMAL" />
-    <result column="DST_PIECE_ID" property="dstPieceId" jdbcType="DECIMAL" />
+    <result column="DST_PIECE_ID" property="dstPieceId" jdbcType="DECIMAL" /> -->
     <result column="NEXT_DST_CONN_ID1" property="nextDstConnId1" jdbcType="VARCHAR" />
     <result column="NEXT_DST_PIECE_ID1" property="nextDstPieceId1" jdbcType="DECIMAL" />
     <result column="NEXT_DST_CONN_ID2" property="nextDstConnId2" jdbcType="VARCHAR" />

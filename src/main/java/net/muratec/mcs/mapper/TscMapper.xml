@@ -724,11 +724,20 @@
 	  ORDER BY 1 
   </select> 
   
-  <select id="selectOhbSemtTscID" parameterType="net.muratec.mcs.model.TscExample" resultMap="BaseResultMap">
+  <select id="selectOhbSemTscID" parameterType="net.muratec.mcs.model.TscExample" resultMap="BaseResultMap">
       SELECT tsc_abbreviation,
 			tsc_id 
 	  FROM tsc 
 	  WHERE  tsc_model = 'IBSEM'  
+	  ORDER BY 1 
+  </select> 
+  
+  <select id="selectCdcTscID" parameterType="net.muratec.mcs.model.TscExample" resultMap="BaseResultMap">
+      SELECT tsc_abbreviation, 
+			tsc_id,
+			exec_sid 
+	  FROM tsc 
+	  WHERE  tsc_type = 'CDC' OR tsc_type = 'OCDC' OR tsc_type = 'XCDC' OR tsc_type = 'STC'
 	  ORDER BY 1 
   </select> 
 </mapper>

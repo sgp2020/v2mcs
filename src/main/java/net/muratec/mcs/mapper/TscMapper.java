@@ -114,5 +114,6 @@ public interface TscMapper {
     
     List<Tsc> selectDefaultTscID(TscExample example);
     List<Tsc> selectOhbSemtTscID(TscExample example);
+    List<Tsc> selectCdcTscID(TscExample example);  
     
 }
