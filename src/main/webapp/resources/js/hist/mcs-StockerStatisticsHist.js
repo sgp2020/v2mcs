@@ -1,19 +1,19 @@
 ﻿/**
  ******************************************************************************
- * @file        mcs-ActivityHistory.js
- * @brief       ActivityHistory 画面用JavaScript
+ * @file        mcs-StockerStatisticsHist.js
+ * @brief       StockerStatisticsHistory 画面用JavaScript
  * @par
- * @author      天津村研　Song
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
- * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
  *
  * @note        Tabstop=2
  * ----------------------------------------------------------------------------
- * DATE         VER.        DESCRIPTION                      AUTHOR
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/04/1   v1.0.0      初版作成                                      　 天津村研　Song
+ * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    ZHANGDONG
  ******************************************************************************
  */
 $(function() {
@@ -21,9 +21,6 @@ $(function() {
   focus();
   // コンポーネントマネージャ（検索用）
   var searchComp = new McsComponentManager();
-
-  // ステータス色一覧
-  //$('#color1').css('background-color', screenText.colorText.CommError);
 
   // 非アクティブ状態でも自動更新を行う
   AutoReloadTimerManager.setEnableBlurExecute();
@@ -47,7 +44,7 @@ $(function() {
     parent: slideMenuTop,
     slideDiv: $('#mcs-slideMenu-search')
   });
-  //CSV保存用スライドの初期化
+//CSV保存用スライドの初期化
   var saveMenu = new McsSlideMenu({
     depth: 1,
     parent: null,
@@ -55,27 +52,7 @@ $(function() {
   });
   
   // テーブル
-  var dataTables = new McsDataTables($('#list-table-target'), false);
-  // 行選択時のイベントをセット
-  dataTables.onSelectRow(function() {
-    var record = dataTables.getSelectedRowData();
-    if (record) {
-    	searchAtomicTransferLogList(record[0].commandId);
-    }
-  });
-  
-  function searchAtomicTransferLogList(commandId) {
-      var url = getUrl('/ActivityHistory/GetAtomicTransferLogList');
-      var cond = {
-    		  commandId:commandId
-      };
-      var flag = false;
-      var success = function(retObj) {
-    	  activityHistroyTable.clear();
-    	  activityHistroyTable.addDataList(retObj.body);
-      };
-      callAjax(url, JSON.stringify(cond), flag, success);
-  }
+  var dataTables = new McsDataTables($('#list-table-target'), true);
  
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
@@ -91,80 +68,19 @@ $(function() {
   creTopMenu();
   
   //初回検索
-  extract({
-	  source: '',
-	  destination: '',
-	  carrierId: '',
-	  commandId: '',
+  /*extract({
+	  tscId: '',
+	  unit: '',
 	  dateFrom: null,
 	  dateTo: null,
-	  maxRecords: ''
-  });
+  });*/
   
   //検索ボタンを設定する
   createSearchSlide();
   // CSV保存用スライドの生成
   saveCsvSlide();
   
-  //macro_transfer_log
-  var activityHistroyTable = new McsTable($('#activityHistroy-table-target'));
-  activityHistroyTable.setNotRowSelect(true);
-
-  // 状態テーブルヘッダ(状態テーブル)
-  var activityHistroyDataHeader = [{
-	    name: 'rum',
-	    text: screenText.atomicTransferLog.rum,
-	    display: true
-	  }, {
-	    name: 'atomicRequestTime',
-	    text: screenText.atomicTransferLog.reqTime,
-	    display: true
-	  }, {
-	    name: 'atomicTime',
-	    text: screenText.atomicTransferLog.atomicTime,
-	    display: true
-	  }, {
-	    name: 'tscId',
-	    text: screenText.atomicTransferLog.tscId,
-	    display: true
-	  }, {
-	    name: 'srcLoc',
-	    text: screenText.atomicTransferLog.srcLoc,
-	    display: true
-	  },{
-	    name: 'dstLoc',
-	    text: screenText.atomicTransferLog.dstLoc,
-	    display: true
-	  }, {
-	    name: 'priority',
-	    text: screenText.atomicTransferLog.priority,
-	    display: true
-	  }, {
-	    name: 'routeNo',
-	    text: screenText.atomicTransferLog.routeNo,
-	    display: true
-	  }, {
-	    name: 'originator',
-	    text: screenText.atomicTransferLog.originator,
-	    display: true
-	  },{
-	    name: 'queuedTime',
-	    text: screenText.atomicTransferLog.queuedTime,
-	    display: true
-	  }, {
-	    name: 'loadedTime',
-	    text: screenText.atomicTransferLog.loadedTime,
-	    display: true
-	  }, {
-		  name: 'abortReason',
-		  text: screenText.atomicTransferLog.abortReason,
-		  display: true
-	  }
-	  ];
-
-  // ヘッダ設定(状態テーブル)
-  activityHistroyTable.setHeader(activityHistroyDataHeader);
-  //activityHistroyTable.setBodyHeight($('.mcs-content.mcs-with-subheader.mcs-with-subtitle').outerHeight() - 40);
+  
   /**
    ******************************************************************************
    * @brief   抽出して画面へ表示する
@@ -180,11 +96,12 @@ $(function() {
    */
   function extract(cond) {
 	  //searchComp.clearErrors();
+	  
 	  dataTables.getDataAjax({
-		  url: getUrl('/ActivityHistory/GetActivityHistoryList'),
+		  url: getUrl('/StockerStatisticsHist/GetStockerStatisticsHist'),
 		  cond: cond,
 		  searchDataFlag: true,
-		  tableCompId: 'H-001-dataTables', // テーブルコンポーネントID
+		  tableCompId: 'H-003-dataTables', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
 			  // 特にすることなし
@@ -205,16 +122,7 @@ $(function() {
 	  });
   }
 
-  //showListScreen(false);
-  // 一覧画面のデータ取得、表示
-  // 自動更新有効化
-  /*AutoReloadTimerManager.addTimeoutCallback(function() {
-    	//showListScreen(false);
-    	AutoReloadTimerManager.start();
-  });
-  AutoReloadTimerManager.start();*/
-
-  /**
+   /**
    ******************************************************************************
    * @brief   右スライドメニュー生成メソッド
    * @param
@@ -233,37 +141,23 @@ $(function() {
     var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
 
-    // 検索ボタン押下
-    searchBtn.onClick(function() {
-      /*
-      // 画面の内容を消去
-      searchComp.get('hostName').clear();
-      searchComp.get('commState').clear();
-      searchComp.clearErrors();
-
-      // 前回の条件を復元
-      var datas = dataTables.getLatestCond();
-      searchComp.get('currentTscId').setValue(datas.currentTscId);
-      searchComp.get('carrierId').setValue(datas.carrierId);
-      */
-      slideMenuSearch.show();
-    });
-    
-    downLoadBtn.onClick(function() {
-    	saveMenu.show();
-    });
-
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
       slideMenuTop.toggle();
     });
-     
-    /* // 再表示ボタン押下処理
-    reloadBtn.onClick(function() {
-        // エラー表示をクリア
-        dataTables.reload();
-        retFlag = true;
-    });*/
+    // 検索ボタン押下
+    searchBtn.onClick(function() {
+      // 画面の内容を消去
+
+      slideMenuSearch.show();
+    });
+
+    
+    //download
+    downLoadBtn.onClick(function() {
+    	saveMenu.show();
+    	//saveCsvSlide();
+    });
   }
   /**
    ******************************************************************************
@@ -283,97 +177,68 @@ $(function() {
 	  
 	searchComp.clearErrors();
 	// 表示画面番号の更新
-	screenIndex = SCREEN.SEARCH;
+	   screenIndex = SCREEN.SEARCH;
     // 検索項目の生成
-    var source  = new McsSelectBox($('#mcs-search-source'));
-    var destination = new McsSelectBox($('#mcs-search-destination'));
-    var carrierId = new McsTextBox($('#mcs-search-carrierId'));
-    var commandId = new McsTextBox($('#mcs-search-commandId'));
+    var tscId  = new McsSelectBox($('#mcs-search-tscId'));
+    var unit = new McsSelectBox($('#mcs-search-unit'));
     var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
     var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
-    var maxRecords = new McsTextBox($('#mcs-search-maxRecords'));
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
     
-    var sourceList= screenValue.sources;
-    var destinationList= screenValue.destinations;
+    var tscIdList = screenValue.tscId;
+    var unitList= screenValue.unit;
     
     // コンポーネントマネージャーに各検索項目を入れる
-    searchComp.add('source', source);
-    searchComp.add('destination', destination);
-    searchComp.add('carrierId', carrierId);
-    searchComp.add('commandId', commandId);
+    searchComp.add('tscId', tscId);
+    searchComp.add('unit', unit);
     searchComp.add('dateFrom', dateFrom);
     searchComp.add('dateTo', dateTo);
-    searchComp.add('maxRecords', maxRecords);
     
-    carrierId.setMaxLength(64);
-    source.setList(sourceList);
-    destination.setList(destinationList);
-    
-    maxRecords.setValue("10000");
-    maxRecords.setMaxLength(5);
+
+    tscId.setList(tscIdList);
+    unit.setList(unitList);
     
     // 抽出ボタン押下
     extract.onClick(function() {
       
-    // エラー解除
-    searchComp.clearErrors();
+     // エラー解除
+     searchComp.clearErrors();
       
       
       // 検索処理
-      var url = getUrl('/ActivityHistory/GetActivityHistoryList');
+      var url = getUrl('/StockerStatisticsHist/GetStockerStatisticsHist');
       var cond = {
-    		  source: source.getValue(),
-    		  destination: destination.getValue(),
-    		  carrierId: carrierId.getValue(),
-    		  commandId: commandId.getValue(),
+    		  tscId: tscId.getValue(),
+    		  tscName: tscId.getText(),
+    		  unit: unit.getValue(),
+    		  unitName: unit.getText(),
     		  dateFrom: dateFrom.getValue(),
-    		  dateTo: dateTo.getValue(),
-    		  maxRecords: maxRecords.getValue()
+    		  dateTo: dateTo.getValue()
       };
       
       var space = "&nbsp&nbsp"; 
       var searchInformation = "";
-      var searchInfoSources = "";
-      var searchInfoDestinations = "";
-      var searchInfoCarrierIds = "";
-      var searchInfoCommandIds = "";
+      var searchInfoTscIds = "";
+      var searchInfoUnits = "";
       var searchInfoDateFroms = "";
       var searchInfoDateTos = "";
-      var searchInfoMaxRecords = "";
-      var searchInfoSource = source.getText();
-      var searchInfoDestination = destination.getValue();
-      var searchInfoCarrierId = carrierId.getValue();
-      var searchInfoCommandId = commandId.getValue();
+
+      var searchInfoTscId = tscId.getText();
+      var searchInfoUnit = unit.getText();
       var searchInfoDateFrom = dateFrom.getValue();
       var searchInfoDateTo = dateTo.getValue();
-      var searchInfoMaxRecord = maxRecords.getValue();
       
-      if(searchInfoSource == "All"){
-    	  searchInfoSource = "";
+      if(searchInfoTscId!=null && searchInfoTscId !="")
+      {
+    	  searchInfoTscIds = " TSCID ["+searchInfoTscId+"]";
       }
-      if(searchInfoDestination == "All"){
-    	  searchInfoDestination = "";
+      if(searchInfoUnit!=null && searchInfoUnit !="")
+      {
+    	  searchInfoUnits = " Unit " + "[" + searchInfoUnit + "]";
       }
       
-      if(searchInfoSource!=null && searchInfoSource !="")
-      {
-    	  searchInfoSources = " Source " + "[" + searchInfoSource + "]" + space ;
-      }
-      if(searchInfoDestination!=null && searchInfoDestination !="")
-      {
-    	  searchInfoDestinations = " Destination ["+searchInfoDestination+"]";
-      }
-      if(searchInfoCarrierId!=null && searchInfoCarrierId !="")
-      {
-    	  searchInfoCarrierIds = " Carrier ID " + "[" + searchInfoCarrierId + "]";
-      }
-      if(searchInfoCommandId!=null && searchInfoCommandId !="")
-      {
-    	  searchInfoCommandIds = " Carrier ID " + "[" + searchInfoCommandId + "]";
-      }
       if(searchInfoDateFrom!=null && searchInfoDateFrom !="")
       {
     	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " - ";
@@ -382,20 +247,13 @@ $(function() {
       {
     	  searchInfoDateTos = searchInfoDateTo + "]";
       }
-      if(searchInfoMaxRecord!=null && searchInfoMaxRecord !="")
-      {
-    	  searchInfoMaxRecords = " Max Records " + "[" + searchInfoMaxRecord + "]";
-      }
-      
-      $('#searchInfo').html(  searchInfoSources+ space + 
-				    		  searchInfoDestinations + space +
-				    		  searchInfoCarrierIds + space +
-				    		  searchInfoCommandIds + space +
+           
+      $('#searchInfo').html(  searchInfoTscIds+ space + 
+				    		  searchInfoUnits + space +
 				    		  searchInfoDateFroms + 
-				    		  searchInfoDateTos + space +
-				    		  searchInfoMaxRecords);
+				    		  searchInfoDateTos );
       
-      var tableCompId = 'H-001-dataTables';
+      var tableCompId = 'H-003-dataTables';
       var options = {
         url: url,
         cond: cond,
@@ -425,20 +283,20 @@ $(function() {
       };
       dataTables.getDataAjax(options);
     });
-    // クリアボタン押下
+ // クリアボタン押下
     clear.onClick(function() {
       // 各項目を初期化する
-    	source.clear();
-    	destination.clear();
-    	carrierId.clear();
-    	commandId.clear();
+    	tscId.clear();
+    	unit.clear();
     	dateFrom.clear();
     	dateTo.clear();
-    	maxRecords.setValue("10000");
     });
     // 戻るボタン押下
     ret.onClick(function() {
       slideMenuSearch.hide();
+      //20200320
+	  //hostName.clear();
+	  //commState.clear();
     });
 
     /**
@@ -477,8 +335,6 @@ $(function() {
    * MACS4#0099  iFoup設定画面変更                                      T.Iga/CSC
    ******************************************************************************
    */
-  
-  /*
   function showListScreen(reloadFlg) {
 
     // 全項目非表示
@@ -504,10 +360,10 @@ $(function() {
       clearState();
       
       dataTables.getDataAjax({
-        url: getUrl('/HostCommInfo/GetHostCommInformationList'), // データ取得元
+        url: getUrl('/StockerStatisticsHist/GetStockerStatisticsHistList'), // データ取得元
         cond: values, // 検索条件
         searchDataFlag: true,
-        tableCompId: 'I-009-dataTables',
+        tableCompId: 'H-003-dataTables',
         success: function(data) {
           // 成功時
         },
@@ -521,7 +377,7 @@ $(function() {
 
     return true;
   }
-  */
+  
   /**
    ******************************************************************************
    * @brief   CSV保存用スライドを生成
@@ -538,7 +394,7 @@ $(function() {
   function saveCsvSlide() {
 	  
 	// 表示画面番号の更新
-	screenIndex = SCREEN.DOWNLOAD;
+	   screenIndex = SCREEN.DOWNLOAD;
 	   
     // ******************************************************
     // 検索項目生成
@@ -572,10 +428,10 @@ $(function() {
     // 決定ボタン押下
     saveConfirmButton.onClick(function() {
       var datas = dataTables.getLatestCond();
-      callAjax(getUrl('/ActivityHistory/SetCsvActivityHistoryList'), datas, false,
+      callAjax(getUrl('/StockerStatisticsHist/SetCsvStockerStatisticsHist'), datas, false,
       // 成功
       function(retObj) {
-        window.location.href = getUrl('/ActivityHistory/SaveCsvActivityHistoryList');
+        window.location.href = getUrl('/StockerStatisticsHist/SaveCsvStockerStatisticsHist');
       },
       // エラー
       function(retObj) {
@@ -588,5 +444,5 @@ $(function() {
       saveMenu.hide();
     });
   }
-   
+  
 });

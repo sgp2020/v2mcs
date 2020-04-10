@@ -125,7 +125,8 @@ public class ActivityHistoryService extends BaseService {
 	 		retRec.rum = rowNum;
 	 		retRec.rcvTime = macroTransferLogRec.getOrgRcvTime();
 	 		retRec.carrierId = macroTransferLogRec.getOrgCarrierId();
-	 		retRec.totalTime = macroTransferLogRec.getTotalTime();  ///????
+	 		String totalTime = macroTransferLogRec.getTotalTime();
+	 		retRec.totalTime = timeFormat(new Integer(totalTime));  ///????
 	 		retRec.srcTscId = macroTransferLogRec.getOrgSrcTscId().toString();
 	 		retRec.srcLoc = macroTransferLogRec.getOrgSrcLoc();
 	 		retRec.compTscId = macroTransferLogRec.getTscId();///????????
@@ -153,6 +154,33 @@ public class ActivityHistoryService extends BaseService {
 
 		return retRecList;
     }
+    
+    
+    /**
+   	 * 時間を'HH:MM:SS'フォーマットの文字列に変換します。
+   	 *
+   	 * @param millis 時間を表すlong値
+   	 * @return 'HH:MM:SS'フォーマットの文字列
+   	 */
+   	public static String timeFormat( int millis )
+   	{
+   		/*
+   		int abs = java.lang.Math.abs( millis );
+   		int hh  = abs / 3600;
+   		int mm  = ( abs / 60 ) % 60;
+   		int ss  = abs % 60;
+   		return ( ( millis < 0 )?  "-" : "" ) +
+   			   ( ( hh     < 10 )?  "0" : "" ) + String.valueOf( hh ) + ":" +
+   			   ( ( mm     < 10 )?  "0" : "" ) + String.valueOf( mm ) + ":" +
+   			   ( ( ss     < 10 )?  "0" : "" ) + String.valueOf( ss );
+   	    */
+   		long hours = millis / 3600;
+   		millis = millis % 3600;
+        long minutes = millis / 60;
+        millis = millis % 60;
+        
+        return String.format("%02d:%02d:%02d",hours,minutes,millis);
+   	}
     //@formatter:off
     /**
      ******************************************************************************
@@ -301,10 +329,13 @@ public class ActivityHistoryService extends BaseService {
 
     	List<AtomicActivityHistListEntity> atomicTransferLogList = macroTransferLogMapper.selectAtomicTransferLogByCommandId(commandId);
     	for (AtomicActivityHistListEntity atomicActivityHistListEntity : atomicTransferLogList) {
-    		//String storedTime = ohbPortRltModel.getStoredTime();
-    		//if(storedTime != null && !"".equals(storedTime)) {
-        	//	String storedTime1 = storedTime.substring(0,4) + "/" + storedTime.substring(4,6) + "/" + storedTime.substring(6,8) + " " + storedTime.substring(8,10) + ":" + storedTime.substring(10,12) + ":" + storedTime.substring(12,14);
-        	//	ohbPortRltModel.setStoredTime(storedTime1);
+    		String atomicTime = atomicActivityHistListEntity.atomicTime;
+    		if(atomicTime != null && !"".equals(atomicTime)) {
+    			atomicActivityHistListEntity.atomicTime =  timeFormat( new Integer(atomicTime) );
+    		}
+    		//if(atomicTime != null && !"".equals(atomicTime)) {
+        	//	String storedTime1 = atomicTime.substring(0,4) + "/" + atomicTime.substring(4,6) + "/" + atomicTime.substring(6,8) + " " + atomicTime.substring(8,10) + ":" + atomicTime.substring(10,12) + ":" + atomicTime.substring(12,14);
+        	//	atomicTransferLogList.setAtomicTime(storedTime1);
     		//}
 		}  
         return atomicTransferLogList;

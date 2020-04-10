@@ -109,55 +109,55 @@ public class TestCarrierService extends BaseService {
 
         List<TestCarrierListEntity> retRecList = new ArrayList<TestCarrierListEntity>();
         int num = 1;
-        for (TestCarrierModel TestCarrierModel : recList) {
+        for (TestCarrierModel testCarrierModel : recList) {
             TestCarrierListEntity entity = new TestCarrierListEntity();
-            entity.testCarrierId = TestCarrierModel.getTestCarrierId();
+            entity.testCarrierId = testCarrierModel.getTestCarrierId();
             //entity.rn = TestCarrierModel.getRn();
             entity.rn = num;
-            if(TestCarrierModel.getCurrentTscId()==null){
+            if(testCarrierModel.getCurrentTscId()==null){
             	entity.currentTscId = "";
             }else {
-            	entity.currentTscId = TestCarrierModel.getCurrentTscId().toString();
+            	entity.currentTscId = testCarrierModel.getCurrentTscId().toString();
             }
-            if(TestCarrierModel.getCurrentZoneId()==null){
+            if(testCarrierModel.getCurrentZoneId()==null){
             	entity.currentZoneId = "";
             }else {
-            	entity.currentZoneId = TestCarrierModel.getCurrentZoneId().toString();
+            	entity.currentZoneId = testCarrierModel.getCurrentZoneId().toString();
             }
-            if(TestCarrierModel.getCurrentLoc()==null){
+            if(testCarrierModel.getCurrentLoc()==null){
             	entity.currentLoc = "";
             }else {
-            	entity.currentLoc = TestCarrierModel.getCurrentLoc().toString();
+            	entity.currentLoc = testCarrierModel.getCurrentLoc().toString();
             }
-            if(TestCarrierModel.getAtomicTscId()==null){
+            if(testCarrierModel.getAtomicTscId()==null){
             	entity.atomicTscId = "";
             }else {
-            	entity.atomicTscId = TestCarrierModel.getAtomicTscId().toString();
+            	entity.atomicTscId = testCarrierModel.getAtomicTscId().toString();
             }
-            if(TestCarrierModel.getAtomicSource()==null){
+            if(testCarrierModel.getAtomicSource()==null){
             	entity.atomicSource = "";
             }else {
-            	entity.atomicSource = TestCarrierModel.getAtomicSource().toString();
+            	entity.atomicSource = testCarrierModel.getAtomicSource().toString();
             }            
-            if(TestCarrierModel.getAtomicDestination()==null){
+            if(testCarrierModel.getAtomicDestination()==null){
             	entity.atomicDestination = "";
             }else {
-            	entity.atomicDestination = TestCarrierModel.getAtomicDestination().toString();
+            	entity.atomicDestination = testCarrierModel.getAtomicDestination().toString();
             }            
-            if(TestCarrierModel.getTransferDestination()==null){
+            if(testCarrierModel.getTransferDestination()==null){
             	entity.transferDestination = "";
             }else {
-            	entity.transferDestination = TestCarrierModel.getTransferDestination().toString();
+            	entity.transferDestination = testCarrierModel.getTransferDestination().toString();
             } 
-            if(TestCarrierModel.getTestStartTime()==null){
+            if(testCarrierModel.getTestStartTime()==null){
             	entity.testStartTime = "";
             }else {
-            	entity.testStartTime = TestCarrierModel.getTestStartTime().toString();
+            	entity.testStartTime = testCarrierModel.getTestStartTime().toString();
             } 
-            if(TestCarrierModel.getTestEndTime()==null){
+            if(testCarrierModel.getTestEndTime()==null){
             	entity.testEndTime = "";
             }else {
-            	entity.testEndTime = TestCarrierModel.getTestEndTime().toString();
+            	entity.testEndTime = testCarrierModel.getTestEndTime().toString();
             } 
             num++;
             retRecList.add(entity);
