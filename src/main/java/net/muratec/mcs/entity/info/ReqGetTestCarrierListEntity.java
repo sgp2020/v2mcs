@@ -43,5 +43,6 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 public class ReqGetTestCarrierListEntity extends AjaxDataTablesReqBaseEntity {
 	@FieldNameKey(key = "II-007-02-001") public String status = null;
 	@FieldNameKey(key = "II-007-04-001") public String currentTscId = null;
+	@FieldNameKey(key = "II-007-04-001") public String currentTscName = "";
 	@FieldNameKey(key = "II-007-04-002") public String carrierId = null;
 }

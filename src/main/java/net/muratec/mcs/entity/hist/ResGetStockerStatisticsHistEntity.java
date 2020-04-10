@@ -1,34 +1,36 @@
-﻿//@formatter:off
+//@formatter:off
 /**
  ******************************************************************************
- * @file        ReqGetTestCarrierInfoListValidateEntity.java
- * @brief       テストキャリア情報表示画面の一覧リクエストエンティティ（検証）
+ * @file        ResGetStockerStatisticsHistEntity.java
+ * @brief       StockerStatisticsHist面用レスポンスエンティティ
  * @par
- * @author      天津／張東江
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
- * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
  *
  * @note        Tabstop=4
  * ----------------------------------------------------------------------------
- * DATE        VER.        DESCRIPTION                    AUTHOR
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/12   1                                         天津／張東江
+ * 2020.03.11 			MACSV2											ZHANGDONG
  ******************************************************************************
  */
 //@formatter:on
-package net.muratec.mcs.entity.info;
+package net.muratec.mcs.entity.hist;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.muratec.mcs.entity.common.AjaxDataTablesResBaseEntity;
 
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     一覧リクエストエンティティ（検証）クラス
- * @par       機能:
+ * @brief    StockerStatisticsHistory画面用レスポンスエンティティクラス
+ * @par
  * @attention
  * @note
  * ----------------------------------------------------------------------------
@@ -37,11 +39,6 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
  ******************************************************************************
  */
 //@formatter:on
-@Getter
-@Setter
-public class ReqGetTestCarrierListValidateEntity extends AjaxDataTablesReqBaseEntity {
-	String status;
-	String carrierId;
-	String currentTscId;
-	String currentTscName;
+public class ResGetStockerStatisticsHistEntity extends AjaxDataTablesResBaseEntity {
+    public List<StockerStatisticsHistEntity> body = new ArrayList<StockerStatisticsHistEntity>();
 }
