@@ -133,7 +133,7 @@
             </div>
            <!--  <div id="list-table-target" style="width: 100%; height: 100%;"> </div> -->
            <div id="list-table-target"> </div> 
-           <div id="atomicTransferLog-table-target"></div> 
+           <div id="activityHistroy-table-target"></div> 
         </div>
         <!-- 一覧画面 end -->
     </div>

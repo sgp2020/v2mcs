@@ -63,6 +63,7 @@ $(function() {
   // 初回検索
   extract({
 	  currentTscId: '',
+	  currentTscName: '',
 	  carrierId: ''
   });
 
@@ -103,7 +104,7 @@ $(function() {
     });
   }
 
-
+  
   // 各ボタンの生成
   // 一覧
   var search = new McsButton($('#menu-btn-search'), screenText.list.search);
@@ -178,6 +179,7 @@ $(function() {
       searchComp.get('currentTscId').setValue(datas.currentTscId);
       searchComp.get('carrierId').setValue(datas.testCarrierId);
 
+
       slideMenuSearch.show();
     });
     // 再表示ボタン押下
@@ -238,7 +240,7 @@ $(function() {
     // 決定ボタン押下
     confirmButton.onClick(function() {
       var datas = dataTables.getLatestCond();
-      callAjax(getUrl('/TestCarrierList/SetTestCarrierList'), datas, false,
+      callAjax(getUrl('/TestCarrierList/SetCsvTestCarrierList'), datas, false,
       // 成功
       function(retObj) {
         window.location.href = getUrl('/TestCarrierList/SaveCsvTestCarrierList');
@@ -295,8 +297,29 @@ $(function() {
       var url = getUrl('/TestCarrierList/GetTestCarrierList');
       var cond = {
     	currentTscId: currentTscId.getValue(),
+    	currentTscName: currentTscId.getText(),
         carrierId: carrierId.getValue()
       };
+      
+      var searchInformationH = "";
+      var searchInformationC = "";
+      var searchInformation = "";
+      var space = "&nbsp&nbsp"; 
+      var searchCurrentTscId = currentTscId.getText();
+      var searchCarrierID = carrierId.getValue();
+      
+      if(searchCurrentTscId != null && searchCurrentTscId != "")
+      {
+    	  searchInformationH = " Current TscID ["+searchCurrentTscId+"]	";
+      }
+      if(searchCarrierID != null && searchCarrierID != "")
+      {
+    	  searchInformationC = " Test CarrierID " + "[" + searchCarrierID + "]";
+      }
+      
+      $('#searchInfo').html(searchInformationH + space + searchInformationC);//space is not valid.
+      
+      
       var tableCompId = 'I-007-dataTables';
       var options = {
         url: url,
