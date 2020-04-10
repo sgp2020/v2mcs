@@ -29,17 +29,17 @@ import net.muratec.mcs.entity.common.AjaxDataTablesResBaseEntity;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief    AtomicActivityHistory画面用レスポンスエンティティクラス
+ * @brief    StatisticsHistoryJob画面用レスポンスエンティティクラス
  * @par
  * @attention
  * @note
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.18 			AtomicActivityHistBody							董 天津村研
+ * 2020.04.09 			StatisticsHistoryJobBody							董 天津村研
  ******************************************************************************
  */
 //@formatter:on
-public class ResGetAtomicActivityHistListEntity extends AjaxDataTablesResBaseEntity {
-    public List<AtomicActivityHistListEntity> body = new ArrayList<AtomicActivityHistListEntity>();
+public class ResGetStatisticsHistoryJobListEntity extends AjaxDataTablesResBaseEntity {
+    public List<StatisticsHistoryJobListEntity> body = new ArrayList<StatisticsHistoryJobListEntity>();
 }

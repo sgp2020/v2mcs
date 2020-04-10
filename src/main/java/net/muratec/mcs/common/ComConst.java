@@ -738,7 +738,12 @@ public class ComConst {
         /**
                 * キャリア監視来歴表示
          */
-        HIST_CARRIERMOTIONTIMEHISTORY("H005", 30500000L, "H005_REF", ""),
+        //HIST_CARRIERMOTIONTIMEHISTORY("H005", 30500000L, "H005_REF", ""),
+        /**
+         * 2020.04.09 DONG  ADD
+         * Statistics History(Job)来歴表示
+         */
+        HIST_STATISTICSHISTORYJOB("H005", 30500000L, "H005_REF", ""),
 
         /**
          * アラーム報告来歴表示

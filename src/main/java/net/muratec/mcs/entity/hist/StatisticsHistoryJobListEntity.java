@@ -1,10 +1,10 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        ResGetStockerInfoListEntity.java
- * @brief       SCモニタ状態画面用レスポンスエンティティ
+ * @file        EmptyCarrierListEntity.java
+ * @brief       空FOUP管理関連のエンティティ
  * @par
- * @author      董 天津村研
+ * @author      CSC
  * $Id:         $
  * @attention
  *
@@ -14,32 +14,40 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			MACSV2											董 天津村研
+ * 2018/10/01 v1.0.0      初版作成                                          CSC
+ * 2019/02/19 MACS4#0099  iFoup設定画面変更                           T.Iga/CSC
  ******************************************************************************
  */
 //@formatter:on
+
 package net.muratec.mcs.entity.hist;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.muratec.mcs.entity.common.AjaxDataTablesResBaseEntity;
 
 //@formatter:off
 /**
  ******************************************************************************
- * @brief    AtomicActivityHistory画面用レスポンスエンティティクラス
+ * @brief    StatisticsHistoryJob
  * @par
  * @attention
  * @note
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.18 			AtomicActivityHistBody							董 天津村研
+ * 2020.04.09 			StatisticsHistoryJobListEntity				       DONG
  ******************************************************************************
  */
 //@formatter:on
-public class ResGetAtomicActivityHistListEntity extends AjaxDataTablesResBaseEntity {
-    public List<AtomicActivityHistListEntity> body = new ArrayList<AtomicActivityHistListEntity>();
+public class StatisticsHistoryJobListEntity {
+
+	public int rum;
+	public String time;
+	public String tscId;
+	public String sourceLoc;
+	public String destLoc;
+	public String maxTime;
+	public String minTime;
+	public String avgTime;
+	public String totalTime;
+	public String transferCount;
+	public String errorCount;
+	public String mcbf;
 }
