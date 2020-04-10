@@ -728,7 +728,7 @@ public class ComConst {
         /**
                 * 在籍時間来歴
          */
-        HIST_STORAGETIMEHISTORY("H003", 30300000L, "H003_REF", ""),
+        HIST_STOCKERSTATISTICSHISTORY("H003", 30300000L, "H003_REF", ""),
 
         /**
                 * キャリア削除来歴
@@ -1215,7 +1215,8 @@ public class ComConst {
 //                ScreenInfo.HIST_ALARMHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  DEL
                 ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  ADD
                 ScreenInfo.HIST_CARRIERREMOVEHISTORY.getRefAuthFuncId(),
-                ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
+                ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getRefAuthFuncId(),
+                //ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
                 // STD 2020.04.10 DONG  ADD 
                 //ScreenInfo.HIST_CARRIERMOTIONTIMEHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId(),

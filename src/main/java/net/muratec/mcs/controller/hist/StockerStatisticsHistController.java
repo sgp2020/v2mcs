@@ -1,25 +1,24 @@
 //@formatter:off
 /**
  ******************************************************************************
- ******************************************************************************
- * @file        TestCarrierController.java
- * @brief       テストキャリア情報表示関連のコントローラ
+ * @file        StatisticsStockerHist.java
+ * @brief       StatisticsStockerHist画面関連のコントローラ
  * @par
- * @author      天津／張東江
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
- * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ * Copyright (c) 2016 MURATA MACHINERY,LTD. All rights reserved.
  *
  * @note        Tabstop=4
  * ----------------------------------------------------------------------------
- * DATE       VER.        DESCRIPTION               AUTHOR
+ * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/12  2                                    天津／張東江                             
+ * 2020/04/01 v1.0.0      初版作成                                                                                                                                        ZHANGDONG
  ******************************************************************************
  */
 //@formatter:on
-package net.muratec.mcs.controller.info;
+package net.muratec.mcs.controller.hist;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -44,110 +41,87 @@ import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComCsvItem;
 import net.muratec.mcs.common.ComCsvOut;
 import net.muratec.mcs.common.ComFunction;
+
 import net.muratec.mcs.controller.common.BaseController;
-import net.muratec.mcs.entity.info.ReqGetTestCarrierListEntity;
-import net.muratec.mcs.entity.info.TestCarrierListEntity;
+import net.muratec.mcs.entity.hist.StockerStatisticsHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity;
+import net.muratec.mcs.entity.info.CarrierListEntity;
+import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
 import net.muratec.mcs.exception.McsException;
-import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
-import net.muratec.mcs.service.info.TestCarrierService;
+import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.service.common.SelectBoxService;
+import net.muratec.mcs.service.hist.StockerStatisticsHistService;
 
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     テストキャリア情報表示関連のコントローラクラス
+ * @brief     StatisticsStockerHist画面
  * @par       機能:
- *              testCarrierList（初期状態表示）
- *              getCsvFile（CSV出力）
- *              createCsvHeaderRecords（CSVヘッダー情報生成）
- *              createCsvTitleRecords（CSVTitle情報生成）
- *              createCsvItem（CSV項目オブジェクト生成）
+ *              StatisticsStockerHist (StatisticsStockerHist画面を表示)
  * @attention
  * @note
  * ----------------------------------------------------------------------------
- * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- ******************************************************************************
+  ******************************************************************************
  */
 //@formatter:on
 @Controller
-public class TestCarrierController extends BaseController {
+public class StockerStatisticsHistController extends BaseController {
 
-    //** メッセージリソース */
+    /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private TestCarrierService testCarrierService;
-
-    private static final Logger logger = LoggerFactory.getLogger(TestCarrierController.class);
-
-    public static Logger getLogger() {
-
-        return logger;
-    }
-
-    // 自動更新機能
-    @Autowired private AutoReloadTimerManagerService autoReload;
+    @Autowired private StockerStatisticsHistService StockerStatisticsHistService;
+    
+    @Autowired private SelectBoxService selBoxService;
 
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     testCarrierList（初期状態表示）機能
+     * @brief     StatisticsStockerHistory   （画面初期表示）機能
      * @param     session        セッション情報（Frameworkより付加）
      * @param     locale         ロケーション情報（Frameworkより付加）
      * @param     model          モデル情報（Frameworkより付加）
-     * @return    遷移先URL(アラーム情報表示)
+     * @return    遷移先URL(StatisticsStockerHistory一覧)
      * @retval    jspファイルのパスを返却
      * @attention
-     * @note      初期表示を行う
+     * @note      StatisticsStockerHistory画面を表示する
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/testCarrierList", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST, logOperationType = ComConst.LogOperationType.GET, number = 1L)
-    public String testCarrierList(HttpSession session, Locale locale, Model model) throws McsException {
+    @RequestMapping(value = "/StockerStatisticsHist", method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.GET,
+            number = 1L)
+    public String StockerStatisticsHist(HttpSession session, Locale locale, Model model) throws McsException {
 
-        // ----------------------------------------------
         // アクセス権情報等
-        // ----------------------------------------------
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getRefAuthFuncId());
-
-        // ----------------------------------------------
-        // 自動更新機能の有効化
-        // ----------------------------------------------
-        autoReload.setInterval(model);
-        
-        // セレクトボックスの全件要素作成
-        String[] allTerms = new String[2];
-        allTerms[0] = ComConst.StringSelectboxAll.VALUE;
-        allTerms[1] = ComConst.StringSelectboxAll.TEXT;
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getRefAuthFuncId());
 
         // ----------------------------------------------
         // セレクトボックスの初期値を追加
         // ----------------------------------------------
 
-        List<String[]> testCarrierStateBoxList = testCarrierService.getTestCarrierStateBox();
-        List<String[]> currentTscIdBoxList = testCarrierService.getCurrentTscIdBox();
+        // セレクトボックス要素取得
+        List<String[]> tscIdBoxList = StockerStatisticsHistService.getTscIdBox();
+        List<String[]> unitBoxList = StockerStatisticsHistService.getDateTimeBox();
+        // セレクトボックス要素をJSON化
+       String tscIdJson = super.objectToJson(tscIdBoxList);
+       String unitJson = super.objectToJson(unitBoxList);
        
-        //tscIdBoxはAllを初期化表示する
-        testCarrierStateBoxList.add(0, allTerms);
-        currentTscIdBoxList.add(0, allTerms);
+       model.addAttribute("IH_003_01_001", tscIdJson);
+       model.addAttribute("IH_003_01_002", unitJson);
 
-       
-        String testCarrierStateJson = super.objectToJson(testCarrierStateBoxList);
-        String currentTscIdJson = super.objectToJson(currentTscIdBoxList);
-        model.addAttribute("II_007_01_001", testCarrierStateJson);
-        model.addAttribute("II_007_01_002", currentTscIdJson);
-
-
+        // -------------
         // バージョン情報付与
+        // -------------
         ComFunction.setVersion(model);
 
-        return "info/TestCarrierList";
+        return "hist/StockerStatisticsHist";
     }
-    
-  //@formatter:off
+    //@formatter:off
     /**
      ******************************************************************************
      * @brief     getCsvFile（CSV出力を行う）機能
@@ -165,21 +139,21 @@ public class TestCarrierController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = { "/TestCarrierList/SaveCsvTestCarrierList" }, method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
+    @RequestMapping(value = { "/StockerStatisticsHist/SaveCsvStockerStatisticsHist" }, method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
 
         // ----------------------------------------------
         // (1)アクセス権チェック(GET版)
         // ----------------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getRefAuthFuncId());
 
         // ----------------------------------------------
         // (2)セッション取得
         // ----------------------------------------------
-        String sessionKey = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getFunctionId() + ComConst.SessionKey.CSV_INFO;
-        ReqGetTestCarrierListEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetTestCarrierListEntity.class);
+        String sessionKey = ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        ReqGetStockerStatisticsHistEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetStockerStatisticsHistEntity.class);
         if (reqEntity == null) {
             // sessionに存在しない例外
             String[] args = { sessionKey };
@@ -199,7 +173,7 @@ public class TestCarrierController extends BaseController {
         // ----------------------------------------------
         reqEntity.fromRecordNum = null;
         reqEntity.toRecordNum = null;
-        List<TestCarrierListEntity> stockerOpeLog = testCarrierService.getTestCarrierList(reqEntity);
+        List<StockerStatisticsHistEntity> stockerOpeLog = StockerStatisticsHistService.getStockerStatisticsHist(reqEntity);
         // ----------------------------------------------
         // CSV形成
         // ----------------------------------------------
@@ -211,8 +185,8 @@ public class TestCarrierController extends BaseController {
         // #########################################
         // CSV出力
         // #########################################
-        ComCsvOut<TestCarrierListEntity> csvOut = new ComCsvOut<TestCarrierListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "TestCarrierList.csv", csvHeader, listCsvItem, stockerOpeLog);
+        ComCsvOut<StockerStatisticsHistEntity> csvOut = new ComCsvOut<StockerStatisticsHistEntity>();
+        csvOut.csvOut(res, messageSource, locale, "StockerStatisticsHist.csv", csvHeader, listCsvItem, stockerOpeLog);
     }
     //@formatter:off
     /**
@@ -238,18 +212,24 @@ public class TestCarrierController extends BaseController {
         // ######################
         // CSV項目を生成し、ListにADD
         // ######################
-        listCsvItem.add(createCsvItem("II-007-01-013", "rn", false));
-        listCsvItem.add(createCsvItem("II-007-01-003", "testCarrierId", false));
-        listCsvItem.add(createCsvItem("II-007-01-004", "currentTscId", false));
-        listCsvItem.add(createCsvItem("II-007-01-005", "currentLoc", false));
-        listCsvItem.add(createCsvItem("II-007-01-006", "currentZoneId", false));
-        listCsvItem.add(createCsvItem("II-007-01-007", "atomicTscId", false));
-        listCsvItem.add(createCsvItem("II-007-01-008", "atomicSource", false));
-        listCsvItem.add(createCsvItem("II-007-01-009", "atomicDestination", false));
-        listCsvItem.add(createCsvItem("II-007-01-010", "transferDestination", false));
-        listCsvItem.add(createCsvItem("II-007-01-011", "testStartTime", false));
-        listCsvItem.add(createCsvItem("II-007-01-012", "testEndTime", false));
-            
+        listCsvItem.add(createCsvItem("IH-003-01-019", "rn", false));
+        listCsvItem.add(createCsvItem("IH-003-01-003", "time", false));
+        listCsvItem.add(createCsvItem("IH-003-01-004", "tscId", false));
+        listCsvItem.add(createCsvItem("IH-003-01-005", "assignWaitMaxTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-006", "assignWaitMinTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-007", "assignWaitAveTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-008", "activeWaitMaxTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-009", "activeWaitMinTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-010", "activeWaitAveTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-011", "activeTotalTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-012", "idleTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-013", "totalUpTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-014", "downTime", false));
+        listCsvItem.add(createCsvItem("IH-003-01-015", "opeRate", false));
+        listCsvItem.add(createCsvItem("IH-003-01-016", "transferCount", false));
+        listCsvItem.add(createCsvItem("IH-003-01-017", "errorCount", false));
+        listCsvItem.add(createCsvItem("IH-003-01-018", "mCBF", false));
+
         return listCsvItem;
     } 
     //@formatter:off
@@ -293,13 +273,13 @@ public class TestCarrierController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    private String createCsvHeaderRecords(ReqGetTestCarrierListEntity reqEntity, Locale locale) {
+    private String createCsvHeaderRecords(ReqGetStockerStatisticsHistEntity reqEntity, Locale locale) {
 
         StringBuilder sbHeader = new StringBuilder();
         // ######################
         // 1行目：タイトル
         // ######################
-        String csvTitle = messageSource.getMessage("II-007-01-001", null, locale);
+        String csvTitle = messageSource.getMessage("IH-003-01-001", null, locale);
         sbHeader.append(ComConst.CSV_TITLE + ComConst.CSV_SEPARATOR + csvTitle + ComConst.BR);
 
         // ######################
@@ -317,29 +297,56 @@ public class TestCarrierController extends BaseController {
         // ######################
         // TSCID
         // ######################
-        if (reqEntity.currentTscId != null && reqEntity.currentTscId.length() != 0) {
+        if (reqEntity.tscId != null && reqEntity.tscId.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("II-007-04-002", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-003-03-001", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.currentTscName.toString()); // 比較値
+            sbHeader.append(reqEntity.tscName.toString()); // 比較値
         }
         
         // ######################
         // unit
         // ######################
-        if (reqEntity.carrierId != null && reqEntity.carrierId.length() != 0) {
+        if (reqEntity.unit != null && reqEntity.unit.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("II-007-04-001", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-003-03-002", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.carrierId.toString()); // 比較値
+            sbHeader.append(reqEntity.unitName.toString()); // 比較値
         }
-             
+        
+        
+        // ######################
+        // 在庫日時（開始）
+        // ######################
+        if (reqEntity.dateFrom != null) {
+            if (searchCondFlag) {
+                sbHeader.append(" AND ");
+            }
+            searchCondFlag = true;
+            sbHeader.append(reqEntity.dateFrom.toString()); // 比較値
+            sbHeader.append(" <= "); // 比較演算子
+            sbHeader.append(messageSource.getMessage("IH-003-03-006", null, locale)); // 項目名
+        }
+
+        // ######################
+        // 在庫日時（終了）
+        // ######################
+        if (reqEntity.dateTo != null) {
+            if (searchCondFlag) {
+                sbHeader.append(" AND ");
+            }
+            sbHeader.append(messageSource.getMessage("IH-003-03-007", null, locale)); // 項目名
+            sbHeader.append(" <= "); // 比較演算子
+            sbHeader.append(reqEntity.dateTo.toString()); // 比較値
+        }
+        
+                
         // ######################
         // 改行コード
         // ######################
@@ -348,5 +355,4 @@ public class TestCarrierController extends BaseController {
         return sbHeader.toString();
     }
 
-    
 }

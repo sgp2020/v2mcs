@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.lang.String;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -44,9 +45,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import net.muratec.mcs.annotation.OpLog;
+import net.muratec.mcs.common.ComBeanConv;
 import net.muratec.mcs.common.ComConst;
 import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
+import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 //import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 //import net.muratec.mcs.entity.common.OpeLogInfoEntity;
@@ -195,5 +198,51 @@ public class TestCarrierAjaxController extends BaseAjaxController {
         return resEntity;
     }
 
-   
+  //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     SetCsvTestCarrierList（CSV保存）機能
+     * @param     reqValidate    画面より入力された情報
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     errors         エラー情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    成功、または失敗
+     * @retval    JSON形式で返却
+     * @attention
+     * @note      キャリアのCSV出力を行う。
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     * 20200331		DownLoad												DONG
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/TestCarrierList/SetCsvTestCarrierList", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    public AjaxResBaseEntity SetCsvTestCarrierList(@Valid @RequestBody ReqGetTestCarrierListValidateEntity reqStrEntity,
+            HttpSession session, Errors errors, Locale locale, Model model)
+            throws AjaxAurgumentException, McsException {
+
+        // アクセス権チェック
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getRefAuthFuncId());
+
+        // Entityの型変換
+        ComBeanConv bc = new ComBeanConv();
+        ReqGetTestCarrierListEntity reqEntity = bc.convert(reqStrEntity, ReqGetTestCarrierListEntity.class);
+
+        // 戻り値宣言
+        AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
+
+        String sessionKey = ComConst.ScreenInfo.INFO_TEST_CARRIER_LIST.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+
+        super.setSessionAttribute(session, sessionKey, reqEntity);
+        // 実行結果設定
+        resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
+        resEntity.result.message = "";
+
+        return resEntity;
+    }
 }
