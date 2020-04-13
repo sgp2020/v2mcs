@@ -21,6 +21,7 @@
 package net.muratec.mcs.controller.hist;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -48,8 +49,10 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
+import net.muratec.mcs.entity.common.ResSelectBoxEntity;
 import net.muratec.mcs.entity.hist.ReqGeStatisticsHistoryJobListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobEntity;
+import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobSelListEntity;
 import net.muratec.mcs.entity.hist.ResGetStatisticsHistoryJobListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
@@ -205,6 +208,105 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
         resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
         resEntity.result.message = "";
 
+        return resEntity;
+    }
+    
+    //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     tscIdのセレクトボックス要素を生成する機能
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     reqEntity    画面より入力された検索情報
+     * @param     errors         エラー情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    tscIdのセレクトボックス要素
+     * @retval    JSON形式で返却
+     * @attention
+     * @note      指定されたtscIdのSourceをセレクトボックス要素を生成する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     *  20200413	getSourceSelList   										 DONG
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/StatisticsHistoryJob/GetSourceSelList", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResSelectBoxEntity getSourceSelList(HttpSession session, @RequestBody ReqGetStatisticsHistoryJobSelListEntity reqEntity,
+            Errors errors, Locale locale, Model model) throws McsException {
+
+        // ------------------------------------
+        // アクセス権チェック
+        // ------------------------------------
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+
+        ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
+        if (reqEntity.tscId != null) {
+        	List<String[]> portData = statisticsHistoryJobService.getPortData(reqEntity.tscId);
+            List<String[]> zoneData = statisticsHistoryJobService.getZoneData(reqEntity.tscId);
+            if(portData!=null) {
+            	resEntity.body = portData;
+            }
+            if(zoneData!=null) {
+            	resEntity.body.addAll(zoneData);
+            }
+        } else {
+            String[] virtual = new String[2];
+            virtual[0] = ComConst.AmhsType.STR_VIRTUAL;
+            virtual[1] = ComConst.AmhsType.STR_VIRTUAL;
+            resEntity.body.add(virtual);
+        }
+        return resEntity;
+    }
+  //@formatter:off
+    /**
+     ******************************************************************************
+     * @brief     tscIdのセレクトボックス要素を生成する機能
+     * @param     session        セッション情報（Frameworkより付加）
+     * @param     reqEntity    画面より入力された検索情報
+     * @param     errors         エラー情報（Frameworkより付加）
+     * @param     locale         ロケーション情報（Frameworkより付加）
+     * @param     model          モデル情報（Frameworkより付加）
+     * @return    tscIdのセレクトボックス要素
+     * @retval    JSON形式で返却
+     * @attention
+     * @note      指定されたtscIdのSourceをセレクトボックス要素を生成する
+     * ----------------------------------------------------------------------------
+     * VER.        DESCRIPTION                                               AUTHOR
+     * ----------------------------------------------------------------------------
+     *  20200413	getDestinationSelList   										 DONG
+     ******************************************************************************
+     */
+    //@formatter:on
+    @RequestMapping(value = "/StatisticsHistoryJob/GetDestinationSelList", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResSelectBoxEntity getDestinationSelList(HttpSession session, @RequestBody ReqGetStatisticsHistoryJobSelListEntity reqEntity,
+            Errors errors, Locale locale, Model model) throws McsException {
+
+        // ------------------------------------
+        // アクセス権チェック
+        // ------------------------------------
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+
+        ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
+        if (reqEntity.tscId != null) {
+        	List<String[]> portData = statisticsHistoryJobService.getPortData(reqEntity.tscId);
+            List<String[]> zoneData = statisticsHistoryJobService.getZoneData(reqEntity.tscId);
+            if(portData!=null) {
+            	resEntity.body = portData;
+            }
+            if(zoneData!=null) {
+            	resEntity.body.addAll(zoneData);
+            }
+        } else {
+            String[] virtual = new String[2];
+            virtual[0] = ComConst.AmhsType.STR_VIRTUAL;
+            virtual[1] = ComConst.AmhsType.STR_VIRTUAL;
+            resEntity.body.add(virtual);
+        }
         return resEntity;
     }
 

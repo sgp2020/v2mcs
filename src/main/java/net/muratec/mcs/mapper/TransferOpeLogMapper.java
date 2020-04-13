@@ -107,9 +107,8 @@ public interface TransferOpeLogMapper {
     List<AtomicTransferLog> selectAtomicActivityHistList(ReqGetAtomicActivityHistEntity reqEntity);
     List<AtomicTransferLog> selectAtomicActivityHistList();
     List<Tsc> selectTscNameList();
-    List<StockerZoneRlt> selectZoneData();
-    List<Ohb> selectOhbData();
-    List<Port> selectPortData();
+    List<StockerZoneRlt> selectZoneData(@Param("tscId") String tscId);
+    List<Port> selectPortData(@Param("tscId") String tscId);
     int getCount(ReqGetStatisticsHistoryJobEntity record);
     // END 2020.04.09 DONG  ADD
 }

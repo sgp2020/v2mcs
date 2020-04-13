@@ -232,6 +232,11 @@ $(function() {
     destination.setList(destinationList);
     unit.setList(unitList);
     
+ // tscId変更時にsource、destinationの要素を取得し、一覧を再検索
+    tscId.onChange(function() {
+      setSourceList(tscId.getValue());
+      setDestinationList(tscId.getValue());
+    });
     // 抽出ボタン押下
     extract.onClick(function() {
       
@@ -446,5 +451,53 @@ $(function() {
       saveMenu.hide();
     });
   }
-  
+
+  /**
+   ******************************************************************************
+   * @brief     tscIdの要素をセットし、Sourceの再検索を行う
+   * @param     {String}tscId
+   * @return
+   * @retval
+   * @attention
+   * @note    tscId変更時に呼ばれる
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   * 20200413	setSourceList												DONG
+   ******************************************************************************
+   */
+  function setSourceList(tscId) {
+    // tscIdを基にSourcの要素を取得
+    var cond = {
+    	tscId: tscId
+    };
+    callAjax(getUrl('/StatisticsHistoryJob/GetSourceSelList'), cond, false, function(resObj) {
+      // 成功時、amhsIdに要素をセットし、一覧の再検索を行う
+    	searchComp.get('source').setList(resObj.body);
+    });
+  }
+  /**
+   ******************************************************************************
+   * @brief     tscIdの要素をセットし、Sourceの再検索を行う
+   * @param     {String}tscId
+   * @return
+   * @retval
+   * @attention
+   * @note    tscId変更時に呼ばれる
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   * 20200413	setDestinationList												DONG
+   ******************************************************************************
+   */
+  function setDestinationList(tscId) {
+    // tscIdを基にSourcの要素を取得
+    var cond = {
+    	tscId: tscId
+    };
+    callAjax(getUrl('/StatisticsHistoryJob/GetDestinationSelList'), cond, false, function(resObj) {
+      // 成功時、amhsIdに要素をセットし、一覧の再検索を行う
+    	searchComp.get('destination').setList(resObj.body);
+    });
+  }
 });

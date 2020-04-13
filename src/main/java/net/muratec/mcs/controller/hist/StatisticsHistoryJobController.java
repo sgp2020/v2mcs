@@ -121,7 +121,7 @@ public class StatisticsHistoryJobController extends BaseController {
     @RequestMapping(value = "/StatisticsHistoryJob", method = RequestMethod.GET)
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.GET,
             number = 1L)
-    public String AtomicActivityHist(HttpSession session, Locale locale, Model model) throws McsException {
+    public String StatisticsHistoryJob(HttpSession session, Locale locale, Model model) throws McsException {
 
         // アクセス権情報等
         super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
@@ -148,34 +148,39 @@ public class StatisticsHistoryJobController extends BaseController {
 
         // セレクトボックス要素取得
         List<String[]> tscIdBoxList = statisticsHistoryJobService.getTscIdBox();
-        List<String[]> zoneData = statisticsHistoryJobService.getZoneData();
-        List<String[]> portData = statisticsHistoryJobService.getPortData();
-        
-        List<String[]> sourceBoxList = null;
-        List<String[]> unitBoxList = null;
-        if(portData!=null) {
-        	sourceBoxList = portData;
-        }
-        if(zoneData!=null) {
-        	sourceBoxList.addAll(zoneData);
-        }
+        List<String[]> sourceBoxList = new ArrayList<String[]>();
+        List<String[]> unitBoxList = new ArrayList<String[]>();
        
-       //sourceBoxはAllを初期化表示する
+        //sourceBoxはAllを初期化表示する
         sourceBoxList.add(0, allTerms);
-        
+        //Unitは「Hour」と「Day」を初期化表示する
         unitBoxList.add(0, unitHourTerms);
         unitBoxList.add(1, unitDayTerms);
 
         // セレクトボックス要素をJSON化
        String tscIdJson = super.objectToJson(tscIdBoxList);
-       String sourceJson = super.objectToJson(sourceBoxList);
-       String destinationJson = super.objectToJson(sourceBoxList);
-       String unit = super.objectToJson(unitBoxList);
-       
+       String unitJson	= super.objectToJson(unitBoxList);
        model.addAttribute("IH_005_01_001", tscIdJson);
-       model.addAttribute("IH_005_01_002", sourceJson);
-       model.addAttribute("IH_005_01_003", destinationJson);
-       model.addAttribute("IH_005_01_004", unit);
+       model.addAttribute("IH_005_01_004", unitJson);
+       
+       if (0 < tscIdBoxList.size()) {
+           String tscId = String.valueOf(tscIdBoxList.get(0)[0]);
+           List<String[]> portData = statisticsHistoryJobService.getPortData(tscId);
+           List<String[]> zoneData = statisticsHistoryJobService.getZoneData(tscId);
+           if(portData!=null) {
+        	   sourceBoxList = portData;
+           }
+           if(zoneData!=null) {
+        	   sourceBoxList.addAll(zoneData);
+           }
+           String sourceJson = super.objectToJson(sourceBoxList);
+           String destinationJson = super.objectToJson(sourceBoxList);
+           model.addAttribute("IH_005_01_002", sourceJson);
+           model.addAttribute("IH_005_01_003", destinationJson);
+       } else {
+           model.addAttribute("IH_005_01_002", objectToJson(new ArrayList<String[]>()));
+           model.addAttribute("IH_005_01_003", objectToJson(new ArrayList<String[]>()));
+       }
 
         // -------------
         // バージョン情報付与

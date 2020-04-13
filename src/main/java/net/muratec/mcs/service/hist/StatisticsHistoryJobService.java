@@ -39,6 +39,7 @@ import net.muratec.mcs.mapper.GuiColorMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.TransferOpeLogMapper;
+import net.muratec.mcs.model.AmhsExample;
 import net.muratec.mcs.model.AtomicTransferLog;
 import net.muratec.mcs.model.MacroTransferLog;
 import net.muratec.mcs.model.Tsc;
@@ -188,9 +189,9 @@ public class StatisticsHistoryJobService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<String[]> getZoneData() {
+    public List<String[]> getZoneData(String tscId) {
     	
-    	List<StockerZoneRlt> zoneList = transferOpeLogMapper.selectZoneData();
+    	List<StockerZoneRlt> zoneList = transferOpeLogMapper.selectZoneData(tscId);
 
         List<String[]> selBoxList = new ArrayList<String[]>();
 
@@ -223,9 +224,9 @@ public class StatisticsHistoryJobService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<String[]> getPortData() {
+    public List<String[]> getPortData(String tscId) {
     	
-    	List<Port> porTIdList = transferOpeLogMapper.selectPortData();
+    	List<Port> porTIdList = transferOpeLogMapper.selectPortData(tscId);
 
         List<String[]> selBoxList = new ArrayList<String[]>();
 

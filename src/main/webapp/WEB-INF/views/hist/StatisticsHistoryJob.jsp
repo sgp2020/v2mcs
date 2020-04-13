@@ -68,11 +68,7 @@
     downLoadBtn: {
     	 saveConfirm: '<spring:message code="IH-005-04-004"/>',
          saveReturn:  '<spring:message code="IH-005-04-005"/>'
-      },
-    dialog: {
-        listNotSelect: '<spring:message code="IH-005-01.001" />',
-        listRet: '<spring:message code="IH-005-01.002" />'
-    }
+      }
   };
 
   var screenValue = {

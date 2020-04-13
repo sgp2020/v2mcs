@@ -379,28 +379,44 @@
 	    ORDER BY 1
     </select>
     
-    
     <resultMap id="SearchZoneResultMap" type="net.muratec.mcs.model.StockerZoneRlt">
 	  <id column="ZONE_ID" property="zoneId" jdbcType="VARCHAR" />
 	</resultMap>
-    <select id="selectZoneData" parameterType="net.muratec.mcs.model.StockerZoneRlt" resultMap="SearchZoneResultMap">
+	<sql id="tscIdWhere">
+    <where>
+      <if test="tscId != null and tscId !='' ">
+        tsc_id = #{tscId}
+      </if>
+    </where>
+    </sql>
+    <select id="selectZoneData" parameterType="java.lang.String" resultMap="SearchZoneResultMap">
         SELECT zone_id, zone_id 
 		FROM stocker_zone_rlt 
-		WHERE tsc_id = '306' 
+		<!-- WHERE tsc_id = #{tscId,jdbcType=DECIMAL}  -->
+		<include refid="tscIdWhere" />
 		ORDER BY 1
     </select>
     <resultMap id="SearchPortResultMap" type="net.muratec.mcs.model.Port">
 	  <id column="PORT_ID" jdbcType="VARCHAR" property="portId" />
 	  <result column="PORT_ABBREVIATION" jdbcType="VARCHAR" property="portAbbreviation" />
 	</resultMap>
-    <select id="selectPortData" parameterType="net.muratec.mcs.model.Port" resultMap="SearchPortResultMap">
+	<sql id="portWhere">
+	    <where>
+	      <if test="tscId != null and tscId !='' ">
+	        conn_from_tsc_id  = #{tscId}
+	        OR conn_to_tsc_id = #{tscId}
+	      </if>
+	    </where>
+    </sql>
+    <select id="selectPortData" parameterType="java.lang.String" resultMap="SearchPortResultMap">
         SELECT DISTINCT port_abbreviation,port_id
 		FROM port
 		WHERE port_id IN
 					  (SELECT port_id
 					  FROM port_conn
-					  WHERE conn_from_tsc_id = '306'
-					  OR conn_to_tsc_id      = '306'
+					 <!-- WHERE conn_from_tsc_id = #{tscId,jdbcType=VARCHAR}
+					  OR conn_to_tsc_id      = #{tscId,jdbcType=VARCHAR}-->
+					   <include refid="portWhere" /> 
 					  )
 		ORDER BY 1
     </select>
