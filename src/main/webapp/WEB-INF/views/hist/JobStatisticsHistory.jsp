@@ -1,7 +1,7 @@
 ﻿<%--
  ******************************************************************************
- * @file        StatisticsHistoryJob.jsp
- * @brief       StatisticsHistoryJobory　画面用JSP
+ * @file        JobStatisticsHistory.jsp
+ * @brief       JobStatisticsHistoryory　画面用JSP
  * @par
  * @author      天津村研　董
  * $Id:         $
@@ -36,8 +36,8 @@
 
 <%-- 画面固有ヘッダ --%>
 <title><spring:message code="IH-005-01-001" /></title>
-<link rel="stylesheet" href="<c:url value='/resources/css/hist/mcs-StatisticsHistoryJob.css?Ver=${version}'/>" media="all">
-<script src="<c:url value='/resources/js/hist/mcs-StatisticsHistoryJob.js?Ver=${version}'/>"></script>
+<link rel="stylesheet" href="<c:url value='/resources/css/hist/mcs-JobStatisticsHistory.css?Ver=${version}'/>" media="all">
+<script src="<c:url value='/resources/js/hist/mcs-JobStatisticsHistory.js?Ver=${version}'/>"></script>
 <!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <!-- <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script> -->
 

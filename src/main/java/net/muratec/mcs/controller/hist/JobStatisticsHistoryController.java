@@ -64,7 +64,7 @@ import net.muratec.mcs.model.AtomicTransferLog;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
 import net.muratec.mcs.service.common.SelectBoxService;
 import net.muratec.mcs.service.hist.AtomicActivityHistService;
-import net.muratec.mcs.service.hist.StatisticsHistoryJobService;
+import net.muratec.mcs.service.hist.JobStatisticsHistoryService;
 
 //@formatter:off
 /**
@@ -82,13 +82,13 @@ import net.muratec.mcs.service.hist.StatisticsHistoryJobService;
  */
 //@formatter:on
 @Controller
-public class StatisticsHistoryJobController extends BaseController {
+public class JobStatisticsHistoryController extends BaseController {
 
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
     @Autowired private AtomicActivityHistService atomicActivityHistService;
-    @Autowired private StatisticsHistoryJobService statisticsHistoryJobService;
+    @Autowired private JobStatisticsHistoryService jobStatisticsHistoryService;
     
     @Autowired private SelectBoxService selBoxService;
     // 自動更新機能
@@ -118,13 +118,13 @@ public class StatisticsHistoryJobController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StatisticsHistoryJob", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.GET,
+    @RequestMapping(value = "/JobStatisticsHistory", method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.GET,
             number = 1L)
-    public String StatisticsHistoryJob(HttpSession session, Locale locale, Model model) throws McsException {
+    public String JobStatisticsHistory(HttpSession session, Locale locale, Model model) throws McsException {
 
         // アクセス権情報等
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         // ---------------------------------------
         // 空FOUP 一覧画面 コントローラIDセレクトボックス
@@ -147,7 +147,7 @@ public class StatisticsHistoryJobController extends BaseController {
         // ----------------------------------------------
 
         // セレクトボックス要素取得
-        List<String[]> tscIdBoxList = statisticsHistoryJobService.getTscIdBox();
+        List<String[]> tscIdBoxList = jobStatisticsHistoryService.getTscIdBox();
         List<String[]> sourceBoxList = new ArrayList<String[]>();
         List<String[]> unitBoxList = new ArrayList<String[]>();
        
@@ -165,8 +165,8 @@ public class StatisticsHistoryJobController extends BaseController {
        
        if (0 < tscIdBoxList.size()) {
            String tscId = String.valueOf(tscIdBoxList.get(0)[0]);
-           List<String[]> portData = statisticsHistoryJobService.getPortData(tscId);
-           List<String[]> zoneData = statisticsHistoryJobService.getZoneData(tscId);
+           List<String[]> portData = jobStatisticsHistoryService.getPortData(tscId);
+           List<String[]> zoneData = jobStatisticsHistoryService.getZoneData(tscId);
            if(portData!=null) {
         	   sourceBoxList = portData;
            }
@@ -187,7 +187,7 @@ public class StatisticsHistoryJobController extends BaseController {
         // -------------
         ComFunction.setVersion(model);
 
-        return "hist/StatisticsHistoryJob";
+        return "hist/JobStatisticsHistory";
     }
   //@formatter:off
     /**
@@ -207,20 +207,20 @@ public class StatisticsHistoryJobController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = { "/StatisticsHistoryJob/SaveCsvStatisticsHistoryJobList" }, method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
+    @RequestMapping(value = { "/JobStatisticsHistory/SaveCsvJobStatisticsHistoryList" }, method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
 
         // ----------------------------------------------
         // (1)アクセス権チェック(GET版)
         // ----------------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         // ----------------------------------------------
         // (2)セッション取得
         // ----------------------------------------------
-        String sessionKey = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        String sessionKey = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
         ReqGetAtomicActivityHistEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetAtomicActivityHistEntity.class);
         if (reqEntity == null) {
             // sessionに存在しない例外
@@ -254,7 +254,7 @@ public class StatisticsHistoryJobController extends BaseController {
         // CSV出力
         // #########################################
         ComCsvOut<AtomicActivityHistListEntity> csvOut = new ComCsvOut<AtomicActivityHistListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "StatisticsHistoryJob.csv", csvHeader, listCsvItem, atomicTransferLog);
+        csvOut.csvOut(res, messageSource, locale, "JobStatisticsHistory.csv", csvHeader, listCsvItem, atomicTransferLog);
     }
     //@formatter:off
     /**

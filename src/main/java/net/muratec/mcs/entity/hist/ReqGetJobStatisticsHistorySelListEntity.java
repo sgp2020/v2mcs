@@ -39,7 +39,7 @@ import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetStatisticsHistoryJobSelListEntity extends AjaxReqBaseEntity {
+public class ReqGetJobStatisticsHistorySelListEntity extends AjaxReqBaseEntity {
 
     public String tscId;
 }

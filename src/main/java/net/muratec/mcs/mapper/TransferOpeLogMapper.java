@@ -3,7 +3,7 @@ package net.muratec.mcs.mapper;
 import java.util.List;
 
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
-import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobEntity;
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
 import net.muratec.mcs.model.AtomicTransferLog;
 import net.muratec.mcs.model.Ohb;
 import net.muratec.mcs.model.Port;
@@ -109,6 +109,6 @@ public interface TransferOpeLogMapper {
     List<Tsc> selectTscNameList();
     List<StockerZoneRlt> selectZoneData(@Param("tscId") String tscId);
     List<Port> selectPortData(@Param("tscId") String tscId);
-    int getCount(ReqGetStatisticsHistoryJobEntity record);
+    int getCount(ReqGetJobStatisticsHistoryEntity record);
     // END 2020.04.09 DONG  ADD
 }

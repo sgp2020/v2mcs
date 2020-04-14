@@ -31,8 +31,8 @@ import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
 import net.muratec.mcs.entity.hist.MacroDataListEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
-import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobEntity;
-import net.muratec.mcs.entity.hist.StatisticsHistoryJobListEntity;
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
+import net.muratec.mcs.entity.hist.JobStatisticsHistoryListEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.mapper.AtomicTransferLogMapper;
 import net.muratec.mcs.mapper.GuiColorMapper;
@@ -64,12 +64,12 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 20200409    StatisticsHistoryJobService								DONG
+ * 20200409    JobStatisticsHistoryService								DONG
  ******************************************************************************
  */
 //@formatter:on
 @Service
-public class StatisticsHistoryJobService extends BaseService {
+public class JobStatisticsHistoryService extends BaseService {
 
     /** 個別モニタ用マッパー生成 */
     @Autowired private IndividualMonitorMapper iMonitorMapper;
@@ -104,18 +104,18 @@ public class StatisticsHistoryJobService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public List<StatisticsHistoryJobListEntity> getStatisticsHistoryJobList(ReqGetStatisticsHistoryJobEntity reqEntity) throws McsException {
+    public List<JobStatisticsHistoryListEntity> getJobStatisticsHistoryList(ReqGetJobStatisticsHistoryEntity reqEntity) throws McsException {
 
         // -----------------------------------------
         // 返却データの生成
         // -----------------------------------------
-        List<StatisticsHistoryJobListEntity> retRecList = new ArrayList<StatisticsHistoryJobListEntity>();
+        List<JobStatisticsHistoryListEntity> retRecList = new ArrayList<JobStatisticsHistoryListEntity>();
 
         // -----------------------------------------
         // Hostデータ取得
         // -----------------------------------------
 //        
-/*        List<TransferOpeLog> transferOpeLog = transferOpeLogMapper.selectByExample(reqEntity);
+        /*List<TransferOpeLog> transferOpeLog = transferOpeLogMapper.selectByExample(reqEntity);
         
         if (transferOpeLog == null ) {
         	return retRecList;
@@ -123,7 +123,7 @@ public class StatisticsHistoryJobService extends BaseService {
 	 	
         int rowNum = 1;
 	 	for (TransferOpeLog transferOpeLogRec : transferOpeLog) {
-	 		StatisticsHistoryJobListEntity retRec = new StatisticsHistoryJobListEntity();
+	 		JobStatisticsHistoryListEntity retRec = new JobStatisticsHistoryListEntity();
 
 	 		retRec.rum = rowNum;
 	 		retRec.time = transferOpeLogRec.getTime();
@@ -243,7 +243,7 @@ public class StatisticsHistoryJobService extends BaseService {
   //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStatisticsHistoryJobCount（ほTSC_IDを指定し、レコード件数を取得する）機能
+     * @brief     getJobStatisticsHistoryCount（ほTSC_IDを指定し、レコード件数を取得する）機能
      * @param     
      * @return    検索条件に該当するレコード数
      * @retval    int形式で返却
@@ -252,12 +252,12 @@ public class StatisticsHistoryJobService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 2020.04.09   getStatisticsHistoryJobCount							DONG
+     * 2020.04.09   getJobStatisticsHistoryCount							DONG
      ******************************************************************************
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public int getStatisticsHistoryJobCount(ReqGetStatisticsHistoryJobEntity record) {
+    public int getJobStatisticsHistoryCount(ReqGetJobStatisticsHistoryEntity record) {
 
         int ret = 0;
         ret = (int) transferOpeLogMapper.getCount(record);

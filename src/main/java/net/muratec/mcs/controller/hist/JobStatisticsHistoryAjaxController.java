@@ -1,8 +1,8 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        StatisticsHistoryJobAjaxController.java
- * @brief       StatisticsHistoryJob画面関連のajaxコントローラ
+ * @file        JobStatisticsHistoryAjaxController.java
+ * @brief       JobStatisticsHistory画面関連のajaxコントローラ
  * @par
  * @author      CSC
  * $Id:         $
@@ -50,23 +50,23 @@ import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.common.ResSelectBoxEntity;
-import net.muratec.mcs.entity.hist.ReqGeStatisticsHistoryJobListValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobEntity;
-import net.muratec.mcs.entity.hist.ReqGetStatisticsHistoryJobSelListEntity;
-import net.muratec.mcs.entity.hist.ResGetStatisticsHistoryJobListEntity;
+import net.muratec.mcs.entity.hist.ReqGeJobStatisticsHistoryListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistorySelListEntity;
+import net.muratec.mcs.entity.hist.ResGetJobStatisticsHistoryListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.hist.StatisticsHistoryJobService;
+import net.muratec.mcs.service.hist.JobStatisticsHistoryService;
 
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     StatisticsHistoryJob画面関連のajaxコントローラクラス
+ * @brief     JobStatisticsHistory画面関連のajaxコントローラクラス
  * @par       機能:
- *              getStatisticsHistoryJobList (StockerInformation一覧の取得)
+ *              getJobStatisticsHistoryList (StockerInformation一覧の取得)
  * @attention
  * @note
  * ----------------------------------------------------------------------------
@@ -77,9 +77,9 @@ import net.muratec.mcs.service.hist.StatisticsHistoryJobService;
  */
 //@formatter:on
 @Controller
-public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
+public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
 
-    public static final Logger logger = LoggerFactory.getLogger(StatisticsHistoryJobAjaxController.class);
+    public static final Logger logger = LoggerFactory.getLogger(JobStatisticsHistoryAjaxController.class);
 
     public static Logger getLogger() {
 
@@ -89,7 +89,7 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private StatisticsHistoryJobService statisticsHistoryJobService;
+    @Autowired private JobStatisticsHistoryService jobStatisticsHistoryService;
 
     /** グリッド用サービス */
     @Autowired private McsDataTablesService mcsDataTablesService;
@@ -100,7 +100,7 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     getStatisticsHistoryJobList（Statistics History(Job)一覧検索）機能
+     * @brief     getJobStatisticsHistoryList（Statistics History(Job)一覧検索）機能
      * @param     session        セッション情報（Frameworkより付加）
      * @param     reqEntity      一覧検索条件
      * @param     errors         エラー情報（Framworkより付加）
@@ -117,24 +117,24 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StatisticsHistoryJob/GetStatisticsHistoryJobList", method = RequestMethod.POST)
+    @RequestMapping(value = "/JobStatisticsHistory/GetJobStatisticsHistoryList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetStatisticsHistoryJobListEntity getStatisticsHistoryJobList(HttpSession session,
-            @Valid @RequestBody ReqGeStatisticsHistoryJobListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+    public ResGetJobStatisticsHistoryListEntity getJobStatisticsHistoryList(HttpSession session,
+            @Valid @RequestBody ReqGeJobStatisticsHistoryListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
-        ReqGetStatisticsHistoryJobEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetStatisticsHistoryJobEntity.class);
+        ReqGetJobStatisticsHistoryEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetJobStatisticsHistoryEntity.class);
 
         // レスポンスエンティティ生成
         // 返すJSON全体のオブジェクトをnew
-        ResGetStatisticsHistoryJobListEntity resEntity = mcsDataTablesService.createResEntity(ResGetStatisticsHistoryJobListEntity.class,
+        ResGetJobStatisticsHistoryListEntity resEntity = mcsDataTablesService.createResEntity(ResGetJobStatisticsHistoryListEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
         // 検索処理実装判定
@@ -144,7 +144,7 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
                     ReqGetStockerInfoListValidateEntity.class);*/
 
             // データ取得、設定
-            resEntity.body = statisticsHistoryJobService.getStatisticsHistoryJobList(reqEntity);
+            resEntity.body = jobStatisticsHistoryService.getJobStatisticsHistoryList(reqEntity);
             
             // 全体レコード数取得、設定
 //            resEntity.pageInfo.totalRecords = statisticsHistoryJobService.getgetStatisticsHistoryJobCount(reqEntity);
@@ -172,20 +172,20 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StatisticsHistoryJob/SetCsvStatisticsHistoryJobList", method = RequestMethod.POST)
+    @RequestMapping(value = "/JobStatisticsHistory/SetCsvJobStatisticsHistoryList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvStatisticsHistoryJobList(@Valid @RequestBody ReqGeStatisticsHistoryJobListValidateEntity reqStrEntity,
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    public AjaxResBaseEntity SetCsvJobStatisticsHistoryList(@Valid @RequestBody ReqGeJobStatisticsHistoryListValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // アクセス権チェック
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         // Entityの型変換
         ComBeanConv bc = new ComBeanConv();
-        ReqGetStatisticsHistoryJobEntity reqEntity = bc.convert(reqStrEntity, ReqGetStatisticsHistoryJobEntity.class);
+        ReqGetJobStatisticsHistoryEntity reqEntity = bc.convert(reqStrEntity, ReqGetJobStatisticsHistoryEntity.class);
         
         // 日付の大小関係を確認（修正）
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
@@ -201,7 +201,7 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
         // 戻り値宣言
         AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 
-        String sessionKey = ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        String sessionKey = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
 
         super.setSessionAttribute(session, sessionKey, reqEntity);
         // 実行結果設定
@@ -231,21 +231,21 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StatisticsHistoryJob/GetSourceSelList", method = RequestMethod.POST)
+    @RequestMapping(value = "/JobStatisticsHistory/GetSourceSelList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResSelectBoxEntity getSourceSelList(HttpSession session, @RequestBody ReqGetStatisticsHistoryJobSelListEntity reqEntity,
+    public ResSelectBoxEntity getSourceSelList(HttpSession session, @RequestBody ReqGetJobStatisticsHistorySelListEntity reqEntity,
             Errors errors, Locale locale, Model model) throws McsException {
 
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
         if (reqEntity.tscId != null) {
-        	List<String[]> portData = statisticsHistoryJobService.getPortData(reqEntity.tscId);
-            List<String[]> zoneData = statisticsHistoryJobService.getZoneData(reqEntity.tscId);
+        	List<String[]> portData = jobStatisticsHistoryService.getPortData(reqEntity.tscId);
+            List<String[]> zoneData = jobStatisticsHistoryService.getZoneData(reqEntity.tscId);
             if(portData!=null) {
             	resEntity.body = portData;
             }
@@ -280,21 +280,21 @@ public class StatisticsHistoryJobAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StatisticsHistoryJob/GetDestinationSelList", method = RequestMethod.POST)
+    @RequestMapping(value = "/JobStatisticsHistory/GetDestinationSelList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResSelectBoxEntity getDestinationSelList(HttpSession session, @RequestBody ReqGetStatisticsHistoryJobSelListEntity reqEntity,
+    public ResSelectBoxEntity getDestinationSelList(HttpSession session, @RequestBody ReqGetJobStatisticsHistorySelListEntity reqEntity,
             Errors errors, Locale locale, Model model) throws McsException {
 
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
         if (reqEntity.tscId != null) {
-        	List<String[]> portData = statisticsHistoryJobService.getPortData(reqEntity.tscId);
-            List<String[]> zoneData = statisticsHistoryJobService.getZoneData(reqEntity.tscId);
+        	List<String[]> portData = jobStatisticsHistoryService.getPortData(reqEntity.tscId);
+            List<String[]> zoneData = jobStatisticsHistoryService.getZoneData(reqEntity.tscId);
             if(portData!=null) {
             	resEntity.body = portData;
             }

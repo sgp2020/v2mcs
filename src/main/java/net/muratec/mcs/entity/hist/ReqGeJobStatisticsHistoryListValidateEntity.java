@@ -40,13 +40,13 @@ import net.muratec.mcs.entity.validator.annotation.DateTime;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.04.10 	ReqGeStatisticsHistoryJobListValidateEntity 			DONG
+ * 2020.04.10 	ReqGeJobStatisticsHistoryListValidateEntity 			DONG
  ******************************************************************************
  */
 //@formatter:on
 @Getter
 @Setter
-public class ReqGeStatisticsHistoryJobListValidateEntity extends AjaxDataTablesReqBaseEntity {
+public class ReqGeJobStatisticsHistoryListValidateEntity extends AjaxDataTablesReqBaseEntity {
 
 	@FieldNameKey(key = "IH-005-03-001") public String tscId;
     @FieldNameKey(key = "IH-005-03-002") public String source;

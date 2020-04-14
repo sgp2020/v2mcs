@@ -38,13 +38,13 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.04.09	 	ReqGetStatisticsHistoryJobEntity 					DONG
+ * 2020.04.09	 	ReqGetJobStatisticsHistoryEntity 					DONG
  ****************************************************************************** ******************************************************************************
  */
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetStatisticsHistoryJobEntity extends AjaxDataTablesReqBaseEntity {
+public class ReqGetJobStatisticsHistoryEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-005-03-001") public String tscId ;
     @FieldNameKey(key = "IH-005-03-002") public String source;

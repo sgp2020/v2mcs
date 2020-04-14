@@ -354,7 +354,7 @@ $(function() {
     var activityHistory = new McsButton($('#mcs-top-slideMenu-his .his-activity'), screenText.slideHistoryText.activityHist);
     // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     var atomicActivityHist = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.atomicActivityHist);
-    var statisticsHistoryJob = new McsButton($('#mcs-top-slideMenu-his .his-statisticsHistoryJob'), screenText.slideHistoryText.statisticsHistoryJob);
+    var jobStatisticsHist = new McsButton($('#mcs-top-slideMenu-his .his-jobStatisticsHistory'), screenText.slideHistoryText.jobStatisticsHist);
     
     
     // ActivityHistory来歴表示、ページ遷移
@@ -368,8 +368,8 @@ $(function() {
     });
     
     // AtomicActivity来歴表示、ページ遷移
-    statisticsHistoryJob.onClick(function() {
-    	openScreen(getUrl('StatisticsHistoryJob'), 'StatisticsHistoryJob');
+    jobStatisticsHist.onClick(function() {
+    	openScreen(getUrl('JobStatisticsHistory'), 'JobStatisticsHistory');
     });
     // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     

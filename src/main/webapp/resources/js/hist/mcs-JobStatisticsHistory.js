@@ -1,6 +1,6 @@
 ﻿/**
  ******************************************************************************
- * @file        mcs-StatisticsHistoryJob.js
+ * @file        mcs-JobStatisticsHistory.js
  * @brief       StatisticsHistory(Job) 画面用JavaScript
  * @par
  * @author      天津村研　董
@@ -102,10 +102,10 @@ $(function() {
 	  //searchComp.clearErrors();
 	  
 	  dataTables.getDataAjax({
-		  url: getUrl('/StatisticsHistoryJob/GetStatisticsHistoryJobList'),
+		  url: getUrl('/JobStatisticsHistory/GetJobStatisticsHistoryList'),
 		  cond: cond,
 		  searchDataFlag: true,
-		  tableCompId: 'H-005-statisticsHistoryJobList', // テーブルコンポーネントID
+		  tableCompId: 'H-005-jobStatisticsHistoryList', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
 			  // 特にすることなし
@@ -245,15 +245,14 @@ $(function() {
       
       
       // 検索処理
-      var url = getUrl('/StatisticsHistoryJob/GetStatisticsHistoryJobList');
+      var url = getUrl('/JobStatisticsHistory/GetJobStatisticsHistoryList');
       var cond = {
     		  tscId: tscId.getValue(),
     		  source: source.getValue(),
     		  destination: destination.getValue(),
     		  unit: unit.getValue(),
     		  dateFrom: dateFrom.getValue(),
-    		  dateTo: dateTo.getValue(),
-    		  maxRecords: maxRecords.getValue()
+    		  dateTo: dateTo.getValue()
       };
       
       var space = "&nbsp&nbsp"; 
@@ -264,14 +263,12 @@ $(function() {
       var searchInfoUnits = "";
       var searchInfoDateFroms = "";
       var searchInfoDateTos = "";
-      var searchInfoMaxRecords = "";
       var searchInfoTscId = tscId.getText();
       var searchInfoSource = source.getText();
       var searchInfoDestination = destination.getText();
       var searchInfoUnit = unit.getText();
       var searchInfoDateFrom = dateFrom.getValue();
       var searchInfoDateTo = dateTo.getValue();
-      var searchInfoMaxRecord = maxRecords.getValue();
       
       if(searchInfoTscId == "All"){
     	  searchInfoTscId = "";
@@ -307,20 +304,15 @@ $(function() {
       {
     	  searchInfoDateTos = searchInfoDateTo + "]" + space ;
       }
-      if(searchInfoMaxRecord!=null && searchInfoMaxRecord !="")
-      {
-    	  searchInfoMaxRecords = " Max Records " + "[" + searchInfoMaxRecord + "]";
-      }
       
       $('#searchInfo').html(  searchInfoTscIds+
 				    		  searchInfoSources + 
 				    		  searchInfoDestinations +
 				    		  searchInfoUnits +
 				    		  searchInfoDateFroms + 
-				    		  searchInfoDateTos +
-				    		  searchInfoMaxRecords);
+				    		  searchInfoDateTos );
       
-      var tableCompId = 'H-005-statisticsHistoryJobList';
+      var tableCompId = 'H-005-jobStatisticsHistoryList';
       var options = {
         url: url,
         cond: cond,
@@ -435,10 +427,10 @@ $(function() {
     // 決定ボタン押下
     saveConfirmButton.onClick(function() {
       var datas = dataTables.getLatestCond();
-      callAjax(getUrl('/StatisticsHistoryJob/SetCsvStatisticsHistoryJobList'), datas, false,
+      callAjax(getUrl('/JobStatisticsHistory/SetCsvJobStatisticsHistoryList'), datas, false,
       // 成功
       function(retObj) {
-        window.location.href = getUrl('/StatisticsHistoryJob/SaveCsvStatisticsHistoryJobList');
+        window.location.href = getUrl('/JobStatisticsHistory/SaveCsvJobStatisticsHistoryList');
       },
       // エラー
       function(retObj) {
@@ -471,7 +463,7 @@ $(function() {
     var cond = {
     	tscId: tscId
     };
-    callAjax(getUrl('/StatisticsHistoryJob/GetSourceSelList'), cond, false, function(resObj) {
+    callAjax(getUrl('/JobStatisticsHistory/GetSourceSelList'), cond, false, function(resObj) {
       // 成功時、amhsIdに要素をセットし、一覧の再検索を行う
     	searchComp.get('source').setList(resObj.body);
     });
@@ -495,7 +487,7 @@ $(function() {
     var cond = {
     	tscId: tscId
     };
-    callAjax(getUrl('/StatisticsHistoryJob/GetDestinationSelList'), cond, false, function(resObj) {
+    callAjax(getUrl('/JobStatisticsHistory/GetDestinationSelList'), cond, false, function(resObj) {
       // 成功時、amhsIdに要素をセットし、一覧の再検索を行う
     	searchComp.get('destination').setList(resObj.body);
     });

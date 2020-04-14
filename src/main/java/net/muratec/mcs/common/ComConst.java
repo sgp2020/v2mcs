@@ -743,7 +743,7 @@ public class ComConst {
          * 2020.04.09 DONG  ADD
          * Statistics History(Job)来歴表示
          */
-        HIST_STATISTICSHISTORYJOB("H005", 30500000L, "H005_REF", ""),
+        HIST_JOBSTATISTICSHISTORY("H005", 30500000L, "H005_REF", ""),
 
         /**
          * アラーム報告来歴表示
@@ -1219,7 +1219,7 @@ public class ComConst {
                 //ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
                 // STD 2020.04.10 DONG  ADD 
                 //ScreenInfo.HIST_CARRIERMOTIONTIMEHISTORY.getRefAuthFuncId(),
-                ScreenInfo.HIST_STATISTICSHISTORYJOB.getRefAuthFuncId(),
+                ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId(),
                 // END 2020.04.10 DONG  ADD 
                 ScreenInfo.HIST_ALARMSYSTEMHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STAGEHISTORY.getRefAuthFuncId()         // MACS4#0049 Add

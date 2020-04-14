@@ -89,7 +89,7 @@
 	  //cancel: '<spring:message code="IT-001-03-003" />' 
       activityHist: '<spring:message code="IT-001-03-001" />',
       atomicActivityHist: '<spring:message code="IT-001-03-002" />',
-      statisticsHistoryJob: '<spring:message code="IT-001-03-005" />',
+      jobStatisticsHist: '<spring:message code="IT-001-03-005" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
     slideLogText: {
