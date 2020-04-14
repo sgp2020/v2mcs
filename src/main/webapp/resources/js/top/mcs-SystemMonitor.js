@@ -351,7 +351,8 @@ $(function() {
     //var stageHistory = new McsButton($('#mcs-top-slideMenu-his .his-stage'), screenText.slideHistoryText.stageHis);   // MACS4#0049 Add
     var cancel = new McsButton($('#mcs-top-slideMenu-his .his-cancel'), screenText.slideHistoryText.cancel);
 
-    var activityHistory = new McsButton($('#mcs-top-slideMenu-his .his-activity'), screenText.slideHistoryText.activityHist);
+    var activityHistory = new McsButton($('#mcs-top-slideMenu-his .his-activity'), screenText.slideHistoryText.activityHistory);
+    var vehicleStatisticsHistory = new McsButton($('#mcs-top-slideMenu-his .his-vehiclestatisticsHistory'), screenText.slideHistoryText.vehicleStatisticsHistory);
     // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     var atomicActivityHist = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.atomicActivityHist);
     var jobStatisticsHist = new McsButton($('#mcs-top-slideMenu-his .his-jobStatisticsHistory'), screenText.slideHistoryText.jobStatisticsHist);
@@ -362,17 +363,23 @@ $(function() {
     	openScreen(getUrl('ActivityHistory'), 'ActivityHistory');
     });
     
+    // VehicleStatisticsHistory来歴表示、ページ遷移
+    vehicleStatisticsHistory.onClick(function() {
+    	openScreen(getUrl('VehicleStatisticsHistory'), 'VehicleStatisticsHistory');
+    });
+    
     // AtomicActivity来歴表示、ページ遷移
     atomicActivityHist.onClick(function() {
     	openScreen(getUrl('AtomicActivityHist'), 'AtomicActivityHist');
     });
     
-    // AtomicActivity来歴表示、ページ遷移
+    // JobStatisticsHistory来歴表示、ページ遷移
     jobStatisticsHist.onClick(function() {
     	openScreen(getUrl('JobStatisticsHistory'), 'JobStatisticsHistory');
     });
     // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-    
+   
+   
     
     /*
     // 搬送ジョブ来歴表示、ページ遷移
