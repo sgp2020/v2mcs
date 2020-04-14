@@ -60,6 +60,7 @@
     <result column="statusStr" property="statusStr" jdbcType="VARCHAR" />
     <result column="cancelFlgStr" property="cancelFlgStr" jdbcType="VARCHAR" />
     <result column="rerouteFlgStr" property="rerouteFlgStr" jdbcType="VARCHAR" />
+    <result column="tscName" property="tscName" jdbcType="VARCHAR" />
     <!-- END 20200408 SGP 天津村研   ADD-->
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -1167,7 +1168,7 @@
 				   org_rcv_time,  
 				   org_carrier_id,  
 				   totalTime,  
-				   org_src_tsc_id,  
+				   <!-- tscName,  -->org_src_tsc_id, 
 				   org_src_loc,  
 				   tscId,  
 				   loc,  
@@ -1195,8 +1196,8 @@
 				   org_carrier_id,  
 				   ROUND( ( TO_DATE( SUBSTR( org_cmp_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) -  
 						TO_DATE( SUBSTR( org_rcv_time, 1, 14 ), 'YYYYMMDDHH24MISS' ) ) * 24 * 3600, 0 ) totalTime,  
-				   <!-- org_src_tsc_id,  -->
-				   (select TSC.TSC_NAME from TSC WHERE TSC.TSC_ID = macro_transfer_log.org_src_tsc_id) org_src_tsc_id, 
+				   org_src_tsc_id, 
+				   <!--(select TSC.TSC_NAME from TSC WHERE TSC.TSC_ID = macro_transfer_log.org_src_tsc_id) tscName,  -->
 				   org_src_loc,  
 				   ( CASE WHEN status = 3 THEN alt_tsc_id  
 							  ELSE org_dst_tsc_id  

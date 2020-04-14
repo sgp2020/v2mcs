@@ -29,22 +29,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.muratec.mcs.entity.hist.ActivityHistoryListEntity;
 import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.MacroDataListEntity;
 import net.muratec.mcs.entity.hist.ReqGetActivityHistoryEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.exception.McsException;
-import net.muratec.mcs.mapper.AtomicTransferLogMapper;
 import net.muratec.mcs.mapper.GuiColorMapper;
 import net.muratec.mcs.mapper.IndividualMonitorMapper;
 import net.muratec.mcs.mapper.JobPriorityMapper;
 import net.muratec.mcs.mapper.MacroTransferLogMapper;
-import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.mapper.TscMapper;
 import net.muratec.mcs.model.MacroTransferLog;
-import net.muratec.mcs.model.Tsc;
 import net.muratec.mcs.model.Ohb;
-import net.muratec.mcs.model.OhbPortRltModel;
 import net.muratec.mcs.model.Port;
+import net.muratec.mcs.model.Tsc;
+import net.muratec.mcs.model.TscExample;
 import net.muratec.mcs.service.common.BaseService;
 import net.muratec.mcs.service.common.ExeForeignFileService;
 
@@ -80,8 +76,9 @@ public class ActivityHistoryService extends BaseService {
     /** 外部ファイル参照用サービス生成 */
     @Autowired ExeForeignFileService exeForeignFileService;
     
-    
     @Autowired private MacroTransferLogMapper macroTransferLogMapper;
+    
+    @Autowired private TscMapper tscMapper;
 
     //@formatter:off
     /**
@@ -114,6 +111,10 @@ public class ActivityHistoryService extends BaseService {
 //        List<Host> host = hostMapper.selectHostCommInfoList(reqEntity);
         List<MacroTransferLog> atomicTransferLog = macroTransferLogMapper.selectActivityHistoryList(reqEntity);
         
+        TscExample tscExample = new TscExample();
+        tscExample.createCriteria();
+        List<Tsc> tscList = tscMapper.selectByExample(tscExample);
+        
         if (atomicTransferLog == null ) {
         	return retRecList;
         }
@@ -126,32 +127,42 @@ public class ActivityHistoryService extends BaseService {
 	 		retRec.rcvTime = macroTransferLogRec.getOrgRcvTime();
 	 		retRec.carrierId = macroTransferLogRec.getOrgCarrierId();
 	 		String totalTime = macroTransferLogRec.getTotalTime();
-	 		retRec.totalTime = timeFormat(new Integer(totalTime));  ///????
-	 		retRec.srcTscId = macroTransferLogRec.getOrgSrcTscId().toString();
+	 		if(totalTime == null || totalTime == "") {
+	 			retRec.totalTime = "";
+	 		}else {
+	 			retRec.totalTime = timeFormat(new Integer(totalTime));  
+	 		}
+	 		//retRec.srcTscId = macroTransferLogRec.getOrgSrcTscId().toString();
+	 		retRec.srcTscId = findTscName(tscList,macroTransferLogRec.getOrgSrcTscId().toString());
 	 		retRec.srcLoc = macroTransferLogRec.getOrgSrcLoc();
-	 		retRec.compTscId = macroTransferLogRec.getTscId();///????????
-	 		retRec.compLoc = macroTransferLogRec.getLoc();  /////???????
-	 		retRec.status = macroTransferLogRec.getStatusStr();  //????
+	 		//retRec.compTscId = macroTransferLogRec.getTscId();
+	 		retRec.compTscId = findTscName(tscList,macroTransferLogRec.getTscId());
+	 		retRec.compLoc = macroTransferLogRec.getLoc();  
+	 		retRec.status = macroTransferLogRec.getStatusStr();  
 	 		retRec.startTime = macroTransferLogRec.getOrgStartTime();
 	 		retRec.cmpTime = macroTransferLogRec.getOrgCmpTime();
 	 		retRec.dstGroup = macroTransferLogRec.getOrgDstGroup();
-	 		retRec.dstTscId = macroTransferLogRec.getOrgDstTscId().toString();
+	 		//retRec.dstTscId = macroTransferLogRec.getOrgDstTscId().toString();
+	 		retRec.dstTscId = findTscName(tscList,macroTransferLogRec.getOrgDstTscId().toString());
 	 		retRec.dstLoc = macroTransferLogRec.getOrgDstLoc();
-	 		retRec.altTscId = macroTransferLogRec.getAltTscId().toString();
+	 		//retRec.altTscId = macroTransferLogRec.getAltTscId().toString();
+	 		if(macroTransferLogRec.getAltTscId() == 0){
+	 			retRec.altTscId = "0";
+	 		}else {
+	 			retRec.altTscId = findTscName(tscList,macroTransferLogRec.getAltTscId().toString());
+	 		}
 	 		retRec.altLoc = macroTransferLogRec.getAltLoc();
 	 		retRec.priority = macroTransferLogRec.getOrgPriority();
 	 		retRec.nextDestination = macroTransferLogRec.getOrgNextDst();
-	 		retRec.cancelReq = macroTransferLogRec.getCancelFlgStr(); //????
+	 		retRec.cancelReq = macroTransferLogRec.getCancelFlgStr(); 
 	 		retRec.hostCommandId = macroTransferLogRec.getOrgHostCommandId();
 	 		retRec.commandId = macroTransferLogRec.getOrgCommandId();
 	 		retRec.originator = macroTransferLogRec.getOrgOriginator();
-	 		retRec.rerouteReq = macroTransferLogRec.getRerouteFlgStr();///???
+	 		retRec.rerouteReq = macroTransferLogRec.getRerouteFlgStr();
 
 	 		rowNum++;
-	 		
         	retRecList.add(retRec);
 	 	} 
-
 		return retRecList;
     }
     
@@ -180,6 +191,23 @@ public class ActivityHistoryService extends BaseService {
         millis = millis % 60;
         
         return String.format("%02d:%02d:%02d",hours,minutes,millis);
+   	}
+   	
+   	
+   	public String findTscName( List<Tsc> tscList ,String tscId )
+   	{
+   		String s = "";
+		if(tscId == null || tscId == "") {
+			return s;
+		}else {
+			for (Tsc tsc : tscList) {
+				String tscId1 = tsc.getTscId().toString();
+				if(tscId1.equals(tscId)){
+					s = tsc.getTscName();
+				}
+			}
+		}
+		return s;
    	}
     //@formatter:off
     /**
@@ -328,15 +356,25 @@ public class ActivityHistoryService extends BaseService {
     public List<AtomicActivityHistListEntity> getAtomicTransferLogList(String commandId) {
 
     	List<AtomicActivityHistListEntity> atomicTransferLogList = macroTransferLogMapper.selectAtomicTransferLogByCommandId(commandId);
+    	int i = 1;
     	for (AtomicActivityHistListEntity atomicActivityHistListEntity : atomicTransferLogList) {
+    		atomicActivityHistListEntity.rum = i;
+    		i++;
     		String atomicTime = atomicActivityHistListEntity.atomicTime;
     		if(atomicTime != null && !"".equals(atomicTime)) {
     			atomicActivityHistListEntity.atomicTime =  timeFormat( new Integer(atomicTime) );
     		}
-    		//if(atomicTime != null && !"".equals(atomicTime)) {
-        	//	String storedTime1 = atomicTime.substring(0,4) + "/" + atomicTime.substring(4,6) + "/" + atomicTime.substring(6,8) + " " + atomicTime.substring(8,10) + ":" + atomicTime.substring(10,12) + ":" + atomicTime.substring(12,14);
-        	//	atomicTransferLogList.setAtomicTime(storedTime1);
-    		//}
+    		
+    		TscExample tscExample = new TscExample();
+            tscExample.createCriteria();
+            List<Tsc> tscList = tscMapper.selectByExample(tscExample);
+    		String tscId = atomicActivityHistListEntity.tscId;
+    		if(tscId != null && !"".equals(tscId)) {
+    			atomicActivityHistListEntity.tscId =  findTscName(tscList,tscId);
+    		}
+    		atomicActivityHistListEntity.queuedTime = timeFormat(new Integer(atomicActivityHistListEntity.queuedTime));
+    		atomicActivityHistListEntity.loadedTime = timeFormat(new Integer(atomicActivityHistListEntity.loadedTime));
+    		
 		}  
         return atomicTransferLogList;
     }

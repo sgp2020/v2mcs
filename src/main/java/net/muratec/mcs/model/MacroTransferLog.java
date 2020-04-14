@@ -8,6 +8,7 @@ public class MacroTransferLog extends MacroTransferLogKey {
 	private String statusStr;
 	private String cancelFlgStr;
 	private String rerouteFlgStr;
+	private String tscName;
 	public String getTotalTime() {
 		return totalTime;
 	}
@@ -43,6 +44,12 @@ public class MacroTransferLog extends MacroTransferLogKey {
 	}
 	public void setRerouteFlgStr(String rerouteFlgStr) {
 		this.rerouteFlgStr = rerouteFlgStr;
+	}
+	public String getTscName() {
+		return tscName;
+	}
+	public void setTscName(String tscName) {
+		this.tscName = tscName;
 	}
 	
     /**
