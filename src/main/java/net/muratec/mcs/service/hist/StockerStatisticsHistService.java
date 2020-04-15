@@ -121,7 +121,7 @@ public class StockerStatisticsHistService extends BaseService {
         // Hostデータ取得
         // -----------------------------------------
         List<StockerOpeLogModel> stockerOpeLogModel;
-        if (reqEntity.unit.equals("1".toString())) 
+        if ("1".equals(reqEntity.unit)) 
         {
         	stockerOpeLogModel = stockerOpeLogMapper.selectStockerStatisticsHistListByDay(reqEntity);
         	timeUnit = UNIT_BY_DAY;
@@ -210,7 +210,7 @@ public class StockerStatisticsHistService extends BaseService {
     public int getStockerStatisticsHistCount(ReqGetStockerStatisticsHistEntity reqEntity) {
 
         int ret = 0;
-        if (reqEntity.unit.equals("1".toString())) 
+        if ("1".equals(reqEntity.unit)) 
         {
         	ret = (int) stockerOpeLogMapper.getCountByDay(reqEntity);
         }
@@ -305,7 +305,7 @@ public class StockerStatisticsHistService extends BaseService {
     		Date date = simpleDateFormat.parse(startTime); 
 
         	calendar.setTime(date);
-        	if ( hourOrDay.contentEquals("1".toString()) )
+        	if ( "1".equals(hourOrDay) )
         	{
         		calendar.add(Calendar.DAY_OF_YEAR, +1);
         	}
