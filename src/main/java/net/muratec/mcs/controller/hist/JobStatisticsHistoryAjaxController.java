@@ -50,7 +50,7 @@ import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
 import net.muratec.mcs.entity.common.ResSelectBoxEntity;
-import net.muratec.mcs.entity.hist.ReqGeJobStatisticsHistoryListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
 import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistorySelListEntity;
 import net.muratec.mcs.entity.hist.ResGetJobStatisticsHistoryListEntity;
@@ -123,7 +123,7 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetJobStatisticsHistoryListEntity getJobStatisticsHistoryList(HttpSession session,
-            @Valid @RequestBody ReqGeJobStatisticsHistoryListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+            @Valid @RequestBody ReqGetJobStatisticsHistoryListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
@@ -176,7 +176,7 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvJobStatisticsHistoryList(@Valid @RequestBody ReqGeJobStatisticsHistoryListValidateEntity reqStrEntity,
+    public AjaxResBaseEntity SetCsvJobStatisticsHistoryList(@Valid @RequestBody ReqGetJobStatisticsHistoryListValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
@@ -243,6 +243,10 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
         super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
+        String[] allTerms = new String[2];
+        allTerms[0] = ComConst.StringSelectboxAll.VALUE;
+        allTerms[1] = ComConst.StringSelectboxAll.TEXT;
+        
         if (reqEntity.tscId != null) {
         	List<String[]> portData = jobStatisticsHistoryService.getPortData(reqEntity.tscId);
             List<String[]> zoneData = jobStatisticsHistoryService.getZoneData(reqEntity.tscId);
@@ -252,11 +256,11 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
             if(zoneData!=null) {
             	resEntity.body.addAll(zoneData);
             }
+            //sourceBoxはAllを初期化表示する
+            resEntity.body.add(0, allTerms);
         } else {
-            String[] virtual = new String[2];
-            virtual[0] = ComConst.AmhsType.STR_VIRTUAL;
-            virtual[1] = ComConst.AmhsType.STR_VIRTUAL;
-            resEntity.body.add(virtual);
+        	//sourceBoxはAllを初期化表示する
+            resEntity.body.add(0, allTerms);
         }
         return resEntity;
     }
@@ -292,6 +296,10 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
         super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
 
         ResSelectBoxEntity resEntity = new ResSelectBoxEntity();
+        String[] allTerms = new String[2];
+        allTerms[0] = ComConst.StringSelectboxAll.VALUE;
+        allTerms[1] = ComConst.StringSelectboxAll.TEXT;
+        
         if (reqEntity.tscId != null) {
         	List<String[]> portData = jobStatisticsHistoryService.getPortData(reqEntity.tscId);
             List<String[]> zoneData = jobStatisticsHistoryService.getZoneData(reqEntity.tscId);
@@ -301,11 +309,11 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
             if(zoneData!=null) {
             	resEntity.body.addAll(zoneData);
             }
+            //DestinationBoxはAllを初期化表示する
+            resEntity.body.add(0, allTerms);
         } else {
-            String[] virtual = new String[2];
-            virtual[0] = ComConst.AmhsType.STR_VIRTUAL;
-            virtual[1] = ComConst.AmhsType.STR_VIRTUAL;
-            resEntity.body.add(virtual);
+        	//DestinationBoxはAllを初期化表示する
+            resEntity.body.add(0, allTerms);
         }
         return resEntity;
     }

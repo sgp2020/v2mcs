@@ -106,8 +106,8 @@
      <!--  右メニュースライド -->
     <nav id="mcs-right-menu">
         <!-- 一覧 -->
-        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H005_REF}"></div>
+        <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H005_REF}"></div>
         <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
 

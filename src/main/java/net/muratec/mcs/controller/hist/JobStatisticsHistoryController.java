@@ -53,7 +53,7 @@ import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
@@ -151,8 +151,6 @@ public class JobStatisticsHistoryController extends BaseController {
         List<String[]> sourceBoxList = new ArrayList<String[]>();
         List<String[]> unitBoxList = new ArrayList<String[]>();
        
-        //sourceBoxはAllを初期化表示する
-        sourceBoxList.add(0, allTerms);
         //Unitは「Hour」と「Day」を初期化表示する
         unitBoxList.add(0, unitHourTerms);
         unitBoxList.add(1, unitDayTerms);
@@ -173,6 +171,10 @@ public class JobStatisticsHistoryController extends BaseController {
            if(zoneData!=null) {
         	   sourceBoxList.addAll(zoneData);
            }
+           
+           //sourceBoxはAllを初期化表示する
+           sourceBoxList.add(0, allTerms);
+           
            String sourceJson = super.objectToJson(sourceBoxList);
            String destinationJson = super.objectToJson(sourceBoxList);
            model.addAttribute("IH_005_01_002", sourceJson);

@@ -47,7 +47,7 @@ public class JobStatisticsHistoryListEntity {
 	public String minTime;
 	public String avgTime;
 	public String totalTime;
-	public String transferCount;
-	public String errorCount;
-	public String mcbf;
+	public int opeCount;
+	public int errCount;
+	public int mcbf;
 }

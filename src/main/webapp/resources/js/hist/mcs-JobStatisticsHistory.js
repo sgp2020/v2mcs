@@ -77,7 +77,6 @@ $(function() {
 	  unit: '',
 	  dateFrom: null,
 	  dateTo: null,
-	  maxRecords: ''
   });
   
   //検索ボタンを設定する

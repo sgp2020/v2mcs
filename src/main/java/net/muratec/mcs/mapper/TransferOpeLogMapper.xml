@@ -16,6 +16,10 @@
     <result column="TOTAL_TIME" property="totalTime" jdbcType="DECIMAL" />
     <result column="OPE_COUNT" property="opeCount" jdbcType="DECIMAL" />
     <result column="ERR_COUNT" property="errCount" jdbcType="DECIMAL" />
+    <!-- 20200414 DONG ADD -->
+    <result column="mcbf" property="mcbf" jdbcType="DECIMAL" />
+    <result column="avg_time" property="avgTime" jdbcType="DECIMAL" />
+    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <!--
@@ -419,6 +423,208 @@
 					   <include refid="portWhere" /> 
 					  )
 		ORDER BY 1
+    </select>
+    
+    <!-- 日単位で、TSCIDのみ指定した場合のクエリー  -->
+	<sql id="JobWhere">
+	    <where>
+	      <if test="tscId != null and tscId !='' ">
+	        tsc_id  = #{tscId}
+	      </if>
+	      <if test="source != null and source !='' ">
+	        and src_loc = #{source}
+	      </if>
+	      <if test="destination != null and destination !='' ">
+	        and dst_loc = #{destination}
+	      </if>
+	      <if test="dateFrom != null">
+	        and time &gt;= to_char(#{dateFrom},'yyyymmddhh')
+	      </if>
+	      <if test="dateTo != null">
+	        and time &lt; to_char(#{dateTo},'yyyymmddhh')
+	      </if>
+	    </where>
+    </sql>
+    <select id="selectDayJobByTscIdData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+        SELECT 0,
+				   time,
+				   tsc_id,
+				   '',
+				   '',
+				   MAX( max_time ) max_time,
+				   MIN( min_time ) min_time,
+				   ROUND( ( CASE SUM( ope_count )
+								WHEN 0 THEN 0
+								ELSE SUM( total_time )/SUM( ope_count )
+							END ), 0 ) avg_time,
+				   SUM( total_time ) total_time,
+				   SUM( ope_count ) ope_count,
+				   SUM( err_count ) err_count,
+				   ROUND( ( CASE SUM( err_count )
+								WHEN 0 THEN SUM( ope_count)/1
+								ELSE SUM( ope_count )/SUM( err_count )
+							END ), 0 ) mcbf
+			FROM  (
+		      				SELECT 0,
+								   substr(time,0,8) time,
+								   TO_CHAR(tsc_id) tsc_id,
+								   '',
+								   '',
+								   MAX(max_time) max_time,
+								   MIN(min_time) min_time,
+								   ROUND( ( CASE SUM( ope_count )
+												WHEN 0 THEN 0
+												ELSE SUM( total_time )/SUM( ope_count )
+											END ), 0 ) avg_time,
+								   SUM(total_time) total_time,
+								   SUM(ope_count) ope_count,
+								   SUM(err_count) err_count,
+								   ROUND( ( CASE SUM( err_count )
+												WHEN 0 THEN SUM( ope_count)/1
+												ELSE SUM( ope_count )/SUM( err_count )
+											END ), 0 ) mcbf
+							FROM   transfer_ope_log
+						  	<!-- WHERE  time >= '2020032715' AND  time < '2020041717' and src_loc = 'ASHP23-09-P2' -->
+						  	<include refid="JobWhere" /> 
+							GROUP BY tsc_id,substr(time,0,8)
+		          )
+			<include refid="JobWhere" /> 
+			GROUP BY tsc_id,substr(time,0,8)
+    </select>
+    <select id="selectDayJobBySrcLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+        SELECT 0,
+				   time,
+				   tsc_id,
+				   src_loc,
+				   '',
+				   MAX( max_time ) max_time,
+				   MIN( min_time ) min_time,
+				   ROUND( ( CASE SUM( ope_count )
+								WHEN 0 THEN 0
+								ELSE SUM( total_time )/SUM( ope_count )
+							END ), 0 ) avg_time,
+				   SUM( total_time ) total_time,
+				   SUM( ope_count ) ope_count,
+				   SUM( err_count ) err_count,
+				   ROUND( ( CASE SUM( err_count )
+								WHEN 0 THEN SUM( ope_count)/1
+								ELSE SUM( ope_count )/SUM( err_count )
+							END ), 0 ) mcbf
+			FROM  (
+		      				SELECT 0,
+								   ( substr(time,0,8) || '000000' ) time,
+								   TO_CHAR(tsc_id) tsc_id,
+								   src_loc,
+								   '',
+								   MAX(max_time) max_time,
+								   MIN(min_time) min_time,
+								   ROUND( ( CASE SUM( ope_count )
+												WHEN 0 THEN 0
+												ELSE SUM( total_time )/SUM( ope_count )
+											END ), 0 ) avg_time,
+								   SUM(total_time) total_time,
+								   SUM(ope_count) ope_count,
+								   SUM(err_count) err_count,
+								   ROUND( ( CASE SUM( err_count )
+												WHEN 0 THEN SUM( ope_count)/1
+												ELSE SUM( ope_count )/SUM( err_count )
+											END ), 0 ) mcbf
+							FROM   transfer_ope_log
+						  	<include refid="JobWhere" /> 
+							GROUP BY tsc_id,time,src_loc
+		          )
+			<include refid="JobWhere" /> 
+			GROUP BY tsc_id,time,src_loc
+    </select>
+    <select id="selectDayJobByDstLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+        SELECT 0,
+				   time,
+				   tsc_id,
+				   src_loc,
+				   dst_loc,
+				   MAX( max_time ) max_time,
+				   MIN( min_time ) min_time,
+				   ROUND( ( CASE SUM( ope_count )
+								WHEN 0 THEN 0
+								ELSE SUM( total_time )/SUM( ope_count )
+							END ), 0 ) avg_time,
+				   SUM( total_time ) total_time,
+				   SUM( ope_count ) ope_count,
+				   SUM( err_count ) err_count,
+				   ROUND( ( CASE SUM( err_count )
+								WHEN 0 THEN SUM( ope_count)/1
+								ELSE SUM( ope_count )/SUM( err_count )
+							END ), 0 ) mcbf
+			FROM  (
+		      				SELECT 0,
+								   ( substr(time,0,8) || '000000' ) time,
+								   TO_CHAR(tsc_id) tsc_id,
+								   src_loc,
+								   dst_loc,
+								   MAX(max_time) max_time,
+								   MIN(min_time) min_time,
+								   ROUND( ( CASE SUM( ope_count )
+												WHEN 0 THEN 0
+												ELSE SUM( total_time )/SUM( ope_count )
+											END ), 0 ) avg_time,
+								   SUM(total_time) total_time,
+								   SUM(ope_count) ope_count,
+								   SUM(err_count) err_count,
+								   ROUND( ( CASE SUM( err_count )
+												WHEN 0 THEN SUM( ope_count)/1
+												ELSE SUM( ope_count )/SUM( err_count )
+											END ), 0 ) mcbf
+							FROM   transfer_ope_log
+						  	<include refid="JobWhere" /> 
+							GROUP BY tsc_id,time,src_loc,dst_loc
+		          )
+			<include refid="JobWhere" /> 
+			GROUP BY tsc_id,time,dst_loc
+    </select>
+    <select id="selectDayJobData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+        SELECT 0,
+				   time,
+				   tsc_id,
+				   src_loc,
+				   dst_loc,
+				   MAX( max_time ) max_time,
+				   MIN( min_time ) min_time,
+				   ROUND( ( CASE SUM( ope_count )
+								WHEN 0 THEN 0
+								ELSE SUM( total_time )/SUM( ope_count )
+							END ), 0 ) avg_time,
+				   SUM( total_time ) total_time,
+				   SUM( ope_count ) ope_count,
+				   SUM( err_count ) err_count,
+				   ROUND( ( CASE SUM( err_count )
+								WHEN 0 THEN SUM( ope_count)/1
+								ELSE SUM( ope_count )/SUM( err_count )
+							END ), 0 ) mcbf
+			FROM  (
+		      				SELECT 0,
+								   ( substr(time,0,8) || '000000' ) time,
+								   TO_CHAR(tsc_id) tsc_id,
+								   src_loc,
+								   dst_loc,
+								   MAX(max_time) max_time,
+								   MIN(min_time) min_time,
+								   ROUND( ( CASE SUM( ope_count )
+												WHEN 0 THEN 0
+												ELSE SUM( total_time )/SUM( ope_count )
+											END ), 0 ) avg_time,
+								   SUM(total_time) total_time,
+								   SUM(ope_count) ope_count,
+								   SUM(err_count) err_count,
+								   ROUND( ( CASE SUM( err_count )
+												WHEN 0 THEN SUM( ope_count)/1
+												ELSE SUM( ope_count )/SUM( err_count )
+											END ), 0 ) mcbf
+							FROM   transfer_ope_log
+						  	<include refid="JobWhere" /> 
+							GROUP BY tsc_id,time,src_loc,dst_loc
+		          )
+			<include refid="JobWhere" /> 
+			GROUP BY tsc_id,time,src_loc,dst_loc
     </select>
   <!-- END 2020.04.09 DONG  ADD -->
 </mapper>

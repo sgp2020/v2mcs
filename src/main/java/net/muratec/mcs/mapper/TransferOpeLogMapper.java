@@ -2,6 +2,7 @@ package net.muratec.mcs.mapper;
 
 import java.util.List;
 
+import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
 import net.muratec.mcs.model.AtomicTransferLog;
@@ -104,8 +105,14 @@ public interface TransferOpeLogMapper {
      */
     int updateByPrimaryKey(TransferOpeLog record);
 	// STD 2020.04.09 DONG  ADD 
-    List<AtomicTransferLog> selectAtomicActivityHistList(ReqGetAtomicActivityHistEntity reqEntity);
-    List<AtomicTransferLog> selectAtomicActivityHistList();
+    List<TransferOpeLog> selectHourJobByTscIdData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectHourJobBySrcLocData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectHourJobByDstLocData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectHourJobData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectDayJobByTscIdData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectDayJobBySrcLocData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectDayJobByDstLocData(ReqGetJobStatisticsHistoryEntity reqEntity);
+    List<TransferOpeLog> selectDayJobData(ReqGetJobStatisticsHistoryEntity reqEntity);
     List<Tsc> selectTscNameList();
     List<StockerZoneRlt> selectZoneData(@Param("tscId") String tscId);
     List<Port> selectPortData(@Param("tscId") String tscId);

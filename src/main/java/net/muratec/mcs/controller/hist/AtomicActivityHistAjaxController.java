@@ -52,7 +52,7 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
@@ -132,7 +132,7 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
     public ResGetAtomicActivityHistListEntity getAtomicActivityHistList(HttpSession session,
-            @Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+            @Valid @RequestBody ReqGetAtomicActivityListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
@@ -199,7 +199,7 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqStrEntity,
+    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGetAtomicActivityListValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 

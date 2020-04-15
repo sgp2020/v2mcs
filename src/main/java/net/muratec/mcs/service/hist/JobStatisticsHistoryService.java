@@ -99,7 +99,7 @@ public class JobStatisticsHistoryService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311		Host情報										董 天津村研
+     * 20200414		StatisticsHistory(Job)情報								董 天津村研
      ******************************************************************************
      */
     //@formatter:on
@@ -114,8 +114,39 @@ public class JobStatisticsHistoryService extends BaseService {
         // -----------------------------------------
         // Hostデータ取得
         // -----------------------------------------
-//        
-        /*List<TransferOpeLog> transferOpeLog = transferOpeLogMapper.selectByExample(reqEntity);
+        
+        String tscId = reqEntity.tscId;
+        String source = reqEntity.source;
+        String destination = reqEntity.destination;
+        String unit = reqEntity.unit;
+        List<TransferOpeLog> transferOpeLog = new ArrayList<TransferOpeLog>();
+        
+        if(unit.equals("0")) {
+	        if(tscId!=null && tscId!="") {
+	        	if(source==null && "".equals(source)) {
+	        		transferOpeLog = transferOpeLogMapper.selectDayJobByTscIdData(reqEntity);
+	        	}
+	        }
+       }
+        else if(unit.equals("1")) {
+        	if(tscId!=null && tscId!="") {
+	        	if(source==null || "".equals(source)) {
+	        		transferOpeLog = transferOpeLogMapper.selectDayJobByTscIdData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination==null || "".equals(destination))) {
+	        		transferOpeLog = transferOpeLogMapper.selectDayJobBySrcLocData(reqEntity);
+	        	}
+	        	else if((source==null || "".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		transferOpeLog = transferOpeLogMapper.selectDayJobByDstLocData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		transferOpeLog = transferOpeLogMapper.selectDayJobData(reqEntity);
+	        	}
+	        }
+        }
         
         if (transferOpeLog == null ) {
         	return retRecList;
@@ -125,13 +156,22 @@ public class JobStatisticsHistoryService extends BaseService {
 	 	for (TransferOpeLog transferOpeLogRec : transferOpeLog) {
 	 		JobStatisticsHistoryListEntity retRec = new JobStatisticsHistoryListEntity();
 
-	 		retRec.rum = rowNum;
-	 		retRec.time = transferOpeLogRec.getTime();
-	 		
+	 		retRec.rum 			= rowNum;
+	 		retRec.time 		= transferOpeLogRec.getTime();
+	 		retRec.tscId 		= String.valueOf(transferOpeLogRec.getTscId());
+	 		retRec.sourceLoc 	= transferOpeLogRec.getSrcLoc();
+	 		retRec.destLoc		= transferOpeLogRec.getDstLoc();
+	 		retRec.maxTime		= String.valueOf(transferOpeLogRec.getMaxTime());
+	 		retRec.minTime		= String.valueOf(transferOpeLogRec.getMinTime());
+	 		retRec.avgTime		= String.valueOf(transferOpeLogRec.getAvgTime());
+	 		retRec.totalTime	= String.valueOf(transferOpeLogRec.getTotalTime());
+	 		retRec.opeCount		= transferOpeLogRec.getOpeCount();
+	 		retRec.errCount		= transferOpeLogRec.getErrCount();
+	 		retRec.mcbf  		= transferOpeLogRec.getMcbf();
 	 		rowNum++;
 	 		
         	retRecList.add(retRec);
-	 	} */
+	 	} 
 
 		return retRecList;
     }

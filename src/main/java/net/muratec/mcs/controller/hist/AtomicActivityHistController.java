@@ -53,7 +53,7 @@ import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseController;
 import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetAtomicActivityListValidateEntity;
 import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
