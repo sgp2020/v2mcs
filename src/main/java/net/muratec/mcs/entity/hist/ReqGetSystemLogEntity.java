@@ -31,7 +31,7 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief    AtomicActivityHist関連のエンティティクラス
+ * @brief    SystemLog関連のエンティティクラス
  * @par
  * @attention
  * @note
@@ -44,14 +44,14 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 //@formatter:on
 @Getter
 @Setter
-public class ReqGetSystemLogHistEntity extends AjaxDataTablesReqBaseEntity {
+public class ReqGetSystemLogEntity extends AjaxDataTablesReqBaseEntity {
 
-    @FieldNameKey(key = "IH-002-03-001") public String tscId ;
-    @FieldNameKey(key = "IH-002-03-002") public String source;
-    @FieldNameKey(key = "IH-002-03-003") public String destination;
-    @FieldNameKey(key = "IH-002-03-004") public String carrierId;
-    @FieldNameKey(key = "IH-002-03-005") public String commandId;
-    @FieldNameKey(key = "IH-002-03-006, IH-002-03-011") public Timestamp dateFrom;
-    @FieldNameKey(key = "IH-002-03-006, IH-002-03-012") public Timestamp dateTo;
-    @FieldNameKey(key = "IH-002-03-007") public String maxRecords;
+    @FieldNameKey(key = "IH-007-03-002") public String debug ;
+    @FieldNameKey(key = "IH-007-03-003") public String information;
+    @FieldNameKey(key = "IH-007-03-004") public String warning;
+    @FieldNameKey(key = "IH-007-03-005") public String error;
+    @FieldNameKey(key = "IH-007-03-006") public String performance;
+    @FieldNameKey(key = "IH-007-03-007, IH-007-03-012") public Timestamp dateFrom;
+    @FieldNameKey(key = "IH-007-03-007, IH-007-03-013") public Timestamp dateTo;
+    @FieldNameKey(key = "IH-007-03-008") public String maxRecords;
 }
