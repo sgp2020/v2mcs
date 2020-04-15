@@ -733,7 +733,11 @@ public class ComConst {
         /**
                 * キャリア削除来歴
          */
-        HIST_CARRIERREMOVEHISTORY("H004", 30400000L, "H004_REF", ""),
+        //HIST_CARRIERREMOVEHISTORY("H004", 30400000L, "H004_REF", ""),
+        /**
+         * VehicleStatisticsHistory来歴
+         */
+        HIST_VEHICLESTATISTICSHISTORY("H004", 30400000L, "H004_REF", ""),  //20200415 SGP ADD
 
         /**
                 * キャリア監視来歴表示
@@ -1214,7 +1218,9 @@ public class ComConst {
                 //ScreenInfo.HIST_TRANSFERJOBHISTORY.getRefAuthFuncId(),
 //                ScreenInfo.HIST_ALARMHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  DEL
                 ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId(),// 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  ADD
-                ScreenInfo.HIST_CARRIERREMOVEHISTORY.getRefAuthFuncId(),
+                //ScreenInfo.HIST_CARRIERREMOVEHISTORY.getRefAuthFuncId(),
+                ScreenInfo.HIST_ACTIVITYHISTORY.getRefAuthFuncId(),
+                ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getRefAuthFuncId(),
                 ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getRefAuthFuncId(),
                 //ScreenInfo.HIST_STORAGETIMEHISTORY.getRefAuthFuncId(),
                 // STD 2020.04.10 DONG  ADD 
