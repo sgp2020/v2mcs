@@ -41,5 +41,5 @@ import net.muratec.mcs.entity.common.AjaxDataTablesResBaseEntity;
  */
 //@formatter:on
 public class ResGetSystemLogEntity extends AjaxDataTablesResBaseEntity {
-    public List<AtomicActivityHistListEntity> body = new ArrayList<AtomicActivityHistListEntity>();
+    public List<SystemLogEntity> body = new ArrayList<SystemLogEntity>();
 }

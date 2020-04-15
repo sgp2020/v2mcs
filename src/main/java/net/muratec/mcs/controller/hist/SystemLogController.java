@@ -52,18 +52,14 @@ import net.muratec.mcs.common.ComCsvOut;
 import net.muratec.mcs.common.ComFunction;
 
 import net.muratec.mcs.controller.common.BaseController;
-import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
-import net.muratec.mcs.entity.info.CarrierListEntity;
-import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
+import net.muratec.mcs.entity.hist.SystemLogEntity;
+import net.muratec.mcs.entity.hist.ReqGetSystemLogValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetSystemLogEntity;
 import net.muratec.mcs.exception.McsException;
-import net.muratec.mcs.model.AtomicTransferLog;
+import net.muratec.mcs.model.ErrorLog;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.hist.AtomicActivityHistService;
+import net.muratec.mcs.service.hist.SystemLogService;
 
 //@formatter:off
 /**
@@ -76,7 +72,7 @@ import net.muratec.mcs.service.hist.AtomicActivityHistService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- *  20200318  Ver2.0→Ver4.0 AtomicActivityHistory画面                                     董 天津村研
+ *  20200318  Ver2.0→Ver4.0 SystemLogory画面                                     董 天津村研
  ******************************************************************************
  */
 //@formatter:on
@@ -86,92 +82,45 @@ public class SystemLogController extends BaseController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private AtomicActivityHistService atomicActivityHistService;
+    @Autowired private SystemLogService systemLogService;
     
-    @Autowired private SelectBoxService selBoxService;
     // 自動更新機能
     @Autowired private AutoReloadTimerManagerService autoReload;
-/*    public static final Logger logger = LoggerFactory.getLogger(AMHSConfController.class);
 
-    public static Logger getLogger() {
-
-        return logger;
-    }*/
 
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     AtomicActivityHistory   （画面初期表示）機能
+     * @brief     SystemLogory   （画面初期表示）機能
      * @param     session        セッション情報（Frameworkより付加）
      * @param     locale         ロケーション情報（Frameworkより付加）
      * @param     model          モデル情報（Frameworkより付加）
-     * @return    遷移先URL(AtomicActivityHistory一覧)
+     * @return    遷移先URL(SystemLogory一覧)
      * @retval    jspファイルのパスを返却
      * @attention
-     * @note      AtomicActivityHistory画面を表示する
+     * @note      SystemLogory画面を表示する
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200318  Ver2.0→Ver4.0 AtomicActivityHistory画面                                     董 天津村研
+     * 20200318  Ver2.0→Ver4.0 SystemLogory画面                                     董 天津村研
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist", method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET,
+    @RequestMapping(value = "/SystemLog", method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.LOG_SYSTEMLOG, logOperationType = ComConst.LogOperationType.GET,
             number = 1L)
-    public String AtomicActivityHist(HttpSession session, Locale locale, Model model) throws McsException {
+    public String SystemLog(HttpSession session, Locale locale, Model model) throws McsException {
 
         // アクセス権情報等
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.LOG_SYSTEMLOG.getRefAuthFuncId());
 
-        // ---------------------------------------
-        // 空FOUP 一覧画面 コントローラIDセレクトボックス
-        // ---------------------------------------
         
-        String[] allTerms = new String[2];
-        allTerms[0] = ComConst.StringSelectboxAll.VALUE;
-        allTerms[1] = ComConst.StringSelectboxAll.TEXT;
-
-        // ----------------------------------------------
-        // セレクトボックスの初期値を追加
-        // ----------------------------------------------
-
-        // セレクトボックス要素取得
-        List<String[]> tscIdBoxList = atomicActivityHistService.getTscIdBox();
-        List<String[]> stkData = atomicActivityHistService.getStkData();
-        List<String[]> ohbData = atomicActivityHistService.getOhbData();
-        List<String[]> portData = atomicActivityHistService.getPortData();
-        
-        List<String[]> sourceBoxList = null;
-        if(stkData!=null) {
-        	sourceBoxList = stkData;
-        }
-        if(ohbData!=null) {
-        	sourceBoxList.addAll(ohbData);
-        }
-        if(portData!=null) {
-        	sourceBoxList.addAll(portData);
-        }
-       
-       //tscIdBoxはAllを初期化表示する
-        tscIdBoxList.add(0, allTerms);
-        sourceBoxList.add(0, allTerms);
-
-        // セレクトボックス要素をJSON化
-       String tscIdJson = super.objectToJson(tscIdBoxList);
-       String sourceJson = super.objectToJson(sourceBoxList);
-       String destinationJson = super.objectToJson(sourceBoxList);
-       
-       model.addAttribute("IH_002_01_001", tscIdJson);
-       model.addAttribute("IH_002_01_002", sourceJson);
-       model.addAttribute("IH_002_01_003", destinationJson);
-
         // -------------
         // バージョン情報付与
         // -------------
         ComFunction.setVersion(model);
 
-        return "hist/AtomicActivityHist";
+        return "hist/SystemLog";
     }
   //@formatter:off
     /**
@@ -191,21 +140,21 @@ public class SystemLogController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = { "/AtomicActivityHist/SaveCsvAtomicActivityHistList" }, method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
+    @RequestMapping(value = { "/SystemLog/SaveCsvSystemLog" }, method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.LOG_SYSTEMLOG, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
 
         // ----------------------------------------------
         // (1)アクセス権チェック(GET版)
         // ----------------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.LOG_SYSTEMLOG.getRefAuthFuncId());
 
         // ----------------------------------------------
         // (2)セッション取得
         // ----------------------------------------------
-        String sessionKey = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
-        ReqGetAtomicActivityHistEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetAtomicActivityHistEntity.class);
+        String sessionKey = ComConst.ScreenInfo.LOG_SYSTEMLOG.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        ReqGetSystemLogEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetSystemLogEntity.class);
         if (reqEntity == null) {
             // sessionに存在しない例外
             String[] args = { sessionKey };
@@ -225,7 +174,7 @@ public class SystemLogController extends BaseController {
         // ----------------------------------------------
         reqEntity.fromRecordNum = null;
         reqEntity.toRecordNum = null;
-        List<AtomicActivityHistListEntity> atomicTransferLog = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
+        List<SystemLogEntity> systemLog = systemLogService.getSystemLog(reqEntity);
         // ----------------------------------------------
         // CSV形成
         // ----------------------------------------------
@@ -237,8 +186,8 @@ public class SystemLogController extends BaseController {
         // #########################################
         // CSV出力
         // #########################################
-        ComCsvOut<AtomicActivityHistListEntity> csvOut = new ComCsvOut<AtomicActivityHistListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "AtomicActivityHist.csv", csvHeader, listCsvItem, atomicTransferLog);
+        ComCsvOut<SystemLogEntity> csvOut = new ComCsvOut<SystemLogEntity>();
+        csvOut.csvOut(res, messageSource, locale, "SystemLog.csv", csvHeader, listCsvItem, systemLog);
     }
     //@formatter:off
     /**
@@ -264,30 +213,10 @@ public class SystemLogController extends BaseController {
         // ######################
         // CSV項目を生成し、ListにADD
         // ######################
-        listCsvItem.add(createCsvItem("IH-002-01-004", "rum", false));
-        listCsvItem.add(createCsvItem("IH-002-01-005", "time", false));
-        listCsvItem.add(createCsvItem("IH-002-01-006", "carrierId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-007", "tscAbbreviation", false));
-        listCsvItem.add(createCsvItem("IH-002-01-008", "source", false));
-        listCsvItem.add(createCsvItem("IH-002-01-009", "destination", false));
-        listCsvItem.add(createCsvItem("IH-002-01-010", "statusStr", false));
-        listCsvItem.add(createCsvItem("IH-002-01-011", "priority", false));
-        listCsvItem.add(createCsvItem("IH-002-01-012", "routeNo", false));
-        listCsvItem.add(createCsvItem("IH-002-01-013", "queuedTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-014", "leadTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-015", "totalTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-016", "vehicleId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-017", "commandId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-018", "atomicRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-019", "atomicAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-020", "atomicInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-021", "atomicAcquiredTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-022", "atomicCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-023", "abortRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-024", "abortAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-025", "abortInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-026", "abortCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-027", "abortReason", false));
+        listCsvItem.add(createCsvItem("IH-007-01-005", "rn", false));
+        listCsvItem.add(createCsvItem("IH-007-01-003", "time", false));
+        listCsvItem.add(createCsvItem("IH-007-01-004", "description", false));
+
         
         return listCsvItem;
     } 
@@ -332,13 +261,13 @@ public class SystemLogController extends BaseController {
      ******************************************************************************
      */
     //@formatter:on
-    private String createCsvHeaderRecords(ReqGetAtomicActivityHistEntity reqEntity, Locale locale) {
+    private String createCsvHeaderRecords(ReqGetSystemLogEntity reqEntity, Locale locale) {
 
         StringBuilder sbHeader = new StringBuilder();
         // ######################
         // 1行目：タイトル
         // ######################
-        String csvTitle = messageSource.getMessage("IH-002-01-001", null, locale);
+        String csvTitle = messageSource.getMessage("IH-007-01-001", null, locale);
         sbHeader.append(ComConst.CSV_TITLE + ComConst.CSV_SEPARATOR + csvTitle + ComConst.BR);
 
         // ######################
@@ -354,68 +283,68 @@ public class SystemLogController extends BaseController {
         sbHeader.append(ComConst.CSV_SEARCH_COND + ComConst.CSV_SEPARATOR);
         
         // ######################
-        // TSCID
+        // Debug
         // ######################
-        if (reqEntity.tscId != null && reqEntity.tscId.length() != 0) {
+        if (reqEntity.debug != null && reqEntity.debug.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-001", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-007-03-002", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.tscId.toString()); // 比較値
+            sbHeader.append(reqEntity.debug.toString()); // 比較値
         }
         
         // ######################
-        // Source
+        // information
         // ######################
-        if (reqEntity.source != null && reqEntity.source.length() != 0) {
+        if (reqEntity.information != null && reqEntity.information.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-002", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-007-03-003", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.source.toString()); // 比較値
+            sbHeader.append(reqEntity.information.toString()); // 比較値
         }
         
         // ######################
-        // Destination
+        // Warning
         // ######################
-        if (reqEntity.destination != null && reqEntity.destination.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
-            }
-            searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-003", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.destination.toString()); // 比較値
-        }
-
-        // ######################
-        // キャリアID
-        // ######################
-        if (reqEntity.carrierId != null && reqEntity.carrierId.length() != 0) {
+        if (reqEntity.warning != null && reqEntity.warning.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
             sbHeader.append(messageSource.getMessage("IH-002-03-004", null, locale)); // 項目名
-            sbHeader.append(" LIKE "); // 比較演算子
-            sbHeader.append(reqEntity.carrierId); // 比較値
+            sbHeader.append(" = "); // 比較演算子
+            sbHeader.append(reqEntity.warning.toString()); // 比較値
         }
 
         // ######################
-        // Command ID
+        // Error
         // ######################
-        if (reqEntity.commandId != null && reqEntity.commandId.length() != 0) {
+        if (reqEntity.error != null && reqEntity.error.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
             sbHeader.append(messageSource.getMessage("IH-002-03-005", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.commandId.toString()); // 比較値
+            sbHeader.append(reqEntity.error.toString()); // 比較値
+        }
+
+        // ######################
+        // Performance
+        // ######################
+        if (reqEntity.performance != null && reqEntity.performance.length() != 0) {
+            if (searchCondFlag) {
+                sbHeader.append(" AND ");
+            }
+            searchCondFlag = true;
+            sbHeader.append(messageSource.getMessage("IH-002-03-006", null, locale)); // 項目名
+            sbHeader.append(" = "); // 比較演算子
+            sbHeader.append(reqEntity.performance.toString()); // 比較値
         }
 
         // ######################
@@ -428,7 +357,7 @@ public class SystemLogController extends BaseController {
             searchCondFlag = true;
             sbHeader.append(ComFunction.dateToString(reqEntity.dateFrom)); // 比較値
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(messageSource.getMessage("IH-002-03-011", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-002-03-012", null, locale)); // 項目名
         }
 
         // ######################
@@ -438,7 +367,7 @@ public class SystemLogController extends BaseController {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
-            sbHeader.append(messageSource.getMessage("IH-002-03-012", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-002-03-013", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(ComFunction.dateToString(reqEntity.dateTo)); // 比較値
         }
@@ -451,7 +380,7 @@ public class SystemLogController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-007", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-002-03-008", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(reqEntity.maxRecords.toString()); // 比較値
         }
@@ -463,39 +392,5 @@ public class SystemLogController extends BaseController {
 
         return sbHeader.toString();
     }
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     凡例画面を表示する機能
-     * @param     session        セッション情報（Frameworkより付加）
-     * @param     locale         ロケーション情報（Frameworkより付加）
-     * @param     model          モデル情報（Frameworkより付加）
-     * @return    遷移先パス
-     * @retval
-     * @attention
-     * @note
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     ******************************************************************************
-     */
-    //@formatter:on
-    @RequestMapping(value = "/MacroData", method = RequestMethod.POST)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET, number = 1L)
-    public String macroData(HttpSession session, Locale locale, Model model) throws McsException {
-        // ----------------------------------------------
-        // アクセス権情報等
-        // ----------------------------------------------
-        super.setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
-        
-        // ----------------------------------------------
-        // 自動更新機能の有効化
-        // ----------------------------------------------
-        autoReload.setInterval(model);
-
-        // バージョン情報付与
-        ComFunction.setVersion(model);
-
-        return "hist/MacroData";
-    }
+    
 }

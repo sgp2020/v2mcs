@@ -363,4 +363,56 @@
       and REQUESTER = #{requester,jdbcType=VARCHAR}
       and WRITE_TIME = #{writeTime,jdbcType=VARCHAR}
   </update>
+
+  <!-- 以下独自SQL -->
+  <select id="getCount" parameterType="net.muratec.mcs.entity.hist.ReqGetSystemLogEntity" resultType="java.lang.Integer"> 
+	   SELECT  
+		    count(*)
+	   FROM(
+		  	SELECT 0,
+					 time, 
+					 description 
+					FROM   error_log  
+			<include refid="ErrorLogWhere" />
+		    ORDER BY time DESC
+	 	   )
+  </select>
+  <!-- レコード取得範囲決定部 -->
+  <sql id="selectRecordWhere">
+    <where>
+      <if test="fromRecordNum != null and toRecordNum != null">
+       rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+  <sql id="ErrorLogWhere">
+    <where>
+      <if test="dateFrom != null">
+        and time &gt;= to_char(#{dateFrom},'yyyymmddhh24missff')
+      </if>
+      <if test="dateTo != null">
+        and time &lt; to_char(#{dateTo},'yyyymmddhh24missff')
+      </if>
+      <if test="maxRecords != null and maxRecords !='' ">
+        and rownum &lt;= #{maxRecords}
+      </if>
+    </where>
+  </sql>
+
+  <select id="selectSystemLog" parameterType="net.muratec.mcs.entity.hist.ReqGetSystemLogEntity" resultMap="BaseResultMap">
+  		SELECT 	
+		  	rn,
+			time, 
+			description 
+		FROM(
+			   SELECT 
+			  		   row_number() over(ORDER BY time DESC) rn,
+					   time,
+					   description 
+			   FROM   error_log
+		       <include refid="ErrorLogWhere" />
+	          	ORDER BY time DESC
+			)
+			<include refid="selectRecordWhere" />
+    </select>
 </mapper>

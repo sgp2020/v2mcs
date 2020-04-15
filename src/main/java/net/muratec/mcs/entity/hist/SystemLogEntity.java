@@ -32,43 +32,13 @@ package net.muratec.mcs.entity.hist;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.25 			AtomicActivityHistListEntity				       DONG
+ * 2020.03.25 			SystemLogEntity				       ZHANGDONG
  ******************************************************************************
  */
 //@formatter:on
 public class SystemLogEntity {
 
-	public int rum;
+	public int rn;
 	public String time;
-	public String carrierId;
-	public String tscAbbreviation;
-	public String source;
-	public String destination;
-	public String statusStr;
-	public int priority;
-	public int routeNo;
-	public String queuedTime;
-	public String leadTime;
-	public String totalTime;
-	public String vehicleId;
-	public String commandId;
-	public String atomicRequestTime;
-	public String atomicAnswerTime;
-	public String atomicInitiateTime;
-	public String atomicAcquiredTime;
-	public String atomicCompleteTime;
-	public String abortRequestTime;
-	public String abortAnswerTime;
-	public String abortInitiateTime;
-	public String abortCompleteTime;
-	public String abortReason;
-	
-	public String atomicTime;
-	public String tscId;
-	public String srcLoc;
-	public String dstLoc;
-	public String originator;
-	public String loadedTime;
-	
-
+	public String description;
 }

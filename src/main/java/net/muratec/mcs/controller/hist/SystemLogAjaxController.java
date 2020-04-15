@@ -1,10 +1,10 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        StockerInformationAjaxController.java
- * @brief       StockerInformation画面関連のajaxコントローラ
+ * @file        SystemLogAjaxController.java
+ * @brief       SystemLog画面関連のajaxコントローラ
  * @par
- * @author      CSC
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
@@ -15,7 +15,7 @@
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
  * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020.03.11 			SystemLogAjaxController			          ZHANGDONG
  ******************************************************************************
  */
 //@formatter:on
@@ -52,14 +52,9 @@ import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseAjaxController;
 import net.muratec.mcs.entity.common.AjaxResBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.hist.ReqGeAtomicActivityListValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
-import net.muratec.mcs.entity.hist.ResGetAtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.ResGetMacroDataListEntity;
-import net.muratec.mcs.entity.info.ReqGetCarrierListEntity;
-import net.muratec.mcs.entity.info.ReqGetCarrierListValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetSystemLogValidateEntity;
+import net.muratec.mcs.entity.hist.ReqGetSystemLogEntity;
+import net.muratec.mcs.entity.hist.ResGetSystemLogEntity;
 import net.muratec.mcs.entity.top.ReqIndividualMonitorEntity;
 import net.muratec.mcs.entity.top.ReqIndividualMonitorValidateEntity;
 import net.muratec.mcs.entity.top.ResScMonitorPortListEntity;
@@ -67,8 +62,7 @@ import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
 import net.muratec.mcs.service.common.McsDataTablesService;
-import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.hist.AtomicActivityHistService;
+import net.muratec.mcs.service.hist.SystemLogService;
 
 //@formatter:off
 /**
@@ -99,13 +93,11 @@ public class SystemLogAjaxController extends BaseAjaxController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private AtomicActivityHistService atomicActivityHistService;
+    @Autowired private SystemLogService systemLogService;
 
     /** グリッド用サービス */
     @Autowired private McsDataTablesService mcsDataTablesService;
 
-    /** セレクトボックス用サービス */
-    @Autowired private SelectBoxService selBoxService;
 
     //@formatter:off
     /**
@@ -126,24 +118,24 @@ public class SystemLogAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist/GetAtomicActivityHistList", method = RequestMethod.POST)
+    @RequestMapping(value = "/SystemLog/GetSystemLog", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.LOG_SYSTEMLOG, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetAtomicActivityHistListEntity getAtomicActivityHistList(HttpSession session,
-            @Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
+    public ResGetSystemLogEntity getSystemLog(HttpSession session,
+            @Valid @RequestBody ReqGetSystemLogValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.LOG_SYSTEMLOG.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
-        ReqGetAtomicActivityHistEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetAtomicActivityHistEntity.class);
+        ReqGetSystemLogEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetSystemLogEntity.class);
 
         // レスポンスエンティティ生成
         // 返すJSON全体のオブジェクトをnew
-        ResGetAtomicActivityHistListEntity resEntity = mcsDataTablesService.createResEntity(ResGetAtomicActivityHistListEntity.class,
+        ResGetSystemLogEntity resEntity = mcsDataTablesService.createResEntity(ResGetSystemLogEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
         // 検索処理実装判定
@@ -153,24 +145,12 @@ public class SystemLogAjaxController extends BaseAjaxController {
                     ReqGetStockerInfoListValidateEntity.class);*/
 
             // データ取得、設定
-            resEntity.body = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
+            resEntity.body = systemLogService.getSystemLog(reqEntity);
             
             // 全体レコード数取得、設定
-            resEntity.pageInfo.totalRecords = atomicActivityHistService.getAtomicActivityHistCount(reqEntity);
+            resEntity.pageInfo.totalRecords = systemLogService.getSystemLogCount(reqEntity);
             
-            /*//異常Rowを色へ変更する
-            List<String> color = new ArrayList<String>();
-            int rowSize = resEntity.body.size();
-            for(int i = 0;i<rowSize; i++) {
-            	String commState = resEntity.body.get(i).commState; 
-            	if(commState!=null && !State.HOST_STATE_COMMUNICATING.equals(commState) ) 
-        		{
-            		// Selected/Communicating以外は異常とする.
-            		color.add("#FF0000");
-        		}
-            	resEntity.rowColorList = color;
-            }*/
-
+           
         }
         return resEntity;
     }
@@ -178,7 +158,7 @@ public class SystemLogAjaxController extends BaseAjaxController {
   //@formatter:off
     /**
      ******************************************************************************
-     * @brief     SetCsvAtomicActivityHistList（CSV保存）機能
+     * @brief     SetCsvSystemLog（CSV保存）機能
      * @param     reqValidate    画面より入力された情報
      * @param     session        セッション情報（Frameworkより付加）
      * @param     errors         エラー情報（Frameworkより付加）
@@ -195,20 +175,20 @@ public class SystemLogAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/AtomicActivityHist/SetCsvAtomicActivityHistList", method = RequestMethod.POST)
+    @RequestMapping(value = "/SystemLog/SetCsvSystemLog", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
-    public AjaxResBaseEntity SetCsvAtomicActivityHistList(@Valid @RequestBody ReqGeAtomicActivityListValidateEntity reqStrEntity,
+    @OpLog(screenInfo = ComConst.ScreenInfo.LOG_SYSTEMLOG, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    public AjaxResBaseEntity SetCsvSystemLog(@Valid @RequestBody ReqGetSystemLogValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // アクセス権チェック
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.LOG_SYSTEMLOG.getRefAuthFuncId());
 
         // Entityの型変換
         ComBeanConv bc = new ComBeanConv();
-        ReqGetAtomicActivityHistEntity reqEntity = bc.convert(reqStrEntity, ReqGetAtomicActivityHistEntity.class);
+        ReqGetSystemLogEntity reqEntity = bc.convert(reqStrEntity, ReqGetSystemLogEntity.class);
 
         // 日付の大小関係を確認（修正）
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
@@ -224,7 +204,7 @@ public class SystemLogAjaxController extends BaseAjaxController {
         // 戻り値宣言
         AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 
-        String sessionKey = ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        String sessionKey = ComConst.ScreenInfo.LOG_SYSTEMLOG.getFunctionId() + ComConst.SessionKey.CSV_INFO;
 
         super.setSessionAttribute(session, sessionKey, reqEntity);
         // 実行結果設定
@@ -233,77 +213,5 @@ public class SystemLogAjaxController extends BaseAjaxController {
 
         return resEntity;
     }
-    //@formatter:off
-    /**
-     ******************************************************************************
-     * @brief     macroData情報
-     * @param     session        セッション情報（Frameworkより付加）
-     * @param     reqEntity      検索条件
-     * @param     errors         エラー情報（Frameworkより付加）
-     * @param     locale         ロケーション情報（Frameworkより付加）
-     * @param     model          モデル情報（Frameworkより付加）
-     * @return    検索結果
-     * @retval    JSON形式で返却
-     * @attention
-     * @note      macroData画面に表示する各データを取得する
-     * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
-     * ----------------------------------------------------------------------------
-     ******************************************************************************
-     */
-    //@formatter:on
-    /*@RequestMapping(value = "/AtomicActivityHist/GetMacroData", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public ResGetMacroDataListEntity getMacroData(HttpSession session,
-            @Valid @RequestBody ReqGetMacroDataValidateEntity reqValidate, Errors errors, Locale locale,
-            Model model) throws AjaxAurgumentException, McsException {
-
-        // ------------------------------------
-        // アクセス権チェック
-        // ------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_ATOMICACTIVITYHISTORY.getRefAuthFuncId());
-
-        // ------------------------------------
-        // エラーチェック（エラー時はAjaxAurgumentExceptionをthrow）
-        // ------------------------------------
-        ReqGetMacroDataEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetMacroDataEntity.class);
-
-        // ------------------------------------
-        // レスポンスエンティティ生成
-        // 返すJSON全体のオブジェクトをnew
-        // ------------------------------------
-        ResGetMacroDataListEntity resEntity = new ResGetMacroDataListEntity();
-
-        // ------------------------------------
-        // SCモニタ ポート情報の取得
-        // ------------------------------------
-        resEntity.body = atomicActivityHistService.getMacroDataList(reqEntity);
-
-        // ------------------------------------
-        // 色情報取得、設定
-        // ------------------------------------
-//        resEntity.rowColorList = scMonitorService.getPortColorInfoList(resEntity.body);
-
-        resEntity.result.status = ComConst.AjaxStatus.SUCCESS;
-        resEntity.result.message = "";
-
-        // コントローラ変更時のみ操作ログを出力
-        
-        if (reqEntity.ctrlChgFlag) {
-            // ------------------------------------
-            // // 操作ログの情報設定（アノテーション記載情報を転記）
-            // ------------------------------------
-            OpeLogInfoEntity opeLogInfo = ComFunction.createOpeLogInfo(session, ComConst.ScreenInfo.TOP_SYSTEMMONITOR,
-                    ComConst.LogOperationType.GET, 2L);
-
-            // 正常時に操作ログ出力
-            opeLogService.getOpeLog(opeLogInfo.logCode, ComFunction.toStringMcs(reqEntity), opeLogInfo.userName,
-                    opeLogInfo.ipAddress);
-        }
-        
-        return resEntity;
-    }*/
-
+    
 }

@@ -1,9 +1,15 @@
 package net.muratec.mcs.mapper;
 
 import java.util.List;
+
+import net.muratec.mcs.entity.hist.ReqGetSystemLogEntity;
 import net.muratec.mcs.model.ErrorLog;
 import net.muratec.mcs.model.ErrorLogExample;
 import net.muratec.mcs.model.ErrorLogKey;
+import net.muratec.mcs.model.Ohb;
+import net.muratec.mcs.model.Port;
+import net.muratec.mcs.model.Tsc;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ErrorLogMapper {
@@ -94,4 +100,7 @@ public interface ErrorLogMapper {
      * @mbggenerated Wed Apr 15 15:04:18 CST 2020
      */
     int updateByPrimaryKey(ErrorLog record);
+    
+    List<ErrorLog> selectSystemLog(ReqGetSystemLogEntity reqEntity);
+    int getCount(ReqGetSystemLogEntity record);
 }
