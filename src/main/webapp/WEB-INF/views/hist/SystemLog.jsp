@@ -43,23 +43,23 @@
   var screenText = {
       btnText: {
     	  search: 	'<spring:message code="IH-007-02-001"/>',
-      	downLoad:   '<spring:message code="IH-007-02-003"/>',
-          cancel: 	'<spring:message code="IH-007-02-004"/>'
+      	downLoad:   '<spring:message code="IH-007-02-002"/>',
+          cancel: 	'<spring:message code="IH-007-02-003"/>'
     },
     slideSearch: {
-    	tscId:	   	'<spring:message code="IH-007-03-001" />',
-    	source: 	'<spring:message code="IH-007-03-002" />',
-    	destination:'<spring:message code="IH-007-03-003" />',
-    	carrierId:  '<spring:message code="IH-007-03-004" />',
-    	commandId: 	'<spring:message code="IH-007-03-005" />',
-    	dateTime: 	'<spring:message code="IH-007-03-006" />',
-    	dateFrom: 	'<spring:message code="IH-007-03-011" />',
-    	dateTo: 	'<spring:message code="IH-007-03-012" />',
-    	maxRecords: '<spring:message code="IH-007-03-007" />',
-        extract:    '<spring:message code="IH-007-03-008" />',
-        clear:      '<spring:message code="IH-007-03-009" />',
-        ret: 	    '<spring:message code="IH-007-03-010" />'
-        
+    	level:	   	'<spring:message code="IH-007-03-001" />',
+    	debug: 		'<spring:message code="IH-007-03-002" />',
+    	information:'<spring:message code="IH-007-03-003" />',
+    	warning:  	'<spring:message code="IH-007-03-004" />',
+    	error: 		'<spring:message code="IH-007-03-005" />',
+    	performance:'<spring:message code="IH-007-03-006" />',
+    	dateTime: 	'<spring:message code="IH-007-03-007" />',
+    	dateFrom: 	'<spring:message code="IH-007-03-012" />',
+    	dateTo: 	'<spring:message code="IH-007-03-013" />',
+    	maxRecords: '<spring:message code="IH-007-03-008" />',
+        extract:    '<spring:message code="IH-007-03-009" />',
+        clear:      '<spring:message code="IH-007-03-010" />',
+        ret: 	    '<spring:message code="IH-007-03-011" />'
     },
     downLoadText: {
         saveStart: '<spring:message code="IH-007-04-002"/>',
@@ -76,9 +76,7 @@
   };
 
   var screenValue = {
-	  tscIds: JSON.parse('${IH_002_01_001}'),
-	  sources: JSON.parse('${IH_002_01_002}'),
-	  destinations: JSON.parse('${IH_002_01_003}')
+
   };
 </script>
 <%-- デザイン適用ヘッダ --%>
@@ -100,7 +98,7 @@
     <div id="mcs-subheader-menu">
         <table>
             <tr>
-                <td style="color:#6495ED;"><spring:message code="IH-007-01-003" /> &nbsp &nbsp</td>
+                <td style="color:#6495ED;"><spring:message code="IH-007-01-006" /> &nbsp &nbsp</td>
                 <td style="color:#6495ED;"><div id="searchInfo"></div></td>
             </tr>
         </table>
@@ -109,9 +107,8 @@
      <!--  右メニュースライド -->
     <nav id="mcs-right-menu">
         <!-- 一覧 -->
-        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-macroData" class="btn-mcs-slide" data-auth="${H002_REF}"></div>
-        <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H002_REF}"></div>
+        <div id="list-btn-search" class="btn-mcs-slide" data-auth="${H007_REF}"></div>
+        <div id="list-btn-downLoad"  class="btn-mcs-slide" data-auth="${H007_REF}"></div>
         <div id="list-btn-ret"    class="btn-mcs-slide btn-mcs-slide-return"></div>
     </nav>
 
@@ -128,25 +125,17 @@
     <!-- スライドメニュー 検索用 -->
     <div id="mcs-slideMenu-search">
         <spring:message code="IH-007-03-001" />
-        <div id="mcs-search-tscId"></div>
+        <div id="mcs-search-debug"></div>
+        <div id="mcs-search-information"></div>
+        <div id="mcs-search-warning"></div>
+        <div id="mcs-search-error"></div>
+        <div id="mcs-search-performance"></div>            
         
-        <spring:message code="IH-007-03-002" />
-        <div id="mcs-search-source"></div>
-        
-        <spring:message code="IH-007-03-003" />
-        <div id="mcs-search-destination"></div>
-        
-        <spring:message code="IH-007-03-004" />
-        <div id="mcs-search-carrierId"></div>
-        
-        <spring:message code="IH-007-03-005" />
-        <div id="mcs-search-commandId"></div>
-        
-        <spring:message code="IH-007-03-006" />
+        <spring:message code="IH-007-03-007" />
         <div id="mcs-search-dFrom"></div>
         <div id="mcs-search-dTo"></div>
         
-        <spring:message code="IH-007-03-007" />
+        <spring:message code="IH-007-03-008" />
         <div id="mcs-search-maxRecords"></div>
         
         <!-- ボタン類 -->
@@ -155,15 +144,7 @@
         <div id="mcs-search-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
     
-	<!-- スライドメニュー(MACRODATA) start-->
-	<!-- <div id="macroData-screen">
-         <div class="mcs-content-subtitle">
-             <span><spring:message code="IH-007-05-022" /></span>
-         </div>
-    	<div id="macroData-table-target"></div>
-    </div> -->
-    <!-- スライドメニュー(MACRODATA) end -->
-    
+	    
 	<!-- スライドメニュー(CSV保存) start-->
     <div id="mcs-saveMenu">
         <div id="mcs-saveStartDatetime"></div>

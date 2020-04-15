@@ -2,10 +2,10 @@
 
 /*
  ******************************************************************************
- * @file        mcs-AtomicActivityHist.css
- * @brief       HostCommInformation用CSS
+ * @file        mcs-SystemLog.css
+ * @brief       SystemLog用CSS
  * @par
- * @author      天津村研　董
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
@@ -15,7 +15,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津村研　董
+ * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    ZHANGDONG
  ******************************************************************************
  */
 /* ヘッダー部のセレクトボックス */
@@ -81,29 +81,8 @@ div#ColorDiv {
     padding-left: 15px;
     float:left;
 }
-.mcs-content-CommState {
-    position: relative;
-    padding-top: 15px;
-    padding-left: 0px;
-    padding-bottom: 15px;
-    width: 200px;
-    High: 15px;
-    float: left;
-}
-.mcs-content-CommError {
-    position: relative;
-    padding-top: 63px;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    width: 120px;
-    float: left;
-}
 /* 保存スライド */
 #mcs-saveMenu {
     width: 350px;
 }
-/* 状態画面テーブル部用 */
-div#macroData-table-target {
-    width: 100%;
-    padding-left: 15px;
-}
+
