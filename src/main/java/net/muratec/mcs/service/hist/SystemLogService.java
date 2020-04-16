@@ -20,7 +20,10 @@
 //@formatter:on
 package net.muratec.mcs.service.hist;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +116,16 @@ public class SystemLogService extends BaseService {
 	 		SystemLogEntity retRec = new SystemLogEntity();
 
 	 		retRec.rn = num;
-	 		retRec.time = errorLogRec.getTime();
+	 		
+	 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSS");
+	 		 
+	 		Date dateTime = null;
+			 try {
+				 dateTime = simpleDateFormat.parse(errorLogRec.getTime());
+			 } catch (ParseException e) {
+				 e.printStackTrace();
+			 }
+	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SS").format(dateTime);
 	 		retRec.description = errorLogRec.getDescription();
 	 		
 	 		num ++ ;

@@ -237,11 +237,30 @@ $(function() {
       var searchInfoDateFroms = "";
       var searchInfoDateTos = "";
       var searchInfoMaxRecords = "";
-      var searchInfoDebug = debug.getText();
-      var searchInfoInformation = information.getText();
-      var searchInfoWarning = warning.getText();
-      var searchInfoError = error.getText();
-      var searchInfoPerformance = performance.getText();
+	  var searchInfoDebug = "";
+      var searchInfoInformation = "";
+      var searchInfoWarning = "";
+      var searchInfoError = "";
+      var searchInfoPerformance = "";
+      if ( debug.getValue() == true){
+    	  searchInfoDebug = "Debug";
+      }
+   
+      if ( information.getValue() == true){
+    	  searchInfoInformation = "Information";
+      }
+      
+      if ( warning.getValue() == true){
+    	  searchInfoWarning = "Warning";
+      }
+      
+      if ( error.getValue() == true){
+    	  searchInfoError = "Error";
+      }
+
+      if ( performance.getValue() == true){
+    	  searchInfoPerformance = "Performance";
+      }
       var searchInfoDateFrom = dateFrom.getValue();
       var searchInfoDateTo = dateTo.getValue();
       var searchInfoMaxRecord = maxRecords.getValue();

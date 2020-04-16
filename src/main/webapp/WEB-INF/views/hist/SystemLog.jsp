@@ -125,10 +125,16 @@
     <!-- スライドメニュー 検索用 -->
     <div id="mcs-slideMenu-search">
         <spring:message code="IH-007-03-001" />
+        <div id="mcs-search"></div>
+        <spring:message code="IH-007-03-002" />
         <div id="mcs-search-debug"></div>
+        <spring:message code="IH-007-03-003" />
         <div id="mcs-search-information"></div>
+        <spring:message code="IH-007-03-004" />
         <div id="mcs-search-warning"></div>
+        <spring:message code="IH-007-03-005" />
         <div id="mcs-search-error"></div>
+        <spring:message code="IH-007-03-006" />
         <div id="mcs-search-performance"></div>            
         
         <spring:message code="IH-007-03-007" />

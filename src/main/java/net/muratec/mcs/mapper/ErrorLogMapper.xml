@@ -387,6 +387,24 @@
   </sql>
   <sql id="ErrorLogWhere">
     <where>
+      <if test="!(debug == true and information == true and warning == true and error == true and performance == true)">
+      		  <if test="debug == true">
+		        or error_level = 2 
+		      </if>
+		      <if test="information == true">
+		        or error_level = 4 
+		      </if>
+		      <if test="warning == true">
+		        or error_level = 8 
+		      </if>
+		      <if test="error == true">
+		        or error_level = 16 
+		      </if>
+		      <if test="performance == true">
+		        or error_level = 32 
+		      </if>
+      </if>
+      
       <if test="dateFrom != null">
         and time &gt;= to_char(#{dateFrom},'yyyymmddhh24missff')
       </if>

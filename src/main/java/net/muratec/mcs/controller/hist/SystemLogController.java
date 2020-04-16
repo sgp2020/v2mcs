@@ -282,69 +282,64 @@ public class SystemLogController extends BaseController {
         boolean searchCondFlag = false;
         sbHeader.append(ComConst.CSV_SEARCH_COND + ComConst.CSV_SEPARATOR);
         
+        if (reqEntity.debug == true || reqEntity.information == true || reqEntity.warning == true || reqEntity.error == true || reqEntity.performance == true)
+		{
+            sbHeader.append(" Error Level: ");
+            searchCondFlag = true;
+		}
         // ######################
         // Debug
         // ######################
-        if (reqEntity.debug != null && reqEntity.debug.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
+        if (reqEntity.debug != null && reqEntity.debug == true) {
+            sbHeader.append(messageSource.getMessage("IH-007-03-002", null, locale)); // 項目名
+        	if (searchCondFlag) {
+                sbHeader.append(" ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-007-03-002", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.debug.toString()); // 比較値
         }
         
         // ######################
         // information
         // ######################
-        if (reqEntity.information != null && reqEntity.information.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
+        if (reqEntity.information != null && reqEntity.information == true) {
+            sbHeader.append(messageSource.getMessage("IH-007-03-003", null, locale)); // 項目名
+        	if (searchCondFlag) {
+                sbHeader.append(" ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-007-03-003", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.information.toString()); // 比較値
         }
         
         // ######################
         // Warning
         // ######################
-        if (reqEntity.warning != null && reqEntity.warning.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
+        if (reqEntity.warning != null && reqEntity.warning == true) {
+            sbHeader.append(messageSource.getMessage("IH-007-03-004", null, locale)); // 項目名
+        	if (searchCondFlag) {
+                sbHeader.append(" ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-004", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.warning.toString()); // 比較値
-        }
+       }
 
         // ######################
         // Error
         // ######################
-        if (reqEntity.error != null && reqEntity.error.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
+        if (reqEntity.error != null && reqEntity.error == true) {
+            sbHeader.append(messageSource.getMessage("IH-007-03-005", null, locale)); // 項目名
+        	if (searchCondFlag) {
+                sbHeader.append(" ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-005", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.error.toString()); // 比較値
         }
 
         // ######################
         // Performance
         // ######################
-        if (reqEntity.performance != null && reqEntity.performance.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
+        if (reqEntity.performance != null && reqEntity.performance == true) {
+            sbHeader.append(messageSource.getMessage("IH-007-03-006", null, locale)); // 項目名
+        	if (searchCondFlag) {
+                sbHeader.append(" ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-006", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.performance.toString()); // 比較値
         }
 
         // ######################
@@ -357,7 +352,7 @@ public class SystemLogController extends BaseController {
             searchCondFlag = true;
             sbHeader.append(ComFunction.dateToString(reqEntity.dateFrom)); // 比較値
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(messageSource.getMessage("IH-002-03-012", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-007-03-012", null, locale)); // 項目名
         }
 
         // ######################
@@ -367,7 +362,7 @@ public class SystemLogController extends BaseController {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
-            sbHeader.append(messageSource.getMessage("IH-002-03-013", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-007-03-013", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(ComFunction.dateToString(reqEntity.dateTo)); // 比較値
         }
@@ -380,7 +375,7 @@ public class SystemLogController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-008", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-007-03-008", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(reqEntity.maxRecords.toString()); // 比較値
         }
