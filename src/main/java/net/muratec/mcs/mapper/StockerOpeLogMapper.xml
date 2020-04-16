@@ -392,10 +392,10 @@
     <where>
    
 	  <if test="dateFrom != null ">
-        AND TIME  &gt;= to_char(#{dateFrom},'yyyymmddhh24missff') 
+        AND to_timestamp(time,'yyyymmddhh24missff')  &gt;= #{dateFrom} 
       </if>
       <if test="dateTo != null ">
-        AND TIME  &lt; to_char(#{dateTo},'yyyymmddhh24missff')
+        AND to_timestamp(time,'yyyymmddhh24missff')  &lt; #{dateTo}
       </if>
       <if test="tscId != null and tscId != ''">
         AND stocker_ope_log.tsc_id = #{tscId}
