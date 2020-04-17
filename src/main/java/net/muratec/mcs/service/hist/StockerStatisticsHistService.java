@@ -132,11 +132,11 @@ public class StockerStatisticsHistService extends BaseService {
         	timeUnit = UNIT_BY_HOUR;
         }
 
-
+        int num = 1;
 	 	for (StockerOpeLogModel stockerOpeLogRec : stockerOpeLogModel) {
 	 		StockerStatisticsHistEntity retRec = new StockerStatisticsHistEntity();
 
-	 		retRec.rn = stockerOpeLogRec.getRn();
+	 		retRec.rn = num;
 	 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	 		 
 	 		Date dateTime = null;
@@ -200,6 +200,7 @@ public class StockerStatisticsHistService extends BaseService {
 	 		retRec.opeRate = new BigDecimal(opeRate);	 		
 	 		
         	retRecList.add(retRec);
+        	num ++ ;
 	 	} 
 
 		return retRecList;
