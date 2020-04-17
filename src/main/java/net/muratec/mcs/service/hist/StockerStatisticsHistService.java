@@ -121,6 +121,8 @@ public class StockerStatisticsHistService extends BaseService {
         // Hostデータ取得
         // -----------------------------------------
         List<StockerOpeLogModel> stockerOpeLogModel;
+        
+        
         if ("1".equals(reqEntity.unit)) 
         {
         	stockerOpeLogModel = stockerOpeLogMapper.selectStockerStatisticsHistListByDay(reqEntity);
