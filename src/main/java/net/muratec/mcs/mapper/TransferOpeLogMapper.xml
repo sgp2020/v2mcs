@@ -363,7 +363,7 @@
 	  <result column="LLC_SID" jdbcType="DECIMAL" property="llcSid" />
 	  </resultMap>
     <select id="selectTscNameList" parameterType="net.muratec.mcs.model.Tsc" resultMap="SearchTscResultMap">
-       SELECT tsc_abbreviation,
+       SELECT tsc.tsc_abbreviation,
 			  tsc_id,
 			  tsc_type,
 			  exec_sid,
@@ -457,7 +457,6 @@
 			FROM(
 	     		SELECT 
 				   time,
-				   time,
 				   tsc_id,
 				   '',
 				   '',
@@ -478,6 +477,7 @@
 		      				SELECT 0,
 								   (substr(TIME,0,8) || '000000') TIME,
 								   TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   '',
 								   '',
 								   MAX(max_time) max_time,
@@ -519,7 +519,6 @@
 	     		SELECT 
 	     		   row_number() over(partition  by tsc_id,time  order by tsc_id,time  ) rn,
 				   time,
-				   time,
 				   tsc_id,
 				   '',
 				   '',
@@ -539,7 +538,8 @@
 			FROM  (
 		      				SELECT 0,
 								   (substr(TIME,0,8) || '000000') TIME,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   '',
 								   '',
 								   MAX(max_time) max_time,
@@ -589,7 +589,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								  <!--  (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   src_loc,
 								   '',
 								   MAX(max_time) max_time,
@@ -628,7 +629,7 @@
 				  mcbf
 			FROM(
 	     		SELECT 
-	     		   row_number() over(partition  by tsc_id,time,src_loc,dst_loc order by tsc_id,time,src_loc,dst_loc ) rn,
+	     		   row_number() over(partition  by tsc_id,time,src_loc order by tsc_id,time,src_loc ) rn,
 				   time,
 				   tsc_id,
 				   src_loc,
@@ -649,7 +650,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   src_loc,
 								   '',
 								   MAX(max_time) max_time,
@@ -710,7 +712,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   '',
 								   dst_loc,
 								   MAX(max_time) max_time,
@@ -759,7 +762,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   '',
 								   dst_loc,
 								   MAX(max_time) max_time,
@@ -807,7 +811,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   src_loc,
 								   dst_loc,
 								   MAX(max_time) max_time,
@@ -867,7 +872,8 @@
 			FROM  (
 		      				SELECT 0,
 								   ( substr(time,0,8) || '000000' ) time,
-								   TO_CHAR(tsc_id) tsc_id,
+								    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 								   src_loc,
 								   dst_loc,
 								   MAX(max_time) max_time,
@@ -917,7 +923,8 @@
 	   FROM(
 	   		SELECT 
 					   (substr(time,0,10) || '0000' ) time,
-					   TO_CHAR(tsc_id) tsc_id,
+					    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 					   '',
 					   '',
 					   MAX(max_time) max_time,
@@ -955,7 +962,8 @@
 	     				SELECT 
 	     				   row_number() over(partition  by tsc_id,time order by tsc_id,time ) rn,
 						   (substr(time,0,10) || '0000' ) time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+						   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   '',
 						   '',
 						   MAX(max_time) max_time,
@@ -982,7 +990,8 @@
 			FROM(
 	     				SELECT 
 						   ( substr(time,0,10) || '0000' ) time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+							<!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   src_loc,
 						   '',
 						   MAX(max_time) max_time,
@@ -1020,7 +1029,8 @@
 	     				SELECT 
 	     					   row_number() over(partition  by tsc_id,time,src_loc order by tsc_id,time,src_loc ) rn,
 						   ( substr(time,0,10) || '0000' ) time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+							<!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   src_loc,
 						   '',
 						   MAX(max_time) max_time,
@@ -1047,7 +1057,8 @@
 			FROM(
 	     				SELECT 
 						   (substr(time,0,10) || '0000') time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+							<!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   '',
 						   dst_loc,
 						   MAX(max_time) max_time,
@@ -1085,7 +1096,8 @@
 	     				SELECT 
 	     				   row_number() over(partition  by tsc_id,time,dst_loc order by tsc_id,time,dst_loc ) rn,
 						   (substr(time,0,10) || '0000') time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+								  <!--  (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   '',
 						   dst_loc,
 						   MAX(max_time) max_time,
@@ -1112,7 +1124,8 @@
 			FROM(
 	     				SELECT 
 						   ( time || '0000' ) time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+								   <!-- (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   src_loc,
 						   dst_loc,
 						   MAX(max_time) max_time,
@@ -1150,7 +1163,8 @@
 	     				SELECT 
 	     				   row_number() over(partition  by tsc_id,time,src_loc,dst_loc order by tsc_id,time,src_loc,dst_loc ) rn,
 						   ( time || '0000' ) time,
-						   TO_CHAR(tsc_id) tsc_id,
+						    TO_CHAR(tsc_id) tsc_id,
+						    <!--  (select tsc.tsc_abbreviation from tsc where tsc.tsc_id = transfer_ope_log.tsc_id) tsc_id, -->
 						   src_loc,
 						   dst_loc,
 						   MAX(max_time) max_time,
@@ -1171,6 +1185,15 @@
 					GROUP BY tsc_id,time,src_loc,dst_loc
 		    	 )
        		 <include refid="selectRecordWhere" />
+    </select>
+    <resultMap id="SearchTscNameMap" type="net.muratec.mcs.model.Tsc">
+	  <id column="TSC_ABBREVIATION" property="tscAbbreviation" jdbcType="VARCHAR" />
+	</resultMap>
+    <select id="setTscName" parameterType="java.lang.String" resultMap="SearchTscNameMap">
+        SELECT TSC_ABBREVIATION, TSC_ABBREVIATION 
+		FROM TSC 
+		<include refid="tscIdWhere" />
+		ORDER BY 1
     </select>
   <!-- END 2020.04.09 DONG  ADD -->
 </mapper>

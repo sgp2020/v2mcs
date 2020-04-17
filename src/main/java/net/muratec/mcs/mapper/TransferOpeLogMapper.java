@@ -111,6 +111,7 @@ public interface TransferOpeLogMapper {
     List<TransferOpeLog> selectDayJobData(ReqGetJobStatisticsHistoryEntity reqEntity);
     List<Tsc> selectTscNameList();
     List<StockerZoneRlt> selectZoneData(@Param("tscId") String tscId);
+    List<Tsc> setTscName(@Param("tscId") String tscId);
     List<Port> selectPortData(@Param("tscId") String tscId);
     int getCountDayJobByTscIdData(ReqGetJobStatisticsHistoryEntity record);
     int getCountDayJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record);

@@ -178,11 +178,12 @@ public class JobStatisticsHistoryService extends BaseService {
 	 		} catch (ParseException e) {
 	 			e.printStackTrace();
 	 		}
-	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
+	 		List<Tsc> getTscName = transferOpeLogMapper.setTscName(tscId);
 
 	 		retRec.rum 			= rowNum;
 	 		retRec.time 		= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
-	 		retRec.tscId 		= String.valueOf(transferOpeLogRec.getTscId());
+//	 		retRec.tscId 		= String.valueOf(transferOpeLogRec.getTscId());
+	 		retRec.tscId 		= getTscName.get(0).getTscAbbreviation();
 	 		retRec.sourceLoc 	= transferOpeLogRec.getSrcLoc();
 	 		retRec.destLoc		= transferOpeLogRec.getDstLoc();
 	 		if(transferOpeLogRec.getMaxTime()!=null) 
