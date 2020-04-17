@@ -22,6 +22,7 @@ package net.muratec.mcs.entity.info;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.muratec.mcs.annotation.FieldNameKey;
 import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 
 //@formatter:off
@@ -40,8 +41,9 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 @Getter
 @Setter
 public class ReqGetTestCarrierListValidateEntity extends AjaxDataTablesReqBaseEntity {
-	String status;
-	String carrierId;
-	String currentTscId;
+	
+	@FieldNameKey(key = "II-007-02-001") String status;
+	@FieldNameKey(key = "II-007-04-001") String carrierId;
+	@FieldNameKey(key = "II-007-04-002") String currentTscId;
 	String currentTscName;
 }

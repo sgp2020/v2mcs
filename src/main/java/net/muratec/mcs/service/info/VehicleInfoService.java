@@ -239,7 +239,7 @@ public class VehicleInfoService extends BaseService {
     	
         TscExample tscExample = new TscExample();
         List<String[]> selBoxList = new ArrayList<String[]>();
-        List<Tsc> tscList = tscMapper.selectOhbSemtTscID(tscExample);
+        List<Tsc> tscList = tscMapper.selectOhbSemTscID(tscExample);
 
         for (Tsc tsc : tscList) {
         	

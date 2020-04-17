@@ -258,7 +258,7 @@ public class StockerStatisticsHistService extends BaseService {
         
         return selBoxList;
     }
-  //@formatter:off
+    //@formatter:off
     /**
      ******************************************************************************
      * @brief     getDateTimeBox
@@ -325,7 +325,7 @@ public class StockerStatisticsHistService extends BaseService {
     
     //@formatter:off
     /**
-     * 返回日时分秒
+     	* 返回日时分秒
      * @param second
      * @return
      */

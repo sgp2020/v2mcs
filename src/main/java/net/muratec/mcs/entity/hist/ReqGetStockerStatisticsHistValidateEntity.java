@@ -22,6 +22,8 @@ package net.muratec.mcs.entity.hist;
 
 import java.sql.Timestamp;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.muratec.mcs.annotation.FieldNameKey;
@@ -50,8 +52,8 @@ public class ReqGetStockerStatisticsHistValidateEntity extends AjaxDataTablesReq
 
 	@FieldNameKey(key = "IH-003-03-001") public String tscId;
 	@FieldNameKey(key = "IH-003-03-002") public String unit;
-    @DateTime @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public String dateFrom;
-    @DateTime @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public String dateTo;
+    @DateTime @NotBlank @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public String dateFrom;
+    @DateTime @NotBlank @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public String dateTo;
     public String tscName ;
     public String unitName;
 }

@@ -22,6 +22,7 @@ package net.muratec.mcs.entity.info;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.muratec.mcs.annotation.FieldNameKey;
 import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 
 //@formatter:off
@@ -40,5 +41,6 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 @Getter
 @Setter
 public class ReqGetVehicleInfoListValidateEntity extends AjaxDataTablesReqBaseEntity {
-	String currentTscId;
+	
+	@FieldNameKey(key = "II-007-02-001") String currentTscId;
 }
