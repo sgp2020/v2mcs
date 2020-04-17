@@ -20,7 +20,10 @@
 //@formatter:on
 package net.muratec.mcs.service.hist;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +82,11 @@ public class AtomicActivityHistService extends BaseService {
     // STD APL 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
     @Autowired private AtomicTransferLogMapper atomicTransferLogMapper;
     // END APL 2020.03.26 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
-
+    /** 時間単位(時間) */
+    @Autowired private static final int UNIT_BY_HOUR = 3600;
+	
+	/** 時間単位(日) */
+    @Autowired private static final int UNIT_BY_DAY = 24*3600;
     //@formatter:off
     /**
      ******************************************************************************
@@ -118,7 +125,7 @@ public class AtomicActivityHistService extends BaseService {
         int rowNum = 1;
 	 	for (AtomicTransferLog atomicTransferLogRec : atomicTransferLog) {
 	 		AtomicActivityHistListEntity retRec = new AtomicActivityHistListEntity();
-
+	 		
 	 		retRec.rum = rowNum;
 	 		retRec.time = atomicTransferLogRec.getTime();
 	 		retRec.carrierId = atomicTransferLogRec.getCarrierId();
@@ -128,9 +135,27 @@ public class AtomicActivityHistService extends BaseService {
 	 		retRec.statusStr = atomicTransferLogRec.getStatusStr();
 	 		retRec.priority = atomicTransferLogRec.getPriority();
 	 		retRec.routeNo = atomicTransferLogRec.getRouteNo();
-	 		retRec.queuedTime = atomicTransferLogRec.getQueuedTime();
-	 		retRec.leadTime = atomicTransferLogRec.getLeadTime();
-	 		retRec.totalTime = atomicTransferLogRec.getTotalTime();
+	 		if(atomicTransferLogRec.getQueuedTime()!=null && atomicTransferLogRec.getQueuedTime()!="") 
+	 		{
+	 			retRec.queuedTime = secondToTime(Integer.valueOf(atomicTransferLogRec.getQueuedTime()));
+	 		}
+	 		else {
+	 			retRec.queuedTime = atomicTransferLogRec.getQueuedTime();
+	 		}
+	 		if(atomicTransferLogRec.getLeadTime()!=null && atomicTransferLogRec.getLeadTime()!="") 
+	 		{
+	 			retRec.leadTime = secondToTime(Integer.valueOf(atomicTransferLogRec.getLeadTime()));
+	 		}
+	 		else {
+	 			retRec.leadTime = atomicTransferLogRec.getLeadTime();
+	 		}
+	 		if(atomicTransferLogRec.getTotalTime()!=null && atomicTransferLogRec.getTotalTime()!="") 
+	 		{
+	 			retRec.totalTime = secondToTime(Integer.valueOf(atomicTransferLogRec.getTotalTime()));
+	 		}
+	 		else {
+	 			retRec.totalTime = atomicTransferLogRec.getTotalTime();
+	 		}
 	 		retRec.vehicleId = atomicTransferLogRec.getVehicleId();
 	 		retRec.commandId = atomicTransferLogRec.getCommandId();
 	 		retRec.atomicRequestTime = atomicTransferLogRec.getAtomicReqTime();
@@ -151,7 +176,28 @@ public class AtomicActivityHistService extends BaseService {
 
 		return retRecList;
     }
-    
+  //@formatter:off
+    /**
+     * 返回日时分秒
+     * @param second
+     * @return
+     */
+    //@formatter:on
+    private String secondToTime(long second) {
+
+    	String time ;
+    	if ( second > UNIT_BY_DAY)
+    	{
+    		second = UNIT_BY_DAY;
+    	}
+    	
+    	long hours = second / 3600;
+        second = second % 3600;
+        long minutes = second / 60;
+        second = second % 60;
+        
+        return String.format("%02d:%02d:%02d",hours,minutes,second);
+    }
     //@formatter:off
     /**
      ******************************************************************************

@@ -20,7 +20,10 @@
 //@formatter:on
 package net.muratec.mcs.service.hist;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +88,12 @@ public class JobStatisticsHistoryService extends BaseService {
     @Autowired ExeForeignFileService exeForeignFileService;
     
     @Autowired private TransferOpeLogMapper transferOpeLogMapper;
-//    @Autowired private AtomicTransferLogMapper atomicTransferLogMapper;
-
+    
+	/** 時間単位(時間) */
+    @Autowired private static final int UNIT_BY_HOUR = 3600;
+	
+	/** 時間単位(日) */
+    @Autowired private static final int UNIT_BY_DAY = 24*3600;
     //@formatter:off
     /**
      ******************************************************************************
@@ -159,20 +166,53 @@ public class JobStatisticsHistoryService extends BaseService {
         if (transferOpeLog == null ) {
         	return retRecList;
         }
-	 	
+        
         int rowNum = 1;
 	 	for (TransferOpeLog transferOpeLogRec : transferOpeLog) {
 	 		JobStatisticsHistoryListEntity retRec = new JobStatisticsHistoryListEntity();
+	 		
+	 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+	 		Date dateTime = null;
+	 		try {
+	 			dateTime = simpleDateFormat.parse(transferOpeLogRec.getTime());
+	 		} catch (ParseException e) {
+	 			e.printStackTrace();
+	 		}
+	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
 
 	 		retRec.rum 			= rowNum;
-	 		retRec.time 		= transferOpeLogRec.getTime();
+	 		retRec.time 		= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
 	 		retRec.tscId 		= String.valueOf(transferOpeLogRec.getTscId());
 	 		retRec.sourceLoc 	= transferOpeLogRec.getSrcLoc();
 	 		retRec.destLoc		= transferOpeLogRec.getDstLoc();
-	 		retRec.maxTime		= String.valueOf(transferOpeLogRec.getMaxTime());
-	 		retRec.minTime		= String.valueOf(transferOpeLogRec.getMinTime());
-	 		retRec.avgTime		= String.valueOf(transferOpeLogRec.getAvgTime());
-	 		retRec.totalTime	= String.valueOf(transferOpeLogRec.getTotalTime());
+	 		if(transferOpeLogRec.getMaxTime()!=null) 
+	 		{
+	 			retRec.maxTime	= secondToTime(transferOpeLogRec.getMaxTime());
+	 		}
+	 		else {
+	 			retRec.maxTime	= String.valueOf(transferOpeLogRec.getMaxTime());
+	 		}
+	 		if(transferOpeLogRec.getMinTime()!=null) 
+	 		{
+	 			retRec.minTime		= secondToTime(transferOpeLogRec.getMinTime());
+	 		}
+	 		else {
+	 			retRec.minTime	= String.valueOf(transferOpeLogRec.getMinTime());
+	 		}
+	 		if(transferOpeLogRec.getAvgTime()!=null) 
+	 		{
+	 			retRec.avgTime		= secondToTime(transferOpeLogRec.getAvgTime());
+	 		}
+	 		else {
+	 			retRec.avgTime	= String.valueOf(transferOpeLogRec.getAvgTime());
+	 		}
+	 		if(transferOpeLogRec.getTotalTime()!=null) 
+	 		{
+	 			retRec.totalTime	= secondToTime(transferOpeLogRec.getTotalTime());
+	 		}
+	 		else {
+	 			retRec.totalTime	= String.valueOf(transferOpeLogRec.getTotalTime());
+	 		}
 	 		retRec.opeCount		= transferOpeLogRec.getOpeCount();
 	 		retRec.errCount		= transferOpeLogRec.getErrCount();
 	 		retRec.mcbf  		= transferOpeLogRec.getMcbf();
@@ -183,7 +223,27 @@ public class JobStatisticsHistoryService extends BaseService {
 
 		return retRecList;
     }
-    
+    //@formatter:off
+    /**
+     * 返回日时分秒
+     * @param second
+     * @return
+     */
+    //@formatter:on
+    private String secondToTime(long second) {
+
+    	if ( second > UNIT_BY_DAY)
+    	{
+    		second = UNIT_BY_DAY;
+    	}
+    	
+    	long hours = second / 3600;
+        second = second % 3600;
+        long minutes = second / 60;
+        second = second % 60;
+        
+        return String.format("%02d:%02d:%02d",hours,minutes,second);
+    }
     //@formatter:off
     /**
      ******************************************************************************
@@ -398,7 +458,6 @@ public class JobStatisticsHistoryService extends BaseService {
     public int getCountHourJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record) {
     	
     	int ret = 0;
-    	Integer countHourJobBySrcLocData = transferOpeLogMapper.getCountHourJobBySrcLocData(record);
     	ret = (int) transferOpeLogMapper.getCountHourJobBySrcLocData(record);
     	return ret;
     }

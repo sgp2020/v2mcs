@@ -452,7 +452,7 @@
 	      </if>
 	    </where>
     </sql>
-    <select id="getCountDayJobByTscIdData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountDayJobByTscIdData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
          SELECT    count(*)
 			FROM(
 	     		SELECT 
@@ -565,7 +565,7 @@
 			)
        		 <include refid="selectRecordWhere" />
     </select>
-    <select id="getCountDayJobBySrcLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountDayJobBySrcLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
          SELECT    count(*)
 			FROM(
 	     		SELECT 
@@ -735,7 +735,7 @@
 			)
        		 <include refid="selectRecordWhere" />
     </select>
-    <select id="getCountDayJobByDstLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountDayJobByDstLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
          SELECT   count(*)
 			FROM(
 	     		SELECT 
@@ -783,7 +783,7 @@
 			GROUP BY tsc_id,time,dst_loc
 			)
     </select>
-    <select id="getCountDayJobData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountDayJobData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
         SELECT    count(*)
 			FROM(
 	     		SELECT 
@@ -911,7 +911,7 @@
 	      </if>
 	    </where>
     </sql>
-    <select id="getCountHourJobByTscIdData" parameterType="net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity" resultType="java.lang.Integer"> 
+    <select id="getCountHourJobByTscIdData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer"> 
 	   SELECT  
 		  count(*)
 	   FROM(
@@ -977,7 +977,7 @@
 		    	 )
        		 <include refid="selectRecordWhere" />
     </select>
-    <select id="getCountHourJobBySrcLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountHourJobBySrcLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
         SELECT    count(*)
 			FROM(
 	     				SELECT 
@@ -1042,7 +1042,7 @@
 		    	 )
        		 <include refid="selectRecordWhere" />
     </select>
-    <select id="getCountHourJobByDstLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountHourJobByDstLocData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
        SELECT     count(*)
 			FROM(
 	     				SELECT 
@@ -1107,7 +1107,7 @@
 		    	 )
        		 <include refid="selectRecordWhere" />
     </select>
-    <select id="getCountHourJobData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultMap="BaseResultMap">
+    <select id="getCountHourJobData" parameterType="net.muratec.mcs.model.TransferOpeLog" resultType="java.lang.Integer">
         SELECT    count(*)
 			FROM(
 	     				SELECT 

@@ -2,11 +2,7 @@ package net.muratec.mcs.mapper;
 
 import java.util.List;
 
-import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryListValidateEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
 import net.muratec.mcs.entity.hist.ReqGetJobStatisticsHistoryEntity;
-import net.muratec.mcs.model.AtomicTransferLog;
-import net.muratec.mcs.model.Ohb;
 import net.muratec.mcs.model.Port;
 import net.muratec.mcs.model.StockerZoneRlt;
 import net.muratec.mcs.model.TransferOpeLog;
