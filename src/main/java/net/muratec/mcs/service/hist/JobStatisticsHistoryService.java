@@ -111,10 +111,6 @@ public class JobStatisticsHistoryService extends BaseService {
         // -----------------------------------------
         List<JobStatisticsHistoryListEntity> retRecList = new ArrayList<JobStatisticsHistoryListEntity>();
 
-        // -----------------------------------------
-        // Hostデータ取得
-        // -----------------------------------------
-        
         String tscId = reqEntity.tscId;
         String source = reqEntity.source;
         String destination = reqEntity.destination;
@@ -122,9 +118,21 @@ public class JobStatisticsHistoryService extends BaseService {
         List<TransferOpeLog> transferOpeLog = new ArrayList<TransferOpeLog>();
         
         if(unit.equals("0")) {
-	        if(tscId!=null && tscId!="") {
-	        	if(source==null && "".equals(source)) {
-	        		transferOpeLog = transferOpeLogMapper.selectDayJobByTscIdData(reqEntity);
+	        if(tscId!=null || tscId!="") {
+	        	if(source==null || "".equals(source)) {
+	        		transferOpeLog = transferOpeLogMapper.selectHourJobByTscIdData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination==null || "".equals(destination))) {
+	        		transferOpeLog = transferOpeLogMapper.selectHourJobBySrcLocData(reqEntity);
+	        	}
+	        	else if((source==null || "".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		transferOpeLog = transferOpeLogMapper.selectHourJobByDstLocData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		transferOpeLog = transferOpeLogMapper.selectHourJobData(reqEntity);
 	        	}
 	        }
        }
@@ -297,10 +305,117 @@ public class JobStatisticsHistoryService extends BaseService {
      */
     //@formatter:on
     @Transactional(readOnly = true)
-    public int getJobStatisticsHistoryCount(ReqGetJobStatisticsHistoryEntity record) {
+    public int getgetStatisticsHistoryJobCount(ReqGetJobStatisticsHistoryEntity reqEntity) {
 
         int ret = 0;
-        ret = (int) transferOpeLogMapper.getCount(record);
+        String tscId = reqEntity.tscId;
+        String source = reqEntity.source;
+        String destination = reqEntity.destination;
+        String unit = reqEntity.unit;
+        
+        if(unit.equals("0")) {
+	        if(tscId!=null || tscId!="") {
+	        	if(source==null || "".equals(source)) {
+	        		ret = getCountHourJobByTscIdData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination==null || "".equals(destination))) {
+	        		ret = getCountHourJobBySrcLocData(reqEntity);
+	        	}
+	        	else if((source==null || "".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		ret = getCountHourJobByDstLocData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		ret = getCountHourJobData(reqEntity);
+	        	}
+	        }
+       }
+        else if(unit.equals("1")) {
+        	if(tscId!=null && tscId!="") {
+	        	if(source==null || "".equals(source)) {
+	        		ret = getCountDayJobByTscIdData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination==null || "".equals(destination))) {
+	        		ret = getCountDayJobBySrcLocData(reqEntity);
+	        	}
+	        	else if((source==null || "".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		ret = getCountDayJobByDstLocData(reqEntity);
+	        	}
+	        	else if((source!=null || !"".equals(source))
+	        			&&(destination!=null || !"".equals(destination))){
+	        		ret = getCountDayJobData(reqEntity);
+	        	}
+	        }
+        }
         return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountDayJobByTscIdData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountDayJobByTscIdData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountDayJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountDayJobBySrcLocData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountDayJobByDstLocData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountDayJobByDstLocData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountDayJobData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountDayJobData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountHourJobByTscIdData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountHourJobByTscIdData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountHourJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	Integer countHourJobBySrcLocData = transferOpeLogMapper.getCountHourJobBySrcLocData(record);
+    	ret = (int) transferOpeLogMapper.getCountHourJobBySrcLocData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountHourJobByDstLocData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountHourJobByDstLocData(record);
+    	return ret;
+    }
+    //@formatter:on
+    @Transactional(readOnly = true)
+    public int getCountHourJobData(ReqGetJobStatisticsHistoryEntity record) {
+    	
+    	int ret = 0;
+    	ret = (int) transferOpeLogMapper.getCountHourJobData(record);
+    	return ret;
     }
 }

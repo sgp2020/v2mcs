@@ -116,6 +116,13 @@ public interface TransferOpeLogMapper {
     List<Tsc> selectTscNameList();
     List<StockerZoneRlt> selectZoneData(@Param("tscId") String tscId);
     List<Port> selectPortData(@Param("tscId") String tscId);
-    int getCount(ReqGetJobStatisticsHistoryEntity record);
+    int getCountDayJobByTscIdData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountDayJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountDayJobByDstLocData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountDayJobData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountHourJobByTscIdData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountHourJobBySrcLocData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountHourJobByDstLocData(ReqGetJobStatisticsHistoryEntity record);
+    int getCountHourJobData(ReqGetJobStatisticsHistoryEntity record);
     // END 2020.04.09 DONG  ADD
 }

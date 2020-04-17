@@ -147,7 +147,7 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
             resEntity.body = jobStatisticsHistoryService.getJobStatisticsHistoryList(reqEntity);
             
             // 全体レコード数取得、設定
-//            resEntity.pageInfo.totalRecords = statisticsHistoryJobService.getgetStatisticsHistoryJobCount(reqEntity);
+            resEntity.pageInfo.totalRecords = jobStatisticsHistoryService.getgetStatisticsHistoryJobCount(reqEntity);
         }
         return resEntity;
     }
