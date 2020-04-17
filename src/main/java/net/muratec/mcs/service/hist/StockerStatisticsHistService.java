@@ -296,9 +296,7 @@ public class StockerStatisticsHistService extends BaseService {
     //@formatter:on
     @Transactional(readOnly = true)
     public String getEndTime(String startTime, String hourOrDay) {
-    	
-    	//String startTimeFormat = startTime.substring(0, 4) + "-" + startTime.substring(4, 6) + "-" + startTime.substring(6, 8) + " " + startTime.substring(8, 10);
-    	//SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd hh");
+
     	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     	Calendar calendar = Calendar.getInstance(); 
     	try 
@@ -315,11 +313,12 @@ public class StockerStatisticsHistService extends BaseService {
         		calendar.add(Calendar.HOUR, +1);
         	}
     	}
-    	finally
-    	{
-    		//return startTime;	
-        	return simpleDateFormat.format(calendar.getTime());    		
-    	}        	 
+    	catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        return simpleDateFormat.format(calendar.getTime());    		
     }
     
     //@formatter:off
@@ -331,7 +330,6 @@ public class StockerStatisticsHistService extends BaseService {
     //@formatter:on
     private String secondToTime(long second) {
 
-    	String time ;
     	if ( second > UNIT_BY_DAY)
     	{
     		second = UNIT_BY_DAY;
