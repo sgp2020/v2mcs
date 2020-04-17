@@ -247,6 +247,7 @@ $(function() {
       var url = getUrl('/JobStatisticsHistory/GetJobStatisticsHistoryList');
       var cond = {
     		  tscId: tscId.getValue(),
+    		  tscName: tscId.getText(),
     		  source: source.getValue(),
     		  destination: destination.getValue(),
     		  unit: unit.getValue(),

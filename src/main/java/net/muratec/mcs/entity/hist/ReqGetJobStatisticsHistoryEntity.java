@@ -47,6 +47,7 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 public class ReqGetJobStatisticsHistoryEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-005-03-001") public String tscId ;
+    @FieldNameKey(key = "IH-005-03-001") public String tscName ;
     @FieldNameKey(key = "IH-005-03-002") public String source;
     @FieldNameKey(key = "IH-005-03-003") public String destination;
     @FieldNameKey(key = "IH-005-03-004") public String unit;

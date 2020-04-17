@@ -54,4 +54,5 @@ public class ReqGetJobStatisticsHistoryListValidateEntity extends AjaxDataTables
     @FieldNameKey(key = "IH-005-03-004") public String unit;
     @DateTime @FieldNameKey(key = "IH-005-03-006, IH-005-03-011") public String dateFrom;
     @DateTime @FieldNameKey(key = "IH-005-03-006, IH-005-03-012") public String dateTo;
+    public String tscName ;
 }
