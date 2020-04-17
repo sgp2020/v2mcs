@@ -101,7 +101,7 @@ $(function() {
 	  //searchComp.clearErrors();
 	  
 	  dataTables.getDataAjax({
-		  url: getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistoryList'),
+		  url: getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistory'),
 		  cond: cond,
 		  searchDataFlag: true,
 		  tableCompId: 'H-004-VehicleStatisticsHistoryList', // テーブルコンポーネントID
@@ -166,14 +166,14 @@ $(function() {
     });
     // 検索ボタン押下
     searchBtn.onClick(function() {
+    	 clearSearch();
       // 画面の内容を消去
 //      searchComp.clearErrors();
 
-      /*// 前回の条件を復元
+      // 前回の条件を復元
       var datas = dataTables.getLatestCond();
-
-      searchComp.get('currentTscId').setValue(datas.currentTscId);
-      searchComp.get('carrierId').setValue(datas.carrierId);*/
+      searchComp.get('tscId').setValue(datas.tscId);
+      searchComp.get('vehicleId').setValue(datas.vehicleId);
 
       slideMenuSearch.show();
     });
@@ -241,7 +241,7 @@ $(function() {
       
       
       // 検索処理
-      var url = getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistoryList');
+      var url = getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistory');
       var cond = {
     		  tscId: tscId.getValue(),
     		  vehicleId: vehicleId.getValue(),
@@ -276,7 +276,7 @@ $(function() {
       }
       if(searchInfoVehicleId!=null && searchInfoVehicleId !="")
       {
-    	  searchInfoVehicleId = " Source " + "[" + searchInfoVehicleId + "]" + space ;
+    	  searchInfoVehicleId = " VehicleId " + "[" + searchInfoVehicleId + "]" + space ;
       }
       if(searchInfoUnit!=null && searchInfoUnit !="")
       {
@@ -297,7 +297,7 @@ $(function() {
 				    		  searchInfoDateFroms + 
 				    		  searchInfoDateTos );
       
-      var tableCompId = 'H-004-vehicleStatisticsHistoryList';
+      var tableCompId = 'H-004-VehicleStatisticsHistoryList';
       var options = {
         url: url,
         cond: cond,
@@ -426,6 +426,30 @@ $(function() {
     saveReturnButton.onClick(function() {
       saveMenu.hide();
     });
+  }
+  
+  /**
+   * *****************************************************************************
+   * @brief   検索スライド初期化
+   * @param
+   * @return
+   * @retval
+   * @attention
+   * @note
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   * *****************************************************************************
+   */
+  function clearSearch() {
+    // 検索条件を初期化
+    searchComp.get('tscId').clear();
+    searchComp.get('vehicleId').clear();
+    searchComp.get('dateFrom').clear();
+    searchComp.get('dateTo').clear();
+
+    // 入力値エラーをクリア
+    searchComp.clearErrors();
   }
 
 });

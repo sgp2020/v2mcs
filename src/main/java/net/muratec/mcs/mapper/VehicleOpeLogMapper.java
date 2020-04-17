@@ -1,9 +1,15 @@
 package net.muratec.mcs.mapper;
 
 import java.util.List;
+
+import net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity;
+import net.muratec.mcs.model.StockerOpeLogModel;
 import net.muratec.mcs.model.VehicleOpeLog;
 import net.muratec.mcs.model.VehicleOpeLogExample;
 import net.muratec.mcs.model.VehicleOpeLogKey;
+import net.muratec.mcs.model.VehicleOpeLogModel;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface VehicleOpeLogMapper {
@@ -94,4 +100,16 @@ public interface VehicleOpeLogMapper {
      * @mbggenerated Wed Apr 15 15:04:18 CST 2020
      */
     int updateByPrimaryKey(VehicleOpeLog record);
+    
+    // =============================
+    // v2MCS Unique Function From Here
+    // =============================
+    List<VehicleOpeLogModel> selectVehicleStatisticsHistoryListByHour(ReqGetVehicleStatisticsHistoryEntity reqEntity);
+    
+    List<VehicleOpeLogModel> selectVehicleStatisticsHistoryListByDay(ReqGetVehicleStatisticsHistoryEntity reqEntity);
+    
+    String getDownTime(ReqGetVehicleStatisticsHistoryEntity reqEntity);
+    int getCountByDay(ReqGetVehicleStatisticsHistoryEntity reqEntity);
+    int getCountByHour(ReqGetVehicleStatisticsHistoryEntity reqEntity);
+    int getVehicleCount(ReqGetVehicleStatisticsHistoryEntity reqEntity);
 }

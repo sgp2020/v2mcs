@@ -589,4 +589,313 @@
       and TSC_ID = #{tscId,jdbcType=DECIMAL}
       and VEHICLE_ID = #{vehicleId,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 以下独自SQL -->
+  <!-- レコード取得範囲決定部 -->
+  <resultMap id="SearchResultMap" type="net.muratec.mcs.model.VehicleOpeLogModel">
+   <id column="TIME" jdbcType="VARCHAR" property="time" />
+   <result column="RN" jdbcType="DECIMAL" property="rn" />
+   <result column="TSC_ID" jdbcType="VARCHAR" property="tscId" />
+   <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
+   <result column="ASSIGN_WAIT_MAX_TIME" jdbcType="DECIMAL" property="assignWaitMaxTime" />
+   <result column="ASSIGN_WAIT_MIN_TIME" jdbcType="DECIMAL" property="assignWaitMinTime" />
+   <result column="ASSIGN_WAIT_AVG_TIME" jdbcType="DECIMAL" property="assignWaitAveTime" />
+   <result column="ASSIGNING_MAX_TIME" jdbcType="DECIMAL" property="activeWaitMaxTime" />
+   <result column="ASSIGNING_MIN_TIME" jdbcType="DECIMAL" property="activeWaitMinTime" />
+   <result column="ASSIGNING_AVG_TIME" jdbcType="DECIMAL" property="activeWaitAveTime" />
+   <result column="ASSIGNING_TOTAL_TIME" jdbcType="DECIMAL" property="activeTotalTime" />
+   <result column="OPE_COUNT" jdbcType="DECIMAL" property="transferCount" />
+   <result column="ERR_COUNT" jdbcType="DECIMAL" property="errorCount" />
+   <result column="MCBF" jdbcType="DECIMAL" property="mCBF" />
+   <result column="COUNT" jdbcType="DECIMAL" property="count" />
+   <result column="ASSIGN_WAIT_TOTAL_TIME" jdbcType="DECIMAL" property="assignWaitTotalTime" />
+  </resultMap>
+  <sql id="selectRecordWhere">
+    <where>
+      <if test="fromRecordNum != null and toRecordNum != null">
+       rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+  <sql id="selectBoxWhere">
+    <where>
+   <!-- 
+	  <if test="dateFrom != null ">
+        AND TIME  &gt;= to_char(#{dateFrom},'yyyymmddhh24missff') 
+      </if>
+      <if test="dateTo != null ">
+        AND TIME  &lt; to_char(#{dateTo},'yyyymmddhh24missff')
+      </if>
+    -->
+      <if test="dateFrom != null ">
+        AND to_timestamp(time,'yyyymmddhh24missff')  &gt;= #{dateFrom} 
+      </if>
+      <if test="dateTo != null ">
+        AND to_timestamp(time,'yyyymmddhh24missff')  &lt; #{dateTo}
+      </if>
+      <if test="tscId != null and tscId != ''">
+        AND vehicle_ope_log.RTM_TSC_ID = #{tscId}
+      </if>
+      <if test="vehicleId != null and vehicleId != ''">
+        AND vehicle_ope_log.vehicle_id = #{vehicleId}
+      </if>
+    </where>
+  </sql>
+
+ 
+  <select id="getDownTime" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.String"> 
+			SELECT  
+				    Round(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.end_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) -  
+						   TO_DATE( ( SUBSTR( tbl.start_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.start_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))  
+			 FROM   ( SELECT tsc_id,  
+							 ( CASE WHEN start_time &lt; #{dateFromForDownTime} THEN #{dateFromForDownTime}  
+								 ELSE start_time  
+							   END ) start_time,  
+							 ( CASE WHEN end_time = '9999999999999999' THEN #{dateToForDownTime}  
+								 WHEN end_time &gt; #{dateToForDownTime} THEN #{dateToForDownTime}  
+								 ELSE end_time  
+							   END ) end_time  
+					   FROM down_time  
+					   WHERE  end_time &lt;&gt; '9999999999999999' AND  
+							  start_time &lt; #{dateToForDownTime}  AND  
+							  end_time &gt; #{dateFromForDownTime}  AND   
+							  start_time &lt; end_time AND  
+							  tsc_id = #{tscId} ) tbl  
+			 GROUP BY tbl.tsc_id 
+  </select>
+  
+  <select id="getCountByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
+		SELECT
+			count(*)
+		FROM
+		(
+	   			SELECT 
+	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
+    				 (substr(TIME,0,8) || '000000') TIME,
+    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
+    			
+					   '' vehicle_id,  
+					   MAX(assign_wait_max_time) assign_wait_max_time,  
+					   MIN(assign_wait_min_time) assign_wait_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+								END ), 0 ) assign_wait_avg_time,  
+					   MAX(assigning_max_time) assigning_max_time,  
+					   MIN(assigning_min_time) assigning_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assigning_total_time )/SUM( ope_count )   
+								END ), 0 ) assigning_avg_time,  
+					   SUM(assigning_total_time) assigning_total_time,  
+					   0,  
+					   0,  
+					   0,  
+					   0,  
+					   SUM(ope_count) ope_count, 
+					   SUM(err_count) err_count,  
+					   ROUND( ( CASE SUM( err_count )  
+									WHEN 0 THEN SUM( ope_count)/1   
+									ELSE SUM( ope_count )/SUM( err_count )   
+								END ), 0 ) mcbf,  
+					   COUNT(tsc_id) count,  
+					   SUM( assign_wait_total_time ) assign_wait_total_time  
+				FROM   vehicle_ope_log 
+				<include refid="selectBoxWhere" />
+	   			GROUP BY tsc_id,substr(TIME,0,8)  
+				
+		)
+  </select>
+  
+  <select id="getCountByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
+		SELECT
+			count(*)
+		FROM
+		(
+	   			SELECT 
+	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
+    				 (substr(TIME,0,10) || '0000') TIME,
+    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
+    				 
+					<!--    ( time || '000000' ) time,  
+					   TO_CHAR(tsc_id) tsc_id, -->  
+					   '' vehicle_id,  
+					   MAX(assign_wait_max_time) assign_wait_max_time,  
+					   MIN(assign_wait_min_time) assign_wait_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+								END ), 0 ) assign_wait_avg_time,  
+					   MAX(assigning_max_time) assigning_max_time,  
+					   MIN(assigning_min_time) assigning_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assigning_total_time )/SUM( ope_count )   
+								END ), 0 ) assigning_avg_time,  
+					   SUM(assigning_total_time) assigning_total_time,  
+					   0,  
+					   0,  
+					   0,  
+					   0,  
+					   SUM(ope_count) ope_count, 
+					   SUM(err_count) err_count,  
+					   ROUND( ( CASE SUM( err_count )  
+									WHEN 0 THEN SUM( ope_count)/1   
+									ELSE SUM( ope_count )/SUM( err_count )   
+								END ), 0 ) mcbf,  
+					   COUNT(tsc_id) count,  
+					   SUM( assign_wait_total_time ) assign_wait_total_time  
+				FROM   vehicle_ope_log 
+				<include refid="selectBoxWhere" />
+	   			GROUP BY tsc_id,substr(TIME,0,10)  
+				<!-- 
+				WHERE , 
+				GROUP BY tsc_id,time,
+				 -->
+		)
+   
+  </select>
+ 
+  <select id="selectVehicleStatisticsHistoryListByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultMap="SearchResultMap">
+   		SELECT
+			rn, 		
+			TIME,
+			tsc_id, 
+			vehicle_id, 
+			assign_wait_max_time, 
+			assign_wait_min_time, 
+			assign_wait_avg_time, 
+			assigning_max_time,
+			assigning_min_time, 
+			assigning_avg_time, 
+			assigning_total_time,
+			ope_count, 
+			err_count,
+			mcbf,
+			count,
+			assign_wait_total_time
+		FROM
+		(
+	   			SELECT 
+	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
+    				 (substr(TIME,0,8) || '000000') TIME,
+    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
+    				 
+					<!--    ( time || '000000' ) time,  
+					   TO_CHAR(tsc_id) tsc_id, -->  
+					   '' vehicle_id,  
+					   MAX(assign_wait_max_time) assign_wait_max_time,  
+					   MIN(assign_wait_min_time) assign_wait_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+								END ), 0 ) assign_wait_avg_time,  
+					   MAX(assigning_max_time) assigning_max_time,  
+					   MIN(assigning_min_time) assigning_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assigning_total_time )/SUM( ope_count )   
+								END ), 0 ) assigning_avg_time,  
+					   SUM(assigning_total_time) assigning_total_time,  
+					   0,  
+					   0,  
+					   0,  
+					   0,  
+					   SUM(ope_count) ope_count, 
+					   SUM(err_count) err_count,  
+					   ROUND( ( CASE SUM( err_count )  
+									WHEN 0 THEN SUM( ope_count)/1   
+									ELSE SUM( ope_count )/SUM( err_count )   
+								END ), 0 ) mcbf,  
+					   COUNT(tsc_id) count,  
+					   SUM( assign_wait_total_time ) assign_wait_total_time  
+				FROM   vehicle_ope_log 
+				<include refid="selectBoxWhere" />
+	   			GROUP BY tsc_id,substr(TIME,0,8)  
+				<!-- 
+				WHERE , 
+				GROUP BY tsc_id,time,
+				 -->
+		)
+       <include refid="selectRecordWhere" />
+  </select>
+  <select id="selectVehicleStatisticsHistoryListByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultMap="SearchResultMap">
+   		SELECT
+			rn, 		
+			TIME,
+			tsc_id, 
+			vehicle_id, 
+			assign_wait_max_time, 
+			assign_wait_min_time, 
+			assign_wait_avg_time, 
+			assigning_max_time,
+			assigning_min_time, 
+			assigning_avg_time, 
+			assigning_total_time,
+			ope_count, 
+			err_count,
+			mcbf,
+			count,
+			assign_wait_total_time
+		FROM
+		(
+	   			SELECT 
+	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
+    				 (substr(TIME,0,10) || '0000') TIME,
+    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
+    				 
+					<!--    ( time || '000000' ) time,  
+					   TO_CHAR(tsc_id) tsc_id, -->  
+					   '' vehicle_id,  
+					   MAX(assign_wait_max_time) assign_wait_max_time,  
+					   MIN(assign_wait_min_time) assign_wait_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+								END ), 0 ) assign_wait_avg_time,  
+					   MAX(assigning_max_time) assigning_max_time,  
+					   MIN(assigning_min_time) assigning_min_time,  
+					   ROUND( ( CASE SUM( ope_count )   
+									WHEN 0 THEN 0   
+									ELSE SUM( assigning_total_time )/SUM( ope_count )   
+								END ), 0 ) assigning_avg_time,  
+					   SUM(assigning_total_time) assigning_total_time,  
+					   0,  
+					   0,  
+					   0,  
+					   0,  
+					   SUM(ope_count) ope_count, 
+					   SUM(err_count) err_count,  
+					   ROUND( ( CASE SUM( err_count )  
+									WHEN 0 THEN SUM( ope_count)/1   
+									ELSE SUM( ope_count )/SUM( err_count )   
+								END ), 0 ) mcbf,  
+					   COUNT(tsc_id) count,  
+					   SUM( assign_wait_total_time ) assign_wait_total_time  
+				FROM   vehicle_ope_log 
+				<include refid="selectBoxWhere" />
+	   			GROUP BY tsc_id,substr(TIME,0,10)  
+				<!-- 
+				WHERE , 
+				GROUP BY tsc_id,time,
+				 -->
+		)
+       <include refid="selectRecordWhere" />
+  </select>
+  
+ <select id="getVehicleCount" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
+   		SELECT COUNT(*) FROM vehicle WHERE (tsc_id &lt;&gt; -200 AND tsc_id = #{tscId}) OR (tsc_id = -200 AND rtm_tsc_id = #{tscId})
+  </select>
 </mapper>
