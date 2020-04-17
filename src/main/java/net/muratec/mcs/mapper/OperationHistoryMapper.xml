@@ -329,6 +329,8 @@
   </insert>
   <!-- MACS4#0109 Add End -->
   
+  <!-- 20200417 SGP DEL STD -->
+  <!-- 
   <insert id="insertTargetDatev2" parameterType="net.muratec.mcs.model.OperationHistoryModel">
     insert into OPERATION_HISTORY
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -363,6 +365,41 @@
       </if>
       <if test="client != null">
         #{client,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  -->
+  <!-- 20200417 SGP DEL END -->
+  
+   <!-- 20200417 SGP ADD -->
+   <insert id="insertTargetDatev2" parameterType="net.muratec.mcs.model.OperationHistoryModel">
+    insert into OPERATION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="timeStr != null">
+        TIME,
+      </if>
+      <if test="operationCode != null">
+        OPERATION_CODE,
+      </if>
+      <if test="originator != null">
+        ORIGINATOR,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="timeStr != null">
+        #{timeStr,jdbcType=OTHER},
+      </if>
+      <if test="operationCode != null">
+        #{operationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="originator != null">
+        #{originator,jdbcType=DECIMAL},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

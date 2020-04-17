@@ -22,6 +22,8 @@
 package net.muratec.mcs.service.common;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -146,6 +148,14 @@ public class OpeLogService extends BaseService {
                 opeHist.setClient(ipAddress);
                 //opeHist.setTargetTable(targetTable);
                 //opeHistMapper.insertTargetDate(opeHist);
+                //20200417 SGP ADD STD
+            	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    			String t = simpleDateFormat.format(timestamp);
+                opeHist.setTimeStr(t);
+                opeHist.setOperationCode(opeLogCode.toString());
+                opeHist.setOriginator(userId);
+                opeHist.setDescription(ipAddress + "  " +s_LogText);;
+                //20200417 SGP ADD END
                 opeHistMapper.insertTargetDatev2(opeHist);
                 // MACS4#0109 Add End
             }

@@ -48,4 +48,9 @@ public class OperationHistoryModel {
     private String logText;
     private String client;
     private String targetTable;
+    
+    private String timeStr;
+    private String operationCode;
+    private String originator;
+    private String description;
 }
