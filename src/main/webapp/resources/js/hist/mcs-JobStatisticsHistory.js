@@ -103,7 +103,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/JobStatisticsHistory/GetJobStatisticsHistoryList'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-005-jobStatisticsHistoryList', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
@@ -217,6 +217,11 @@ $(function() {
     var sourceList= screenValue.sources;
     var destinationList= screenValue.destinations;
     var unitList= screenValue.units;
+    
+    // DateTimePickerの秒指定を無効にする
+    var crntFormat = 'YYYY/MM/DD 00:00:00';
+    dateFrom.setFormat(crntFormat);
+    dateTo.setFormat(crntFormat);
     
     // コンポーネントマネージャーに各検索項目を入れる
     searchComp.add('tscId', tscId);

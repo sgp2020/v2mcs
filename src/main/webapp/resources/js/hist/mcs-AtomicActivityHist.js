@@ -109,7 +109,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/AtomicActivityHist/GetAtomicActivityHistList'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-002-atomicActivityHistList', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
