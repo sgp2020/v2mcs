@@ -103,7 +103,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistory'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-004-VehicleStatisticsHistoryList', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
@@ -211,6 +211,11 @@ $(function() {
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
+    
+    // DateTimePickerの秒指定を無効にする
+    var crntFormat = 'YYYY/MM/DD 00:00:00';
+    dateFrom.setFormat(crntFormat);
+    dateTo.setFormat(crntFormat);
     
     var tscIdList = screenValue.tscId;
     var vehicleIdList= screenValue.vehicleId;
