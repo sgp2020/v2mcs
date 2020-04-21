@@ -192,7 +192,8 @@ $(function() {
     	getMacroData();
     });*/
 //    var macroDataBtn = new McsButton($('#list-btn-macroData'), screenText.btnText.macroData);
-    var macroDataPopup = new McsPopupWinLoad();
+//    var macroDataPopup = new McsPopupWinLoad();
+    var macroDataPopup = new openMacroDataDialog();
     macroDataBtn.onClick(function() {
     	var datas = dataTables.getSelectedRowData();   
     	if (datas == null) {
