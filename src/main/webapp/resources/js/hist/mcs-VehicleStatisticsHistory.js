@@ -170,24 +170,39 @@ $(function() {
       // 画面の内容を消去
 //      searchComp.clearErrors();
     	 
-	  var myDate = new Date();
-	  var y = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
-	  var m = myDate.getMonth();       //获取当前月份(0-11,0代表1月)
-	  var d = myDate.getDate();        //获取当前日(1-31)
+    	 
+      var startTime = new Date(new Date().getTime()); // 当前时间
+      var endTime = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // 当前时间的 前后 几小时
+      
+      //var startTime1 = new Date();
+      //var endTime1 = startTime1.setDate(startTime1.getDate()+1);
+      //endTime1 = new Date(endTime1);
+          
+	  var y = startTime.getFullYear();    //获取完整的年份(4位,1970-????)
+	  var m = startTime.getMonth();       //获取当前月份(0-11,0代表1月)
+	  var d = startTime.getDate();        //获取当前日(1-31)
 	  m = m + 1;
       if (m.toString().length == 1) {
-        m = "0" + m;
+          m = "0" + m;
       }
       if (d.toString().length == 1) {
           d = "0" + d;
       }
-      var d1 = myDate.getDate() + 1;
+      
+      var y1 = endTime.getFullYear();    //获取完整的年份(4位,1970-????)
+	  var m1 = endTime.getMonth();       //获取当前月份(0-11,0代表1月)
+	  var d1 = endTime.getDate();        //获取当前日(1-31)
+	  m1 = m1 + 1;
+      if (m1.toString().length == 1) {
+          m1 = "0" + m1;
+      }
       if (d1.toString().length == 1) {
           d1 = "0" + d1;
       }
       //var date = y+'/'+m+'/'+d+'/'+' 00:00:00';
       var date = y+'/'+m+'/'+d;
-      var date1 = y+'/'+m+'/'+d1+'/'+' 00:00:00';
+      //var date1 = y+'/'+m+'/'+d1+'/'+' 23:59:59';
+      var date1 = y1+'/'+m1+'/'+d1;
       searchComp.get('dateFrom').setValue(date);
       searchComp.get('dateTo').setValue(date1);
       
@@ -234,7 +249,8 @@ $(function() {
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
     
     // DateTimePickerの秒指定を無効にする
-    var crntFormat = 'YYYY/MM/DD 00:00:00';
+    //var crntFormat = 'YYYY/MM/DD 00:00:00';
+    var crntFormat = 'YYYY/MM/DD';
     dateFrom.setFormat(crntFormat);
     dateTo.setFormat(crntFormat);
     

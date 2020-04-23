@@ -158,7 +158,7 @@ public class VehicleStatisticsHistoryController extends BaseController {
 
         return "hist/VehicleStatisticsHistory";
     }
-  //@formatter:off
+    //@formatter:off
     /**
      ******************************************************************************
      * @brief     getCsvFile（CSV出力を行う）機能
@@ -175,8 +175,9 @@ public class VehicleStatisticsHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
-    //@formatter:on
+    
     /*
+    //@formatter:on
     @RequestMapping(value = { "/JobStatisticsHistory/SaveCsvJobStatisticsHistoryList" }, method = RequestMethod.GET)
     @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
