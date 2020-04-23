@@ -769,6 +769,80 @@ McsDialog.prototype = {
     // 開く
     dialogObj.dialog('open');
   },
+  /**
+   ******************************************************************************
+   * @brief    共通部品搭載用ダイアログ処理
+   * @param    {MCS部品} parts 挿入する部品
+   * @param    {Number} dialogWidth ダイアログの横幅
+   * @param    {Number} dialogHeight ダイアログの縦幅
+   * @param    {String} button1 １つ目のボタン名称
+   * @param    {Function} callback ボタン押下時の処理
+   * @param    {Boolean} noButtonClose ボタン押下時にダイアログを辻るかどうか true：閉じない
+   * @return
+   * @retval
+   * @attention
+   * @note     共通部品搭載用ダイアログを表示する。
+   *            ボタン押下時はcallbackに
+   *            押下したボタンのインデックス番号(0:１つ目のボタン, 1:２つ目のボタン)
+   *            が渡される。
+   * ----------------------------------------------------------------------------
+   * VER.        DESCRIPTION                                               AUTHOR
+   * ----------------------------------------------------------------------------
+   * 20200423 	 MacroDataDialog										   DONG
+   ******************************************************************************
+   */
+  openMacroDataDialog: function(parts, dialogWidth, dialogHeight, button, callback, noButtonClose) {
+    var partsWrapper = $('<div class="mcs-macroDataDialogWrapper"></div>');
+
+    if (parts.containerDiv != null) {
+      // 部品の場合、containerDivを追加する。
+      partsWrapper.append(parts.containerDiv);
+    } else {
+      // 部品以外の場合、直接追加する。（jQueryオブジェクトを想定）
+      partsWrapper.append(parts);
+    }
+
+    // ダイアログのスクロールをしないように変更
+    this.containerDiv.css({
+      overflow: 'visible'
+    });
+
+    // ダイアログの大きさ調整
+    if (dialogWidth) {
+      this.containerDiv.dialog({
+        width: dialogWidth
+      });
+    }
+    if (dialogHeight) {
+      this.containerDiv.dialog({
+        height: dialogHeight
+      });
+    }
+
+    // ダイアログ初期化
+    var dialogObj = this._createDialog('', null, partsWrapper);
+
+    // ボタン処理の設定、記述
+    var buttonObj = [ {
+      'text': button,
+      'click': function() {
+        if (!noButtonClose) {
+          dialogObj.dialog('close');
+        }
+        if (callback) {
+          callback(1, dialogObj);
+        }
+      },
+      'class': 'btn-mcs-dialog btn-dialog-return'
+    }];
+
+    dialogObj.dialog('option', {
+      buttons: buttonObj
+    });
+
+    // 開く
+    dialogObj.dialog('open');
+  },
 
   /**
    ******************************************************************************
