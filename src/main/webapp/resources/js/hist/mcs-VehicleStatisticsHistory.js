@@ -169,7 +169,28 @@ $(function() {
     	 clearSearch();
       // 画面の内容を消去
 //      searchComp.clearErrors();
-
+    	 
+	  var myDate = new Date();
+	  var y = myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+	  var m = myDate.getMonth();       //获取当前月份(0-11,0代表1月)
+	  var d = myDate.getDate();        //获取当前日(1-31)
+	  m = m + 1;
+      if (m.toString().length == 1) {
+        m = "0" + m;
+      }
+      if (d.toString().length == 1) {
+          d = "0" + d;
+      }
+      var d1 = myDate.getDate() + 1;
+      if (d1.toString().length == 1) {
+          d1 = "0" + d1;
+      }
+      //var date = y+'/'+m+'/'+d+'/'+' 00:00:00';
+      var date = y+'/'+m+'/'+d+'/';
+      var date1 = y+'/'+m+'/'+d1+'/'+' 00:00:00';
+      searchComp.get('dateFrom').setValue(date);
+      searchComp.get('dateTo').setValue(date1);
+      
       // 前回の条件を復元
       var datas = dataTables.getLatestCond();
       searchComp.get('tscId').setValue(datas.tscId);
@@ -201,7 +222,7 @@ $(function() {
 	  
 	searchComp.clearErrors();
 	// 表示画面番号の更新
-	   screenIndex = SCREEN.SEARCH;
+	screenIndex = SCREEN.SEARCH;
     // 検索項目の生成
     var tscId  = new McsSelectBox($('#mcs-search-tscId'));
     var vehicleId = new McsSelectBox($('#mcs-search-vehicleId'));
@@ -216,6 +237,8 @@ $(function() {
     var crntFormat = 'YYYY/MM/DD 00:00:00';
     dateFrom.setFormat(crntFormat);
     dateTo.setFormat(crntFormat);
+    
+    
     
     var tscIdList = screenValue.tscId;
     var vehicleIdList= screenValue.vehicleId;
@@ -241,8 +264,8 @@ $(function() {
     // 抽出ボタン押下
     extract.onClick(function() {
       
-    // エラー解除
-    searchComp.clearErrors();
+      // エラー解除
+      searchComp.clearErrors();
       
       
       // 検索処理

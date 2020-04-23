@@ -193,6 +193,13 @@ $(function() {
     });*/
 //    var macroDataBtn = new McsButton($('#list-btn-macroData'), screenText.btnText.macroData);
 //    var macroDataPopup = new McsPopupWinLoad();
+    
+    
+    macroDataBtn.onClick(function() {
+    	MacroDataDialog();
+    });
+    
+    /*
     var macroDataPopup = new openMacroDataDialog();
     macroDataBtn.onClick(function() {
     	var datas = dataTables.getSelectedRowData();   
@@ -213,7 +220,7 @@ $(function() {
       };
       macroDataPopup.open(options);
     });
-    
+    */
     //download
     downLoadBtn.onClick(function() {
     	saveMenu.show();

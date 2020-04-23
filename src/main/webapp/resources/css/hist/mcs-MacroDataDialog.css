@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/*
+ ******************************************************************************
+ * @file        mcs-MacroDataDialog.css
+ * @brief       MacroDataDialog用CSS
+ * @par
+ * @author      Dong
+ * $Id:         $
+ * @attention
+ *
+ * Copyright (c) 2020 MURATA MACHINERY,LTD. All rights reserved.
+ *
+ * @note        Tabstop=4
+ * ----------------------------------------------------------------------------
+ * DATE          VER.        DESCRIPTION                   AUTHOR
+ * ----------------------------------------------------------------------------
+ * 2020/04/23    v1.0.0      初版作成                                          Dong
+ ******************************************************************************
+ */
+
+.mcs-listTable-element {
+    margin-bottom: 10px;
+}
+
+.mcs-dialogTable-element {
+    height:280px;
+}
+
+.mcs-dialogTable-element .mcs-table-wrapper {
+      height:205px;
+}

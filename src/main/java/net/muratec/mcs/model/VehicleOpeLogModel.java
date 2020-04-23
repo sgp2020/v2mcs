@@ -45,6 +45,7 @@ public class VehicleOpeLogModel {
 	public int rn;
 	public String time;
 	public String tscId;
+	public String tscName;
 	public String vehicleId;
 	public int assignWaitMaxTime;
 	public int assignWaitMinTime;

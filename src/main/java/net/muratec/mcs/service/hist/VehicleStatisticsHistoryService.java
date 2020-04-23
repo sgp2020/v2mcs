@@ -193,7 +193,16 @@ public class VehicleStatisticsHistoryService extends BaseService {
 				 e.printStackTrace();
 			 }
 	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
-	 		retRec.tscId = vehicleOpeLogModel.getTscId().toString();
+	 		//retRec.tscId = vehicleOpeLogModel.getTscId();
+	 		//retRec.tscName = vehicleOpeLogModel.getTscName();
+	 		retRec.tscId = vehicleOpeLogModel.getTscName();
+	 		
+	 		String vehicleId = reqEntity.getVehicleId();
+	 		if(vehicleId == null || "".equals(vehicleId)) {
+	 			retRec.vehicleId = "";
+	 		}else {
+	 			retRec.vehicleId = vehicleOpeLogModel.getVehicleId();
+	 		}
 	 		retRec.assignWaitMaxTime = secondToTime(vehicleOpeLogModel.getAssignWaitMaxTime());
 	 		retRec.assignWaitMinTime = secondToTime(vehicleOpeLogModel.getAssignWaitMinTime());
 	 		retRec.assignWaitAveTime = secondToTime(vehicleOpeLogModel.getAssignWaitAveTime());
@@ -247,12 +256,12 @@ public class VehicleStatisticsHistoryService extends BaseService {
 				int activeTotalTime = vehicleOpeLogModel.getActiveTotalTime();
 				double d = activeTotalTime/(double)vehicleCount;
 				long round = Math.round(d);
-				retRec.activeTotalTime = new Long(round).toString();
+				retRec.activeTotalTime = secondToTime(round);
 		
 			}
 	 		
 	 	    // Down Time
-	 		retRec.downTime = new BigDecimal( downTime );
+	 		retRec.downTime = secondToTime(downTime);
 	 		
 	 	    // Total Up Time
 			totalUpTime = timeUnit - downTime;
