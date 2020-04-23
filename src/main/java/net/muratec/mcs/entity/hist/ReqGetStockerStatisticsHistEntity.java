@@ -45,11 +45,10 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 public class ReqGetStockerStatisticsHistEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-003-03-001") public String tscId ;
-    @FieldNameKey(key = "IH-003-03-001") public String tscName ;
+    public String tscName ;
     @FieldNameKey(key = "IH-003-03-002") public String unit;
-    @FieldNameKey(key = "IH-003-03-002") public String unitName;
-    @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public Timestamp dateFrom;
-    @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public Timestamp dateTo;
-    public String dateFromForDownTime;
-    public String dateToForDownTime;
+    public String unitName;
+    @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public String dateFrom;
+    @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public String dateTo;
+    public String dateTo1= "";
 }

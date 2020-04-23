@@ -52,8 +52,8 @@ public class StockerStatisticsHistEntity {
 	public String activeTotalTime;
 	public String idleTime;
 	public String totalUpTime;
-	public BigDecimal downTime;
-	public BigDecimal opeRate;
+	public String downTime;
+	public String opeRate;
 	public String transferCount;
 	public String errorCount;
 	public String mCBF;

@@ -377,6 +377,7 @@
    <result column="ACTIVE_MIN_TIME" jdbcType="DECIMAL" property="activeWaitMinTime" />
    <result column="ACTIVE_AVE_TIME" jdbcType="DECIMAL" property="activeWaitAveTime" />
    <result column="ACTIVE_TOTAL_TIME" jdbcType="DECIMAL" property="activeTotalTime" />
+   <result column="DOWN_TIME" jdbcType="DECIMAL" property="downTime" />
    <result column="OPE_COUNT" jdbcType="DECIMAL" property="transferCount" />
    <result column="ERR_COUNT" jdbcType="DECIMAL" property="errorCount" />
    <result column="MCBF" jdbcType="DECIMAL" property="mCBF" />
@@ -384,28 +385,43 @@
   <sql id="selectRecordWhere">
     <where>
       <if test="fromRecordNum != null and toRecordNum != null">
-       rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
-      </if>
-    </where>
-  </sql>
-  <sql id="selectBoxWhere">
-    <where>
-   
-	  <if test="dateFrom != null ">
-        AND to_timestamp(time,'yyyymmddhh24missff')  &gt;= #{dateFrom} 
-      </if>
-      <if test="dateTo != null ">
-        AND to_timestamp(time,'yyyymmddhh24missff')  &lt; #{dateTo}
-      </if>
-      <if test="tscId != null and tscId != ''">
-        AND stocker_ope_log.tsc_id = #{tscId}
+        AND rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
       </if>
     </where>
   </sql>
 
-  
-  <select id="getDownTime" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultType="java.lang.String"> 
-			SELECT  
+  <sql id="selectBoxWhere">
+    <where>
+   	  <if test="unit == '0'.toString()">
+        AND (flg &gt;= 0 or down_time &lt;&gt; 0)
+      </if>
+      <if test="unit == '1'.toString()">
+        AND down_time &lt;&gt; 0
+      </if>
+    </where>
+  </sql>
+
+ 
+  <select id="getCountByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultType="java.lang.Integer"> 
+select 
+ 	COUNT(*) 	 
+ from (
+	 	SELECT 
+	 	c.flg,
+	    c.time,
+	    c.time_to,
+	    c.tsc_id,
+	    c.assign_wait_max_time,
+	    c.assign_wait_min_time,
+	    c.assign_wait_ave_time,
+	    c.active_max_time,
+	    c.active_min_time,
+	    c.active_ave_time,
+	    c.active_total_time,
+	    c.ope_count,
+	    c.err_count,
+	    c.mcbf, 
+    	( SELECT  
 				    Round(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1,  4 ) || '-' ||  
 									  SUBSTR( tbl.end_time, 5,  2 ) || '-' ||  
 									  SUBSTR( tbl.end_time, 7,  2 ) || ' ' ||  
@@ -419,218 +435,539 @@
 									  SUBSTR( tbl.start_time, 9,  2 ) || ':' ||  
 									  SUBSTR( tbl.start_time, 11, 2 ) || ':' ||  
 									  SUBSTR( tbl.start_time, 13, 2 ) ),   
-									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))  
+									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))   
 			 FROM   ( SELECT tsc_id,  
-							 ( CASE WHEN start_time &lt; #{dateFromForDownTime} THEN #{dateFromForDownTime}  
+							 ( CASE WHEN start_time &lt; c.TIME THEN c.TIME  
 								 ELSE start_time  
 							   END ) start_time,  
-							 ( CASE WHEN end_time = '9999999999999999' THEN #{dateToForDownTime}  
-								 WHEN end_time &gt; #{dateToForDownTime} THEN #{dateToForDownTime}  
+							 ( CASE WHEN end_time = '9999999999999999' THEN c.TIME_TO 
+								 WHEN end_time &gt; c.TIME_TO THEN c.TIME_TO 
 								 ELSE end_time  
 							   END ) end_time  
 					   FROM down_time  
 					   WHERE  end_time &lt;&gt; '9999999999999999' AND  
-							  start_time &lt; #{dateToForDownTime}  AND  
-							  end_time &gt; #{dateFromForDownTime}  AND   
+							  start_time &lt; c.TIME_TO  AND  
+							  end_time &gt; c.TIME  AND   
 							  start_time &lt; end_time AND  
 							  tsc_id = #{tscId} ) tbl  
-			 GROUP BY tbl.tsc_id 
-    
-  </select>
+	   GROUP BY tbl.tsc_id ) down_time
+       
+       
+       from (
+        
   
-  <select id="getCountByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultType="java.lang.Integer"> 
-		SELECT
-			count(*)
-		FROM
-		(
-				SELECT 
-					 row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				 (substr(TIME,0,8) || '000000') TIME,
-    				 TO_CHAR(tsc_id) tsc_id,
-    				 MAX(assign_wait_max_time) assign_wait_max_time,
-    				 MIN(assign_wait_min_time) assign_wait_min_time,
-    				 ROUND( (
-						    CASE SUM( ope_count )
-						      WHEN 0
-						      THEN 0
-						      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
-						    END ), 0 ) assign_wait_ave_time,
-				    MAX(active_max_time) active_max_time,
-				    MIN(active_min_time) active_min_time,
-				    ROUND( (
-				    CASE SUM( ope_count )
-				      WHEN 0
-				      THEN 0
-				      ELSE SUM( active_total_time )/SUM( ope_count )
-				    END ), 0 ) assign_ave_time,
-    				SUM(active_total_time) active_total_time,
-				    SUM(ope_count) ope_count,
-				    SUM(err_count) err_count,
-				    ROUND( (
-				    CASE SUM( err_count )
-				      WHEN 0
-				      THEN SUM( ope_count) /1
-				      ELSE SUM( ope_count )/SUM( err_count )
-				    END ), 0 ) mcbf,
-				    SUM(assign_wait_total_time) assign_wait_total_time
-  				FROM stocker_ope_log
-	   			<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,8)
-		)
+	  		SELECT
+	      		a.flg,	
+				(b.DAY_TIME || '000000' ) TIME,
+	      		(b.DAY_TIME_TO || '000000' ) TIME_TO,
+				(select tsc.TSC_ABBREVIATION from tsc where tsc.tsc_id = #{tscId}) tsc_id, 
+				nvl(assign_wait_max_time, 0) assign_wait_max_time,
+				nvl(assign_wait_min_time, 0) assign_wait_min_time,
+				nvl(assign_wait_ave_time, 0) assign_wait_ave_time,
+				nvl(active_max_time, 0) active_max_time,
+				nvl(active_min_time, 0) active_min_time,
+				nvl(active_ave_time, 0) active_ave_time,
+				nvl(active_total_time,0) active_total_time,
+				nvl(ope_count, 0) ope_count,
+				nvl(err_count,0) err_count,
+				nvl(mcbf,0) mcbf 
+			FROM
+			(
+					(SELECT 
+						 
+	    				 0 flg,
+	             		 SUBSTR(TIME,0,8) TIME,
+	    				 tsc_id,
+	    				 MAX(assign_wait_max_time) assign_wait_max_time,
+	    				 MIN(assign_wait_min_time) assign_wait_min_time,
+	    				 ROUND( (
+							    CASE SUM( ope_count )
+							      WHEN 0
+							      THEN 0
+							      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
+							    END ), 0 ) assign_wait_ave_time,
+					     MAX(active_max_time) active_max_time,
+					     MIN(active_min_time) active_min_time,
+					     ROUND( (
+					     		CASE SUM( ope_count )
+					      			WHEN 0
+					      			THEN 0
+					      			ELSE SUM( active_total_time )/SUM( ope_count )
+					    			END ), 0 ) active_ave_time,
+	    				SUM(active_total_time) active_total_time,
+					    SUM(ope_count) ope_count,
+					    SUM(err_count) err_count,
+					    ROUND( (
+					    	CASE SUM( err_count )
+					      	WHEN 0
+					      	THEN SUM( ope_count) /1
+					      	ELSE SUM( ope_count )/SUM( err_count )
+					    	END ), 0 ) mcbf,
+					    SUM(assign_wait_total_time) assign_wait_total_time
+					    
+	  				FROM stocker_ope_log
+		   			WHERE stocker_ope_log.tsc_id = #{tscId}
+		   			GROUP BY tsc_id,SUBSTR(TIME,0,8)  
+		   			) a
+		   			RIGHT JOIN
+		   			(
+					  	SELECT  TO_CHAR(TO_DATE(#{dateFrom}, 'YYYY-MM-DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+					  			TO_CHAR(TO_DATE(#{dateFrom}, 'YYYY-MM-DD') + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+					    FROM DUAL
+					    CONNECT BY ROWNUM &lt;= TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom}, 'YYYY-MM-DD')
+				    ) b
+		   			ON a.TIME = b.DAY_TIME
+				)
+	      	) c 
+     )
+
     
   </select>
   
   
   <select id="getCountByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultType="java.lang.Integer"> 
-		SELECT
-			count(*)
-		FROM
-		(
-				SELECT 
-					 row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				 (substr(TIME,0,10) || '0000') TIME,
-    				 TO_CHAR(tsc_id) tsc_id,
-    				 MAX(assign_wait_max_time) assign_wait_max_time,
-    				 MIN(assign_wait_min_time) assign_wait_min_time,
-    				 ROUND( (
-						    CASE SUM( ope_count )
-						      WHEN 0
-						      THEN 0
-						      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
-						    END ), 0 ) assign_wait_ave_time,
-				    MAX(active_max_time) active_max_time,
-				    MIN(active_min_time) active_min_time,
-				    ROUND( (
-				    CASE SUM( ope_count )
-				      WHEN 0
-				      THEN 0
-				      ELSE SUM( active_total_time )/SUM( ope_count )
-				    END ), 0 ) assign_ave_time,
-    				SUM(active_total_time) active_total_time,
-				    SUM(ope_count) ope_count,
-				    SUM(err_count) err_count,
-				    ROUND( (
-				    CASE SUM( err_count )
-				      WHEN 0
-				      THEN SUM( ope_count) /1
-				      ELSE SUM( ope_count )/SUM( err_count )
-				    END ), 0 ) mcbf,
-				    SUM(assign_wait_total_time) assign_wait_total_time
-  				FROM stocker_ope_log
-	   			<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,10)
-		)
+  select 
+ 	Count(*) 	 
+ from (
+	 	SELECT 
+	 	c.flg,
+	    c.time,
+	    c.time_to,
+	    c.tsc_id,
+	    c.assign_wait_max_time,
+	    c.assign_wait_min_time,
+	    c.assign_wait_ave_time,
+	    c.active_max_time,
+	    c.active_min_time,
+	    c.active_ave_time,
+	    c.active_total_time,
+	    c.ope_count,
+	    c.err_count,
+	    c.mcbf, 
+    	( SELECT  
+				    Round(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.end_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) -  
+						   TO_DATE( ( SUBSTR( tbl.start_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.start_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))   
+			 FROM   ( SELECT tsc_id,  
+							 ( CASE WHEN start_time &lt; c.TIME THEN c.TIME  
+								 ELSE start_time  
+							   END ) start_time,  
+							 ( CASE WHEN end_time = '9999999999999999' THEN c.TIME_TO 
+								 WHEN end_time &gt; c.TIME_TO THEN c.TIME_TO 
+								 ELSE end_time  
+							   END ) end_time  
+					   FROM down_time  
+					   WHERE  end_time &lt;&gt; '9999999999999999' AND  
+							  start_time &lt; c.TIME_TO  AND  
+							  end_time &gt; c.TIME  AND   
+							  start_time &lt; end_time AND  
+							  tsc_id = #{tscId} ) tbl  
+	   GROUP BY tbl.tsc_id ) down_time
+       
+       
+       from (
+        
+  
+	  		SELECT
+	      		a.flg,	
+				(b.DAY_TIME || '0000' ) TIME,
+	      		(b.DAY_TIME_TO || '0000' ) TIME_TO,
+				(select tsc.TSC_ABBREVIATION from tsc where tsc.tsc_id = #{tscId}) tsc_id, 
+				nvl(assign_wait_max_time, 0) assign_wait_max_time,
+				nvl(assign_wait_min_time, 0) assign_wait_min_time,
+				nvl(assign_wait_ave_time, 0) assign_wait_ave_time,
+				nvl(active_max_time, 0) active_max_time,
+				nvl(active_min_time, 0) active_min_time,
+				nvl(active_ave_time, 0) active_ave_time,
+				nvl(active_total_time,0) active_total_time,
+				nvl(ope_count, 0) ope_count,
+				nvl(err_count,0) err_count,
+				nvl(mcbf,0) mcbf
+			FROM
+			(
+					(SELECT 
+						 
+	    				 0 flg,
+	             		 TIME,
+	    				 tsc_id,
+	    				 MAX(assign_wait_max_time) assign_wait_max_time,
+	    				 MIN(assign_wait_min_time) assign_wait_min_time,
+	    				 ROUND( (
+							    CASE SUM( ope_count )
+							      WHEN 0
+							      THEN 0
+							      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
+							    END ), 0 ) assign_wait_ave_time,
+					     MAX(active_max_time) active_max_time,
+					     MIN(active_min_time) active_min_time,
+					     ROUND( (
+					     		CASE SUM( ope_count )
+					      			WHEN 0
+					      			THEN 0
+					      			ELSE SUM( active_total_time )/SUM( ope_count )
+					    			END ), 0 ) active_ave_time,
+	    				SUM(active_total_time) active_total_time,
+					    SUM(ope_count) ope_count,
+					    SUM(err_count) err_count,
+					    ROUND( (
+					    	CASE SUM( err_count )
+					      	WHEN 0
+					      	THEN SUM( ope_count) /1
+					      	ELSE SUM( ope_count )/SUM( err_count )
+					    	END ), 0 ) mcbf,
+					    SUM(assign_wait_total_time) assign_wait_total_time
+					    
+	  				FROM stocker_ope_log
+		   			WHERE stocker_ope_log.tsc_id = #{tscId}
+		   			GROUP BY tsc_id,TIME 
+		   			) a
+		   			RIGHT JOIN
+		   			(
+		   				SELECT  TO_CHAR(to_date(#{dateFrom},'YYYY-MM-DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+	            			    TO_CHAR(to_date(#{dateFrom},'YYYY-MM-DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO 
+						FROM DUAL
+						CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom}, 'YYYY-MM-DD')) * 24 
+		   			) b
+		   			ON a.TIME = b.DAY_TIME
+				)
+	      	) c 
+     )
+     <include refid="selectBoxWhere" /> 
    
   </select>
   
   <!--  StockerStatisticsHistory情報一覧を取得する。 -->
   <select id="selectStockerStatisticsHistListByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultMap="SearchResultMap">
-   		SELECT
-			rn,		
-			TIME,
-			tsc_id,  
-			assign_wait_max_time, 
-			assign_wait_min_time, 
-			assign_wait_ave_time, 
-			active_max_time, 
-			active_min_time, 
-			active_ave_time, 
-			active_total_time,
-			ope_count, 
-			err_count,
-			mcbf 
-		FROM
-		(
-				SELECT 
-					 row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				 (substr(TIME,0,8) || '000000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where stocker_ope_log.tsc_id = tsc.tsc_id ) tsc_id,
-    				 MAX(assign_wait_max_time) assign_wait_max_time,
-    				 MIN(assign_wait_min_time) assign_wait_min_time,
-    				 ROUND( (
-						    CASE SUM( ope_count )
-						      WHEN 0
-						      THEN 0
-						      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
-						    END ), 0 ) assign_wait_ave_time,
-				    MAX(active_max_time) active_max_time,
-				    MIN(active_min_time) active_min_time,
-				    ROUND( (
-				    CASE SUM( ope_count )
-				      WHEN 0
-				      THEN 0
-				      ELSE SUM( active_total_time )/SUM( ope_count )
-				    END ), 0 ) active_ave_time,
-    				SUM(active_total_time) active_total_time,
-				    SUM(ope_count) ope_count,
-				    SUM(err_count) err_count,
-				    ROUND( (
-				    CASE SUM( err_count )
-				      WHEN 0
-				      THEN SUM( ope_count) /1
-				      ELSE SUM( ope_count )/SUM( err_count )
-				    END ), 0 ) mcbf,
-				    SUM(assign_wait_total_time) assign_wait_total_time
-  				FROM stocker_ope_log
-	   			<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,8) 
-		)
-       <include refid="selectRecordWhere" />
+ select 
+ 	rn,
+ 	time,
+ 	tsc_id,
+	assign_wait_max_time,
+	assign_wait_min_time,
+	assign_wait_ave_time,
+	active_max_time,
+	active_min_time,
+	active_ave_time,
+	active_total_time, 	
+ 	nvl(down_time,0) down_time,
+	ope_count,
+	err_count,
+	mcbf 
+from ( 
+
+  select 
+ 	row_number() over(order by time ) rn,
+ 	time,
+ 	tsc_id,
+	assign_wait_max_time,
+	assign_wait_min_time,
+	assign_wait_ave_time,
+	active_max_time,
+	active_min_time,
+	active_ave_time,
+	active_total_time, 	
+ 	nvl(down_time,0) down_time,
+	ope_count,
+	err_count,
+	mcbf  	 
+ from (
+	 	SELECT 
+	 	c.flg,
+	    c.time,
+	    c.time_to,
+	    c.tsc_id,
+	    c.assign_wait_max_time,
+	    c.assign_wait_min_time,
+	    c.assign_wait_ave_time,
+	    c.active_max_time,
+	    c.active_min_time,
+	    c.active_ave_time,
+	    c.active_total_time,
+	    c.ope_count,
+	    c.err_count,
+	    c.mcbf, 
+    	( SELECT  
+				    Round(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.end_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) -  
+						   TO_DATE( ( SUBSTR( tbl.start_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.start_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))   
+			 FROM   ( SELECT tsc_id,  
+							 ( CASE WHEN start_time &lt; c.TIME THEN c.TIME  
+								 ELSE start_time  
+							   END ) start_time,  
+							 ( CASE WHEN end_time = '9999999999999999' THEN c.TIME_TO 
+								 WHEN end_time &gt; c.TIME_TO THEN c.TIME_TO 
+								 ELSE end_time  
+							   END ) end_time  
+					   FROM down_time  
+					   WHERE  end_time &lt;&gt; '9999999999999999' AND  
+							  start_time &lt; c.TIME_TO  AND  
+							  end_time &gt; c.TIME  AND   
+							  start_time &lt; end_time AND  
+							  tsc_id = #{tscId} ) tbl  
+	   GROUP BY tbl.tsc_id ) down_time
        
+       
+       from (
+        
+  
+	  		SELECT
+	      		a.flg,	
+				(b.DAY_TIME || '000000' ) TIME,
+	      		(b.DAY_TIME_TO || '000000' ) TIME_TO,
+				(select tsc.TSC_ABBREVIATION from tsc where tsc.tsc_id = #{tscId}) tsc_id, 
+				nvl(assign_wait_max_time, 0) assign_wait_max_time,
+				nvl(assign_wait_min_time, 0) assign_wait_min_time,
+				nvl(assign_wait_ave_time, 0) assign_wait_ave_time,
+				nvl(active_max_time, 0) active_max_time,
+				nvl(active_min_time, 0) active_min_time,
+				nvl(active_ave_time, 0) active_ave_time,
+				nvl(active_total_time,0) active_total_time,
+				nvl(ope_count, 0) ope_count,
+				nvl(err_count,0) err_count,
+				nvl(mcbf,0) mcbf
+			FROM
+			(
+					(SELECT 
+						 
+	    				 0 flg,
+	             		 SUBSTR(TIME,0,8) TIME,
+	    				 tsc_id,
+	    				 MAX(assign_wait_max_time) assign_wait_max_time,
+	    				 MIN(assign_wait_min_time) assign_wait_min_time,
+	    				 ROUND( (
+							    CASE SUM( ope_count )
+							      WHEN 0
+							      THEN 0
+							      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
+							    END ), 0 ) assign_wait_ave_time,
+					     MAX(active_max_time) active_max_time,
+					     MIN(active_min_time) active_min_time,
+					     ROUND( (
+					     		CASE SUM( ope_count )
+					      			WHEN 0
+					      			THEN 0
+					      			ELSE SUM( active_total_time )/SUM( ope_count )
+					    			END ), 0 ) active_ave_time,
+	    				SUM(active_total_time) active_total_time,
+					    SUM(ope_count) ope_count,
+					    SUM(err_count) err_count,
+					    ROUND( (
+					    	CASE SUM( err_count )
+					      	WHEN 0
+					      	THEN SUM( ope_count) /1
+					      	ELSE SUM( ope_count )/SUM( err_count )
+					    	END ), 0 ) mcbf,
+					    SUM(assign_wait_total_time) assign_wait_total_time
+					    
+	  				FROM stocker_ope_log
+		   			WHERE stocker_ope_log.tsc_id = #{tscId}
+		   			GROUP BY tsc_id,SUBSTR(TIME,0,8)  
+		   			) a
+		   			RIGHT JOIN
+		   			(
+					  	SELECT  TO_CHAR(TO_DATE(#{dateFrom}, 'YYYY-MM-DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+					  			TO_CHAR(TO_DATE(#{dateFrom}, 'YYYY-MM-DD') + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+					    FROM DUAL
+					    CONNECT BY ROWNUM &lt;= TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom}, 'YYYY-MM-DD')
+				    ) b
+		   			ON a.TIME = b.DAY_TIME
+				)
+	      	) c 
+     )
+     )
+     <include refid="selectRecordWhere" /> 
+     ORDER BY TIME      
   </select>
   
   <select id="selectStockerStatisticsHistListByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetStockerStatisticsHistEntity" resultMap="SearchResultMap">
-   		SELECT
-			rn, 		
-			TIME,
-			tsc_id, 
-			assign_wait_max_time, 
-			assign_wait_min_time, 
-			assign_wait_ave_time, 
-			active_max_time, 
-			active_min_time, 
-			active_ave_time, 
-			active_total_time,
-			ope_count, 
-			err_count,
-			mcbf 
-		FROM
-		(
-				SELECT 
-					 row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				 (substr(TIME,0,10) || '0000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where stocker_ope_log.tsc_id = tsc.tsc_id ) tsc_id,
-    				 MAX(assign_wait_max_time) assign_wait_max_time,
-    				 MIN(assign_wait_min_time) assign_wait_min_time,
-    				 ROUND( (
-						    CASE SUM( ope_count )
-						      WHEN 0
-						      THEN 0
-						      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
-						    END ), 0 ) assign_wait_ave_time,
-				    MAX(active_max_time) active_max_time,
-				    MIN(active_min_time) active_min_time,
-				    ROUND( (
-				    CASE SUM( ope_count )
-				      WHEN 0
-				      THEN 0
-				      ELSE SUM( active_total_time )/SUM( ope_count )
-				    END ), 0 ) active_ave_time,
-    				SUM(active_total_time) active_total_time,
-				    SUM(ope_count) ope_count,
-				    SUM(err_count) err_count,
-				    ROUND( (
-				    CASE SUM( err_count )
-				      WHEN 0
-				      THEN SUM( ope_count) /1
-				      ELSE SUM( ope_count )/SUM( err_count )
-				    END ), 0 ) mcbf,
-				    SUM(assign_wait_total_time) assign_wait_total_time
-  				FROM stocker_ope_log
-	   			<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,10) 
-		)
-       <include refid="selectRecordWhere" />
+  select 
+ 	   rn,
+ 	   time,
+ 	   tsc_id,
+	   assign_wait_max_time,
+	   assign_wait_min_time,
+	   assign_wait_ave_time,
+	   active_max_time,
+	   active_min_time,
+	   active_ave_time,
+	   active_total_time, 	
+ 	   nvl(down_time,0) down_time,
+	   ope_count,
+	   err_count,
+	   mcbf  
+  
+  from (
+  
+  select 
+ 	   row_number() over(order by time ) rn,
+ 	   time,
+ 	   tsc_id,
+	   assign_wait_max_time,
+	   assign_wait_min_time,
+	   assign_wait_ave_time,
+	   active_max_time,
+	   active_min_time,
+	   active_ave_time,
+	   active_total_time, 	
+ 	   nvl(down_time,0) down_time,
+	   ope_count,
+	   err_count,
+	   mcbf  	 
+ from (
+	 	SELECT 
+	 		c.flg,
+	    	c.time,
+	    	c.time_to,
+	    	c.tsc_id,
+	    	c.assign_wait_max_time,
+	    	c.assign_wait_min_time,
+	    	c.assign_wait_ave_time,
+	    	c.active_max_time,
+	    	c.active_min_time,
+	    	c.active_ave_time,
+	    	c.active_total_time,
+	    	c.ope_count,
+	    	c.err_count,
+	    	c.mcbf, 
+    		( 
+    		
+    			SELECT  
+				    Round(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.end_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.end_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.end_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) -  
+						   TO_DATE( ( SUBSTR( tbl.start_time, 1,  4 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 5,  2 ) || '-' ||  
+									  SUBSTR( tbl.start_time, 7,  2 ) || ' ' ||  
+									  SUBSTR( tbl.start_time, 9,  2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 11, 2 ) || ':' ||  
+									  SUBSTR( tbl.start_time, 13, 2 ) ),   
+									  'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))   
+			 	FROM   ( 
+			 				SELECT 
+			 					tsc_id,  
+							    ( 
+							    CASE WHEN start_time &lt; c.TIME 
+							    	     THEN c.TIME  
+							    	     ELSE start_time  
+							    END ) start_time,  
+							    ( 
+							    CASE WHEN end_time = '9999999999999999' 
+							    	     THEN c.TIME_TO 
+							    	 WHEN end_time &gt; c.TIME_TO 
+							    	 	 THEN c.TIME_TO  
+							    	 	 ELSE end_time  
+							    END ) end_time  
+					   		FROM down_time  
+					   		WHERE  
+					   			end_time &lt;&gt; '9999999999999999' AND  
+							  	start_time &lt; c.TIME_TO  AND  
+							  	end_time &gt; c.TIME  AND   
+							  	start_time &lt; end_time AND  
+							  	tsc_id = #{tscId} 
+					    ) tbl  
+	   			GROUP BY tbl.tsc_id ) down_time
+       
+       
+       		from 
+       		(
+        
+  
+	  			SELECT
+		      		a.flg,	
+					(b.DAY_TIME || '0000' ) TIME,
+		      		(b.DAY_TIME_TO || '0000' ) TIME_TO,
+					(select tsc.TSC_ABBREVIATION from tsc where tsc.tsc_id = #{tscId}) tsc_id, 
+					nvl(assign_wait_max_time, 0) assign_wait_max_time,
+					nvl(assign_wait_min_time, 0) assign_wait_min_time,
+					nvl(assign_wait_ave_time, 0) assign_wait_ave_time,
+					nvl(active_max_time, 0) active_max_time,
+					nvl(active_min_time, 0) active_min_time,
+					nvl(active_ave_time, 0) active_ave_time,
+					nvl(active_total_time,0) active_total_time,
+					nvl(ope_count, 0) ope_count,
+					nvl(err_count,0) err_count,
+					nvl(mcbf,0) mcbf
+				FROM
+				(
+					(
+					
+						SELECT 
+						 
+		    				 0 flg,
+		             		 TIME,
+		    				 tsc_id,
+		    				 MAX(assign_wait_max_time) assign_wait_max_time,
+		    				 MIN(assign_wait_min_time) assign_wait_min_time,
+		    				 ROUND( (
+								    CASE SUM( ope_count )
+								      WHEN 0
+								      THEN 0
+								      ELSE SUM( assign_wait_total_time )/SUM( ope_count )
+								    END ), 0 ) assign_wait_ave_time,
+						     MAX(active_max_time) active_max_time,
+						     MIN(active_min_time) active_min_time,
+						     ROUND( (
+						     		CASE SUM( ope_count )
+						      			WHEN 0
+						      			THEN 0
+						      			ELSE SUM( active_total_time )/SUM( ope_count )
+						    			END ), 0 ) active_ave_time,
+		    				SUM(active_total_time) active_total_time,
+						    SUM(ope_count) ope_count,
+						    SUM(err_count) err_count,
+						    ROUND( (
+						    	CASE SUM( err_count )
+						      	WHEN 0
+						      	THEN SUM( ope_count) /1
+						      	ELSE SUM( ope_count )/SUM( err_count )
+						    	END ), 0 ) mcbf,
+						    SUM(assign_wait_total_time) assign_wait_total_time
+					    
+	  					FROM stocker_ope_log
+		   				WHERE stocker_ope_log.tsc_id = #{tscId}
+		   				GROUP BY tsc_id,TIME 
+		   			) a
+		   			RIGHT JOIN
+		   			(
+		   				SELECT  TO_CHAR(to_date(#{dateFrom},'YYYY-MM-DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+	            			    TO_CHAR(to_date(#{dateFrom},'YYYY-MM-DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO 
+						FROM DUAL
+						CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom}, 'YYYY-MM-DD')) * 24 
+		   			) b
+		   			ON a.TIME = b.DAY_TIME
+				)
+	      	) c 
+     )
+     <include refid="selectBoxWhere" /> 
+     )
+     <include refid="selectRecordWhere" /> 
+     ORDER BY TIME  
        
   </select>
 </mapper>

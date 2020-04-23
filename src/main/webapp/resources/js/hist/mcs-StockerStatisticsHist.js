@@ -68,12 +68,15 @@ $(function() {
   creTopMenu();
   
   //初回検索
-  /*extract({
+  extract({
 	  tscId: '',
+	  tscName:  '',
 	  unit: '',
+	  unitName:  '',
 	  dateFrom: null,
 	  dateTo: null,
-  });*/
+
+  });
   
   //検索ボタンを設定する
   createSearchSlide();
@@ -100,7 +103,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/StockerStatisticsHist/GetStockerStatisticsHist'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-003-dataTables', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
@@ -140,7 +143,8 @@ $(function() {
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
     var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
-
+    
+	
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
       slideMenuTop.toggle();
@@ -148,13 +152,17 @@ $(function() {
     // 検索ボタン押下
     searchBtn.onClick(function() {
       // 画面の内容を消去
-
-      slideMenuSearch.show();
+    	var day = new Date();
+        searchComp.get('dateFrom').setValue(day);
+        searchComp.get('dateTo').setValue(day);
+        
+        slideMenuSearch.show();
     });
 
     
     //download
     downLoadBtn.onClick(function() {
+    	
     	saveMenu.show();
     	//saveCsvSlide();
     });
@@ -183,9 +191,16 @@ $(function() {
     var unit = new McsSelectBox($('#mcs-search-unit'));
     var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
     var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
+    
+    // DateTimePickerの秒指定を無効にする
+    //var crntFormat = 'YYYY/MM/DD 00:00:00';
+    var crntFormat = 'YYYY-MM-DD';
+    dateFrom.setFormat(crntFormat);
+    dateTo.setFormat(crntFormat);
     
     var tscIdList = screenValue.tscId;
     var unitList= screenValue.unit;
@@ -241,11 +256,11 @@ $(function() {
       
       if(searchInfoDateFrom!=null && searchInfoDateFrom !="")
       {
-    	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " - ";
+    	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " 00:00:00 - ";
       }
       if(searchInfoDateTo!=null && searchInfoDateTo !="")
       {
-    	  searchInfoDateTos = searchInfoDateTo + "]";
+    	  searchInfoDateTos = searchInfoDateTo + " 23:59:59 ]";
       }
            
       $('#searchInfo').html(  searchInfoTscIds+ space + 

@@ -159,47 +159,16 @@ public class StockerStatisticsHistService extends BaseService {
 	 		retRec.transferCount = Integer.toString(stockerOpeLogRec.getTransferCount());
 	 		retRec.errorCount = Integer.toString(stockerOpeLogRec.getErrorCount());
 	 		retRec.mCBF = Integer.toString(stockerOpeLogRec.getMCBF());
-	 		
-	 		reqEntity.dateFromForDownTime = stockerOpeLogRec.getTime();
-	 		//String dateFrom = new SimpleDateFormat("yyyyMMddHHmmss").format(reqEntity.dateFrom);
-
- 			//if (dateFrom.compareTo(stockerOpeLogRec.getTime()) > 0 )
-	 		//{
-		 		//reqEntity.dateFromForDownTime = dateFrom;
- 			//	dateFrom = reqEntity.dateFromForDownTime;
-		 	//}
-
-	 		
-	 		
-	 		reqEntity.dateToForDownTime = getEndTime(reqEntity.dateFromForDownTime,reqEntity.unit);
-	 		
-	 		reqEntity.dateFromForDownTime = reqEntity.dateFromForDownTime + "00";
-	 		reqEntity.dateToForDownTime = reqEntity.dateToForDownTime + "00";
-	 		//String dateTo = new SimpleDateFormat("yyyyMMddHHmmss").format(reqEntity.dateTo);
-	 		
-	 		//if (dateTo.compareTo(reqEntity.dateToForDownTime) < 0 )
-	 		//{
-		 	//	reqEntity.dateToForDownTime = dateTo;
-		 	//}
-	 		
-	 		if (stockerOpeLogMapper.getDownTime(reqEntity) != null)
-	 		{
-	 			downTime = Long.parseLong(stockerOpeLogMapper.getDownTime(reqEntity));
-	 		}
-	 		else
-	 		{
-	 			downTime = 0;	 			
-	 		}
-	 			 			
-	 	
+	 			
+	 		downTime = stockerOpeLogRec.getDownTime();
 	 		totalUpTime = timeUnit - downTime;
 	 		idleTime = totalUpTime - stockerOpeLogRec.activeTotalTime;
 	 		opeRate = (long)(((float)stockerOpeLogRec.activeTotalTime/timeUnit)*100);
 	 		
-	 		retRec.downTime = new BigDecimal( downTime );
+	 		retRec.downTime = secondToTime(downTime);
 	 		retRec.totalUpTime = secondToTime(totalUpTime);
 	 		retRec.idleTime = secondToTime(idleTime);
-	 		retRec.opeRate = new BigDecimal(opeRate);	 		
+	 		retRec.opeRate = Long.toString(opeRate); 		
 	 		
         	retRecList.add(retRec);
         	num ++ ;

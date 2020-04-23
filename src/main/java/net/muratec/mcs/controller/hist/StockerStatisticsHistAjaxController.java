@@ -21,9 +21,14 @@
 package net.muratec.mcs.controller.hist;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -144,6 +149,30 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
             // エラーチェック（エラー時はAjaxAurgumentExceptionをthrow）
            /* ReqGetStockerInfoListValidateEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
                     ReqGetStockerInfoListValidateEntity.class);*/
+            
+        	// 日付の大小関係を確認（修正）
+            if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
+                // 大小関係が入れ替わっている場合
+                // 現在の値を格納
+            	String sbeforeFrom = reqEntity.dateFrom;
+            	String sbeforeTo = reqEntity.dateTo;
+            	
+                // FromとToを入れ替え
+                reqEntity.dateFrom = sbeforeTo;
+                reqEntity.dateTo = sbeforeFrom;
+             
+            }
+        	
+            DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            try {
+            	c.setTime(d.parse(reqEntity.dateTo.toString()));
+            }catch(ParseException e) {
+   			 	e.printStackTrace();
+            }
+            c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
+            String t = d.format(c.getTime());
+            reqEntity.dateTo1 = d.format(c.getTime());
 
             // データ取得、設定
             resEntity.body = stockerStatisticsHistService.getStockerStatisticsHist(reqEntity);
@@ -194,13 +223,26 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
             // 大小関係が入れ替わっている場合
             // 現在の値を格納
-        	Timestamp sbeforeFrom = reqEntity.dateFrom;
-        	Timestamp sbeforeTo = reqEntity.dateTo;
+        	String sbeforeFrom = reqEntity.dateFrom;
+        	String sbeforeTo = reqEntity.dateTo;
+        	
             // FromとToを入れ替え
             reqEntity.dateFrom = sbeforeTo;
             reqEntity.dateTo = sbeforeFrom;
+         
         }
-
+           
+        DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+        	c.setTime(d.parse(reqEntity.dateTo.toString()));
+        }catch(ParseException e) {
+			 	e.printStackTrace();
+        }
+        c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
+        String t = d.format(c.getTime());
+        reqEntity.dateTo1 = d.format(c.getTime());
+        
         // 戻り値宣言
         AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 

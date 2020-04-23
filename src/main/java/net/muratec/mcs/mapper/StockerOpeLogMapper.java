@@ -108,7 +108,6 @@ public interface StockerOpeLogMapper {
     List<StockerOpeLogModel> selectStockerStatisticsHistListByHour(ReqGetStockerStatisticsHistEntity reqEntity);
     
     //@formatter:on
-    String getDownTime(ReqGetStockerStatisticsHistEntity reqEntity);
     int getCountByDay(ReqGetStockerStatisticsHistEntity reqEntity);
     int getCountByHour(ReqGetStockerStatisticsHistEntity reqEntity);
 }
