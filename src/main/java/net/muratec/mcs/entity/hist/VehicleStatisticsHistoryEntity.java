@@ -42,6 +42,7 @@ public class VehicleStatisticsHistoryEntity {
 	public int rn;
 	public String time;
 	public String tscId;
+	public String tscName;
 	public String vehicleId;
 	public String assignWaitMaxTime;
 	public String assignWaitMinTime;
@@ -52,7 +53,8 @@ public class VehicleStatisticsHistoryEntity {
 	public String activeTotalTime;
 	public String idleTime;
 	public String totalUpTime;
-	public BigDecimal downTime;
+	//public BigDecimal downTime;
+	public String downTime;
 	public BigDecimal opeRate;
 	public String transferCount;
 	public String errorCount;

@@ -596,6 +596,7 @@
    <id column="TIME" jdbcType="VARCHAR" property="time" />
    <result column="RN" jdbcType="DECIMAL" property="rn" />
    <result column="TSC_ID" jdbcType="VARCHAR" property="tscId" />
+   <result column="TSC_NAME" jdbcType="VARCHAR" property="tscName" />
    <result column="VEHICLE_ID" jdbcType="VARCHAR" property="vehicleId" />
    <result column="ASSIGN_WAIT_MAX_TIME" jdbcType="DECIMAL" property="assignWaitMaxTime" />
    <result column="ASSIGN_WAIT_MIN_TIME" jdbcType="DECIMAL" property="assignWaitMinTime" />
@@ -682,10 +683,10 @@
 		FROM
 		(
 	   			SELECT 
-	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				 (substr(TIME,0,8) || '000000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
-    			
+	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
+    				   (substr(TIME,0,8) || '000000') TIME,
+    				   TO_CHAR(tsc_id) tsc_id,
+    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
 					   '' vehicle_id,  
 					   MAX(assign_wait_max_time) assign_wait_max_time,  
 					   MIN(assign_wait_min_time) assign_wait_min_time,  
@@ -725,13 +726,13 @@
 		FROM
 		(
 	   			SELECT 
-	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				 (substr(TIME,0,10) || '0000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
-    				 
+	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
+    				   (substr(TIME,0,10) || '0000') TIME,
+    				   TO_CHAR(tsc_id) tsc_id,
+    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+					   '' vehicle_id,  
 					<!--    ( time || '000000' ) time,  
 					   TO_CHAR(tsc_id) tsc_id, -->  
-					   '' vehicle_id,  
 					   MAX(assign_wait_max_time) assign_wait_max_time,  
 					   MIN(assign_wait_min_time) assign_wait_min_time,  
 					   ROUND( ( CASE SUM( ope_count )   
@@ -772,7 +773,8 @@
    		SELECT
 			rn, 		
 			TIME,
-			tsc_id, 
+			tsc_id,
+			tsc_name, 
 			vehicle_id, 
 			assign_wait_max_time, 
 			assign_wait_min_time, 
@@ -789,13 +791,14 @@
 		FROM
 		(
 	   			SELECT 
-	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				 (substr(TIME,0,8) || '000000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
-    				 
+	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
+    				   (substr(TIME,0,8) || '000000') TIME,
+    				   TO_CHAR(tsc_id) tsc_id, 
+    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+    				   vehicle_id,
 					<!--    ( time || '000000' ) time,  
-					   TO_CHAR(tsc_id) tsc_id, -->  
-					   '' vehicle_id,  
+					   TO_CHAR(tsc_id) tsc_id,  
+					   '' vehicle_id,  --> 
 					   MAX(assign_wait_max_time) assign_wait_max_time,  
 					   MIN(assign_wait_min_time) assign_wait_min_time,  
 					   ROUND( ( CASE SUM( ope_count )   
@@ -823,7 +826,7 @@
 					   SUM( assign_wait_total_time ) assign_wait_total_time  
 				FROM   vehicle_ope_log 
 				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,8)  
+	   			GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
 				<!-- 
 				WHERE , 
 				GROUP BY tsc_id,time,
@@ -835,7 +838,8 @@
    		SELECT
 			rn, 		
 			TIME,
-			tsc_id, 
+			tsc_id,
+			tsc_name, 
 			vehicle_id, 
 			assign_wait_max_time, 
 			assign_wait_min_time, 
@@ -852,13 +856,14 @@
 		FROM
 		(
 	   			SELECT 
-	   			     row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				 (substr(TIME,0,10) || '0000') TIME,
-    				 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_id, 
-    				 
+	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
+    				   (substr(TIME,0,10) || '0000') TIME,
+    				   TO_CHAR(tsc_id) tsc_id,
+    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+    				   vehicle_id,
 					<!--    ( time || '000000' ) time,  
-					   TO_CHAR(tsc_id) tsc_id, -->  
-					   '' vehicle_id,  
+					   TO_CHAR(tsc_id) tsc_id, 
+					   '' vehicle_id,   --> 
 					   MAX(assign_wait_max_time) assign_wait_max_time,  
 					   MIN(assign_wait_min_time) assign_wait_min_time,  
 					   ROUND( ( CASE SUM( ope_count )   
@@ -886,7 +891,7 @@
 					   SUM( assign_wait_total_time ) assign_wait_total_time  
 				FROM   vehicle_ope_log 
 				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,10)  
+	   			GROUP BY tsc_id,vehicle_id,substr(TIME,0,10)  
 				<!-- 
 				WHERE , 
 				GROUP BY tsc_id,time,

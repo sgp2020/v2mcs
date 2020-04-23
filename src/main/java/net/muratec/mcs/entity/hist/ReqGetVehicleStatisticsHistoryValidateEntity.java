@@ -22,6 +22,8 @@ package net.muratec.mcs.entity.hist;
 
 import java.sql.Timestamp;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.muratec.mcs.annotation.FieldNameKey;

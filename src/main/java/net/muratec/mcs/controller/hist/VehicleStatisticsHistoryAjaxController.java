@@ -143,6 +143,23 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
         ResGetVehicleStatisticsHistoryEntity resEntity = mcsDataTablesService.createResEntity(ResGetVehicleStatisticsHistoryEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
+        // ------------------------------------
+        // 日付の大小関係を確認（修正）
+        // ------------------------------------
+        if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
+            // 大小関係が入れ替わっている場合
+
+            // 現在の値を格納
+            Timestamp beforeFrom = reqEntity.dateFrom;
+            Timestamp beforeTo = reqEntity.dateTo;
+
+            // FromとToを入れ替え
+            reqEntity.dateFrom = beforeTo;
+            reqEntity.dateTo = beforeFrom;
+        }
+
+        
+        
         // 検索処理実装判定
         if (reqValidate.searchDataFlag) {
             // エラーチェック（エラー時はAjaxAurgumentExceptionをthrow）
