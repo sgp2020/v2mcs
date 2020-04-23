@@ -129,7 +129,7 @@
         <spring:message code="IH-004-03-003" />
         <div id="mcs-search-unit"></div>
         
-        <spring:message code="IH-004-03-004" />
+        <span class="mcs-required"><spring:message code="IH-004-03-004" /></span>
         <div id="mcs-search-dFrom"></div>
         <div id="mcs-search-dTo"></div>
         

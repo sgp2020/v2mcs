@@ -34,6 +34,8 @@
 <%-- マルチセレクトボックスヘッダ --%>
 <%@ include file="../common/multiSelectBoxHeader.jsp"%>
 
+<%@ include file="../hist/MacroDataDialog.jsp"%>
+
 <%-- 画面固有ヘッダ --%>
 <title><spring:message code="IH-002-01-001" /></title>
 <link rel="stylesheet" href="<c:url value='/resources/css/hist/mcs-AtomicActivityHist.css?Ver=${version}'/>" media="all">
