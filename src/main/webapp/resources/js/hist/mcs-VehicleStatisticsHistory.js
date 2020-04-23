@@ -204,7 +204,8 @@ $(function() {
       //var date1 = y+'/'+m+'/'+d1+'/'+' 23:59:59';
       var date1 = y1+'/'+m1+'/'+d1;
       searchComp.get('dateFrom').setValue(date);
-      searchComp.get('dateTo').setValue(date1);
+      //searchComp.get('dateTo').setValue(date1);
+      searchComp.get('dateTo').setValue(date);
       
       // 前回の条件を復元
       var datas = dataTables.getLatestCond();
