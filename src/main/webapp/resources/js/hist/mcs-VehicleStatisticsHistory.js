@@ -186,7 +186,7 @@ $(function() {
           d1 = "0" + d1;
       }
       //var date = y+'/'+m+'/'+d+'/'+' 00:00:00';
-      var date = y+'/'+m+'/'+d+'/';
+      var date = y+'/'+m+'/'+d;
       var date1 = y+'/'+m+'/'+d1+'/'+' 00:00:00';
       searchComp.get('dateFrom').setValue(date);
       searchComp.get('dateTo').setValue(date1);

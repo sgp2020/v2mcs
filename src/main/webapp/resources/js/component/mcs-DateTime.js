@@ -97,8 +97,7 @@ McsDateTime.prototype = {
     } else {
       // 英語
       locale = 'en';
-      //format = 'YYYY/MM/DD HH:mm:ss';
-      format = 'YYYY/MM/DD';
+      format = 'YYYY/MM/DD HH:mm:ss';
     }
 
     // DatetimePicker化
