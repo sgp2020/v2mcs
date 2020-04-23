@@ -139,13 +139,14 @@ public class MacroDataAjaxController extends BaseAjaxController {
         // ------------------------------------
         // レスポンスエンティティ生成
         // ------------------------------------
-        ResGetMacroDataListEntity resEntity = mcsDataTablesService.createResEntity(ResGetMacroDataListEntity.class, reqEntity,
-                sessionUserInfo.userName, locale);
+       /* ResGetMacroDataListEntity resEntity = mcsDataTablesService.createResEntity(ResGetMacroDataListEntity.class, reqEntity,
+                sessionUserInfo.userName, locale);*/
+        ResGetMacroDataListEntity resEntity = new ResGetMacroDataListEntity();
 
         // ------------------------------------
         // 検索処理実装判定
         // ------------------------------------
-        if (reqEntity.searchDataFlag) {
+//        if (reqEntity.searchDataFlag) {
 
             // ------------------------------------
             // データ取得、設定
@@ -155,8 +156,8 @@ public class MacroDataAjaxController extends BaseAjaxController {
             // ------------------------------------
             // 全体レコード数取得、設定
             // ------------------------------------
-            resEntity.pageInfo.totalRecords = macroDataService.getCount(reqEntity);
-        }
+//            resEntity.pageInfo.totalRecords = macroDataService.getCount(reqEntity);
+//        }
 
         return resEntity;
     }

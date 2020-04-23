@@ -948,8 +948,9 @@
   <resultMap id="SearchMacroDataResultMap" type="net.muratec.mcs.model.MacroTransferLog">
         <id column="TIME" property="time" jdbcType="VARCHAR" />
 		<id column="ORG_CARRIER_ID" property="orgCarrierId" jdbcType="VARCHAR" />
-	    <id column="STATUS" property="status" jdbcType="DECIMAL" />
+	    <!-- <id column="STATUS" property="status" jdbcType="DECIMAL" /> -->
 	    <id column="ORG_COMMAND_ID" property="orgCommandId" jdbcType="VARCHAR" />
+	    <result column="statusStr" property="statusStr" jdbcType="VARCHAR" />
 		<result column="ORG_RCV_TIME" property="orgRcvTime" jdbcType="VARCHAR" />
 		<result column="ORG_CMP_TIME" property="orgCmpTime" jdbcType="VARCHAR" />
 	    <result column="ORG_SRC_TSC_ID" property="orgSrcTscId" jdbcType="DECIMAL" />
@@ -980,7 +981,14 @@
 			  org_dst_loc,
 			  alt_tsc_id, 
 			  alt_loc, 
-			  status, 
+			  <!-- status,  -->
+			  ( CASE status WHEN 0 THEN 'Queued'  
+								 WHEN 1 THEN 'Executing'  
+								 WHEN 2 THEN 'Complete'  
+								 WHEN 3 THEN 'AlternateComp'  
+								 WHEN 4 THEN 'Cancel'  
+										ELSE 'Maintenance'  
+			                 END ) statusStr, 
 			  org_priority,
 			  cancel_flg, +
 			  org_dst_group, +
@@ -1028,7 +1036,7 @@
 		</select>
     <!-- END 2020.04.02 DONG  ADD -->
     
-    <!-- STD 2020.04.07 SGP ADD -->
+    <!-- STD 2020.04.07 DONG ADD -->
     <resultMap id="SearchTscResultMap" type="net.muratec.mcs.model.Tsc">
 	  <id     column="TSC_ID" 		     jdbcType="DECIMAL" property="tscId" />
 	  <result column="TSC_ABBREVIATION"  jdbcType="VARCHAR" property="tscAbbreviation" />
@@ -1282,5 +1290,23 @@
       FROM   atomic_transfer_log  
       WHERE  command_id = #{commandId,jdbcType=VARCHAR}
   </select>
-  <!-- END 2020.04.07 SGP ADD -->
+  <!-- END 2020.04.07 DONG ADD -->
+  <!-- STD 2020.04.23 DONG ADD -->
+    <resultMap id="SearchTscNameMap" type="net.muratec.mcs.model.Tsc">
+	  <id column="TSC_ABBREVIATION" property="tscAbbreviation" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="tscIdWhere">
+    <where>
+      <if test="tscId != null and tscId !='' ">
+        tsc_id = #{tscId}
+      </if>
+    </where>
+    </sql>
+    <select id="setTscName" parameterType="java.lang.String" resultMap="SearchTscNameMap">
+        SELECT TSC_ABBREVIATION, TSC_ABBREVIATION 
+		FROM TSC 
+		<include refid="tscIdWhere" />
+		ORDER BY 1
+    </select>
+  <!-- END 2020.04.23 DONG ADD -->
 </mapper>

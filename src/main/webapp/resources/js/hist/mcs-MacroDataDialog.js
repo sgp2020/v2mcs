@@ -30,9 +30,9 @@
  * ----------------------------------------------------------------------------
  ******************************************************************************
  */
-function MacroDataDialog() {
+function MacroDataDialog(commandId) {
 	
-	  var commandId = $('#commandId').val();
+//	  var commandId = $('#commandId').val();
 
 	  // 初回検索
 	  var cond = {
@@ -101,7 +101,7 @@ function MacroDataDialog() {
   //**********************************************
   //ダイアログオープン
   //**********************************************
-  macroDataDialog.openCommonPartsDialog(macroDataDialogDiv, 450, 630, retBtnText, retBtnText, portLStateChangeDialogFunc, true);
+  macroDataDialog.openCommonPartsDialog(macroDataDialogDiv, 900, 630, null, retBtnText, portLStateChangeDialogFunc, true);
 
   /**
    ******************************************************************************
@@ -150,7 +150,7 @@ function MacroDataDialog() {
     // **********************************************
     //portLStateChangeDialogComp.add('controllerType', portLStateChangeDialogTypeSelBox);
     //portLStateChangeDialogComp.add('controller', portLStateChangeDialogCtrlSelBox);
-    macroDataDialogComp.add('portList', macroDataDialogListTable);
+    macroDataDialogComp.add('macroDataList', macroDataDialogListTable);
     //portLStateChangeDialogComp.add('logicalStateAfter', portLStateChangeDialogLogicalSelBox);
 
     // **********************************************
@@ -194,40 +194,40 @@ function MacroDataDialog() {
 	    text: macroDataDialogText.rum,
 	    display: true
 	  }, {
-	    name: 'carrierId',
-	    text: macroDataDialogText.carrierId,
+	    name: 'orgCarrierId',
+	    text: macroDataDialogText.orgCarrierId,
 	    display: true
 	  }, {
-	    name: 'rcvTime',
-	    text: macroDataDialogText.rcvTime,
+	    name: 'orgRcvTime',
+	    text: macroDataDialogText.orgRcvTime,
 	    display: true
 	  }, {
-	    name: 'startTime',
-	    text: macroDataDialogText.startTime,
+	    name: 'orgStartTime',
+	    text: macroDataDialogText.orgStartTime,
 	    display: true
 	  }, {
-	    name: 'cmpTime',
-	    text: macroDataDialogText.cmpTime,
+	    name: 'orgCmpTime',
+	    text: macroDataDialogText.orgCmpTime,
 	    display: true
 	  },{
-	    name: 'srcTscId',
-	    text: macroDataDialogText.srcTscId,
+	    name: 'orgSrcTscId',
+	    text: macroDataDialogText.orgSrcTscId,
 	    display: true
 	  }, {
-	    name: 'srcLoc',
-	    text: macroDataDialogText.srcLoc,
+	    name: 'orgSrcLoc',
+	    text: macroDataDialogText.orgSrcLoc,
 	    display: true
 	  }, {
-	    name: 'dstTscId',
-	    text: macroDataDialogText.dstTscId,
+	    name: 'orgDstTscId',
+	    text: macroDataDialogText.orgDstTscId,
 	    display: true
 	  }, {
-	    name: 'dstLoc',
-	    text: macroDataDialogText.dstLoc,
+	    name: 'orgDstLoc',
+	    text: macroDataDialogText.orgDstLoc,
 	    display: true
 	  },{
-	    name: 'dstGroup',
-	    text: macroDataDialogText.dstGroup,
+	    name: 'orgDstGroup',
+	    text: macroDataDialogText.orgDstGroup,
 	    display: true
 	  }, {
 	    name: 'altTscId',
@@ -242,28 +242,28 @@ function MacroDataDialog() {
 	    text: macroDataDialogText.status,
 	    display: true
 	  }, {
-	    name: 'priority',
-	    text: macroDataDialogText.priority,
+	    name: 'orgPriority',
+	    text: macroDataDialogText.orgPriority,
 	    display: true
 	  },{
-	    name: 'cancelReq',
-	    text: macroDataDialogText.cancelReq,
+	    name: 'cancelFlg',
+	    text: macroDataDialogText.cancelFlg,
 	    display: true
 	  },{
 	    name: 'time',
 	    text: macroDataDialogText.time,
 	    display: true
 	  },{
-	    name: 'hostCommand',
-	    text: macroDataDialogText.hostCommand,
+	    name: 'orgHostCommandId',
+	    text: macroDataDialogText.orgHostCommandId,
 	    display: true
 	  },{
-	    name: 'commandId',
-	    text: macroDataDialogText.commandId,
+	    name: 'orgCommandId',
+	    text: macroDataDialogText.orgCommandId,
 	    display: true
 	  },{
-	    name: 'originator',
-	    text: macroDataDialogText.originator,
+	    name: 'orgOriginator',
+	    text: macroDataDialogText.orgOriginator,
 	    display: true
 	  },{
 	    name: 'rerouteReq',
@@ -278,7 +278,7 @@ function MacroDataDialog() {
     var flag = false;
     var success = function(retObj) {
       macroDataDialogListTable.clear();
-      macroDataDialogListTable.addDataList(retObj.portList);
+      macroDataDialogListTable.addDataList(retObj.body);
     };
     callAjax(url, JSON.stringify(cond), flag, success);
     // 論理状態(変更後)

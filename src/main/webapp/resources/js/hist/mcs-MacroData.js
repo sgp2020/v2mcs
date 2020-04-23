@@ -76,7 +76,7 @@
     });
   }
 });*/
-function openMacroDataDialog() {
+function openMacroDataDialog(commandId) {
 	  //**********************************************
 	  //**********************************************
 	  var macroDataDialogComp = new McsComponentManager();
@@ -85,7 +85,7 @@ function openMacroDataDialog() {
 	  //コンポーネントマネージャーの生成
 	  //**********************************************
 	  var macroDataDialogDelTaskManager = new McsDeleteTaskManager();
-	  var commandId = $('#commandId').val();
+//	  var commandId = $('#commandId').val();
 
 	  // 初回検索
 	  var cond = {

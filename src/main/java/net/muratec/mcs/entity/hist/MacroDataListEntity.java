@@ -43,13 +43,13 @@ public class MacroDataListEntity {
 	public String orgRcvTime;
 	public String orgStartTime;
 	public String orgCmpTime;
-	public int orgSrcTscId;
+	public String orgSrcTscId;
 	public String orgSrcLoc;
-	public int orgDstTscId;
+	public String orgDstTscId;
 	public String orgDstLoc;
-	public int altTscId;
+	public String altTscId;
 	public String altLoc;
-	public int status;
+	public String status;
 	public int orgPriority;
 	public int cancelFlg;
 	public String orgDstGroup;

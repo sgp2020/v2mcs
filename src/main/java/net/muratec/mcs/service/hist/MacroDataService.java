@@ -31,6 +31,7 @@ import net.muratec.mcs.entity.hist.MacroDataListEntity;
 import net.muratec.mcs.entity.hist.ReqGetMacroDataEntity;
 import net.muratec.mcs.mapper.MacroTransferLogMapper;
 import net.muratec.mcs.model.MacroTransferLog;
+import net.muratec.mcs.model.Tsc;
 import net.muratec.mcs.service.common.BaseService;
 
 //@formatter:off
@@ -121,24 +122,35 @@ public class MacroDataService extends BaseService {
         int rowNum = 1;
 	 	for (MacroTransferLog macroTransferLogRec : macroTransferLog) {
 	 		MacroDataListEntity retRec = new MacroDataListEntity();
-
+	 		
+	 		String orgSrcTscId = String.valueOf(macroTransferLogRec.getOrgSrcTscId());
+	 		List<Tsc> getSrcTscName = macroTransferLogMapper.setTscName(orgSrcTscId);
+	 		
+	 		String orgDstTscId = String.valueOf(macroTransferLogRec.getOrgDstTscId());
+	 		List<Tsc> getDstTscName = macroTransferLogMapper.setTscName(orgDstTscId);
+	 		
+	 		String altTscId = String.valueOf(macroTransferLogRec.getAltTscId());
+	 		List<Tsc> getAltTscName = macroTransferLogMapper.setTscName(altTscId);
+	 		
 	 		retRec.rum = rowNum;
 	 		retRec.time = macroTransferLogRec.getTime();
 	 		retRec.orgCarrierId = macroTransferLogRec.getOrgCarrierId();
 	 		retRec.orgRcvTime = macroTransferLogRec.getOrgRcvTime();
 	 		retRec.orgStartTime = macroTransferLogRec.getOrgStartTime() ;
             retRec.orgCmpTime = macroTransferLogRec.getOrgCmpTime() ;
-            retRec.orgSrcTscId = macroTransferLogRec.getOrgSrcTscId() ;
+//            retRec.orgSrcTscId = macroTransferLogRec.getOrgSrcTscId() ;
+            retRec.orgSrcTscId = getSrcTscName.get(0).getTscAbbreviation();
             retRec.orgSrcLoc = macroTransferLogRec.getOrgSrcLoc() ;
-            retRec.orgDstTscId = macroTransferLogRec.getOrgDstTscId() ;
+//            retRec.orgDstTscId = macroTransferLogRec.getOrgDstTscId() ;
+            retRec.orgDstTscId = getDstTscName.get(0).getTscAbbreviation();
             retRec.orgDstLoc = macroTransferLogRec.getOrgDstLoc() ;
-            retRec.altTscId = macroTransferLogRec.getAltTscId() ;
+//            retRec.altTscId = macroTransferLogRec.getAltTscId() ;
+            retRec.altTscId = getAltTscName.get(0).getTscAbbreviation();
             retRec.altLoc = macroTransferLogRec.getAltLoc() ;
-            retRec.status = macroTransferLogRec.getStatus() ;
+            retRec.status = macroTransferLogRec.getStatusStr() ;
             retRec.orgPriority = macroTransferLogRec.getOrgPriority() ;
             retRec.cancelFlg = macroTransferLogRec.getCancelFlg() ;
             retRec.orgDstGroup = macroTransferLogRec.getOrgDstGroup() ;
-            retRec.time = macroTransferLogRec.getTime() ;
             retRec.orgHostCommandId = macroTransferLogRec.getOrgHostCommandId() ;
             retRec.orgCommandId = macroTransferLogRec.getOrgCommandId() ;
             retRec.orgOriginator = macroTransferLogRec.getOrgOriginator() ;

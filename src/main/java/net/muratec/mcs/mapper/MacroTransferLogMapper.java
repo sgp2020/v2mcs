@@ -148,5 +148,6 @@ public interface MacroTransferLogMapper {
      ******************************************************************************
      */
     List<AtomicActivityHistListEntity> selectAtomicTransferLogByCommandId(String commandId);
+    List<Tsc> setTscName(@Param("tscId") String tscId);
     // END 2020.04.07 SGP ADD
 }

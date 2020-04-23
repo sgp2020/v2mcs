@@ -196,7 +196,16 @@ $(function() {
     
     
     macroDataBtn.onClick(function() {
-    	MacroDataDialog();
+    	var datas = dataTables.getSelectedRowData();   
+    	if (datas == null) {
+    	      errorDialog.openAlert(screenText.dialog.listNotSelect, screenText.dialog.listRet, 'alert');
+    	      return;
+    	    }
+    	var commandId = datas[0].commandId;
+        var cond = {
+        	commandId: commandId
+        };
+    	MacroDataDialog(commandId);
     });
     
     /*
