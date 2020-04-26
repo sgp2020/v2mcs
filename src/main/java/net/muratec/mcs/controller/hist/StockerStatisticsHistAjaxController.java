@@ -154,8 +154,8 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
             if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
                 // 大小関係が入れ替わっている場合
                 // 現在の値を格納
-            	String sbeforeFrom = reqEntity.dateFrom;
-            	String sbeforeTo = reqEntity.dateTo;
+            	Timestamp sbeforeFrom = reqEntity.dateFrom;
+            	Timestamp sbeforeTo = reqEntity.dateTo;
             	
                 // FromとToを入れ替え
                 reqEntity.dateFrom = sbeforeTo;
@@ -166,12 +166,13 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
             DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
             try {
-            	c.setTime(d.parse(reqEntity.dateTo.toString()));
+            	c.setTime(d.parse(reqEntity.dateTo.toString().substring(0, 10)));
             }catch(ParseException e) {
    			 	e.printStackTrace();
             }
             c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
             String t = d.format(c.getTime());
+            reqEntity.dateFrom1 = reqEntity.dateFrom.toString().substring(0, 10);
             reqEntity.dateTo1 = d.format(c.getTime());
 
             // データ取得、設定
@@ -223,8 +224,8 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
             // 大小関係が入れ替わっている場合
             // 現在の値を格納
-        	String sbeforeFrom = reqEntity.dateFrom;
-        	String sbeforeTo = reqEntity.dateTo;
+        	Timestamp sbeforeFrom = reqEntity.dateFrom;
+        	Timestamp sbeforeTo = reqEntity.dateTo;
         	
             // FromとToを入れ替え
             reqEntity.dateFrom = sbeforeTo;
@@ -235,12 +236,13 @@ public class StockerStatisticsHistAjaxController extends BaseAjaxController {
         DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         try {
-        	c.setTime(d.parse(reqEntity.dateTo.toString()));
+        	c.setTime(d.parse(reqEntity.dateTo.toString().substring(0, 10)));
         }catch(ParseException e) {
 			 	e.printStackTrace();
         }
         c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
         String t = d.format(c.getTime());
+        reqEntity.dateFrom1 = reqEntity.dateFrom.toString().substring(0, 10);
         reqEntity.dateTo1 = d.format(c.getTime());
         
         // 戻り値宣言

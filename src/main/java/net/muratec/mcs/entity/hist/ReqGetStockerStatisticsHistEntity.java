@@ -48,7 +48,8 @@ public class ReqGetStockerStatisticsHistEntity extends AjaxDataTablesReqBaseEnti
     public String tscName ;
     @FieldNameKey(key = "IH-003-03-002") public String unit;
     public String unitName;
-    @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public String dateFrom;
-    @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public String dateTo;
+    @FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public Timestamp dateFrom;
+    @FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public Timestamp dateTo;
+    public String dateFrom1= "";
     public String dateTo1= "";
 }

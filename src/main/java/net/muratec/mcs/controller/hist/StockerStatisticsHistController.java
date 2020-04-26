@@ -330,7 +330,7 @@ public class StockerStatisticsHistController extends BaseController {
             }
             searchCondFlag = true;
             sbHeader.append(reqEntity.dateFrom.toString()); // 比較値
-            sbHeader.append(" 00:00:00 <= "); // 比較演算子
+            sbHeader.append(" <= "); // 比較演算子
             sbHeader.append(messageSource.getMessage("IH-003-03-006", null, locale)); // 項目名
         }
 
@@ -343,7 +343,7 @@ public class StockerStatisticsHistController extends BaseController {
             }
             sbHeader.append(messageSource.getMessage("IH-003-03-007", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(reqEntity.dateTo.toString()); // 比較値
+            sbHeader.append(reqEntity.dateTo.toString().substring(0, 10)); // 比較値
             sbHeader.append(" 23:59:59"); // 比較値
         }
         

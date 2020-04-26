@@ -144,6 +144,16 @@ public class SystemLogAjaxController extends BaseAjaxController {
            /* ReqGetStockerInfoListValidateEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
                     ReqGetStockerInfoListValidateEntity.class);*/
 
+        	// 日付の大小関係を確認（修正）
+            if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
+                // 大小関係が入れ替わっている場合
+                // 現在の値を格納
+                Timestamp sbeforeFrom = reqEntity.dateFrom;
+                Timestamp sbeforeTo = reqEntity.dateTo;
+                // FromとToを入れ替え
+                reqEntity.dateFrom = sbeforeTo;
+                reqEntity.dateTo = sbeforeFrom;
+            }
             // データ取得、設定
             resEntity.body = systemLogService.getSystemLog(reqEntity);
             
