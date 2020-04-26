@@ -68,18 +68,41 @@ $(function() {
   
   //右スライドメニュー生成メソッド
   creTopMenu();
+  var date = new Date();
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  var strHour = date.getHours();
+  var strMinute = date.getMinutes();
+  var strSecond = date.getSeconds();
   
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  if (strHour >= 0 && strHour <= 9) {
+	  strHour = "0" + strHour;
+  }
+  if (strMinute >= 0 && strMinute <= 9) {
+	  strMinute = "0" + strMinute;
+  }
+  if (strSecond >= 0 && strSecond <= 9) {
+	  strSecond = "0" + strSecond;
+  }
+  var time = date.getFullYear() + "/" + month + "/" + strDate
+          + " " + strHour + ":" + strMinute + ":" + strSecond + ".";
   //初回検索
-//  extract({
-//	  debug: '',
-//	  information: '',
-//	  warning: '',
-//	  error: '',
-//	  performance: '',
-//	  dateFrom: null,
-//	  dateTo: null,
-//	  maxRecords: ''
-//  });
+  extract({
+	  debug: '',
+	  information: '',
+	  warning: '',
+	  error: '',
+	  performance: '',
+	  dateFrom: time,
+	  dateTo: time,
+	  maxRecords: ''
+  });
   
   //検索ボタンを設定する
   createSearchSlide();
@@ -105,7 +128,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/SystemLog/GetSystemLog'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-007-dataTables', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
@@ -145,15 +168,20 @@ $(function() {
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
     var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
-
+    
+    downLoadBtn.setEnabled(false);
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
       slideMenuTop.toggle();
     });
     // 検索ボタン押下
     searchBtn.onClick(function() {
+    	var day = new Date();
+    	var day1 = day.getFullYear()+"/-" + (day.getMonth()+1) + "/" + day.getDate() + " 00:00:00";
+        searchComp.get('dateFrom').setValue(day1);
+        searchComp.get('dateTo').setValue(day);
  
-    slideMenuSearch.show();
+        slideMenuSearch.show();
     });
 
     //download
@@ -192,6 +220,9 @@ $(function() {
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
+    
+    dateFrom.setReadonly;
+    dateTo.setReadonly;
     
     // コンポーネントマネージャーに各検索項目を入れる
     searchComp.add('debug', debug);
@@ -316,11 +347,7 @@ $(function() {
         success: function() {
           // 検索成功時
           if (retFlag) {
-//        	  hostName.clear();
-//        	  commState.clear();
-        	
-            // 戻るボタン押下時
-            // 戻るボタン用フラグを下す
+        	downLoadBtn.setEnabled(true);
             retFlag = false;
             return;
           }

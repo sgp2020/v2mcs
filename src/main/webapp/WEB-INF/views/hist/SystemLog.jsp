@@ -126,16 +126,21 @@
     <div id="mcs-slideMenu-search">
         <spring:message code="IH-007-03-001" />
         <div id="mcs-search"></div>
-        <spring:message code="IH-007-03-002" />
-        <div id="mcs-search-debug"></div>
-        <spring:message code="IH-007-03-003" />
-        <div id="mcs-search-information"></div>
-        <spring:message code="IH-007-03-004" />
-        <div id="mcs-search-warning"></div>
-        <spring:message code="IH-007-03-005" />
-        <div id="mcs-search-error"></div>
-        <spring:message code="IH-007-03-006" />
-        <div id="mcs-search-performance"></div>            
+        
+        <div id="mcs-search-debug"> <spring:message code="IH-007-03-002" /> </div>
+        
+        
+        <div id="mcs-search-information"> <spring:message code="IH-007-03-003" /> </div>
+        
+        
+        <div id="mcs-search-warning"> <spring:message code="IH-007-03-004" /> </div>
+        
+        
+        <div id="mcs-search-error"> <spring:message code="IH-007-03-005" /> </div>
+        
+        
+        <div id="mcs-search-performance"> <spring:message code="IH-007-03-006" />  </div> 
+                  
         
         <spring:message code="IH-007-03-007" />
         <div id="mcs-search-dFrom"></div>

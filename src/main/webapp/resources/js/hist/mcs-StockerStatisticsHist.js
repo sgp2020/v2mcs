@@ -66,15 +66,39 @@ $(function() {
   
   //右スライドメニュー生成メソッド
   creTopMenu();
+  var date = new Date();
+  var month = date.getMonth() + 1;
+  var strDate = date.getDate();
+  var strHour = date.getHours();
+  var strMinute = date.getMinutes();
+  var strSecond = date.getSeconds();
   
+  if (month >= 1 && month <= 9) {
+      month = "0" + month;
+  }
+  if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+  }
+  if (strHour >= 0 && strHour <= 9) {
+	  strHour = "0" + strHour;
+  }
+  if (strMinute >= 0 && strMinute <= 9) {
+	  strMinute = "0" + strMinute;
+  }
+  if (strSecond >= 0 && strSecond <= 9) {
+	  strSecond = "0" + strSecond;
+  }
+  var time = date.getFullYear() + "/" + month + "/" + strDate
+          + " " + strHour + ":" + strMinute + ":" + strSecond + ".";
+
   //初回検索
   extract({
 	  tscId: '',
 	  tscName:  '',
 	  unit: '',
 	  unitName:  '',
-	  dateFrom: null,
-	  dateTo: null,
+	  dateFrom: time,
+	  dateTo: time
 
   });
   
@@ -197,11 +221,11 @@ $(function() {
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
     
     // DateTimePickerの秒指定を無効にする
-    //var crntFormat = 'YYYY/MM/DD 00:00:00';
-    var crntFormat = 'YYYY-MM-DD';
+    var crntFormat = 'YYYY/MM/DD';
     dateFrom.setFormat(crntFormat);
     dateTo.setFormat(crntFormat);
-    
+    dateFrom.setReadonly;
+    dateTo.setReadonly;
     var tscIdList = screenValue.tscId;
     var unitList= screenValue.unit;
     
@@ -229,8 +253,8 @@ $(function() {
     		  tscName: tscId.getText(),
     		  unit: unit.getValue(),
     		  unitName: unit.getText(),
-    		  dateFrom: dateFrom.getValue(),
-    		  dateTo: dateTo.getValue()
+    		  dateFrom: dateFrom.getValue() + " 00:00:00",
+    		  dateTo: dateTo.getValue() + " 00:00:00"
       };
       
       var space = "&nbsp&nbsp"; 
