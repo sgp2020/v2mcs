@@ -174,7 +174,11 @@ $(function() {
 
       searchComp.get('currentTscId').setValue(datas.currentTscId);
       searchComp.get('carrierId').setValue(datas.carrierId);*/
-
+    	//初回表示の日期
+  	  var day = new Date();
+  	  searchComp.get('dateFrom').setValue(day);
+  	  searchComp.get('dateTo').setValue(day);
+  	  
       slideMenuSearch.show();
     });
     
@@ -220,9 +224,11 @@ $(function() {
     
     // DateTimePickerの秒指定を無効にする
     var crntFormat = 'YYYY/MM/DD 00:00:00';
+    var endFormat = 'YYYY/MM/DD 23:59:59';
+//    var crntFormat = 'YYYY/MM/DD';
     dateFrom.setFormat(crntFormat);
-    dateTo.setFormat(crntFormat);
-    
+    dateTo.setFormat(endFormat);
+
     // コンポーネントマネージャーに各検索項目を入れる
     searchComp.add('tscId', tscId);
     searchComp.add('source', source);

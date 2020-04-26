@@ -22,6 +22,8 @@
 package net.muratec.mcs.controller.hist;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -151,7 +153,19 @@ public class AtomicActivityHistAjaxController extends BaseAjaxController {
             // エラーチェック（エラー時はAjaxAurgumentExceptionをthrow）
            /* ReqGetStockerInfoListValidateEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
                     ReqGetStockerInfoListValidateEntity.class);*/
-
+        	// 日付の大小関係を確認（修正）
+            if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
+                // 大小関係が入れ替わっている場合
+                // 現在の値を格納
+            	Timestamp sbeforeFrom = reqEntity.dateFrom;
+            	Timestamp sbeforeTo = reqEntity.dateTo;
+            	
+                // FromとToを入れ替え
+                reqEntity.dateFrom = sbeforeTo;
+                reqEntity.dateTo = sbeforeFrom;
+             
+            }
+            
             // データ取得、設定
             resEntity.body = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
             

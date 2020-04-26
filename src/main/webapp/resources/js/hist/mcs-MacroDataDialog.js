@@ -57,7 +57,7 @@ function MacroDataDialog(commandId) {
   //ダイアログオープン
   //**********************************************
 //  macroDataDialog.openCommonPartsDialog(macroDataDialogDiv, 900, 630, null, retBtnText, portLStateChangeDialogFunc, true);
-  macroDataDialog.openMacroDataDialog(macroDataDialogDiv, 900, 630, retBtnText, macroDataDialogFunc, true);
+  macroDataDialog.openMacroDataDialog(macroDataDialogDiv, 900, 450, retBtnText, macroDataDialogFunc, true);
 
   /**
    ******************************************************************************
