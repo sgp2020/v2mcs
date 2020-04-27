@@ -79,7 +79,7 @@ $(function() {
     dataTables.getDataAjax({
       url: getUrl('/VehicleInfo/GetVehicleInfo'),
       cond: cond,
-      searchDataFlag: true,
+      searchDataFlag: false,
       tableCompId: 'I-004-dataTables', // テーブルコンポーネントID
       success: function(data) {
         // 特にすることなし

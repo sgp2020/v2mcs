@@ -74,8 +74,8 @@ $(function() {
 	  tscId: '',
 	  vehicle: '',
 	  unit: '',
-	  dateFrom: null,
-	  dateTo: null,
+	  dateFrom: getFormatDate(),
+	  dateTo: getFormatDate(),
 	  maxRecords: ''
   });
   
@@ -133,6 +133,36 @@ $(function() {
     	AutoReloadTimerManager.start();
   });
   AutoReloadTimerManager.start();*/
+  
+  
+   function getFormatDate() {
+	   var date = new Date();
+	   var month = date.getMonth() + 1;
+	   var strDate = date.getDate();
+	   var strHour = date.getHours();
+	   var strMinute = date.getMinutes();
+	   var strSecond = date.getSeconds();
+	   
+	   if (month >= 1 && month <= 9) {
+	       month = "0" + month;
+	   }
+	   if (strDate >= 0 && strDate <= 9) {
+	       strDate = "0" + strDate;
+	   }
+	   if (strHour >= 0 && strHour <= 9) {
+	 	  strHour = "0" + strHour;
+	   }
+	   if (strMinute >= 0 && strMinute <= 9) {
+	 	  strMinute = "0" + strMinute;
+	   }
+	   if (strSecond >= 0 && strSecond <= 9) {
+	 	  strSecond = "0" + strSecond;
+	   }
+	   var currentDate = date.getFullYear() + "/" + month + "/" + strDate
+	           + " " + strHour + ":" + strMinute + ":" + strSecond + ".0";
+
+	    return currentDate;
+	}
 
   /**
    ******************************************************************************
@@ -170,7 +200,7 @@ $(function() {
       // 画面の内容を消去
 //      searchComp.clearErrors();
     	 
-    	 
+      /* 
       var startTime = new Date(new Date().getTime()); // 当前时间
       var endTime = new Date(new Date().getTime() + 24 * 60 * 60 * 1000); // 当前时间的 前后 几小时
       
@@ -206,6 +236,13 @@ $(function() {
       searchComp.get('dateFrom').setValue(date);
       //searchComp.get('dateTo').setValue(date1);
       searchComp.get('dateTo').setValue(date);
+      */
+      //var date = getFormatDate();
+      var date = new Date();
+      searchComp.get('dateFrom').setValue(date);
+      searchComp.get('dateTo').setValue(date);
+      
+      
       
       // 前回の条件を復元
       var datas = dataTables.getLatestCond();
@@ -243,8 +280,8 @@ $(function() {
     var tscId  = new McsSelectBox($('#mcs-search-tscId'));
     var vehicleId = new McsSelectBox($('#mcs-search-vehicleId'));
     var unit = new McsSelectBox($('#mcs-search-unit'));
-    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
-    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,false);
+    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,false);
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
     var ret = new McsButton($('#mcs-search-cancel'), screenText.slideSearch.ret);
@@ -289,10 +326,11 @@ $(function() {
       var url = getUrl('/VehicleStatisticsHistory/GetVehicleStatisticsHistory');
       var cond = {
     		  tscId: tscId.getValue(),
+    		  tscName: tscId.getText(),
     		  vehicleId: vehicleId.getValue(),
     		  unit: unit.getValue(),
-    		  dateFrom: dateFrom.getValue(),
-    		  dateTo: dateTo.getValue()
+    		  dateFrom: dateFrom.getValue() + " 00:00:00",
+    		  dateTo: dateTo.getValue() + " 00:00:00"
       };
       
       var space = "&nbsp&nbsp"; 
@@ -329,11 +367,11 @@ $(function() {
       }
       if(searchInfoDateFrom!=null && searchInfoDateFrom !="")
       {
-    	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " - " ;
+    	  searchInfoDateFroms = " Date&Time " + "[" + searchInfoDateFrom + " 00:00:00  - " ;
       }
       if(searchInfoDateTo!=null && searchInfoDateTo !="")
       {
-    	  searchInfoDateTos = searchInfoDateTo + "]" + space ;
+    	  searchInfoDateTos = searchInfoDateTo + " 23:59:59 ]" + space ;
       }
       
       $('#searchInfo').html(  searchInfoTscIds+
@@ -457,7 +495,7 @@ $(function() {
     saveConfirmButton.onClick(function() {
       var datas = dataTables.getLatestCond();
       callAjax(getUrl('/VehicleStatisticsHistory/SetCsvVehicleStatisticsHistoryList'), datas, false,
-      // 成功
+      // 成功                  
       function(retObj) {
         window.location.href = getUrl('/VehicleStatisticsHistory/SaveCsvVehicleStatisticsHistoryList');
       },

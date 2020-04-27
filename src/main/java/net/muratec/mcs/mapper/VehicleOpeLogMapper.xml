@@ -618,7 +618,7 @@
       </if>
     </where>
   </sql>
-  <sql id="selectBoxWhere">
+  <sql id="selectWhere1">
     <where>
    <!-- 
 	  <if test="dateFrom != null ">
@@ -627,18 +627,30 @@
       <if test="dateTo != null ">
         AND TIME  &lt; to_char(#{dateTo},'yyyymmddhh24missff')
       </if>
-    -->
+   
       <if test="dateFrom != null ">
         AND to_timestamp(time,'yyyymmddhh24missff')  &gt;= #{dateFrom} 
       </if>
       <if test="dateTo != null ">
         AND to_timestamp(time,'yyyymmddhh24missff')  &lt; #{dateTo}
       </if>
+    -->
       <if test="tscId != null and tscId != ''">
         AND vehicle_ope_log.RTM_TSC_ID = #{tscId}
       </if>
       <if test="vehicleId != null and vehicleId != ''">
         AND vehicle_ope_log.vehicle_id = #{vehicleId}
+      </if>
+    </where>
+  </sql>
+  
+  <sql id="selectWhere2">
+    <where>
+   	  <if test="unit == '0'">
+        AND (flg &gt;= 0 or down_time &lt;&gt; 0)
+      </if>
+      <if test="unit == '1'">
+        AND down_time &lt;&gt; 0
       </if>
     </where>
   </sql>
@@ -678,229 +690,569 @@
   </select>
   
   <select id="getCountByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
-		SELECT
-			count(*)
-		FROM
-		(
-	   			SELECT 
-	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				   (substr(TIME,0,8) || '000000') TIME,
-    				   TO_CHAR(tsc_id) tsc_id,
-    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
-					   '' vehicle_id,  
-					   MAX(assign_wait_max_time) assign_wait_max_time,  
-					   MIN(assign_wait_min_time) assign_wait_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
-								END ), 0 ) assign_wait_avg_time,  
-					   MAX(assigning_max_time) assigning_max_time,  
-					   MIN(assigning_min_time) assigning_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assigning_total_time )/SUM( ope_count )   
-								END ), 0 ) assigning_avg_time,  
-					   SUM(assigning_total_time) assigning_total_time,  
-					   0,  
-					   0,  
-					   0,  
-					   0,  
-					   SUM(ope_count) ope_count, 
-					   SUM(err_count) err_count,  
-					   ROUND( ( CASE SUM( err_count )  
-									WHEN 0 THEN SUM( ope_count)/1   
-									ELSE SUM( ope_count )/SUM( err_count )   
-								END ), 0 ) mcbf,  
-					   COUNT(tsc_id) count,  
-					   SUM( assign_wait_total_time ) assign_wait_total_time  
-				FROM   vehicle_ope_log 
-				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,8)  
-				
-		)
+		        SELECT
+			    	count(*)	
+			    FROM
+			    	(SELECT c.flg,
+				    	c.time,
+				      	c.time_to,
+				     	c.tsc_id,
+				      	c.tsc_name,
+				      	c.vehicle_id,
+				      	c.assign_wait_max_time,
+				      	c.assign_wait_min_time,
+				      	c.assign_wait_avg_time,
+				      	c.assigning_max_time,
+				      	c.assigning_min_time,
+				      	c.assigning_avg_time,
+				      	c.assigning_total_time,
+				      	c.ope_count,
+				      	c.err_count,
+				      	c.mcbf,
+				      	c.count,
+				      ( SELECT ROUND(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1, 4 )|| '-'
+							|| SUBSTR( tbl.end_time, 5, 2 )|| '-'
+							|| SUBSTR( tbl.end_time, 7, 2 )|| ' '
+							|| SUBSTR( tbl.end_time, 9, 2 )|| ':'
+							|| SUBSTR( tbl.end_time, 11, 2 )|| ':'
+							|| SUBSTR( tbl.end_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) - TO_DATE( ( SUBSTR( tbl.start_time, 1, 4 )|| '-'
+							|| SUBSTR( tbl.start_time, 5, 2 )|| '-'
+							|| SUBSTR( tbl.start_time, 7, 2 )|| ' '
+							|| SUBSTR( tbl.start_time, 9, 2 )|| ':'
+							|| SUBSTR( tbl.start_time, 11, 2 )|| ':'
+							|| SUBSTR( tbl.start_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))
+					    FROM
+						(	SELECT tsc_id,
+						  		(
+								  CASE
+								    WHEN start_time &lt; c.TIME
+								    THEN c.TIME
+								    ELSE start_time
+								  END ) start_time,
+								  (
+								  CASE
+								    WHEN end_time = '9999999999999999'
+								    THEN c.TIME_TO
+								    WHEN end_time &gt; c.TIME_TO
+								    THEN c.TIME_TO
+								    ELSE end_time
+								  END ) end_time
+							FROM down_time
+							WHERE end_time &lt;&gt; '9999999999999999'
+								AND start_time  &lt; c.TIME_TO
+								AND end_time    &gt; c.TIME
+								AND start_time  &lt; end_time
+								AND tsc_id      = #{tscId}
+							) tbl
+					        GROUP BY tbl.tsc_id
+				      ) down_time
+				    FROM
+				      (	
+				      	SELECT   a.flg,
+				        		 (b.DAY_TIME || '00000000' ) TIME,
+				       	    	 (b.DAY_TIME_TO || '00000000' ) TIME_TO,
+								 tsc_id,
+							     tsc_name,
+								 vehicle_id,
+				        		 NVL(assign_wait_max_time, 0) assign_wait_max_time,
+				       			 NVL(assign_wait_min_time, 0) assign_wait_min_time,
+				        		 NVL(assign_wait_avg_time, 0) assign_wait_avg_time,
+				        		 NVL(assigning_max_time, 0) assigning_max_time,
+				        		 NVL(assigning_min_time, 0) assigning_min_time,
+				        	     NVL(assigning_avg_time, 0) assigning_avg_time,
+				        		 NVL(assigning_total_time,0) assigning_total_time,
+				        		 NVL(ope_count, 0) ope_count,
+				        		 NVL(err_count,0) err_count,
+				        		 NVL(mcbf,0) mcbf,
+				        		 count
+				       FROM (
+				               (
+								 SELECT 
+								      0 flg,
+								      SUBSTR(TIME,0,8) TIME,
+								      tsc_id,
+								      (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+								      vehicle_id,
+								      MAX(assign_wait_max_time) assign_wait_max_time,  
+								      MIN(assign_wait_min_time) assign_wait_min_time,  
+								      ROUND( ( CASE SUM( ope_count )   
+									  	WHEN 0 THEN 0   
+										ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+										END ), 0 ) assign_wait_avg_time,  
+								      MAX(assigning_max_time) assigning_max_time,  
+								      MIN(assigning_min_time) assigning_min_time,  
+								      ROUND( ( CASE SUM( ope_count )   
+									  	WHEN 0 THEN 0   
+										ELSE SUM( assigning_total_time )/SUM( ope_count )   
+										END ), 0 ) assigning_avg_time,  
+								      SUM(assigning_total_time) assigning_total_time,   
+								      SUM(ope_count) ope_count, 
+								      SUM(err_count) err_count,  
+								      ROUND( ( CASE SUM( err_count )  
+										WHEN 0 THEN SUM( ope_count)/1   
+										ELSE SUM( ope_count )/SUM( err_count )   
+										END ), 0 ) mcbf,  
+								     <!-- MAX( count )  count ,-->  
+								      MAX(  COUNT(tsc_id) )  count ,  
+								      SUM( assign_wait_total_time ) assign_wait_total_time  
+								 FROM   vehicle_ope_log 
+						 		<include refid="selectWhere1" /> 
+								GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
+				              ) a
+					      	  RIGHT JOIN
+								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+									FROM DUAL
+								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')
+								) b
+				              ON a.TIME = b.DAY_TIME )
+				      ) c
+				    )
+				  <!--   <include refid="selectWhere2" /> -->
+				  WHERE  down_time &lt;&gt; 0
+
   </select>
   
   <select id="getCountByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
 		SELECT
 			count(*)
 		FROM
-		(
-	   			SELECT 
-	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				   (substr(TIME,0,10) || '0000') TIME,
-    				   TO_CHAR(tsc_id) tsc_id,
-    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
-					   '' vehicle_id,  
-					<!--    ( time || '000000' ) time,  
-					   TO_CHAR(tsc_id) tsc_id, -->  
-					   MAX(assign_wait_max_time) assign_wait_max_time,  
-					   MIN(assign_wait_min_time) assign_wait_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
-								END ), 0 ) assign_wait_avg_time,  
-					   MAX(assigning_max_time) assigning_max_time,  
-					   MIN(assigning_min_time) assigning_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assigning_total_time )/SUM( ope_count )   
-								END ), 0 ) assigning_avg_time,  
-					   SUM(assigning_total_time) assigning_total_time,  
-					   0,  
-					   0,  
-					   0,  
-					   0,  
-					   SUM(ope_count) ope_count, 
-					   SUM(err_count) err_count,  
-					   ROUND( ( CASE SUM( err_count )  
-									WHEN 0 THEN SUM( ope_count)/1   
-									ELSE SUM( ope_count )/SUM( err_count )   
-								END ), 0 ) mcbf,  
-					   COUNT(tsc_id) count,  
-					   SUM( assign_wait_total_time ) assign_wait_total_time  
-				FROM   vehicle_ope_log 
-				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,substr(TIME,0,10)  
-				<!-- 
-				WHERE , 
-				GROUP BY tsc_id,time,
-				 -->
-		)
+		    (SELECT c.flg,
+		      c.time,
+		      c.time_to,
+		      c.tsc_id,
+		      c.tsc_name,
+		      c.vehicle_id,
+		      c.assign_wait_max_time,
+		      c.assign_wait_min_time,
+		      c.assign_wait_avg_time, 
+		      c.assigning_max_time,
+		      c.assigning_min_time, 
+		      c.assigning_avg_time, 
+		      c.assigning_total_time,
+		      c.ope_count,
+		      c.err_count,
+		      c.mcbf,
+		      c.count,
+		      (SELECT ROUND(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1, 4 )|| '-'
+		        || SUBSTR( tbl.end_time, 5, 2 )|| '-'
+		        || SUBSTR( tbl.end_time, 7, 2 ) || ' ' 
+		        || SUBSTR( tbl.end_time, 9, 2 ) || ':'
+		        || SUBSTR( tbl.end_time, 11, 2 ) || ':'
+		        || SUBSTR( tbl.end_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) - TO_DATE( ( SUBSTR( tbl.start_time, 1, 4 )
+		        || '-'|| SUBSTR( tbl.start_time, 5, 2 )|| '-'
+		        || SUBSTR( tbl.start_time, 7, 2 )|| ' '
+		        || SUBSTR( tbl.start_time, 9, 2 )|| ':'
+		        || SUBSTR( tbl.start_time, 11, 2 )|| ':'
+		        || SUBSTR( tbl.start_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))
+		      FROM
+		        (SELECT tsc_id,
+			        (
+			          CASE
+			            WHEN start_time &lt; c.TIME
+			            THEN c.TIME
+			            ELSE start_time
+			            END ) start_time,
+			          (
+			          CASE
+			            WHEN end_time = '9999999999999999'
+			            THEN c.TIME_TO
+			            WHEN end_time &gt; c.TIME_TO
+			            THEN c.TIME_TO
+			            ELSE end_time
+			            END ) end_time
+			      FROM down_time
+			      WHERE end_time &lt;&gt; '9999999999999999'
+		        	AND start_time  &lt; c.TIME_TO
+		       	    AND end_time    &gt; c.TIME
+		            AND start_time  &lt; end_time
+		            AND tsc_id      = #{tscId}
+			        ) tbl
+			      GROUP BY tbl.tsc_id
+		      ) down_time
+		    FROM
+		      (  SELECT a.flg,
+		       	 		(b.DAY_TIME || '000000' ) TIME,
+		        		(b.DAY_TIME_TO || '000000' ) TIME_TO,
+		        		tsc_id ,
+		        		tsc_name,
+		       	 		vehicle_id,
+		        		NVL(assign_wait_max_time, 0) assign_wait_max_time,
+		        		NVL(assign_wait_min_time, 0) assign_wait_min_time,
+		        		NVL(assign_wait_avg_time, 0) assign_wait_avg_time,
+		        		NVL(assigning_max_time, 0) assigning_max_time,
+		        		NVL(assigning_min_time, 0) assigning_min_time,
+		        		NVL(assigning_avg_time, 0) assigning_avg_time,
+		        		NVL(assigning_total_time,0) assigning_total_time,
+		        		NVL(ope_count, 0) ope_count,
+		        		NVL(err_count,0) err_count,
+		        		NVL(mcbf,0) mcbf,
+		        		count
+		     	 FROM (
+			        	( SELECT 
+			                 0 flg,
+			                 TIME,
+			                 tsc_id,
+			                 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+			                 vehicle_id,
+			           		 MAX(assign_wait_max_time) assign_wait_max_time,  
+			           		 MIN(assign_wait_min_time) assign_wait_min_time,  
+			           		 ROUND( ( CASE SUM( ope_count )   
+			              	 	WHEN 0 THEN 0   
+			              		ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+			              		END ), 0 ) assign_wait_avg_time,  
+			           		 MAX(assigning_max_time) assigning_max_time,  
+			           		 MIN(assigning_min_time) assigning_min_time,  
+			           		 ROUND( ( CASE SUM( ope_count )   
+			              	 	WHEN 0 THEN 0   
+			              		ELSE SUM( assigning_total_time )/SUM( ope_count )   
+			              		END ), 0 ) assigning_avg_time,  
+			           		 SUM(assigning_total_time) assigning_total_time,   
+			           		 SUM(ope_count) ope_count, 
+			           		 SUM(err_count) err_count,  
+			             	 ROUND( ( CASE SUM( err_count )  
+			                 	WHEN 0 THEN SUM( ope_count)/1   
+			              		ELSE SUM( ope_count )/SUM( err_count )   
+			              		END ), 0 ) mcbf,  
+			                 COUNT(tsc_id) count,  
+			           		 SUM( assign_wait_total_time ) assign_wait_total_time  
+			         	  FROM   vehicle_ope_log 
+			         	  <include refid="selectWhere1" />
+			         	  GROUP BY tsc_id,vehicle_id,TIME  
+			            ) a
+			         
+			            RIGHT JOIN
+				        (   
+					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+					                TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
+					         FROM DUAL
+					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')) * 24
+			            ) b
+		                ON a.TIME = b.DAY_TIME )
+		      ) c
+		    )
+		 <!--  <include refid="selectWhere2" />  --> 
+		 WHERE (flg &gt;= 0 or down_time &lt;&gt; 0)
    
   </select>
  
   <select id="selectVehicleStatisticsHistoryListByDay" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultMap="SearchResultMap">
-   		SELECT
-			rn, 		
-			TIME,
-			tsc_id,
-			tsc_name, 
-			vehicle_id, 
-			assign_wait_max_time, 
-			assign_wait_min_time, 
-			assign_wait_avg_time, 
-			assigning_max_time,
-			assigning_min_time, 
-			assigning_avg_time, 
-			assigning_total_time,
-			ope_count, 
-			err_count,
-			mcbf,
-			count,
-			assign_wait_total_time
+   		SELECT rn,
+			  TIME,
+			  tsc_id,
+			  tsc_name,
+			  vehicle_id,
+			  assign_wait_max_time,
+			  assign_wait_min_time,
+			  assign_wait_avg_time, 
+			  assigning_max_time,
+			  assigning_min_time, 
+			  assigning_avg_time, 
+			  assigning_total_time,
+			  down_time,
+			  ope_count,
+			  err_count,
+			  mcbf,
+			  count
 		FROM
-		(
-	   			SELECT 
-	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,8) order by tsc_id,SUBSTR(TIME,0,8) ) rn,
-    				   (substr(TIME,0,8) || '000000') TIME,
-    				   TO_CHAR(tsc_id) tsc_id, 
-    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
-    				   vehicle_id,
-					<!--    ( time || '000000' ) time,  
-					   TO_CHAR(tsc_id) tsc_id,  
-					   '' vehicle_id,  --> 
-					   MAX(assign_wait_max_time) assign_wait_max_time,  
-					   MIN(assign_wait_min_time) assign_wait_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
-								END ), 0 ) assign_wait_avg_time,  
-					   MAX(assigning_max_time) assigning_max_time,  
-					   MIN(assigning_min_time) assigning_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assigning_total_time )/SUM( ope_count )   
-								END ), 0 ) assigning_avg_time,  
-					   SUM(assigning_total_time) assigning_total_time,  
-					   0,  
-					   0,  
-					   0,  
-					   0,  
-					   SUM(ope_count) ope_count, 
-					   SUM(err_count) err_count,  
-					   ROUND( ( CASE SUM( err_count )  
-									WHEN 0 THEN SUM( ope_count)/1   
-									ELSE SUM( ope_count )/SUM( err_count )   
-								END ), 0 ) mcbf,  
-					   COUNT(tsc_id) count,  
-					   SUM( assign_wait_total_time ) assign_wait_total_time  
-				FROM   vehicle_ope_log 
-				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
-				<!-- 
-				WHERE , 
-				GROUP BY tsc_id,time,
-				 -->
-		)
-       <include refid="selectRecordWhere" />
+			  ( SELECT row_number() over(order by TIME ) rn,
+				    TIME,
+				    tsc_id,
+				    tsc_name,
+				    vehicle_id,
+				    assign_wait_max_time,
+				    assign_wait_min_time,
+				    assign_wait_avg_time, 
+				    assigning_max_time,
+				    assigning_min_time, 
+				    assigning_avg_time, 
+				    assigning_total_time,
+				    NVL(down_time,0) down_time,
+				    ope_count,
+				    err_count,
+				    mcbf,
+				    count
+			    FROM
+			    	(SELECT c.flg,
+				    	c.time,
+				      	c.time_to,
+				     	c.tsc_id,
+				      	c.tsc_name,
+				      	c.vehicle_id,
+				      	c.assign_wait_max_time,
+				      	c.assign_wait_min_time,
+				      	c.assign_wait_avg_time,
+				      	c.assigning_max_time,
+				      	c.assigning_min_time,
+				      	c.assigning_avg_time,
+				      	c.assigning_total_time,
+				      	c.ope_count,
+				      	c.err_count,
+				      	c.mcbf,
+				      	c.count,
+				      ( SELECT ROUND(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1, 4 )|| '-'
+							|| SUBSTR( tbl.end_time, 5, 2 )|| '-'
+							|| SUBSTR( tbl.end_time, 7, 2 )|| ' '
+							|| SUBSTR( tbl.end_time, 9, 2 )|| ':'
+							|| SUBSTR( tbl.end_time, 11, 2 )|| ':'
+							|| SUBSTR( tbl.end_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) - TO_DATE( ( SUBSTR( tbl.start_time, 1, 4 )|| '-'
+							|| SUBSTR( tbl.start_time, 5, 2 )|| '-'
+							|| SUBSTR( tbl.start_time, 7, 2 )|| ' '
+							|| SUBSTR( tbl.start_time, 9, 2 )|| ':'
+							|| SUBSTR( tbl.start_time, 11, 2 )|| ':'
+							|| SUBSTR( tbl.start_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))
+					    FROM
+						(	SELECT tsc_id,
+						  		(
+								  CASE
+								    WHEN start_time &lt; c.TIME
+								    THEN c.TIME
+								    ELSE start_time
+								  END ) start_time,
+								  (
+								  CASE
+								    WHEN end_time = '9999999999999999'
+								    THEN c.TIME_TO
+								    WHEN end_time &gt; c.TIME_TO
+								    THEN c.TIME_TO
+								    ELSE end_time
+								  END ) end_time
+							FROM down_time
+							WHERE end_time &lt;&gt; '9999999999999999'
+								AND start_time  &lt; c.TIME_TO
+								AND end_time    &gt; c.TIME
+								AND start_time  &lt; end_time
+								AND tsc_id      = #{tscId}
+							) tbl
+					        GROUP BY tbl.tsc_id
+				      ) down_time
+				    FROM
+				      (	
+				      	SELECT   a.flg,
+				        		 (b.DAY_TIME || '00000000' ) TIME,
+				       	    	 (b.DAY_TIME_TO || '00000000' ) TIME_TO,
+								 tsc_id,
+							     tsc_name,
+								 vehicle_id,
+				        		 NVL(assign_wait_max_time, 0) assign_wait_max_time,
+				       			 NVL(assign_wait_min_time, 0) assign_wait_min_time,
+				        		 NVL(assign_wait_avg_time, 0) assign_wait_avg_time,
+				        		 NVL(assigning_max_time, 0) assigning_max_time,
+				        		 NVL(assigning_min_time, 0) assigning_min_time,
+				        	     NVL(assigning_avg_time, 0) assigning_avg_time,
+				        		 NVL(assigning_total_time,0) assigning_total_time,
+				        		 NVL(ope_count, 0) ope_count,
+				        		 NVL(err_count,0) err_count,
+				        		 NVL(mcbf,0) mcbf,
+				        		 count
+				       FROM (
+				               (
+								 SELECT 
+								      0 flg,
+								      SUBSTR(TIME,0,8) TIME,
+								      tsc_id,
+								      (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+								      vehicle_id,
+								      MAX(assign_wait_max_time) assign_wait_max_time,  
+								      MIN(assign_wait_min_time) assign_wait_min_time,  
+								      ROUND( ( CASE SUM( ope_count )   
+									  	WHEN 0 THEN 0   
+										ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+										END ), 0 ) assign_wait_avg_time,  
+								      MAX(assigning_max_time) assigning_max_time,  
+								      MIN(assigning_min_time) assigning_min_time,  
+								      ROUND( ( CASE SUM( ope_count )   
+									  	WHEN 0 THEN 0   
+										ELSE SUM( assigning_total_time )/SUM( ope_count )   
+										END ), 0 ) assigning_avg_time,  
+								      SUM(assigning_total_time) assigning_total_time,   
+								      SUM(ope_count) ope_count, 
+								      SUM(err_count) err_count,  
+								      ROUND( ( CASE SUM( err_count )  
+										WHEN 0 THEN SUM( ope_count)/1   
+										ELSE SUM( ope_count )/SUM( err_count )   
+										END ), 0 ) mcbf,  
+								     <!-- MAX( count )  count ,-->   
+								      MAX(  COUNT(tsc_id) )  count ,  
+								      SUM( assign_wait_total_time ) assign_wait_total_time  
+								 FROM   vehicle_ope_log 
+						 		<include refid="selectWhere1" /> 
+								GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
+				              ) a
+					      	  RIGHT JOIN
+								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+									FROM DUAL
+								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')
+								) b
+				              ON a.TIME = b.DAY_TIME )
+				      ) c
+				    )
+				  <!--  <include refid="selectWhere2" />  -->
+				   WHERE  down_time &lt;&gt; 0
+				  )
+			    <include refid="selectRecordWhere" />
+				ORDER BY TIME 
   </select>
   <select id="selectVehicleStatisticsHistoryListByHour" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultMap="SearchResultMap">
-   		SELECT
-			rn, 		
-			TIME,
-			tsc_id,
-			tsc_name, 
-			vehicle_id, 
-			assign_wait_max_time, 
-			assign_wait_min_time, 
-			assign_wait_avg_time, 
-			assigning_max_time,
-			assigning_min_time, 
-			assigning_avg_time, 
-			assigning_total_time,
-			ope_count, 
-			err_count,
-			mcbf,
-			count,
-			assign_wait_total_time
+   		SELECT rn,
+			  TIME,
+			  tsc_id,
+			  tsc_name,
+			  vehicle_id,
+			  assign_wait_max_time,
+			  assign_wait_min_time,
+			  assign_wait_avg_time, 
+			  assigning_max_time,
+			  assigning_min_time, 
+			  assigning_avg_time, 
+			  assigning_total_time,
+			  NVL(down_time,0) down_time,
+			  ope_count,
+			  err_count,
+			  mcbf,
+			  count
 		FROM
-		(
-	   			SELECT 
-	   			       row_number() over(partition  by tsc_id,SUBSTR(TIME,0,10) order by tsc_id,SUBSTR(TIME,0,10) ) rn,
-    				   (substr(TIME,0,10) || '0000') TIME,
-    				   TO_CHAR(tsc_id) tsc_id,
-    				   (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
-    				   vehicle_id,
-					<!--    ( time || '000000' ) time,  
-					   TO_CHAR(tsc_id) tsc_id, 
-					   '' vehicle_id,   --> 
-					   MAX(assign_wait_max_time) assign_wait_max_time,  
-					   MIN(assign_wait_min_time) assign_wait_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
-								END ), 0 ) assign_wait_avg_time,  
-					   MAX(assigning_max_time) assigning_max_time,  
-					   MIN(assigning_min_time) assigning_min_time,  
-					   ROUND( ( CASE SUM( ope_count )   
-									WHEN 0 THEN 0   
-									ELSE SUM( assigning_total_time )/SUM( ope_count )   
-								END ), 0 ) assigning_avg_time,  
-					   SUM(assigning_total_time) assigning_total_time,  
-					   0,  
-					   0,  
-					   0,  
-					   0,  
-					   SUM(ope_count) ope_count, 
-					   SUM(err_count) err_count,  
-					   ROUND( ( CASE SUM( err_count )  
-									WHEN 0 THEN SUM( ope_count)/1   
-									ELSE SUM( ope_count )/SUM( err_count )   
-								END ), 0 ) mcbf,  
-					   COUNT(tsc_id) count,  
-					   SUM( assign_wait_total_time ) assign_wait_total_time  
-				FROM   vehicle_ope_log 
-				<include refid="selectBoxWhere" />
-	   			GROUP BY tsc_id,vehicle_id,substr(TIME,0,10)  
-				<!-- 
-				WHERE , 
-				GROUP BY tsc_id,time,
-				 -->
-		)
-       <include refid="selectRecordWhere" />
+		  (SELECT row_number() over(order by TIME ) rn,
+		    TIME,
+		    tsc_id,
+		    tsc_name,
+		    vehicle_id,
+		    assign_wait_max_time,
+		    assign_wait_min_time,
+		    assign_wait_avg_time, 
+		    assigning_max_time,
+		    assigning_min_time, 
+		    assigning_avg_time, 
+		    assigning_total_time,
+		    NVL(down_time,0) down_time,
+		    ope_count,
+		    err_count,
+		    mcbf,
+		    count
+		  FROM
+		    (SELECT c.flg,
+		      c.time,
+		      c.time_to,
+		      c.tsc_id,
+		      c.tsc_name,
+		      c.vehicle_id,
+		      c.assign_wait_max_time,
+		      c.assign_wait_min_time,
+		      c.assign_wait_avg_time, 
+		      c.assigning_max_time,
+		      c.assigning_min_time, 
+		      c.assigning_avg_time, 
+		      c.assigning_total_time,
+		      c.ope_count,
+		      c.err_count,
+		      c.mcbf,
+		      c.count,
+		      (SELECT ROUND(SUM( ( TO_DATE( ( SUBSTR( tbl.end_time, 1, 4 )|| '-'
+		        || SUBSTR( tbl.end_time, 5, 2 )|| '-'
+		        || SUBSTR( tbl.end_time, 7, 2 ) || ' ' 
+		        || SUBSTR( tbl.end_time, 9, 2 ) || ':'
+		        || SUBSTR( tbl.end_time, 11, 2 ) || ':'
+		        || SUBSTR( tbl.end_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) - TO_DATE( ( SUBSTR( tbl.start_time, 1, 4 )
+		        || '-'|| SUBSTR( tbl.start_time, 5, 2 )|| '-'
+		        || SUBSTR( tbl.start_time, 7, 2 )|| ' '
+		        || SUBSTR( tbl.start_time, 9, 2 )|| ':'
+		        || SUBSTR( tbl.start_time, 11, 2 )|| ':'
+		        || SUBSTR( tbl.start_time, 13, 2 ) ), 'YYYY-MM-DD HH24:MI:SS' ) )*24*3600 ))
+		      FROM
+		        (SELECT tsc_id,
+			        (
+			          CASE
+			            WHEN start_time &lt; c.TIME
+			            THEN c.TIME
+			            ELSE start_time
+			            END ) start_time,
+			          (
+			          CASE
+			            WHEN end_time = '9999999999999999'
+			            THEN c.TIME_TO
+			            WHEN end_time &gt; c.TIME_TO
+			            THEN c.TIME_TO
+			            ELSE end_time
+			            END ) end_time
+			      FROM down_time
+			      WHERE end_time &lt;&gt; '9999999999999999'
+		        	AND start_time  &lt; c.TIME_TO
+		       	    AND end_time    &gt; c.TIME
+		            AND start_time  &lt; end_time
+		            AND tsc_id      = #{tscId}
+			        ) tbl
+			      GROUP BY tbl.tsc_id
+		      ) down_time
+		    FROM
+		      (  SELECT a.flg,
+		       	 		(b.DAY_TIME || '000000' ) TIME,
+		        		(b.DAY_TIME_TO || '000000' ) TIME_TO,
+		        		tsc_id ,
+		        		tsc_name,
+		       	 		vehicle_id,
+		        		NVL(assign_wait_max_time, 0) assign_wait_max_time,
+		        		NVL(assign_wait_min_time, 0) assign_wait_min_time,
+		        		NVL(assign_wait_avg_time, 0) assign_wait_avg_time,
+		        		NVL(assigning_max_time, 0) assigning_max_time,
+		        		NVL(assigning_min_time, 0) assigning_min_time,
+		        		NVL(assigning_avg_time, 0) assigning_avg_time,
+		        		NVL(assigning_total_time,0) assigning_total_time,
+		        		NVL(ope_count, 0) ope_count,
+		        		NVL(err_count,0) err_count,
+		        		NVL(mcbf,0) mcbf,
+		        		count
+		     	 FROM (
+			        	( SELECT 
+			                 0 flg,
+			                 TIME,
+			                 tsc_id,
+			                 (select tsc.TSC_ABBREVIATION from tsc where vehicle_ope_log.tsc_id = tsc.tsc_id ) tsc_name, 
+			                 vehicle_id,
+			           		 MAX(assign_wait_max_time) assign_wait_max_time,  
+			           		 MIN(assign_wait_min_time) assign_wait_min_time,  
+			           		 ROUND( ( CASE SUM( ope_count )   
+			              	 	WHEN 0 THEN 0   
+			              		ELSE SUM( assign_wait_total_time )/SUM( ope_count )   
+			              		END ), 0 ) assign_wait_avg_time,  
+			           		 MAX(assigning_max_time) assigning_max_time,  
+			           		 MIN(assigning_min_time) assigning_min_time,  
+			           		 ROUND( ( CASE SUM( ope_count )   
+			              	 	WHEN 0 THEN 0   
+			              		ELSE SUM( assigning_total_time )/SUM( ope_count )   
+			              		END ), 0 ) assigning_avg_time,  
+			           		 SUM(assigning_total_time) assigning_total_time,   
+			           		 SUM(ope_count) ope_count, 
+			           		 SUM(err_count) err_count,  
+			             	 ROUND( ( CASE SUM( err_count )  
+			                 	WHEN 0 THEN SUM( ope_count)/1   
+			              		ELSE SUM( ope_count )/SUM( err_count )   
+			              		END ), 0 ) mcbf,  
+			                 COUNT(tsc_id) count,  
+			           		 SUM( assign_wait_total_time ) assign_wait_total_time  
+			         	  FROM   vehicle_ope_log 
+			         	  <include refid="selectWhere1" />
+			         	  GROUP BY tsc_id,vehicle_id,TIME  
+			            ) a
+			         
+			            RIGHT JOIN
+				        (   
+					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+					                TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
+					         FROM DUAL
+					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')) * 24
+			            ) b
+		                ON a.TIME = b.DAY_TIME )
+		      ) c
+		    )
+		 <!--  <include refid="selectWhere2" />  --> 
+		 WHERE (flg &gt;= 0 or down_time &lt;&gt; 0)
+  		 )
+		 <include refid="selectRecordWhere" />
+		 ORDER BY TIME 
   </select>
   
- <select id="getVehicleCount" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
+  <select id="getVehicleCount" parameterType="net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity" resultType="java.lang.Integer"> 
    		SELECT COUNT(*) FROM vehicle WHERE (tsc_id &lt;&gt; -200 AND tsc_id = #{tscId}) OR (tsc_id = -200 AND rtm_tsc_id = #{tscId})
   </select>
 </mapper>

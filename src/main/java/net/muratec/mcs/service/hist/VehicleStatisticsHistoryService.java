@@ -95,15 +95,6 @@ import java.math.*;
 @Service
 public class VehicleStatisticsHistoryService extends BaseService {
 
-    /** 個別モニタ用マッパー生成 */
-    @Autowired private IndividualMonitorMapper iMonitorMapper;
-
-    /** GUI_COLORマッパー生成 */
-    @Autowired private GuiColorMapper guiColorMapper;
-
-    /** JOB_PRIORITYマッパー生成 */
-    @Autowired private JobPriorityMapper jobPriorityMapper;
-    
     /** TscMapperマッパー生成 */
     @Autowired private TscMapper tscMapper;
     
@@ -116,7 +107,6 @@ public class VehicleStatisticsHistoryService extends BaseService {
     /** 外部ファイル参照用サービス生成 */
     @Autowired ExeForeignFileService exeForeignFileService;
     
-    @Autowired private TransferOpeLogMapper transferOpeLogMapper;
     
     /** 時間単位(時間) */
     private static final int UNIT_BY_HOUR = 3600;
@@ -195,13 +185,15 @@ public class VehicleStatisticsHistoryService extends BaseService {
 	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
 	 		//retRec.tscId = vehicleOpeLogModel.getTscId();
 	 		//retRec.tscName = vehicleOpeLogModel.getTscName();
-	 		retRec.tscId = vehicleOpeLogModel.getTscName();
+	 		//retRec.tscId = vehicleOpeLogModel.getTscName();
+	 		retRec.tscId = reqEntity.getTscName();
 	 		
 	 		String vehicleId = reqEntity.getVehicleId();
 	 		if(vehicleId == null || "".equals(vehicleId)) {
 	 			retRec.vehicleId = "";
 	 		}else {
-	 			retRec.vehicleId = vehicleOpeLogModel.getVehicleId();
+	 			//retRec.vehicleId = vehicleOpeLogModel.getVehicleId();
+	 			retRec.vehicleId = reqEntity.getVehicleId();
 	 		}
 	 		retRec.assignWaitMaxTime = secondToTime(vehicleOpeLogModel.getAssignWaitMaxTime());
 	 		retRec.assignWaitMinTime = secondToTime(vehicleOpeLogModel.getAssignWaitMinTime());
@@ -214,36 +206,7 @@ public class VehicleStatisticsHistoryService extends BaseService {
 	 		retRec.errorCount = Integer.toString(vehicleOpeLogModel.getErrorCount());
 	 		retRec.mCBF = Integer.toString(vehicleOpeLogModel.getMCBF());
 	 		
-	 		reqEntity.dateFromForDownTime = vehicleOpeLogModel.getTime();
-	 		//String dateFrom = new SimpleDateFormat("yyyyMMddHHmmss").format(reqEntity.dateFrom);
 
- 			//if (dateFrom.compareTo(stockerOpeLogRec.getTime()) > 0 )
-	 		//{
-		 		//reqEntity.dateFromForDownTime = dateFrom;
- 			//	dateFrom = reqEntity.dateFromForDownTime;
-		 	//}
-
-	 		reqEntity.dateToForDownTime = getEndTime(reqEntity.dateFromForDownTime,reqEntity.unit);
-	 		
-	 		reqEntity.dateFromForDownTime = reqEntity.dateFromForDownTime + "00";
-	 		reqEntity.dateToForDownTime = reqEntity.dateToForDownTime + "00";
-	 		//String dateTo = new SimpleDateFormat("yyyyMMddHHmmss").format(reqEntity.dateTo);
-	 		
-	 		//if (dateTo.compareTo(reqEntity.dateToForDownTime) < 0 )
-	 		//{
-		 	//	reqEntity.dateToForDownTime = dateTo;
-		 	//}
-	 		
-	 		if (vehicleOpeLogMapper.getDownTime(reqEntity) != null)
-	 		{
-	 			downTime = Long.parseLong(vehicleOpeLogMapper.getDownTime(reqEntity));
-	 		}
-	 		else
-	 		{
-	 			downTime = 0;	 			
-	 		}
-	 			 	
-	 		
 	 		if ( vehicleCount != 1 )
 			{
 				vehicleCount = vehicleOpeLogModel.count;
@@ -261,6 +224,7 @@ public class VehicleStatisticsHistoryService extends BaseService {
 			}
 	 		
 	 	    // Down Time
+	 		downTime = vehicleOpeLogModel.getDownTime();
 	 		retRec.downTime = secondToTime(downTime);
 	 		
 	 	    // Total Up Time
@@ -345,19 +309,25 @@ public class VehicleStatisticsHistoryService extends BaseService {
      * @return
      */
     //@formatter:on
-    private String secondToTime(long second) {
-
+    private String secondToTime(long second1) {
+    	long  second = second1;
+    	if(second1 < 0) {
+    		second = (- second1);
+    	}
     	if ( second > UNIT_BY_DAY)
     	{
     		second = UNIT_BY_DAY;
     	}
-    	
     	long hours = second / 3600;
         second = second % 3600;
         long minutes = second / 60;
         second = second % 60;
         
-        return String.format("%02d:%02d:%02d",hours,minutes,second);
+        if(second1 < 0) {
+        	return "-" + String.format("%02d:%02d:%02d",hours,minutes,second);
+        }else {
+        	return String.format("%02d:%02d:%02d",hours,minutes,second);
+        }
     }
 
     
