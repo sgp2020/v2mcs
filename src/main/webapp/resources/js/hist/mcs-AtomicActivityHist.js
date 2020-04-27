@@ -59,9 +59,26 @@ $(function() {
   //true:複数行を選択できる；false：単数行を選択する
   //  var dataTables = new McsDataTables($('#list-table-target'), true);
   var dataTables = new McsDataTables($('#list-table-target'), false);
- 
+ //STD 2020.04.27 DONG  ADD 
+  var macroDataBtn = new McsButton($('#list-btn-macroData'),screenText.btnText.macroData);
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+
+  //行選択時のイベントをセット、macroDataBtnボタンを選択できるのを設定する
+  dataTables.onSelectRow(function() {
+	  var datas = dataTables.getSelectedRowData();   
+	  if (datas != null) {
+		  macroDataBtn.setEnabled(true);
+	  }
+	  else{
+		  macroDataBtn.setEnabled(false);
+	  }
+  });
+  //END 2020.04.27 DONG  ADD
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
+
+  //メイン画面はデータが無ければ、MacroDataボタンとDownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
   
   /**
    * ダイアログの生成
@@ -105,13 +122,14 @@ $(function() {
    */
   function extract(cond) {
 	  //searchComp.clearErrors();
-	  
+	    
 	  dataTables.getDataAjax({
 		  url: getUrl('/AtomicActivityHist/GetAtomicActivityHistList'),
 		  cond: cond,
 		  searchDataFlag: false,
 		  tableCompId: 'H-002-atomicActivityHistList', // テーブルコンポーネントID
 		  success: function(data) {
+
 			  // 成功時
 			  // 特にすることなし
 			  if (retFlag) {
@@ -156,10 +174,24 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var macroDataBtn = new McsButton($('#list-btn-macroData'),screenText.btnText.macroData);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+//    var macroDataBtn = new McsButton($('#list-btn-macroData'),screenText.btnText.macroData);
+//    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
-
+   // STD 2020.04.27 DONG  ADD 
+    if(enableFlag){
+    	var datas = dataTables.getSelectedRowData();   
+    	if (datas != null) {
+    		macroDataBtn.setEnabled(true);
+    	 }
+    	//選択できる
+    	downLoadBtn.setEnabled(true);
+    }
+    else{
+    	//初回選択できない
+    	macroDataBtn.setEnabled(false);
+    	downLoadBtn.setEnabled(false);
+    }
+    // END 2020.04.27 DONG  ADD
    /* // 再表示ボタン押下処理
     reloadBtn.onClick(function() {
         // エラー表示をクリア
@@ -174,8 +206,6 @@ $(function() {
     // 検索ボタン押下
     searchBtn.onClick(function() {
       // 画面の内容を消去
-//      searchComp.get('hostName').clear();
-//      searchComp.get('commState').clear();
 //      searchComp.clearErrors();
 
       /*// 前回の条件を復元
@@ -193,13 +223,6 @@ $(function() {
     });
     
     //macroData
-    /*macroDataBtn.onClick(function() {
-    	getMacroData();
-    });*/
-//    var macroDataBtn = new McsButton($('#list-btn-macroData'), screenText.btnText.macroData);
-//    var macroDataPopup = new McsPopupWinLoad();
-    
-    
     macroDataBtn.onClick(function() {
     	var datas = dataTables.getSelectedRowData();   
     	if (datas == null) {
@@ -213,28 +236,6 @@ $(function() {
     	MacroDataDialog(commandId);
     });
     
-    /*
-    var macroDataPopup = new openMacroDataDialog();
-    macroDataBtn.onClick(function() {
-    	var datas = dataTables.getSelectedRowData();   
-    	if (datas == null) {
-    	      errorDialog.openAlert(screenText.dialog.listNotSelect, screenText.dialog.listRet, 'alert');
-    	      return;
-    	    }
-    	var commandId = datas[0].commandId;
-        var cond = {
-        	commandId: commandId
-        };
-      var options = {
-        url: getUrl('MacroData'),
-        winName: 'MacroData',
-        sendValue:cond,
-        width: 1280,
-        height: 800
-      };
-      macroDataPopup.open(options);
-    });
-    */
     //download
     downLoadBtn.onClick(function() {
     	saveMenu.show();
@@ -309,6 +310,7 @@ $(function() {
       var url = getUrl('/AtomicActivityHist/GetAtomicActivityHistList');
       var cond = {
     		  tscId: tscId.getValue(),
+    		  tscName: tscId.getText(),
     		  source: source.getValue(),
     		  destination: destination.getValue(),
     		  carrierId: carrierId.getValue(),
@@ -396,18 +398,40 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
+	    // STD 2020.04.27 DONG  ADD 
+        //検索したデータがあれば、DownLoadボタンを選択できるのを設定する
+        //success: function() {
+        success: function(data) {
+       
+    	if(data.body.length!=0){
+    		enableFlag = true;
+    	}
+	     if(enableFlag){
+	    	 //選択したデータがあれば、macroDataBtnボタンを選択できるのを設定する
+	    	 var datas = dataTables.getSelectedRowData();   
+	    	 if (datas != null) {
+	    		 macroDataBtn.setEnabled(true);
+	    	 }
+	    	 else{
+	    		 macroDataBtn.setEnabled(false);
+	    	 }
+	    	 //選択できる
+	    	 downLoadBtn.setEnabled(true);
+	     }	
+	     else{
+	    	 downLoadBtn.setEnabled(false);
+	     }
+	     // END 2020.04.27 DONG  ADD
+        	
           // 検索成功時
           if (retFlag) {
-//        	  hostName.clear();
-//        	  commState.clear();
-        	
             // 戻るボタン押下時
             // 戻るボタン用フラグを下す
             retFlag = false;
             return;
           }
           //firstSearchFlag = false;
+          enableFlag =false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時
@@ -419,6 +443,12 @@ $(function() {
 
       };
       dataTables.getDataAjax(options);
+      
+      /*//DownLoadボタンを選択できる  
+	  if(dataTables.body!=null){
+		  enableFlag = true ;
+		//選択できる
+	  }*/
     });
  // クリアボタン押下
     clear.onClick(function() {

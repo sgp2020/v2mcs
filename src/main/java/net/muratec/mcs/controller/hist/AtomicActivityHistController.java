@@ -363,7 +363,8 @@ public class AtomicActivityHistController extends BaseController {
             searchCondFlag = true;
             sbHeader.append(messageSource.getMessage("IH-002-03-001", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.tscId.toString()); // 比較値
+//            sbHeader.append(reqEntity.tscId.toString()); // 比較値
+            sbHeader.append(reqEntity.tscName.toString()); // 比較値
         }
         
         // ######################

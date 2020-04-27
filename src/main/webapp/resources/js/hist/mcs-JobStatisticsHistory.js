@@ -55,7 +55,11 @@ $(function() {
   //true:複数行を選択できる；false：単数行を選択する
   //  var dataTables = new McsDataTables($('#list-table-target'), true);
   var dataTables = new McsDataTables($('#list-table-target'), false);
- 
+  //STD 2020.04.27 DONG  ADD 
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+  //メイン画面はデータが無ければ、DownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
+  //END 2020.04.27 DONG  ADD
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
   
@@ -150,9 +154,19 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+//    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
 
+    // STD 2020.04.27 DONG  ADD 
+    if(enableFlag){
+    	//選択できる
+    	downLoadBtn.setEnabled(true);
+    }
+    else{
+    	//初回選択できない
+    	downLoadBtn.setEnabled(false);
+    }
+    // END 2020.04.27 DONG  ADD
    /* // 再表示ボタン押下処理
     reloadBtn.onClick(function() {
         // エラー表示をクリア
@@ -165,6 +179,7 @@ $(function() {
       slideMenuTop.toggle();
     });
     // 検索ボタン押下
+    //検索したデータがあれば、DownLoadボタンを選択できるのを設定する
     searchBtn.onClick(function() {
       // 画面の内容を消去
 //      searchComp.clearErrors();
@@ -223,11 +238,11 @@ $(function() {
     var unitList= screenValue.units;
     
     // DateTimePickerの秒指定を無効にする
-    var crntFormat = 'YYYY/MM/DD 00:00:00';
-    var endFormat = 'YYYY/MM/DD 23:59:59';
-//    var crntFormat = 'YYYY/MM/DD';
+//    var crntFormat = 'YYYY/MM/DD 00:00:00';
+//    var endFormat = 'YYYY/MM/DD 23:59:59';
+    var crntFormat = 'YYYY/MM/DD';
     dateFrom.setFormat(crntFormat);
-    dateTo.setFormat(endFormat);
+    dateTo.setFormat(crntFormat);
 
     // コンポーネントマネージャーに各検索項目を入れる
     searchComp.add('tscId', tscId);
@@ -262,8 +277,10 @@ $(function() {
     		  source: source.getValue(),
     		  destination: destination.getValue(),
     		  unit: unit.getValue(),
-    		  dateFrom: dateFrom.getValue(),
-    		  dateTo: dateTo.getValue()
+//    		  dateFrom: dateFrom.getValue(),
+//    		  dateTo: dateTo.getValue()
+    		  dateFrom: dateFrom.getValue() + " 00:00:00",
+    		  dateTo: dateTo.getValue() + " 23:59:59"
       };
       
       var space = "&nbsp&nbsp"; 
@@ -278,8 +295,8 @@ $(function() {
       var searchInfoSource = source.getText();
       var searchInfoDestination = destination.getText();
       var searchInfoUnit = unit.getText();
-      var searchInfoDateFrom = dateFrom.getValue();
-      var searchInfoDateTo = dateTo.getValue();
+      var searchInfoDateFrom = dateFrom.getValue()+ " 00:00:00";
+      var searchInfoDateTo = dateTo.getValue()+ " 23:59:59";
       
       if(searchInfoTscId == "All"){
     	  searchInfoTscId = "";
@@ -329,8 +346,22 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
+        // STD 2020.04.27 DONG  ADD 
+        //検索したデータがあれば、DownLoadボタンを選択できるのを設定する
+        //success: function() {
+        success: function(data) {
           // 検索成功時
+        	if(data.body.length!=0){
+            	enableFlag = true;
+             }
+             if(enableFlag){
+            	 //選択できる
+            	 downLoadBtn.setEnabled(true);
+             }	
+             else{
+            	 downLoadBtn.setEnabled(false);
+             }
+             // END 2020.04.27 DONG  ADD
           if (retFlag) {
         	
             // 戻るボタン押下時
@@ -339,6 +370,7 @@ $(function() {
             return;
           }
           //firstSearchFlag = false;
+          enableFlag =false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時

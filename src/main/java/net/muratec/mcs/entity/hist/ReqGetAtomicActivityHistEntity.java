@@ -47,6 +47,7 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 public class ReqGetAtomicActivityHistEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-002-03-001") public String tscId ;
+    @FieldNameKey(key = "IH-002-03-001") public String tscName ;
     @FieldNameKey(key = "IH-002-03-002") public String source;
     @FieldNameKey(key = "IH-002-03-003") public String destination;
     @FieldNameKey(key = "IH-002-03-004") public String carrierId;

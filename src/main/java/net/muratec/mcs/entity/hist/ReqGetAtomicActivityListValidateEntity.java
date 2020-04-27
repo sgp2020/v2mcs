@@ -56,4 +56,5 @@ public class ReqGetAtomicActivityListValidateEntity extends AjaxDataTablesReqBas
     @DateTime @FieldNameKey(key = "IH-002-03-006, IH-002-03-011") public String dateFrom;
     @DateTime @FieldNameKey(key = "IH-002-03-006, IH-002-03-012") public String dateTo;
     @FieldNameKey(key = "IH-002-03-007") public String maxRecords;
+    public String tscName ;
 }
