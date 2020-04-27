@@ -53,8 +53,8 @@ public class ReqGetVehicleStatisticsHistoryValidateEntity extends AjaxDataTables
 	@FieldNameKey(key = "IH-004-03-001") public String tscId;
 	@FieldNameKey(key = "IH-004-03-002") public String vehicleId;
 	@FieldNameKey(key = "IH-004-03-003") public String unit;
-    @DateTime @FieldNameKey(key = "IH-004-03-004, IH-003-03-008") public String dateFrom;
-    @DateTime @FieldNameKey(key = "IH-004-03-004, IH-003-03-009") public String dateTo;
+    @DateTime @NotBlank @FieldNameKey(key = "IH-004-03-004, IH-003-03-008") public String dateFrom;
+    @DateTime @NotBlank @FieldNameKey(key = "IH-004-03-004, IH-003-03-009") public String dateTo;
     public String tscName ;
     public String unitName;
 }

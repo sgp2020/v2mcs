@@ -21,7 +21,12 @@
 package net.muratec.mcs.controller.hist;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -133,6 +138,7 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
             throws AjaxAurgumentException, McsException {
 
         setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getRefAuthFuncId());
+        
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
         ReqGetVehicleStatisticsHistoryEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
@@ -158,7 +164,18 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
             reqEntity.dateTo = beforeFrom;
         }
 
-        
+        //增加一天
+        DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+        	String substring = reqEntity.dateTo.toString().substring(0, 10);
+        	c.setTime(d.parse(reqEntity.dateTo.toString().substring(0, 10)));
+        }catch(ParseException e) {
+			 	e.printStackTrace();
+        }
+        c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
+        reqEntity.dateFrom1 = reqEntity.dateFrom.toString().substring(0, 10);
+        reqEntity.dateTo1 = d.format(c.getTime());
         
         // 検索処理実装判定
         if (reqValidate.searchDataFlag) {
@@ -179,7 +196,7 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
     //@formatter:off
     /**
      ******************************************************************************
-     * @brief     SetCsvStockerStatisticsHist（CSV保存）機能
+     * @brief     SetCsvVehicleStatisticsHistory（CSV保存）機能
      * @param     reqValidate    画面より入力された情報
      * @param     session        セッション情報（Frameworkより付加）
      * @param     errors         エラー情報（Frameworkより付加）
@@ -190,27 +207,26 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
      * @attention
      * @note      キャリアのCSV出力を行う。
      * ----------------------------------------------------------------------------
-     * VER.        DESCRIPTION                                               AUTHOR
+     * VER.        DESCRIPTION                                     AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200331		DownLoad												DONG
+     * 20200424		DownLoad										SGP
      ******************************************************************************
      */
     //@formatter:on
-    /*
-    @RequestMapping(value = "/StockerStatisticsHist/SetCsvStockerStatisticsHist", method = RequestMethod.POST)
+    @RequestMapping(value = "/VehicleStatisticsHistory/SetCsvVehicleStatisticsHistoryList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_SET,number = 5L)
     public AjaxResBaseEntity SetCsvStockerStatisticsHist(@Valid @RequestBody ReqGetStockerStatisticsHistValidateEntity reqStrEntity,
             HttpSession session, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // アクセス権チェック
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getRefAuthFuncId());
 
         // Entityの型変換
         ComBeanConv bc = new ComBeanConv();
-        ReqGetStockerStatisticsHistEntity reqEntity = bc.convert(reqStrEntity, ReqGetStockerStatisticsHistEntity.class);
+        ReqGetVehicleStatisticsHistoryEntity reqEntity = bc.convert(reqStrEntity, ReqGetVehicleStatisticsHistoryEntity.class);
 
         // 日付の大小関係を確認（修正）
         if (!ComFunction.checkFromTo(reqEntity.dateFrom, reqEntity.dateTo)) {
@@ -222,11 +238,23 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
             reqEntity.dateFrom = sbeforeTo;
             reqEntity.dateTo = sbeforeFrom;
         }
+        
+        DateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+        	c.setTime(d.parse(reqEntity.dateTo.toString().substring(0, 10)));
+        }catch(ParseException e) {
+			 	e.printStackTrace();
+        }
+        c.set(Calendar.DATE, c.get(Calendar.DATE)+1);
+        String t = d.format(c.getTime());
+        reqEntity.dateFrom1 = reqEntity.dateFrom.toString().substring(0, 10);
+        reqEntity.dateTo1 = d.format(c.getTime());
 
         // 戻り値宣言
         AjaxResBaseEntity resEntity = new AjaxResBaseEntity();
 
-        String sessionKey = ComConst.ScreenInfo.HIST_STOCKERSTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        String sessionKey = ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
 
         super.setSessionAttribute(session, sessionKey, reqEntity);
         // 実行結果設定
@@ -235,5 +263,4 @@ public class VehicleStatisticsHistoryAjaxController extends BaseAjaxController {
 
         return resEntity;
     }
-    */
 }

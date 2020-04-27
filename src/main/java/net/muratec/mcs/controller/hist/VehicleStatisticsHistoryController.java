@@ -42,12 +42,11 @@ import net.muratec.mcs.common.ComCsvItem;
 import net.muratec.mcs.common.ComCsvOut;
 import net.muratec.mcs.common.ComFunction;
 import net.muratec.mcs.controller.common.BaseController;
-import net.muratec.mcs.entity.hist.AtomicActivityHistListEntity;
-import net.muratec.mcs.entity.hist.ReqGetAtomicActivityHistEntity;
+import net.muratec.mcs.entity.hist.ReqGetVehicleStatisticsHistoryEntity;
+import net.muratec.mcs.entity.hist.VehicleStatisticsHistoryEntity;
 import net.muratec.mcs.exception.McsException;
 import net.muratec.mcs.service.common.AutoReloadTimerManagerService;
 import net.muratec.mcs.service.common.SelectBoxService;
-import net.muratec.mcs.service.hist.AtomicActivityHistService;
 import net.muratec.mcs.service.hist.VehicleStatisticsHistoryService;
 
 //@formatter:off
@@ -71,8 +70,6 @@ public class VehicleStatisticsHistoryController extends BaseController {
     /** メッセージリソース */
     @Autowired private MessageSource messageSource;
 
-    @Autowired private AtomicActivityHistService atomicActivityHistService;
-    
     @Autowired private VehicleStatisticsHistoryService vehicleStatisticsHistoryService;
     
     @Autowired private SelectBoxService selBoxService;
@@ -175,24 +172,22 @@ public class VehicleStatisticsHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
-    
-    /*
     //@formatter:on
-    @RequestMapping(value = { "/JobStatisticsHistory/SaveCsvJobStatisticsHistoryList" }, method = RequestMethod.GET)
-    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
+    @RequestMapping(value = { "/VehicleStatisticsHistory/SaveCsvVehicleStatisticsHistoryList" }, method = RequestMethod.GET)
+    @OpLog(screenInfo = ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY, logOperationType = ComConst.LogOperationType.CSV_OUT, number = 6L)
     public void getCsvFile(HttpServletResponse res, HttpSession session, Locale locale, Model model)
             throws ParseException, McsException {
 
         // ----------------------------------------------
         // (1)アクセス権チェック(GET版)
         // ----------------------------------------------
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getRefAuthFuncId());
 
         // ----------------------------------------------
         // (2)セッション取得
         // ----------------------------------------------
-        String sessionKey = ComConst.ScreenInfo.HIST_JOBSTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
-        ReqGetAtomicActivityHistEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetAtomicActivityHistEntity.class);
+        String sessionKey = ComConst.ScreenInfo.HIST_VEHICLESTATISTICSHISTORY.getFunctionId() + ComConst.SessionKey.CSV_INFO;
+        ReqGetVehicleStatisticsHistoryEntity reqEntity = super.getSessionAttribute(session, sessionKey, ReqGetVehicleStatisticsHistoryEntity.class);
         if (reqEntity == null) {
             // sessionに存在しない例外
             String[] args = { sessionKey };
@@ -212,7 +207,7 @@ public class VehicleStatisticsHistoryController extends BaseController {
         // ----------------------------------------------
         reqEntity.fromRecordNum = null;
         reqEntity.toRecordNum = null;
-        List<AtomicActivityHistListEntity> atomicTransferLog = atomicActivityHistService.getAtomicActivityHistList(reqEntity);
+        List<VehicleStatisticsHistoryEntity> vehicleOpeLog = vehicleStatisticsHistoryService.getVehicleStatisticsHistory(reqEntity);
         // ----------------------------------------------
         // CSV形成
         // ----------------------------------------------
@@ -224,10 +219,9 @@ public class VehicleStatisticsHistoryController extends BaseController {
         // #########################################
         // CSV出力
         // #########################################
-        ComCsvOut<AtomicActivityHistListEntity> csvOut = new ComCsvOut<AtomicActivityHistListEntity>();
-        csvOut.csvOut(res, messageSource, locale, "JobStatisticsHistory.csv", csvHeader, listCsvItem, atomicTransferLog);
+        ComCsvOut<VehicleStatisticsHistoryEntity> csvOut = new ComCsvOut<VehicleStatisticsHistoryEntity>();
+        csvOut.csvOut(res, messageSource, locale, "VehicleStatisticsHistory.csv", csvHeader, listCsvItem, vehicleOpeLog);
     }
-    */
     //@formatter:off
     /**
      ******************************************************************************
@@ -244,7 +238,6 @@ public class VehicleStatisticsHistoryController extends BaseController {
      * MACS4#0099  iFoup設定画面変更                                      T.Iga/CSC
      ******************************************************************************
      */
-    /*
     //@formatter:on
     private List<ComCsvItem> createCsvTitleRecords() {
 
@@ -253,34 +246,27 @@ public class VehicleStatisticsHistoryController extends BaseController {
         // ######################
         // CSV項目を生成し、ListにADD
         // ######################
-        listCsvItem.add(createCsvItem("IH-002-01-004", "rum", false));
-        listCsvItem.add(createCsvItem("IH-002-01-005", "time", false));
-        listCsvItem.add(createCsvItem("IH-002-01-006", "carrierId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-007", "tscAbbreviation", false));
-        listCsvItem.add(createCsvItem("IH-002-01-008", "source", false));
-        listCsvItem.add(createCsvItem("IH-002-01-009", "destination", false));
-        listCsvItem.add(createCsvItem("IH-002-01-010", "statusStr", false));
-        listCsvItem.add(createCsvItem("IH-002-01-011", "priority", false));
-        listCsvItem.add(createCsvItem("IH-002-01-012", "routeNo", false));
-        listCsvItem.add(createCsvItem("IH-002-01-013", "queuedTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-014", "leadTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-015", "totalTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-016", "vehicleId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-017", "commandId", false));
-        listCsvItem.add(createCsvItem("IH-002-01-018", "atomicRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-019", "atomicAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-020", "atomicInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-021", "atomicAcquiredTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-022", "atomicCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-023", "abortRequestTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-024", "abortAnswerTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-025", "abortInitiateTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-026", "abortCompleteTime", false));
-        listCsvItem.add(createCsvItem("IH-002-01-027", "abortReason", false));
+        listCsvItem.add(createCsvItem("IH-004-01-004", "rn", false));
+        listCsvItem.add(createCsvItem("IH-004-01-005", "time", false));
+        listCsvItem.add(createCsvItem("IH-004-01-006", "tscName", false));
+        listCsvItem.add(createCsvItem("IH-004-01-007", "vehicleId", false));
+        listCsvItem.add(createCsvItem("IH-004-01-008", "assignWaitMaxTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-009", "assignWaitMinTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-010", "assignWaitAveTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-011", "activeWaitMaxTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-012", "activeWaitMinTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-013", "activeWaitAveTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-014", "activeTotalTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-015", "idleTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-016", "totalUpTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-017", "downTime", false));
+        listCsvItem.add(createCsvItem("IH-004-01-018", "opeRate", false));
+        listCsvItem.add(createCsvItem("IH-004-01-019", "transferCount", false));
+        listCsvItem.add(createCsvItem("IH-004-01-020", "errorCount", false));
+        listCsvItem.add(createCsvItem("IH-004-01-021", "mCBF", false));
         
         return listCsvItem;
     } 
-    */
     //@formatter:off
     /**
      ******************************************************************************
@@ -297,7 +283,6 @@ public class VehicleStatisticsHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
-    /*
     //@formatter:on
     private ComCsvItem createCsvItem(String csvOutName, String entityName, boolean addSingleQuotes) {
 
@@ -307,7 +292,6 @@ public class VehicleStatisticsHistoryController extends BaseController {
         csvItem.addSingleQuotes = addSingleQuotes;
         return csvItem;
     }
-    */
     //@formatter:off
     /**
      ******************************************************************************
@@ -323,15 +307,14 @@ public class VehicleStatisticsHistoryController extends BaseController {
      * ----------------------------------------------------------------------------
      ******************************************************************************
      */
-    /*
     //@formatter:on
-    private String createCsvHeaderRecords(ReqGetAtomicActivityHistEntity reqEntity, Locale locale) {
+    private String createCsvHeaderRecords(ReqGetVehicleStatisticsHistoryEntity reqEntity, Locale locale) {
 
         StringBuilder sbHeader = new StringBuilder();
         // ######################
         // 1行目：タイトル
         // ######################
-        String csvTitle = messageSource.getMessage("IH-002-01-001", null, locale);
+        String csvTitle = messageSource.getMessage("IH-004-01-001", null, locale);
         sbHeader.append(ComConst.CSV_TITLE + ComConst.CSV_SEPARATOR + csvTitle + ComConst.BR);
 
         // ######################
@@ -354,61 +337,35 @@ public class VehicleStatisticsHistoryController extends BaseController {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-001", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-004-03-001", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
             sbHeader.append(reqEntity.tscId.toString()); // 比較値
         }
         
         // ######################
-        // Source
+        // vehicleId
         // ######################
-        if (reqEntity.source != null && reqEntity.source.length() != 0) {
+        if (reqEntity.vehicleId != null && reqEntity.vehicleId.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-002", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-004-03-002", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.source.toString()); // 比較値
+            sbHeader.append(reqEntity.vehicleId.toString()); // 比較値
         }
         
         // ######################
-        // Destination
+        // Unit
         // ######################
-        if (reqEntity.destination != null && reqEntity.destination.length() != 0) {
+        if (reqEntity.unit != null && reqEntity.unit.length() != 0) {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
             searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-003", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-004-03-003", null, locale)); // 項目名
             sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.destination.toString()); // 比較値
-        }
-
-        // ######################
-        // キャリアID
-        // ######################
-        if (reqEntity.carrierId != null && reqEntity.carrierId.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
-            }
-            searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-004", null, locale)); // 項目名
-            sbHeader.append(" LIKE "); // 比較演算子
-            sbHeader.append(reqEntity.carrierId); // 比較値
-        }
-
-        // ######################
-        // Command ID
-        // ######################
-        if (reqEntity.commandId != null && reqEntity.commandId.length() != 0) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
-            }
-            searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-005", null, locale)); // 項目名
-            sbHeader.append(" = "); // 比較演算子
-            sbHeader.append(reqEntity.commandId.toString()); // 比較値
+            sbHeader.append(reqEntity.unit.toString()); // 比較値
         }
 
         // ######################
@@ -421,7 +378,7 @@ public class VehicleStatisticsHistoryController extends BaseController {
             searchCondFlag = true;
             sbHeader.append(ComFunction.dateToString(reqEntity.dateFrom)); // 比較値
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(messageSource.getMessage("IH-002-03-011", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-004-03-005", null, locale)); // 項目名
         }
 
         // ######################
@@ -431,24 +388,12 @@ public class VehicleStatisticsHistoryController extends BaseController {
             if (searchCondFlag) {
                 sbHeader.append(" AND ");
             }
-            sbHeader.append(messageSource.getMessage("IH-002-03-012", null, locale)); // 項目名
+            sbHeader.append(messageSource.getMessage("IH-004-03-006", null, locale)); // 項目名
             sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(ComFunction.dateToString(reqEntity.dateTo)); // 比較値
+            sbHeader.append(ComFunction.dateToString(reqEntity.dateTo).substring(0, 10)); // 比較値
+            sbHeader.append(" 23:59:59");
         }
-        
-        // ######################
-        // Max Records
-        // ######################
-        if (reqEntity.maxRecords != null) {
-            if (searchCondFlag) {
-                sbHeader.append(" AND ");
-            }
-            searchCondFlag = true;
-            sbHeader.append(messageSource.getMessage("IH-002-03-007", null, locale)); // 項目名
-            sbHeader.append(" <= "); // 比較演算子
-            sbHeader.append(reqEntity.maxRecords.toString()); // 比較値
-        }
-        
+  
         // ######################
         // 改行コード
         // ######################
@@ -456,5 +401,4 @@ public class VehicleStatisticsHistoryController extends BaseController {
 
         return sbHeader.toString();
     }
-    */
 }

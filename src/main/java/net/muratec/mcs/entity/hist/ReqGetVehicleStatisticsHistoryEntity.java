@@ -45,10 +45,14 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 public class ReqGetVehicleStatisticsHistoryEntity extends AjaxDataTablesReqBaseEntity {
 
     @FieldNameKey(key = "IH-004-03-001") public String tscId ;
+    public String tscName ;
     @FieldNameKey(key = "IH-004-03-002") public String vehicleId ;
     @FieldNameKey(key = "IH-004-03-003") public String unit;
+    public String unitName;
     @FieldNameKey(key = "IH-004-03-004, IH-003-03-008") public Timestamp dateFrom;
     @FieldNameKey(key = "IH-004-03-004, IH-003-03-009") public Timestamp dateTo;
-    public String dateFromForDownTime;
-    public String dateToForDownTime;
+    //@FieldNameKey(key = "IH-003-03-003, IH-003-03-006") public String dateFrom;
+    //@FieldNameKey(key = "IH-003-03-003, IH-003-03-007") public String dateTo;
+    public String dateFrom1= "";
+    public String dateTo1= "";
 }
