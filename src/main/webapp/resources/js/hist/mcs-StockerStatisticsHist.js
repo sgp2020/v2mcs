@@ -53,7 +53,11 @@ $(function() {
   
   // テーブル
   var dataTables = new McsDataTables($('#list-table-target'), true);
- 
+  //STD 2020.04.27 DONG  ADD 
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+  //メイン画面はデータが無ければ、DownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
+  //END 2020.04.27 DONG  ADD
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
   
@@ -165,9 +169,18 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+    //var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
     
+    // STD 2020.04.27 DONG  ADD 
+    if(enableFlag){
+    	//選択できる
+    	downLoadBtn.setEnabled(true);
+    }
+    else{
+    	//初回選択できない
+    	downLoadBtn.setEnabled(false);
+    }
 	
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
@@ -298,8 +311,22 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
+        // STD 2020.04.27 DONG  ADD 
+        //検索したデータがあれば、DownLoadボタンを選択できるのを設定する
+        //success: function() {
+          success: function(data) {
           // 検索成功時
+        	if(data.body.length!=0){
+            	enableFlag = true;
+             }
+             if(enableFlag){
+            	 //選択できる
+            	 downLoadBtn.setEnabled(true);
+             }	
+             else{
+            	 downLoadBtn.setEnabled(false);
+             }
+             // END 2020.04.27 DONG  ADD
           if (retFlag) {
 //        	  hostName.clear();
 //        	  commState.clear();
@@ -310,6 +337,7 @@ $(function() {
             return;
           }
           //firstSearchFlag = false;
+          enableFlag =false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時
