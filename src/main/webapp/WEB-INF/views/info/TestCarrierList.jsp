@@ -121,7 +121,8 @@ var screenText = {
 			      </table>
 			  </div>
             <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <div id="list-table-target" style="color:#000000"> </div>
+            <!-- <div id="list-table-target" style="color:#000000"> </div> -->
+            <div id="list-table-target" style="color:#F8F8FF"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
 			         	 <div id="mcs-content-Modeinfo">

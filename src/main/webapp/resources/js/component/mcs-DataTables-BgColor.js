@@ -685,13 +685,10 @@ McsDataTablesBgColor.prototype = {
       dataTablesOptions.createdRow = function(row, data, dataIndex) {
         // MEMO dataIndexは渡したデータ上のインデックス
         var color = options.rowColors[dataIndex];
-        console.log("row:::::::"+$(row).onclick);
         if (color) {
-        	// STD 2020.04.28 DONG  ADD 
-          $(row).css('color', color);   //20200318 Del Song
-//        	$(row).css('color', '#000000');  //20200320  Add Song
+//          $(row).css('color', color);   //20200318 Del Song
+        	$(row).css('color', '#000000');  //20200320  Add Song
         	$(row).css('background-color', color);  //20200318 Add Song
-        	// END 2020.04.28 DONG  ADD
         }
       };
     }
