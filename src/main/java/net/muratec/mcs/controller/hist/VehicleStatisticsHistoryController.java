@@ -377,7 +377,7 @@ public class VehicleStatisticsHistoryController extends BaseController {
             }
             searchCondFlag = true;
             sbHeader.append(ComFunction.dateToString(reqEntity.dateFrom)); // 比較値
-            sbHeader.append(" <= "); // 比較演算子
+            sbHeader.append(" >= "); // 比較演算子
             sbHeader.append(messageSource.getMessage("IH-004-03-005", null, locale)); // 項目名
         }
 

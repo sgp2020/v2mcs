@@ -55,7 +55,11 @@ $(function() {
   //true:複数行を選択できる；false：単数行を選択する
   //  var dataTables = new McsDataTables($('#list-table-target'), true);
   var dataTables = new McsDataTables($('#list-table-target'), false);
- 
+  
+  //メイン画面はデータが無ければ、DownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+  
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
   
@@ -180,9 +184,18 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+    //var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
 
+    if(enableFlag){
+    	//選択できる
+    	downLoadBtn.setEnabled(true);
+    }
+    else{
+    	//初回選択できない
+    	downLoadBtn.setEnabled(false);
+    }
+    
    /* // 再表示ボタン押下処理
     reloadBtn.onClick(function() {
         // エラー表示をクリア
@@ -386,16 +399,30 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
-          // 検索成功時
+        //success: function() {
+        success: function(data) {
+
+    	   //検索したデータがあれば、DownLoadボタンを選択できるのを設定する
+    	   // 検索成功時
+      	   if(data.body.length!=0){
+          	 enableFlag = true;
+           }
+           if(enableFlag){
+          	 //選択できる
+          	 downLoadBtn.setEnabled(true);
+           }	
+           else{
+          	 downLoadBtn.setEnabled(false);
+           }
+               
           if (retFlag) {
-        	
-            // 戻るボタン押下時
+        	// 戻るボタン押下時
             // 戻るボタン用フラグを下す
             retFlag = false;
             return;
           }
           //firstSearchFlag = false;
+          enableFlag = false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時

@@ -54,6 +54,11 @@ $(function() {
     slideDiv: $('#mcs-saveMenu')
   });
   
+  
+  //メイン画面はデータが無ければ、DownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+  
   // テーブル
   var dataTables = new McsDataTables($('#list-table-target'), false);
   // 行選択時のイベントをセット
@@ -183,7 +188,7 @@ $(function() {
 	  dataTables.getDataAjax({
 		  url: getUrl('/ActivityHistory/GetActivityHistoryList'),
 		  cond: cond,
-		  searchDataFlag: true,
+		  searchDataFlag: false,
 		  tableCompId: 'H-001-dataTables', // テーブルコンポーネントID
 		  success: function(data) {
 			  // 成功時
@@ -230,9 +235,19 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+    //var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
 
+    if(enableFlag){
+    	//選択できる
+    	downLoadBtn.setEnabled(true);
+    }
+    else{
+    	//初回選択できない
+    	downLoadBtn.setEnabled(false);
+    }
+    
+    
     // 検索ボタン押下
     searchBtn.onClick(function() {
       /*
@@ -246,6 +261,11 @@ $(function() {
       searchComp.get('currentTscId').setValue(datas.currentTscId);
       searchComp.get('carrierId').setValue(datas.carrierId);
       */
+    	 //初回表示の日期
+  	  var day = new Date();
+  	  searchComp.get('dateFrom').setValue(day);
+  	  searchComp.get('dateTo').setValue(day);
+  	  
       slideMenuSearch.show();
     });
     
@@ -289,8 +309,8 @@ $(function() {
     var destination = new McsSelectBox($('#mcs-search-destination'));
     var carrierId = new McsTextBox($('#mcs-search-carrierId'));
     var commandId = new McsTextBox($('#mcs-search-commandId'));
-    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
-    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,false);
+    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,false);
     var maxRecords = new McsTextBox($('#mcs-search-maxRecords'));
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
@@ -298,6 +318,11 @@ $(function() {
     
     var sourceList= screenValue.sources;
     var destinationList= screenValue.destinations;
+    
+    // DateTimePickerの秒指定を無効にする
+    var crntFormat = 'YYYY/MM/DD 00:00:00';
+    //var crntFormat = 'YYYY/MM/DD';
+    dateFrom.setFormat(crntFormat);
     
     // コンポーネントマネージャーに各検索項目を入れる
     searchComp.add('source', source);
@@ -401,7 +426,20 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
+        //success: function() {
+        success: function(data) {
+        	//検索したデータがあれば、DownLoadボタンを選択できるのを設定する
+        	// 検索成功時
+        	if(data.body.length!=0){
+            	enableFlag = true;
+             }
+             if(enableFlag){
+            	 //選択できる
+            	 downLoadBtn.setEnabled(true);
+             }	
+             else{
+            	 downLoadBtn.setEnabled(false);
+             }
           // 検索成功時
           if (retFlag) {
 //        	  hostName.clear();
