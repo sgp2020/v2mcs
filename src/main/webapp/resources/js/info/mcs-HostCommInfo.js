@@ -52,7 +52,12 @@ $(function() {
   // テーブル
   //20200318 DQY MOD
   var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
- 
+  
+  //STD 2020.04.28 DONG  ADD 
+  //行選択時のイベントをセット
+  dataTables.onSelectRow(function() {
+  });
+  //END 2020.04.28 DONG  ADD 
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
   //初期表示処理

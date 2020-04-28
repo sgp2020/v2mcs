@@ -226,8 +226,10 @@ $(function() {
     // 検索項目の生成
     var tscId  = new McsSelectBox($('#mcs-search-tscId'));
     var unit = new McsSelectBox($('#mcs-search-unit'));
-    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
-    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    //var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
+    //var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75);
+    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75);
     
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);

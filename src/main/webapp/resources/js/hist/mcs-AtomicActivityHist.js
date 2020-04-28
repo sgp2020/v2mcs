@@ -266,8 +266,10 @@ $(function() {
     var destination = new McsSelectBox($('#mcs-search-destination'));
     var carrierId = new McsTextBox($('#mcs-search-carrierId'));
     var commandId = new McsTextBox($('#mcs-search-commandId'));
-    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
-    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    //var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75,true);
+    //var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75,true);
+    var dateFrom = new McsDateTime($('#mcs-search-dFrom'), screenText.slideSearch.dateFrom, 75);
+    var dateTo = new McsDateTime($('#mcs-search-dTo'), screenText.slideSearch.dateTo, 75);
     var maxRecords = new McsTextBox($('#mcs-search-maxRecords'));
     var extract = new McsButton($('#mcs-search-extract'), screenText.slideSearch.extract);
     var clear = new McsButton($('#mcs-search-clear'), screenText.slideSearch.clear);
