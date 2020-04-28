@@ -160,14 +160,228 @@ public class VehicleStatisticsHistoryService extends BaseService {
         {
         	vehicleOpeLogModelList = vehicleOpeLogMapper.selectVehicleStatisticsHistoryListByDay(reqEntity);
         	timeUnit = UNIT_BY_DAY;
+        	int count = 0;
+        	for (VehicleOpeLogModel vehicleOpeLogModel : vehicleOpeLogModelList) {
+        		if(count < vehicleOpeLogModel.getCount()) {
+        			count = vehicleOpeLogModel.getCount();
+        		}
+        	}
+        	
+        	String  time1 = new String();
+        	String  time2 = new String();
+        	int i=1;
+        	
+            for (VehicleOpeLogModel vehicleOpeLogModel : vehicleOpeLogModelList) {
+            	
+            	time1 = vehicleOpeLogModel.getTime().substring(0, 8);
+            	
+            	if(time1.equals(time2)) {
+            		
+            		int size = retRecList.size();
+            		VehicleStatisticsHistoryEntity vehicleStatisticsHistoryEntity = retRecList.get(size-1);
+            		
+            		long activeTotalTime = vehicleOpeLogModel.getActiveTotalTime();
+            		if( vehicleCount != 0 )
+        			{
+        				// Active Total Time
+        				//row[10] = new BigDecimal( Math.round( ((BigDecimal)row[10]).doubleValue()/(double)vehicleCount ));
+        				activeTotalTime = vehicleOpeLogModel.getActiveTotalTime();
+        				double d = activeTotalTime/(double)vehicleCount;
+        				long round = Math.round(d);
+        				activeTotalTime = round;
+        			}
+        	 		
+            		// Total Up Time
+            		long activeTotalTime1 = vehicleStatisticsHistoryEntity.activeTotalTime1 + activeTotalTime;
+            		vehicleStatisticsHistoryEntity.activeTotalTime1 = activeTotalTime1;
+            		vehicleStatisticsHistoryEntity.activeTotalTime = secondToTime(activeTotalTime1);
+            		
+            		// Idle Time
+        			idleTime = vehicleStatisticsHistoryEntity.totalUpTime1 - activeTotalTime1;
+        			vehicleStatisticsHistoryEntity.idleTime = secondToTime(idleTime);
+            		
+            		long  transferCount1 = vehicleStatisticsHistoryEntity.transferCount1 + vehicleOpeLogModel.getTransferCount();
+            		vehicleStatisticsHistoryEntity.transferCount1 = transferCount1;
+            		vehicleStatisticsHistoryEntity.transferCount = Long.toString(transferCount1);
+            		
+            		long  errorCount1 = vehicleStatisticsHistoryEntity.errorCount1 + vehicleOpeLogModel.getErrorCount();
+            		vehicleStatisticsHistoryEntity.errorCount1 = errorCount1;
+            		vehicleStatisticsHistoryEntity.errorCount = Long.toString(errorCount1);
+            		
+            		long  mCBF1 = vehicleStatisticsHistoryEntity.mCBF1 + vehicleOpeLogModel.getMCBF();
+            		vehicleStatisticsHistoryEntity.mCBF1 = mCBF1;
+            		vehicleStatisticsHistoryEntity.mCBF = Long.toString(mCBF1);
+            		
+    	 		}else {
+    	 			
+    	 			VehicleStatisticsHistoryEntity retRec = new VehicleStatisticsHistoryEntity();
+
+        	 		//retRec.rn = vehicleOpeLogModel.getRn();
+                	retRec.rn = i; i++;
+        	 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        	 		 
+        	 		Date dateTime = null;
+        			 try {
+        				 dateTime = simpleDateFormat.parse(vehicleOpeLogModel.getTime());
+        			 } catch (ParseException e) {
+        				 e.printStackTrace();
+        			 }
+        			 retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
+        			 
+        	 		//retRec.tscId = vehicleOpeLogModel.getTscId();
+        	 		//retRec.tscName = vehicleOpeLogModel.getTscName();
+        	 		//retRec.tscId = vehicleOpeLogModel.getTscName();
+        	 		retRec.tscId = reqEntity.getTscName();
+        	 		
+        	 		String vehicleId = reqEntity.getVehicleId();
+        	 		if(vehicleId == null || "".equals(vehicleId)) {
+        	 			retRec.vehicleId = "";
+        	 		}else {
+        	 			//retRec.vehicleId = vehicleOpeLogModel.getVehicleId();
+        	 			retRec.vehicleId = reqEntity.getVehicleId();
+        	 		}
+        	 		retRec.assignWaitMaxTime = secondToTime(vehicleOpeLogModel.getAssignWaitMaxTime());
+        	 		retRec.assignWaitMinTime = secondToTime(vehicleOpeLogModel.getAssignWaitMinTime());
+        	 		retRec.assignWaitAveTime = secondToTime(vehicleOpeLogModel.getAssignWaitAveTime());
+        	 		retRec.activeWaitMaxTime = secondToTime(vehicleOpeLogModel.getActiveWaitMaxTime());
+        	 		retRec.activeWaitMinTime = secondToTime(vehicleOpeLogModel.getActiveWaitMinTime());
+        	 		retRec.activeWaitAveTime = secondToTime(vehicleOpeLogModel.getActiveWaitAveTime());
+        	 		
+        	 		retRec.activeTotalTime = secondToTime(vehicleOpeLogModel.getActiveTotalTime());
+        	 		retRec.activeTotalTime1 = vehicleOpeLogModel.getActiveTotalTime();
+        	 		
+        	 		retRec.transferCount = Integer.toString(vehicleOpeLogModel.getTransferCount());
+        	 		retRec.transferCount1 = vehicleOpeLogModel.getTransferCount();
+        	 		
+        	 		retRec.errorCount = Integer.toString(vehicleOpeLogModel.getErrorCount());
+        	 		retRec.errorCount1 = vehicleOpeLogModel.getErrorCount();
+        	 		
+        	 		retRec.mCBF = Integer.toString(vehicleOpeLogModel.getMCBF());
+        	 		retRec.mCBF1 = vehicleOpeLogModel.getMCBF();
+        	 		
+
+        	 		if ( vehicleCount != 1 )
+        			{
+        				//vehicleCount = vehicleOpeLogModel.count;
+        	 			vehicleCount = count;
+        			}
+        	 		
+        	 		if( vehicleCount != 0 )
+        			{
+        				// Active Total Time
+        				//row[10] = new BigDecimal( Math.round( ((BigDecimal)row[10]).doubleValue()/(double)vehicleCount ));
+        				int activeTotalTime = vehicleOpeLogModel.getActiveTotalTime();
+        				double d = activeTotalTime/(double)vehicleCount;
+        				long round = Math.round(d);
+        				retRec.activeTotalTime = secondToTime(round);
+        				retRec.activeTotalTime1 = round;
+        		
+        			}
+        	 		
+        	 	    // Down Time
+        	 		downTime = vehicleOpeLogModel.getDownTime();
+        	 		retRec.downTime = secondToTime(downTime);
+        	 		
+        	 	    // Total Up Time
+        			totalUpTime = timeUnit - downTime;
+        			retRec.totalUpTime = secondToTime(totalUpTime);
+        			retRec.totalUpTime1 = totalUpTime;
+        	 		
+        			// Idle Time
+        			idleTime = totalUpTime - vehicleOpeLogModel.activeTotalTime;
+        			retRec.idleTime = secondToTime(idleTime);
+        				
+        			// Ope Rate
+        	 		opeRate = (long)(((float)vehicleOpeLogModel.activeTotalTime/timeUnit)*100);
+        	 		retRec.opeRate = new BigDecimal(opeRate);	
+        	 		
+                	retRecList.add(retRec);
+    	 			
+    	 			time2 = time1;
+    	 		}
+    	 	}
         }
         else
         {
         	vehicleOpeLogModelList = vehicleOpeLogMapper.selectVehicleStatisticsHistoryListByHour(reqEntity);
         	timeUnit = UNIT_BY_HOUR;
         	//int total = getLoopCount( reqEntity.dateFrom.toString(), reqEntity.dateTo.toString(), Calendar.HOUR_OF_DAY );
+        	int i=1;
+            for (VehicleOpeLogModel vehicleOpeLogModel : vehicleOpeLogModelList) {
+            	VehicleStatisticsHistoryEntity retRec = new VehicleStatisticsHistoryEntity();
+
+    	 		//retRec.rn = vehicleOpeLogModel.getRn();
+            	retRec.rn = i; i++;
+    	 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+    	 		 
+    	 		Date dateTime = null;
+    			 try {
+    				 dateTime = simpleDateFormat.parse(vehicleOpeLogModel.getTime());
+    			 } catch (ParseException e) {
+    				 e.printStackTrace();
+    			 }
+    	 		retRec.time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(dateTime);
+    	 		//retRec.tscId = vehicleOpeLogModel.getTscId();
+    	 		//retRec.tscName = vehicleOpeLogModel.getTscName();
+    	 		//retRec.tscId = vehicleOpeLogModel.getTscName();
+    	 		retRec.tscId = reqEntity.getTscName();
+    	 		
+    	 		String vehicleId = reqEntity.getVehicleId();
+    	 		if(vehicleId == null || "".equals(vehicleId)) {
+    	 			retRec.vehicleId = "";
+    	 		}else {
+    	 			//retRec.vehicleId = vehicleOpeLogModel.getVehicleId();
+    	 			retRec.vehicleId = reqEntity.getVehicleId();
+    	 		}
+    	 		retRec.assignWaitMaxTime = secondToTime(vehicleOpeLogModel.getAssignWaitMaxTime());
+    	 		retRec.assignWaitMinTime = secondToTime(vehicleOpeLogModel.getAssignWaitMinTime());
+    	 		retRec.assignWaitAveTime = secondToTime(vehicleOpeLogModel.getAssignWaitAveTime());
+    	 		retRec.activeWaitMaxTime = secondToTime(vehicleOpeLogModel.getActiveWaitMaxTime());
+    	 		retRec.activeWaitMinTime = secondToTime(vehicleOpeLogModel.getActiveWaitMinTime());
+    	 		retRec.activeWaitAveTime = secondToTime(vehicleOpeLogModel.getActiveWaitAveTime());
+    	 		retRec.activeTotalTime = secondToTime(vehicleOpeLogModel.getActiveTotalTime());
+    	 		retRec.transferCount = Integer.toString(vehicleOpeLogModel.getTransferCount());
+    	 		retRec.errorCount = Integer.toString(vehicleOpeLogModel.getErrorCount());
+    	 		retRec.mCBF = Integer.toString(vehicleOpeLogModel.getMCBF());
+    	 		
+
+    	 		if ( vehicleCount != 1 )
+    			{
+    				vehicleCount = vehicleOpeLogModel.count;
+    			}
+    	 		
+    	 		if( vehicleCount != 0 )
+    			{
+    				// Active Total Time
+    				//row[10] = new BigDecimal( Math.round( ((BigDecimal)row[10]).doubleValue()/(double)vehicleCount ));
+    				int activeTotalTime = vehicleOpeLogModel.getActiveTotalTime();
+    				double d = activeTotalTime/(double)vehicleCount;
+    				long round = Math.round(d);
+    				retRec.activeTotalTime = secondToTime(round);
+    		
+    			}
+    	 		
+    	 	    // Down Time
+    	 		downTime = vehicleOpeLogModel.getDownTime();
+    	 		retRec.downTime = secondToTime(downTime);
+    	 		
+    	 	    // Total Up Time
+    			totalUpTime = timeUnit - downTime;
+    			retRec.totalUpTime = secondToTime(totalUpTime);
+    	 		
+    			// Idle Time
+    			idleTime = totalUpTime - vehicleOpeLogModel.activeTotalTime;
+    			retRec.idleTime = secondToTime(idleTime);
+    				
+    			// Ope Rate
+    	 		opeRate = (long)(((float)vehicleOpeLogModel.activeTotalTime/timeUnit)*100);
+    	 		retRec.opeRate = new BigDecimal(opeRate);	 		
+    	 		
+            	retRecList.add(retRec);
+    	 	}
         }
         
+        /*
         int i=1;
         for (VehicleOpeLogModel vehicleOpeLogModel : vehicleOpeLogModelList) {
         	VehicleStatisticsHistoryEntity retRec = new VehicleStatisticsHistoryEntity();
@@ -240,7 +454,9 @@ public class VehicleStatisticsHistoryService extends BaseService {
 	 		retRec.opeRate = new BigDecimal(opeRate);	 		
 	 		
         	retRecList.add(retRec);
-	 	} 
+	 	}
+        */
+        
 		return retRecList;
     }
     

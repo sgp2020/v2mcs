@@ -59,4 +59,11 @@ public class VehicleStatisticsHistoryEntity {
 	public String transferCount;
 	public String errorCount;
 	public String mCBF;
+	
+	public long activeTotalTime1;
+	public long transferCount1;
+	public long errorCount1;
+	public long mCBF1;
+	public long totalUpTime1;
+	public long idleTime1;
 }

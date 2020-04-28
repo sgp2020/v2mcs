@@ -793,17 +793,17 @@
 										ELSE SUM( ope_count )/SUM( err_count )   
 										END ), 0 ) mcbf,  
 								     <!-- MAX( count )  count ,-->  
-								      MAX(  COUNT(tsc_id) )  count ,  
+								       COUNT(tsc_id)   count ,  
 								      SUM( assign_wait_total_time ) assign_wait_total_time  
 								 FROM   vehicle_ope_log 
 						 		<include refid="selectWhere1" /> 
 								GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
 				              ) a
 					      	  RIGHT JOIN
-								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
-								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY-MM-DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
 									FROM DUAL
-								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')
+								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')
 								) b
 				              ON a.TIME = b.DAY_TIME )
 				      ) c
@@ -923,10 +923,10 @@
 			         
 			            RIGHT JOIN
 				        (   
-					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
-					                TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
+					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY-MM-DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+					                TO_CHAR(to_date(#{dateFrom1},'YYYY-MM-DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
 					         FROM DUAL
-					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')) * 24
+					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')) * 24
 			            ) b
 		                ON a.TIME = b.DAY_TIME )
 		      ) c
@@ -1073,17 +1073,17 @@
 										ELSE SUM( ope_count )/SUM( err_count )   
 										END ), 0 ) mcbf,  
 								     <!-- MAX( count )  count ,-->   
-								      MAX(  COUNT(tsc_id) )  count ,  
+								       COUNT(tsc_id)  count ,  
 								      SUM( assign_wait_total_time ) assign_wait_total_time  
 								 FROM   vehicle_ope_log 
 						 		<include refid="selectWhere1" /> 
 								GROUP BY tsc_id,vehicle_id,substr(TIME,0,8)  
 				              ) a
 					      	  RIGHT JOIN
-								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
-								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
+								(	SELECT  TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY-MM-DD') + ROWNUM - 1, 'YYYYMMDD') DAY_TIME,
+								        	TO_CHAR(TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')       + ROWNUM, 'YYYYMMDD') DAY_TIME_TO
 									FROM DUAL
-								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')
+								  	CONNECT BY ROWNUM &lt;=  TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')
 								) b
 				              ON a.TIME = b.DAY_TIME )
 				      ) c
@@ -1237,10 +1237,10 @@
 			         
 			            RIGHT JOIN
 				        (   
-					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
-					                TO_CHAR(to_date(#{dateFrom1},'YYYY/MM/DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
+					         SELECT TO_CHAR(to_date(#{dateFrom1},'YYYY-MM-DD HH24:MI:SS') + (ROWNUM-1)/24,'YYYYMMDDHH24') DAY_TIME,
+					                TO_CHAR(to_date(#{dateFrom1},'YYYY-MM-DD HH24:MI:SS') + ROWNUM/24,'YYYYMMDDHH24') DAY_TIME_TO
 					         FROM DUAL
-					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY/MM/DD') - TO_DATE(#{dateFrom1}, 'YYYY/MM/DD')) * 24
+					         CONNECT BY ROWNUM &lt;= (TO_DATE(#{dateTo1}, 'YYYY-MM-DD') - TO_DATE(#{dateFrom1}, 'YYYY-MM-DD')) * 24
 			            ) b
 		                ON a.TIME = b.DAY_TIME )
 		      ) c
