@@ -4,7 +4,7 @@
  * @file        ReqGetStockerInfoListValidateEntity.java
  * @brief       Stocker IDリスト取得用リクエストエンティティ
  * @par
- * @author      DONG
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.10   Ver2.0	  MCSV4　GUI開発   							董 天津村研
+ * 2020/3/10 v1.0.0                     初版作成                                							          天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -40,7 +40,7 @@ import net.muratec.mcs.entity.validator.annotation.DateTime;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.04.10 	ReqGeJobStatisticsHistoryListValidateEntity 			DONG
+ * 2020.04.10 	ReqGeJobStatisticsHistoryListValidateEntity 			天津村研　董
  ******************************************************************************
  */
 //@formatter:on

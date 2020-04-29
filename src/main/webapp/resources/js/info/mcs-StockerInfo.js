@@ -20,7 +20,7 @@ $(function() {
 	
   focus();
 
-  //STD 2020.03.15 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  //STD 2020.03.15 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   // ステータス色一覧
   $('#color1').css('background-color', screenText.colorText.Normal);
   $('#color2').css('background-color', screenText.colorText.Low);
@@ -35,7 +35,7 @@ $(function() {
   ctrl2.setValue(screenText.ctrlText.Low);
   ctrl3.setValue(screenText.ctrlText.High);*/
 
-  //END 2020.03.15 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  //END 2020.03.15 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   
   // 非アクティブ状態でも自動更新を行う
   AutoReloadTimerManager.setEnableBlurExecute();
@@ -72,11 +72,11 @@ $(function() {
   creTopMenu();
 
   // テーブル
-  //STD 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  //STD 2020.03.17 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   //var dataTables = new McsDataTables($('#list-table-target'), true);
   //20200318 DQY MOD
   var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
-  //END 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  //END 2020.03.17 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
   // 初期表示処理
   // ---------------------------------------
