@@ -14,8 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2019/02/19 MACS4#0099  iFoup設定画面変更                           T.Iga/CSC
+ * 2020/04/10 v1.0.0  	       初版作成                                       								董 天津村研
  ******************************************************************************
  */
 //@formatter:on
@@ -70,7 +69,7 @@ import net.muratec.mcs.service.hist.JobStatisticsHistoryService;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     HostCommInfo画面
+ * @brief     StatisticsHistory(Job)画面
  * @par       機能:
  *              HostCommInfo (HostCommInfo画面を表示)
  * @attention
@@ -78,7 +77,7 @@ import net.muratec.mcs.service.hist.JobStatisticsHistoryService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- *  20200318  Ver2.0→Ver4.0 AtomicActivityHistory画面                                     董 天津村研
+ * 2020/04/10  StatisticsHistory(Job)画面                                   						  董 天津村研
  ******************************************************************************
  */
 //@formatter:on
