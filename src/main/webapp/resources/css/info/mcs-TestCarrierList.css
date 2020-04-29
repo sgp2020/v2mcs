@@ -95,3 +95,11 @@ div#ColorDiv {
     width: 120px;
     float: left;
 }
+.mcs-subheader-menu {
+    position: relative;
+    padding-top: 10000px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    width: 120px;
+    float: left;
+}
