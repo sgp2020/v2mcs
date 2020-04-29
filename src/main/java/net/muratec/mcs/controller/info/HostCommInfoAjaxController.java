@@ -14,8 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020/03/11  v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -73,7 +72,7 @@ import net.muratec.mcs.service.info.HostCommInfoService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020/03/11 	StockerInformationAjaxController			       		   天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -149,10 +148,10 @@ public class HostCommInfoAjaxController extends BaseAjaxController {
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = hostCommInfoService.getHostommInfoCount(reqEntity);
             
-            // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            // STD 2020.03.27 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
             //異常Rowを色へ変更する
             resEntity.rowColorList = hostCommInfoService.getRowColor(reqEntity);
-            // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+            // END 2020.03.27 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
         }
         return resEntity;

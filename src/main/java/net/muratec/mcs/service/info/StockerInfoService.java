@@ -1,10 +1,10 @@
 ﻿//@formatter:off
 /**
  ******************************************************************************
- * @file        IndividualScMonitorService.java
- * @brief       個別モニタ(SCモニタ)関連のサービス
+ * @file        StockerInfoService.java
+ * @brief       
  * @par
- * @author      CSC
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2017/09/20 0.5         Step4リリース                                     CSC
+ * 2020/03/11 v1.0.0                     初版作成                                							          天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -58,6 +58,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
+ * v1.0.0                     初版作成                                							  			        天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -77,10 +78,10 @@ public class StockerInfoService extends BaseService {
     /** 外部ファイル参照用サービス生成 */
     @Autowired ExeForeignFileService exeForeignFileService;
     
-    // STD APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.11 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     @Autowired private StockerMapper stockerMapper;
     @Autowired private StockerZoneRltMapper stockerZoneRltMapper;
-    // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END APL 2020.03.11 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
     //@formatter:off
     /**
@@ -94,7 +95,7 @@ public class StockerInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311		stockerZoneRlt情報										董 天津村研
+     * 2020/3/11		stockerZoneRlt情報										天津村研　董
      ******************************************************************************
      */
     //@formatter:on
@@ -150,22 +151,22 @@ public class StockerInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311   getStockerInfoIdBox										董 天津村研
+     * 2020/3/11   getStockerInfoIdBox										天津村研　董
      ******************************************************************************
      */
     //@formatter:on
-    // STD APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver3.0 Rev.000 
+    // STD APL 2020.03.11 天津村研　董  MCSV4　GUI開発  Ver3.0 Rev.000 
     @Transactional(readOnly = true)
     public List<String[]> getStockerInfoIdBox() {
     	
-    	// STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    	// STD APL 2020.03.13 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     	StockerExample stockerExample = new StockerExample();
     	stockerExample.createCriteria().andTscIdEqualTo(0);
     	stockerExample.setOrderByClause("TSC_ABBREVIATION ASC");
     	
 //        List<Stocker> stockerInfoIdList = stockerMapper.selectStockerIdList();
     	List<Stocker> stockerInfoIdList = stockerMapper.selectStockerIdList(stockerExample);
-    	// END APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    	// END APL 2020.03.13 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
         List<String[]> selBoxList = new ArrayList<String[]>();
 
@@ -179,7 +180,7 @@ public class StockerInfoService extends BaseService {
 
         return selBoxList;
     }
-  // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+  // END APL 2020.03.11 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   //@formatter:off
     /**
      ******************************************************************************
@@ -192,7 +193,7 @@ public class StockerInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200311   getStockerInfoCount										董 天津村研
+     * 2020/3/11   getStockerInfoCount										天津村研　董
      ******************************************************************************
      */
     //@formatter:on
@@ -209,8 +210,8 @@ public class StockerInfoService extends BaseService {
         }
         return ret;
     }
-   // END APL 2020.03.11 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000  
-   // STD 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+   // END APL 2020.03.11 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000  
+   // STD 2020.03.27 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   //@formatter:off
     /**
      ******************************************************************************
@@ -223,7 +224,7 @@ public class StockerInfoService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200327   getRowColor										董 天津村研
+     * 2020/3/27   getRowColor										天津村研　董
      ******************************************************************************
      */
     //@formatter:on
@@ -258,6 +259,6 @@ public class StockerInfoService extends BaseService {
 	 	} 
         return color;
     }
-   // END 2020.03.27 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+   // END 2020.03.27 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 }

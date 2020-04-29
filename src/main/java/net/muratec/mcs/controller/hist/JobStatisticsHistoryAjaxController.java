@@ -4,7 +4,7 @@
  * @file        JobStatisticsHistoryAjaxController.java
  * @brief       JobStatisticsHistory画面関連のajaxコントローラ
  * @par
- * @author      CSC
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.04.10 			StockerInformationAjaxController			          董 天津村研
+ * 2020/04/10 v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -72,7 +72,7 @@ import net.muratec.mcs.service.hist.JobStatisticsHistoryService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020/04/10 	StockerInformationAjaxController			                                      天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -113,7 +113,7 @@ public class JobStatisticsHistoryAjaxController extends BaseAjaxController {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200409		Statistics History(Job)									DONG
+     * v1.0.0		Statistics History(Job)									DONG
      ******************************************************************************
      */
     //@formatter:on

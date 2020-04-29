@@ -84,40 +84,28 @@ var screenText = {
     <div id="mcs-alert-dialog"></div>
     <div id="mcs-error-dialog"></div>
     <div id="mcs-confirm-dialog"></div>
-
     
-    <!-- 右メニューエリア -->
-    <nav id="mcs-right-menu">
-        <div id="menu-btn-save" class="btn-mcs-slide" data-auth="${I004_REF}"></div>
-        <div id="menu-btn-update" class="btn-mcs-slide" data-auth="${I004_REF}"></div>  
-        <div id="menu-btn-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
-    </nav>
-
-    <!-- 子スライドメニュー(CSV保存) -->
-    <%--
-    <div id="mcs-saveMenu">
-        <spring:message code="II-004-05-002" /> 
-        <div id="btn-confirm" class="btn-mcs-slide btn-mcs-slide-confirm"></div>
-        <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
-    </div>
-    --%>
             
     <!-- 一覧画面ヘッダー -->
+    <div id="mcs-subheader-menu">
+        <table>
+            <tr>
+                <td><spring:message code="II-004-02-001" /></td>
+                <td class="mcs-td-selectbox">
+                    <div id="sel-ctrl"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
     <div class="mcs-host-comm-information-content">
         <!-- 一覧画面 start -->
         <div id="list-screen" class="mcs-content mcs-with-subheader mcs-with-subtitle">
-			  <div >
-			      <table>
-			          <tr>
-			              <td><spring:message code="II-004-02-001" /></td>
-			              <td class="mcs-td-selectbox">
-			                  <div id="sel-ctrl"></div>
-			              </td>
-			          </tr>
-			      </table>
-			  </div>
-            <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <div id="list-table-target" style="color:#000000"> </div>
+
+            <div class="mcs-content-subtitle">
+                <spring:message code="II-005-01-002" />
+            </div>
+            <div id="list-table-target" style="color:#F8F8FF"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
 			         	 <div id="mcs-content-VehicleState">
@@ -134,5 +122,21 @@ var screenText = {
         </div>
         <!-- 一覧画面 end -->
     </div>
+    
+    <!-- 右メニューエリア -->
+    <nav id="mcs-right-menu">
+        <div id="menu-btn-save" class="btn-mcs-slide" data-auth="${I004_REF}"></div>
+        <div id="menu-btn-update" class="btn-mcs-slide" data-auth="${I004_REF}"></div>  
+        <div id="menu-btn-cancel" class="btn-mcs-slide btn-mcs-slide-return"></div>
+    </nav>
+
+    <!-- 子スライドメニュー(CSV保存) -->
+    <%--
+    <div id="mcs-saveMenu">
+        <spring:message code="II-004-05-002" /> 
+        <div id="btn-confirm" class="btn-mcs-slide btn-mcs-slide-confirm"></div>
+        <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
+    </div>
+    --%>
 </body>
 </html>

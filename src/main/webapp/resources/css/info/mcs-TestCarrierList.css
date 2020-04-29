@@ -95,3 +95,15 @@ div#ColorDiv {
     width: 120px;
     float: left;
 }
+.mcs-content-subtitle {
+    position: relative;
+    padding-top: 10px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    float: left;
+}
+#mcs-content-selectbox{
+	position: relative;
+    width: 200px;
+}
+

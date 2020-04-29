@@ -95,33 +95,42 @@ var screenText = {
     <div id="mcs-error-dialog"></div>
     <div id="mcs-confirm-dialog"></div>
     <!-- 一覧画面ヘッダー -->
+
+    
     <div id="mcs-subheader-menu">
         <table>
             <tr>
                 <td style="color:#6495ED;"><spring:message code="II-007-01-014" /> &nbsp &nbsp </td>
                 <td style="color:#6495ED;"><div id="searchInfo"></div></td>
-                <!-- <td class="mcs-td-search-information">
-                 	<div id="search-information"></div>
-                </td> -->
+                <!-- <div id="search-information"></div> -->
             </tr>
+            <%-- <tr>
+              <td><spring:message code="II-007-02-001" /></td>
+              <td class="mcs-td-selectbox">
+                  <div id="sel-ctrl"></div>
+              </td>
+          </tr> --%>
         </table>
     </div>
 
     <div class="mcs-host-comm-information-content">
         <!-- 一覧画面 start -->
         <div id="list-screen" class="mcs-content mcs-with-subheader mcs-with-subtitle">
-			  <div >
-			      <table>
-			          <tr>
-			              <td><spring:message code="II-007-02-001" /></td>
-			              <td class="mcs-td-selectbox">
-			                  <div id="sel-ctrl"></div>
-			              </td>
-			          </tr>
-			      </table>
-			  </div>
+ 			<div id="mcs-content-selectbox">
+ 				<!-- <td> -->
+ 				<spring:message code="II-007-02-001" />
+ 				<div id="sel-ctrl"></div>
+ 				<!-- </td> -->
+	            <!-- <td class="mcs-td-selectbox">
+	                <div id="sel-ctrl"></div>
+	            </td> -->
+ 			</div>
+ 			<div class="mcs-content-subtitle">
+                <spring:message code="II-007-01-002" />
+            </div>
             <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <div id="list-table-target" style="color:#000000"> </div>
+            <!-- <div id="list-table-target" style="color:#000000"> </div> -->
+            <div id="list-table-target" style="color:#F8F8FF"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
 			         	 <div id="mcs-content-Modeinfo">

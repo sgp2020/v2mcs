@@ -13,7 +13,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/10 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津村研　董
+ * 2020/03/10 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　                    天津村研　董
  ******************************************************************************
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -38,7 +38,7 @@
 <title><spring:message code="II-009-01-001" /></title>
 <link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-HostCommInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-HostCommInfo.js?Ver=${version}'/>"></script>
-<!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
+<!-- 2020.03.17 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
 
 <script>
@@ -108,7 +108,8 @@
                 <spring:message code="II-009-01-002" />
             </div>
             <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <div id="list-table-target" style="color:#000000"> </div>
+            <!-- <div id="list-table-target" style="color:#000000"> </div> -->
+            <div id="list-table-target" style="color:#F8F8FF"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
 			         	 <div id="mcs-content-CommState">

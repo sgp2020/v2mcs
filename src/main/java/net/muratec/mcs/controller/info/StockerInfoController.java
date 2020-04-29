@@ -14,8 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2019/02/19 MACS4#0099  iFoup設定画面変更                           T.Iga/CSC
+ * 2020/03/11  v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -61,6 +60,7 @@ import net.muratec.mcs.service.info.StockerInfoService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
+ * v1.0.0  	          初版作成                                       											天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -124,10 +124,10 @@ public class StockerInfoController extends BaseController {
 //       List<String[]> tscIdBoxList = selBoxService.getStockerInfoIdBox();//20200313 DQY DEL
         List<String[]> tscIdBoxList = stockerInfoService.getStockerInfoIdBox();
        
-	   // STD APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+	   // STD APL 2020.03.13 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
        //tscIdBoxはAllを初期化表示する
        tscIdBoxList.add(0, allTerms);
-       // END APL 2020.03.13 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+       // END APL 2020.03.13 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
 
 
         // セレクトボックス要素をJSON化

@@ -229,15 +229,15 @@ $(function() {
     var maintenance = new McsButton($('#menu-btn-maint'), screenText.menuText.maint);
     var cancel = new McsButton($('#menu-btn-cancel'), screenText.menuText.cancel);
 
-    // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     var stockerInfo = new McsButton($('#menu-btn-stockerInfo'), screenText.menuText.stockerInfo);
-    // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     
     var routeInfo = new McsButton($('#menu-btn-routeInfo'), screenText.menuText.routeInfo); //20200325 Song Add
     
-    // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     var hostCommInfo = new McsButton($('#menu-btn-hostCommInfo'), screenText.menuText.hostCommInfo);
-    // END APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END APL 2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     // アラーム情報表示、ページ遷移
     alarm.onClick(function() {
       openScreen(getUrl('Alarm'), 'Alarm');
@@ -278,21 +278,21 @@ $(function() {
     });
     // MACS4#0049 Add End
 
-    // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     stockerInfo.onClick(function() {
     	openScreen(getUrl('StockerInfo'), 'StockerInfo');
     });
-    // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     
     routeInfo.onClick(function() {
     	openScreen(getUrl('RouteInfo'), 'RouteInfo');
     });
     
-    // STD APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD APL 2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     hostCommInfo.onClick(function() {
     	openScreen(getUrl('HostCommInfo'), 'HostCommInfo');
     });
-    // END APL 2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END APL 2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     
     // 来歴ボタン、子スクリーン表示
     history.onClick(function() {
@@ -353,7 +353,7 @@ $(function() {
 
     var activityHistory = new McsButton($('#mcs-top-slideMenu-his .his-activity'), screenText.slideHistoryText.activityHistory);
     var vehicleStatisticsHistory = new McsButton($('#mcs-top-slideMenu-his .his-vehiclestatisticsHistory'), screenText.slideHistoryText.vehicleStatisticsHistory);
-    // STD 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // STD 2020.03.24 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
     var atomicActivityHist = new McsButton($('#mcs-top-slideMenu-his .his-atomicActivity'), screenText.slideHistoryText.atomicActivityHist);
     var jobStatisticsHist = new McsButton($('#mcs-top-slideMenu-his .his-jobStatisticsHistory'), screenText.slideHistoryText.jobStatisticsHist);
     
@@ -377,7 +377,7 @@ $(function() {
     jobStatisticsHist.onClick(function() {
     	openScreen(getUrl('JobStatisticsHistory'), 'JobStatisticsHistory');
     });
-    // END 2020.03.24 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+    // END 2020.03.24 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
    
    
     

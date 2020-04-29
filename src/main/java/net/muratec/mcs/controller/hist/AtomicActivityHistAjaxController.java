@@ -4,7 +4,7 @@
  * @file        StockerInformationAjaxController.java
  * @brief       StockerInformation画面関連のajaxコントローラ
  * @par
- * @author      CSC
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -14,8 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2018/10/01 v1.0.0      初版作成                                          CSC
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020/3/18 v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -84,7 +83,7 @@ import net.muratec.mcs.service.hist.AtomicActivityHistService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			StockerInformationAjaxController			          董 天津村研
+ * 2020.03.11 			StockerInformationAjaxController			          天津村研　董
  ******************************************************************************
  */
 //@formatter:on

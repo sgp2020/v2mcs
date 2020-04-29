@@ -4,7 +4,7 @@
  * @file        PortsAjaxController.java
  * @brief       アラーム情報表示関連のコントローラ
  * @par
- * @author      CSC
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
-
+ * 2020/04/10 v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -28,7 +28,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -108,7 +107,7 @@ public class MacroDataAjaxController extends BaseAjaxController {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200402		選択したデータの対応のmacroData情報								DONG
+     * 2020/4/2		選択したデータの対応のmacroData情報								天津村研　董
      ******************************************************************************
      */
     //@formatter:on

@@ -13,7 +13,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/10 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津村研　董
+ * 2020/03/10 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　                    天津村研　董
  ******************************************************************************
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -38,7 +38,7 @@
 <title><spring:message code="II-005-01-001" /></title>
 <link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-StockerInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-StockerInfo.js?Ver=${version}'/>"></script>
-<!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
+<!-- 2020.03.17 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
 
 <script>
@@ -49,7 +49,7 @@
         cancel: '<spring:message code="II-005-02-002"/>'
       }
     },
-    <%-- STD 2020.03.15 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 --%>
+    <%-- STD 2020.03.15 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 --%>
     <%-- 画面にはColorを表示する--%>
     ctrlText: {
         Normal:  'Normal',
@@ -61,7 +61,7 @@
           Low: 	   '#FFFF00',
           High:    '#FF5555'
         }
-    <%-- END 2020.03.15 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 --%>
+    <%-- END 2020.03.15 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 --%>
   };
 
   var screenValue = {
