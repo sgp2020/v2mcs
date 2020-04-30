@@ -4,7 +4,7 @@
  * @file        StockerStatisticsHistAjaxController.java
  * @brief       StockerStatisticsHist画面関連のajaxコントローラ
  * @par
- * @author      ZHANGDONG
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -14,8 +14,8 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			初版作成			  							  ZHANGDONG
- ******************************************************************************
+ * 2020.03.11 			初版作成			  							  天津／張東江
+  ******************************************************************************
  */
 //@formatter:on
 package net.muratec.mcs.controller.hist;
@@ -80,7 +80,7 @@ import net.muratec.mcs.service.hist.StockerStatisticsHistService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.11 			StockerStatisticsHistAjaxController			          董 天津村研
+ * 2020/3/11   StockerStatisticsHistAjaxController			          天津村研　張東
  ******************************************************************************
  */
 //@formatter:on

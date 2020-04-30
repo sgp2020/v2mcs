@@ -4,7 +4,7 @@
  * @file        StockerStatisticsHistService.java
  * @brief       StockerStatistics関連のサービス
  * @par
- * @author      ZHANGDONG
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -14,6 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
+ * 2020/03/26 v1.0.0                     初版作成                                							          天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.lang.String;
