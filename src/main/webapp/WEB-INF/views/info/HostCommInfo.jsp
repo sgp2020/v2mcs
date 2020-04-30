@@ -38,7 +38,7 @@
 <title><spring:message code="II-009-01-001" /></title>
 <link rel="stylesheet" href="<c:url value='/resources/css/info/mcs-HostCommInfo.css?Ver=${version}'/>" media="all">
 <script src="<c:url value='/resources/js/info/mcs-HostCommInfo.js?Ver=${version}'/>"></script>
-<!-- 2020.03.17 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 -->
+<!-- 2020.03.17 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 -->
 <script src="<c:url value='/resources/js/component/mcs-DataTables-BgColor.js?Ver=${version}'/>"></script>
 
 <script>

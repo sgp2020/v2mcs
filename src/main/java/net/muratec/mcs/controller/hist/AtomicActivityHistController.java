@@ -4,7 +4,7 @@
  * @file        EmptyCarrierController.java
  * @brief       空FOUP画面関連のコントローラ
  * @par
- * @author      CSC
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -111,7 +111,7 @@ public class AtomicActivityHistController extends BaseController {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200318  Ver2.0→Ver4.0 AtomicActivityHistory画面                                     董 天津村研
+     * 2020/3/18  AtomicActivityHistory画面                                    						   天津村研　董
      ******************************************************************************
      */
     //@formatter:on

@@ -60,15 +60,15 @@
       //stageInfo: '<spring:message code="IT-001-02-004" />',      // MACS4#0049 Add
       stockerInfo: '<spring:message code="IT-001-02-005" />',
       routeInfo: '<spring:message code="IT-001-02-008" />',
-      hostCommInfo: '<spring:message code="IT-001-02-009" />',//2020.03.18 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000
-      // STD APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000
+      hostCommInfo: '<spring:message code="IT-001-02-009" />',//2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000
+      // STD APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000
    	  //MACSV4用なLabelを削除する
       //history: '<spring:message code="IT-001-02-004" />',
       //log: '<spring:message code="IT-001-01-006" />',
       //statis: '<spring:message code="IT-001-02-006" />',
       //maint: '<spring:message code="IT-001-02-007" />',
       //cancel: '<spring:message code="IT-001-02-010" />' 
-      // END APL 2020.03.10 董 天津村研  MCSV4　GUI開発  Ver2.0 Rev.000 
+      // END APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
       history: '<spring:message code="IT-001-10-007" />',
       log: '<spring:message code="IT-001-10-008" />',
       statis: '<spring:message code="IT-001-10-009" />',
@@ -330,13 +330,13 @@
        
         <!-- ステージ情報表示 - MACS4#0049 Add -->
         <div id="menu-btn-stageInfo" class="btn-mcs-slide" data-auth="${I004_REF}"></div>
-        <!-- STOCKER情報表示 - 2020.03.10 董 天津村研  MCSV4 開発  Ver2.0 Rev.000 -->
+        <!-- STOCKER情報表示 - 2020.03.10 天津村研　董  MCSV4 開発  Ver2.0 Rev.000 -->
         <div id="menu-btn-stockerInfo" class="btn-mcs-slide" data-auth="${I005_REF}"></div>
         
         <!-- Route Information情報表示 - 2020.03.25 Song 天津村研  MCSV4 開発  Ver2.0 Rev.000 -->
         <div id="menu-btn-routeInfo" class="btn-mcs-slide" data-auth="${I008_REF}"></div>
         
-        <!-- HOST COMM 情報表示 - 2020.03.18 董 天津村研  MCSV4 開発  Ver2.0 Rev.000 -->
+        <!-- HOST COMM 情報表示 - 2020.03.18 天津村研　董  MCSV4 開発  Ver2.0 Rev.000 -->
         <div id="menu-btn-hostCommInfo" class="btn-mcs-slide" data-auth="${I009_REF}"></div>
         <!-- 【来歴】 -->
         <%--<div id="menu-btn-history" class="btn-mcs-slide"></div>                                      MACS4#0047 Del --%>

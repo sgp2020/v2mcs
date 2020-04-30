@@ -451,6 +451,7 @@ $(function() {
             return;
           }
           //firstSearchFlag = false;
+          enableFlag = false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時

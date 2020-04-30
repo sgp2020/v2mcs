@@ -155,7 +155,15 @@ McsDataTablesBgColor.prototype = {
     // 行選択のクリックイベントの後に処理し、コールバックを呼ぶ。
     tbody.on('click', 'tr', function() {
       var $this = $(this);
+      var t1 = $this[0];
+     
+      
       var isSelected = $this.hasClass('selected');
+      if(isSelected == true){
+    	  $(this).css('background-color', '#000080');
+      }else{
+    	  $(this).css('background-color', '#FFFF00');
+      }
       if (isSelected && self.onSelectRowCallback) {
         self.onSelectRowCallback(self._getRowsData($this[0]));
       } else if (!isSelected && self.onDeselectRowCallback) {
@@ -686,7 +694,7 @@ McsDataTablesBgColor.prototype = {
         // MEMO dataIndexは渡したデータ上のインデックス
         var color = options.rowColors[dataIndex];
         if (color) {
-//          $(row).css('color', color);   //20200318 Del Song
+         //$(row).css('color', color);   //20200318 Del Song
         	$(row).css('color', '#000000');  //20200320  Add Song
         	$(row).css('background-color', color);  //20200318 Add Song
         }
