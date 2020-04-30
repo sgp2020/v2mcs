@@ -4,7 +4,7 @@
  * @file        ReqGetStockerStatisticsHistEntity.java
  * @brief       StockerStatisticsHistのエンティティ
  * * @par
- * @author      天津／張東江
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
@@ -37,8 +37,8 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020.03.26 	ReqGetcEntity 					董 天津村研
- ****************************************************************************** ******************************************************************************
+ * 2020/3/26 	ReqGetcEntity 											天津村研　董
+ ****************************************************************************** 
  */
 //@formatter:on
 @Getter

@@ -4,7 +4,7 @@
  * @file        StockerStatisticsHistService.java
  * @brief       StockerStatistics関連のサービス
  * @par
- * @author      天津／張東江
+ * @author      ZHANGDONG
  * $Id:         $
  * @attention
  *
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.lang.String;
@@ -61,6 +62,7 @@ import net.muratec.mcs.service.common.ExeForeignFileService;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
+ * v1.0.0                     初版作成             	                   							          天津村研　董
  ******************************************************************************
  */
 //@formatter:on
@@ -206,7 +208,7 @@ public class StockerStatisticsHistService extends BaseService {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * 20200326   getTscIdBox										董 天津村研
+     * 2020/3/26   getTscIdBox										天津村研　董
      ******************************************************************************
      */
     //@formatter:on
