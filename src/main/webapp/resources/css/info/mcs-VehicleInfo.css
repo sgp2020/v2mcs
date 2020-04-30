@@ -23,6 +23,7 @@
 }
 
 div#sel-ctrl {
+    width: 200px;
     display: flex;
 }
 
@@ -35,7 +36,7 @@ td.mcs-td-selectbox {
 }
 
 /* 保存スライド */
-div.mcs-saveMenu {
+#mcs-saveMenu {
     width: 350px;
 }
  /* 色表示部 */
@@ -86,4 +87,15 @@ div#ColorDiv {
     padding-bottom: 15px;
     width: 120px;
     float: left;
+}
+.mcs-content-subtitle {
+    position: relative;
+    padding-top: 30px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    float: left;
+}
+#sel-ctrl {
+    width: 200px;
+    display: flex;
 }

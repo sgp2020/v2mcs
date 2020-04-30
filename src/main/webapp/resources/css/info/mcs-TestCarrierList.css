@@ -23,11 +23,16 @@
 }
 
 div#sel-ctrl {
+	width: 200px;
     display: flex;
 }
 
 div#sel-ctrl>div {
     display: flex;
+}
+
+div#mcs-subheader-menu{
+    height: 70px;
 }
 
 td.mcs-td-selectbox {
@@ -95,15 +100,18 @@ div#ColorDiv {
     width: 120px;
     float: left;
 }
-.mcs-content-subtitle {
-    position: relative;
-    padding-top: 10px;
-    padding-left: 0px;
-    padding-bottom: 0px;
-    float: left;
-}
-#mcs-content-selectbox{
-	position: relative;
+#sel-ctrl{
     width: 200px;
+    display: flex;
+}
+div#list-screen{
+	padding-top: 30px;
+}
+div#mcs-content-subtitle1{
+	padding-top: 30px;
 }
 
+/* 保存スライド */
+#mcs-saveMenu {
+    width: 350px;
+}
