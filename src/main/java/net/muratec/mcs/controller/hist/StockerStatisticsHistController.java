@@ -1,10 +1,10 @@
 //@formatter:off
 /**
  ******************************************************************************
- * @file        StatisticsStockerHist.java
- * @brief       StatisticsStockerHist画面関連のコントローラ
+ * @file        StockerStatisticsHist.java
+ * @brief       StockerStatisticsHist画面関連のコントローラ
  * @par
- * @author      ZHANGDONG
+ * @author       天津／張東江
  * $Id:         $
  * @attention
  *
@@ -14,7 +14,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/04/01 v1.0.0      初版作成                                                                                                                                        ZHANGDONG
+ * 2020/04/01 v1.0.0      初版作成                                                                                                                                         天津／張東江
  ******************************************************************************
  */
 //@formatter:on
