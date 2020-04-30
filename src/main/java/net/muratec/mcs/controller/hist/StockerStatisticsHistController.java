@@ -200,8 +200,6 @@ public class StockerStatisticsHistController extends BaseController {
      * ----------------------------------------------------------------------------
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
-     * MACS4#0021  LotID,ProductID表示                                    T.Iga/CSC
-     * MACS4#0099  iFoup設定画面変更                                      T.Iga/CSC
      ******************************************************************************
      */
     //@formatter:on
