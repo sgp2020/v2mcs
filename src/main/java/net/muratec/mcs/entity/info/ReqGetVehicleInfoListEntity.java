@@ -42,4 +42,5 @@ import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
 @Setter
 public class ReqGetVehicleInfoListEntity extends AjaxDataTablesReqBaseEntity {
 	@FieldNameKey(key = "II-007-02-001") public String currentTscId = null;
+	public String currentTscName = "";
 }
