@@ -3,7 +3,7 @@
  * @file        mcs-StockerStatisticsHist.js
  * @brief       StockerStatisticsHistory 画面用JavaScript
  * @par
- * @author      ZHANGDONG
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -13,7 +13,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    ZHANGDONG
+ * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津／張東江
  ******************************************************************************
  */
 $(function() {
@@ -169,19 +169,10 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    //var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
     
     // STD 2020.04.27 DONG  ADD 
-    if(enableFlag){
-    	//選択できる
-    	downLoadBtn.setEnabled(true);
-    }
-    else{
-    	//初回選択できない
-    	downLoadBtn.setEnabled(false);
-    }
-	
+    downLoadBtn.setEnabled(enableFlag);
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
       slideMenuTop.toggle();
@@ -321,13 +312,9 @@ $(function() {
         	if(data.body.length!=0){
             	enableFlag = true;
              }
-             if(enableFlag){
-            	 //選択できる
-            	 downLoadBtn.setEnabled(true);
-             }	
-             else{
-            	 downLoadBtn.setEnabled(false);
-             }
+            
+             downLoadBtn.setEnabled(enableFlag);
+
              // END 2020.04.27 DONG  ADD
           if (retFlag) {
 //        	  hostName.clear();
@@ -339,7 +326,7 @@ $(function() {
             return;
           }
           //firstSearchFlag = false;
-          enableFlag =false;//先回データを削除する。
+          enableFlag = false;//先回データを削除する。
         },
         serverError: function(result) {
           // 検索失敗時

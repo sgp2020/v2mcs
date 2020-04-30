@@ -100,36 +100,23 @@ var screenText = {
     <div id="mcs-subheader-menu">
         <table>
             <tr>
-                <td style="color:#6495ED;"><spring:message code="II-007-01-014" /> &nbsp &nbsp </td>
+                <td style="color:#6495ED;"><spring:message code="II-007-01-014" />  </td>
                 <td style="color:#6495ED;"><div id="searchInfo"></div></td>
-                <!-- <div id="search-information"></div> -->
             </tr>
-            <%-- <tr>
-              <td><spring:message code="II-007-02-001" /></td>
-              <td class="mcs-td-selectbox">
-                  <div id="sel-ctrl"></div>
-              </td>
-          </tr> --%>
+            <tr>
+                <td><spring:message code="II-007-02-001" /></td>
+                <td class="mcs-td-selectbox"> <div id="sel-ctrl"></div>     </td>
+            </tr>
         </table>
     </div>
 
     <div class="mcs-host-comm-information-content">
         <!-- 一覧画面 start -->
         <div id="list-screen" class="mcs-content mcs-with-subheader mcs-with-subtitle">
- 			<div id="mcs-content-selectbox">
- 				<!-- <td> -->
- 				<spring:message code="II-007-02-001" />
- 				<div id="sel-ctrl"></div>
- 				<!-- </td> -->
-	            <!-- <td class="mcs-td-selectbox">
-	                <div id="sel-ctrl"></div>
-	            </td> -->
- 			</div>
- 			<div class="mcs-content-subtitle">
+            <div id="mcs-content-subtitle1" class="mcs-content-subtitle">
                 <spring:message code="II-007-01-002" />
             </div>
-            <!--<div id="list-table-target" style="width: 100%; height: 100%;"> </div>-->
-            <!-- <div id="list-table-target" style="color:#000000"> </div> -->
+
             <div id="list-table-target" style="color:#F8F8FF"> </div>
             <div id="ColorDiv" >
 			         <div id="colorColumn" class="remarks-content-color">
@@ -165,12 +152,13 @@ var screenText = {
     </nav>
 
     <div id="mcs-slideMenu-search">
-        <spring:message code="II-007-04-002" />
-        <div id="mcs-search-currentTscId"></div>
-        
+       
         <spring:message code="II-007-04-001" />
         <div id="mcs-search-carrierID"></div>
-        
+  		
+  		<spring:message code="II-007-04-002" />
+        <div id="mcs-search-currentTscId"></div>
+               
         <!-- ボタン類 -->
         <div id="mcs-search-extract" class="btn-mcs-slide btn-mcs-slide-extact"></div>
         <div id="mcs-search-clean" class="btn-mcs-slide btn-mcs-slide-clear"></div>
@@ -180,12 +168,10 @@ var screenText = {
     <!-- 子スライドメニュー(CSV保存) -->
     
     <div id="mcs-saveMenu">
-        <spring:message code="II-007-05-002" /> 
         <div id="btn-confirm" class="btn-mcs-slide btn-mcs-slide-confirm"></div>
         <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
-
-            
+   
     
 
 </body>

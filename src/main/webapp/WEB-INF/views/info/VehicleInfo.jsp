@@ -131,12 +131,11 @@ var screenText = {
     </nav>
 
     <!-- 子スライドメニュー(CSV保存) -->
-    <%--
+    
     <div id="mcs-saveMenu">
-        <spring:message code="II-004-05-002" /> 
         <div id="btn-confirm" class="btn-mcs-slide btn-mcs-slide-confirm"></div>
         <div id="btn-saveReturn" class="btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
-    --%>
+    
 </body>
 </html>

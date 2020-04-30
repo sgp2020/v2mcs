@@ -3,7 +3,7 @@
  * @file        StockerStatisticsHist.jsp
  * @brief       StockerStatisticsHistory　画面用JSP
  * @par
- * @author      ZHANGDONG
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -13,7 +13,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/10 v1.0.0      初版作成                                 								  ZHANGDONG
+ * 2020/03/10 v1.0.0      初版作成                                 								  天津／張東江
  ******************************************************************************
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>

@@ -3,7 +3,7 @@
  * @file        mcs-SystemLog.js
  * @brief       SystemLog 画面用JavaScript
  * @par
- * @author      ZHANGDONG
+ * @author      天津／張東江
  * $Id:         $
  * @attention
  *
@@ -13,7 +13,7 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    ZHANGDONG
+ * 2020/03/18 v1.0.0      初版作成                                      　　　　　　　　　　　　　　　　　　    天津／張東江
  ******************************************************************************
  */
 $(function() {
@@ -55,7 +55,11 @@ $(function() {
   // テーブル
   //true:複数行を選択できる；false：単数行を選択する
   var dataTables = new McsDataTables($('#list-table-target'), false);
- 
+  //STD 2020.04.27 DONG  ADD 
+  var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
+  //メイン画面はデータが無ければ、DownLoadボタンを選択できないようにするためのフラグ
+  var enableFlag = false;
+  //END 2020.04.27 DONG  ADD
   //戻るボタン押下時にスライドを閉じないようにするためのフラグ
   var retFlag = false;
   
@@ -166,10 +170,9 @@ $(function() {
   function creTopMenu() {
     // ボタン生成
     var searchBtn = new McsButton($('#list-btn-search'), screenText.btnText.search);
-    var downLoadBtn = new McsButton($('#list-btn-downLoad'), screenText.btnText.downLoad);
     var rtnBtn = new McsButton($('#list-btn-ret'), screenText.btnText.cancel);
     
-    downLoadBtn.setEnabled(false);
+    downLoadBtn.setEnabled(enableFlag);
     // 戻るボタン押下処理
     rtnBtn.onClick(function() {
       slideMenuTop.toggle();
@@ -344,14 +347,22 @@ $(function() {
         cond: cond,
         searchDataFlag: true,
         tableCompId: tableCompId,
-        success: function() {
+        success: function(data) {
+        
           // 検索成功時
+    	  if(data.body.length != 0){
+    		  enableFlag = true;
+          }
+        
+          downLoadBtn.setEnabled(enableFlag);
+             
           if (retFlag) {
-        	downLoadBtn.setEnabled(true);
+
             retFlag = false;
             return;
           }
           //firstSearchFlag = false;
+          enableFlag = false;
         },
         serverError: function(result) {
           // 検索失敗時

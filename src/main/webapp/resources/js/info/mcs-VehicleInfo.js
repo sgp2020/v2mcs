@@ -20,8 +20,9 @@ $(function() {
   // 画面初期化時の処理
 
   // データテーブル
-  //var dataTables = new McsDataTables($('#list-table-target'), true);
   var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
+  var save = new McsButton($('#menu-btn-save'), screenText.list.save);
+  var enableFlag = false;
   $('#color1').css('background-color', screenText.colorText.Assigned);
   // コンポーネントマネージャ（検索用）
   var searchComp = new McsComponentManager();
@@ -59,7 +60,8 @@ $(function() {
 
   // 初回検索
   extract({
-	  currentTscId: ''
+	  currentTscId: '',
+	  currentTscName: ''
   });
 
   /**
@@ -79,9 +81,15 @@ $(function() {
     dataTables.getDataAjax({
       url: getUrl('/VehicleInfo/GetVehicleInfo'),
       cond: cond,
-      searchDataFlag: false,
+      searchDataFlag: true,
       tableCompId: 'I-004-dataTables', // テーブルコンポーネントID
       success: function(data) {
+    	 
+		  if(data.body.length != 0){
+			  enableFlag = true;
+	      }
+	    
+	      save.setEnabled(enableFlag);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない
@@ -89,6 +97,7 @@ $(function() {
           retFlag = false;
           return;
         }
+        enableFlag = false;
       },
       serverError: function(data) {
         // 特にすることなし
@@ -103,7 +112,7 @@ $(function() {
   // 各ボタンの生成
   // 一覧
   var reLoad = new McsButton($('#menu-btn-update'), screenText.list.reLoad);
-  var save = new McsButton($('#menu-btn-save'), screenText.list.save);
+  
   var ret = new McsButton($('#menu-btn-cancel'), screenText.list.ret);
   
   /**
@@ -196,7 +205,8 @@ $(function() {
     // 各イベント
     // ******************************************************
     // 決定ボタン押下
-    confirmButton.onClick(function() {
+      confirmButton.onClick(function() {
+
       var datas = dataTables.getLatestCond();
       callAjax(getUrl('/VehicleInfo/SetVehicleInfo'), datas, false,
       // 成功
@@ -279,17 +289,28 @@ $(function() {
       // AJax呼び出し
       var values = {};
       values.currentTscId = ctrlSelBox.getValue();
+      values.currentTscName = ctrlSelBox.getText();
 
+      var cond = {
+  	    	currentTscId: ctrlSelBox.getValue(),
+  	    	currentTscName: ctrlSelBox.getText()
+  	      };
       // 表示をクリア
       clearState();
       
       dataTables.getDataAjax({
         url: getUrl('/VehicleInfo/GetVehicleInfo'), // データ取得元
-        cond: values, // 検索条件
+        cond: cond, // 検索条件
         searchDataFlag: true,
         tableCompId: 'I-004-dataTables',
         success: function(data) {
           // 成功時
+          if(data.body.length != 0){
+  			  enableFlag = true;
+  	      }
+  	    
+  	      save.setEnabled(enableFlag);
+  	      enableFlag = false;
         },
         serverError: function(retObj) {
           // エラーメッセージクリア

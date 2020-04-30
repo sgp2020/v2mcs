@@ -21,7 +21,8 @@ $(function() {
 
   // データテーブル
   var dataTables = new McsDataTablesBgColor($('#list-table-target'), true);
-
+  var save = new McsButton($('#menu-btn-save'), screenText.list.save);
+  var enableFlag = false;
   // コンポーネントマネージャ（検索用）
   var searchComp = new McsComponentManager();
 
@@ -87,6 +88,12 @@ $(function() {
       searchDataFlag: true,
       tableCompId: 'I-007-dataTables', // テーブルコンポーネントID
       success: function(data) {
+    	 
+    	  if(data.body.length != 0){
+			  enableFlag = true;
+	      }
+	    
+	      save.setEnabled(enableFlag);
         // 特にすることなし
         if (retFlag) {
           // 戻るボタンが押されたときは閉じない
@@ -94,6 +101,7 @@ $(function() {
           retFlag = false;
           return;
         }
+        enableFlag = false;
       },
       serverError: function(data) {
         // 特にすることなし
@@ -109,7 +117,6 @@ $(function() {
   // 一覧
   var search = new McsButton($('#menu-btn-search'), screenText.list.search);
   var reLoad = new McsButton($('#menu-btn-update'), screenText.list.reLoad);
-  var save = new McsButton($('#menu-btn-save'), screenText.list.save);
   var color = new McsButton($('#menu-btn-color'), screenText.list.color);
   var ret = new McsButton($('#menu-btn-cancel'), screenText.list.ret);
   
@@ -327,6 +334,12 @@ $(function() {
         searchDataFlag: true,
         tableCompId: tableCompId,
         success: function() {
+          
+          if(data.body.length != 0){
+  			  enableFlag = true;
+  	      }
+  	    
+  	      save.setEnabled(enableFlag);
           // 検索成功時
           if (retFlag) {
             // 戻るボタン押下時
@@ -335,6 +348,7 @@ $(function() {
             return;
           }
           firstSearchFlag = false;
+          enableFlag = false;
         },
         serverError: function(result) {
           // 検索失敗時
