@@ -104,3 +104,7 @@ div#ColorDiv {
     width: 120px;
     float: left;
 }
+#sel-ctrl{
+	position: relative;
+    width: 200px;
+}
