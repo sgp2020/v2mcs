@@ -155,15 +155,25 @@ McsDataTablesBgColor.prototype = {
     // 行選択のクリックイベントの後に処理し、コールバックを呼ぶ。
     tbody.on('click', 'tr', function() {
       var $this = $(this);
-      var t1 = $this[0];
-     
+
+      //Add Song Start
+      var bgcolor;
       
       var isSelected = $this.hasClass('selected');
-      if(isSelected == true){
-    	  $(this).css('background-color', '#000080');
-      }else{
-    	  $(this).css('background-color', '#FFFF00');
+      if(isSelected == true){//データを選択したら、背景色は青色へ表示される。
+    	  bgcolor=$(this).css("background-color");
+          $(this).attr("bgcolor",bgcolor);
+          $(this).css('background-color', '#08336b');
+    	  $(this).css('color', '#FFFFFF');
+      }else{//データを選択しない時、背景色は元な色へ表示される。
+    	  var bgc = $(this).attr("bgcolor");
+    	  $(this).css('background-color', bgc);
+    	  $(this).css('color', '#000000');
       }
+      //Add Song End
+      
+      
+      var isSelected = $this.hasClass('selected');
       if (isSelected && self.onSelectRowCallback) {
         self.onSelectRowCallback(self._getRowsData($this[0]));
       } else if (!isSelected && self.onDeselectRowCallback) {
