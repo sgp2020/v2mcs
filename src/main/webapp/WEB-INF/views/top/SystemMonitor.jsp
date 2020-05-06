@@ -70,7 +70,8 @@
       //cancel: '<spring:message code="IT-001-02-010" />' 
       // END APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
       history: '<spring:message code="IT-001-10-007" />',
-      log: '<spring:message code="IT-001-10-008" />',
+      //log: '<spring:message code="IT-001-10-008" />',
+      system: '<spring:message code="IT-001-10-008" />',
       statis: '<spring:message code="IT-001-10-009" />',
       maint: '<spring:message code="IT-001-10-010" />',
       cancel: '<spring:message code="IT-001-02-010" />'
@@ -93,7 +94,7 @@
       jobStatisticsHist: '<spring:message code="IT-001-03-005" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
-    slideLogText: {
+    /* slideLogText: {
       sysLog: '<spring:message code="IT-001-04-001" />',
       opeLog: '<spring:message code="IT-001-04-007" />',
       hostLog: '<spring:message code="IT-001-04-002" />',
@@ -101,25 +102,30 @@
       transferLog: '<spring:message code="IT-001-04-004" />',
       transferDisLog: '<spring:message code="IT-001-04-005" />',
       performDtLog: '<spring:message code="IT-001-04-008" />',
-      cancel: '<spring:message code="IT-001-04-006" />'
+      cancel: '<spring:message code="IT-001-04-008" />'
+    }, */
+    slideSystemText: {
+      modeSetTSC: '<spring:message code="IT-001-04-001" />',
+      cancel: '<spring:message code="IT-001-04-008" />'
     },
-    slideStatistics: {
-      mttrMtbf: '<spring:message code="IT-001-05-011" />',
-      binUtil: '<spring:message code="IT-001-05-006" />',
-      avgBinUtil: '<spring:message code="IT-001-05-007" />',
-      avgNumCarrier: '<spring:message code="IT-001-05-008" />',
-      avgUnitUtil: '<spring:message code="IT-001-05-009" />',
-      transferTime: '<spring:message code="IT-001-05-001" />',
-      tranTimeMicro: '<spring:message code="IT-001-05-010" />',
-      aveTranTimeCarrier: '<spring:message code="IT-001-05-004" />',
-      aveTranTimeMicro: '<spring:message code="IT-001-05-005" />',
-      hostComResTime: '<spring:message code="IT-001-05-002" />',
-      cancel: '<spring:message code="IT-001-05-003" />'
+    //slideStatistics: {
+    slideSetup: {
+     //mttrMtbf: '<spring:message code="IT-001-05-011" />',
+     //binUtil: '<spring:message code="IT-001-05-006" />',
+      //avgBinUtil: '<spring:message code="IT-001-05-007" />',
+      //avgNumCarrier: '<spring:message code="IT-001-05-008" />',
+      //avgUnitUtil: '<spring:message code="IT-001-05-009" />',
+      //transferTime: '<spring:message code="IT-001-05-001" />',
+      //tranTimeMicro: '<spring:message code="IT-001-05-010" />',
+      //aveTranTimeCarrier: '<spring:message code="IT-001-05-004" />',
+      //aveTranTimeMicro: '<spring:message code="IT-001-05-005" />',
+      defineTSC: '<spring:message code="IT-001-05-002" />',
+      cancel: '<spring:message code="IT-001-05-016" />'
     },
     slideMainte: {
       stocker: '<spring:message code="IT-001-06-001" />',
       portGrp: '<spring:message code="IT-001-06-018" />',
-<%--  hostPortGrp: '<spring:message code="IT-001-06-033" />', Hostポートグループ対応 - 制御側未対応のため、未使用 --%>
+	  //hostPortGrp: '<spring:message code="IT-001-06-033" />',//Hostポートグループ対応 - 制御側未対応のため、未使用
       alDevice: '<spring:message code="IT-001-06-002" />',
       nearTranConf: '<spring:message code="IT-001-06-028" />',
       userManage: '<spring:message code="IT-001-06-003" />',
@@ -387,21 +393,24 @@
     </div>
 
     <!-- スライドメニュー ログ -->
-    <div id="mcs-top-slideMenu-log">
+    <!-- <div id="mcs-top-slideMenu-log"> -->
+    <div id="mcs-top-slideMenu-system">
+        <!-- ModeSet TSC表示 -->
+        <div class="system-modeSetTSC btn-mcs-slide" data-auth="${S001_REF}"></div>
         <!-- システムログ表示 -->
-        <div class="log-system btn-mcs-slide" data-auth="${L001_REF}"></div>
+        <!-- <div class="log-system btn-mcs-slide" data-auth="${L001_REF}"></div> -->
         <!-- 操作ログ表示 -->
-        <div class="log-ope btn-mcs-slide" data-auth="${L006_REF}"></div>
+        <!-- <div class="log-ope btn-mcs-slide" data-auth="${L006_REF}"></div> -->
         <!-- HOST通信ログ表示 -->
-        <div class="log-host btn-mcs-slide" data-auth="${L002_REF}"></div>
+        <!-- <div class="log-host btn-mcs-slide" data-auth="${L002_REF}"></div> -->
         <!-- AMHS通信ログ表示 -->
-        <div class="log-amhs btn-mcs-slide" data-auth="${L003_REF}"></div>
+        <!-- <div class="log-amhs btn-mcs-slide" data-auth="${L003_REF}"></div> -->
         <%-- 
         <!-- 搬送ログ表示 -->
         <div class="log-transfer btn-mcs-slide" data-auth="${L004_REF}"></div>
          --%>
         <!-- 搬送障害ログ表示 -->
-        <div class="log-dis btn-mcs-slide" data-auth="${L005_REF}"></div>
+        <!-- <div class="log-dis btn-mcs-slide" data-auth="${L005_REF}"></div> -->
         <%-- MACS4#0016 Del Start --%>
         <%--
         <!-- パフォーマンスデータログ表示 -->
@@ -409,7 +418,7 @@
         --%
         <%-- MACS4#0016 Del End --%>
         <!-- 戻る -->
-        <div class="log-cancel btn-mcs-slide btn-mcs-slide-return"></div>
+        <div class="system-cancel btn-mcs-slide btn-mcs-slide-return"></div>
     </div>
 
     <!-- スライドメニュー 統計-->

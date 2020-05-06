@@ -120,6 +120,11 @@ div.mcs-table-wrapper {
     width: 320px;
 }
 
+/* 2020.05.06 DONG ADD System*/
+#mcs-top-slideMenu-system {
+    width: 320px;
+}
+
 /* 統計スライド */
 #mcs-top-slideMenu-st {
     width: 320px;

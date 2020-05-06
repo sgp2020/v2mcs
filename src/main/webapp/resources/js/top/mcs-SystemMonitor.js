@@ -39,8 +39,15 @@ $(function() {
   // 来歴スクリーン
   var slideMenuHistory = createHistorySlideMenu();
 
+  //STD 2020.05.06 DONG DEL
   // ログスクリーン
-  var slideMenuLog = createLogSlideMenu();
+  //var slideMenuLog = createLogSlideMenu();
+  //END 2020.05.06 DONG DEL
+  
+  //STD 2020.05.06 DONG ADD
+  //System
+  var slideMenuSystem = createSystemSlideMenu();
+  //END 2020.05.06 DONG ADD
 
   // 統計スクリーン
   var slideMenuStatistics = createStatisticsSlideMenu();
@@ -224,7 +231,8 @@ $(function() {
     
     var stageInfo = new McsButton($('#menu-btn-stageInfo'), screenText.menuText.stageInfo);   // MACS4#0049 Add
     var history = new McsButton($('#menu-btn-history'), screenText.menuText.history);
-    var log = new McsButton($('#menu-btn-log'), screenText.menuText.log);
+//    var log = new McsButton($('#menu-btn-log'), screenText.menuText.log);
+    var system = new McsButton($('#menu-btn-system'), screenText.menuText.system);
     var statistics = new McsButton($('#menu-btn-statis'), screenText.menuText.statis);
     var maintenance = new McsButton($('#menu-btn-maint'), screenText.menuText.maint);
     var cancel = new McsButton($('#menu-btn-cancel'), screenText.menuText.cancel);
@@ -299,9 +307,14 @@ $(function() {
       slideMenuHistory.toggle();
     });
 
-    // ログボタン、子スクリーン表示
+    /*// ログボタン、子スクリーン表示
     log.onClick(function() {
       slideMenuLog.toggle();
+    });*/
+    
+    // ログボタン、子スクリーン表示
+    system.onClick(function() {
+    	slideMenuSystem.toggle();
     });
 
     // 統計ボタン、子スクリーン表示
@@ -446,23 +459,38 @@ $(function() {
    * MACS4#0016  GUI客先テストNG項目対応                                T.Iga/CSC
    ******************************************************************************
    */
-  function createLogSlideMenu() {
-    var slideMenuLog = new McsSlideMenu({
+  //STD 2020.05.06 DONG MOD
+  //function createLogSlideMenu() {
+  function createSystemSlideMenu() {
+    var slideMenuSystem = new McsSlideMenu({
+    //var slideMenuLog = new McsSlideMenu({
       depth: 1,
       parent: null,
-      slideDiv: $('#mcs-top-slideMenu-log')
+      //slideDiv: $('#mcs-top-slideMenu-log')
+      slideDiv: $('#mcs-top-slideMenu-system')
     });
 
-    var systemLog = new McsButton($('#mcs-top-slideMenu-log .log-system'), screenText.slideLogText.sysLog);
+    var modeSetTSC = new McsButton($('#mcs-top-slideMenu-system .system-modeSetTSC'), screenText.slideSystemText.modeSetTSC);
+    //END 2020.05.06 DONG MOD
+    /*var systemLog = new McsButton($('#mcs-top-slideMenu-log .log-system'), screenText.slideLogText.sysLog);
     var opeLog = new McsButton($('#mcs-top-slideMenu-log .log-ope'), screenText.slideLogText.opeLog);
-    var hostComLog = new McsButton($('#mcs-top-slideMenu-log .log-host'), screenText.slideLogText.hostLog);
-    var amhsComLog = new McsButton($('#mcs-top-slideMenu-log .log-amhs'), screenText.slideLogText.amhsLog);
+    var hostComLog = new McsButton($('#mcs-top-slideMenu-log .log-host'), screenText.slideLogText.hostLog);*/
+    // STD 2020.05.06 DONG DEL
+    //var amhsComLog = new McsButton($('#mcs-top-slideMenu-log .log-amhs'), screenText.slideLogText.amhsLog);
+    // END 2020.05.06 DONG DEL
 //  var transferLog = new McsButton($('#mcs-top-slideMenu-log .log-transfer'), screenText.slideLogText.transferLog);
-    var transDisLog = new McsButton($('#mcs-top-slideMenu-log .log-dis'), screenText.slideLogText.transferDisLog);
+    // STD 2020.05.06 DONG DEL
+    //var transDisLog = new McsButton($('#mcs-top-slideMenu-log .log-dis'), screenText.slideLogText.transferDisLog);
+    // END 2020.05.06 DONG DEL
 //  var performDtLog = new McsButton($('#mcs-top-slideMenu-log .log-performDt'), screenText.slideLogText.performDtLog);   // MACS4#0016 Del
-    var cancel = new McsButton($('#mcs-top-slideMenu-log .log-cancel'), screenText.slideLogText.cancel);
+    var cancel = new McsButton($('#mcs-top-slideMenu-system .system-cancel'), screenText.slideSystemText.cancel);
 
     // システムログ表示ボタン、ページ遷移
+    modeSetTSC.onClick(function() {
+      openScreen(getUrl('ModeSetTSC'), 'ModeSetTSC');
+    });
+    // STD 2020.05.06 DONG DEL
+    /*// システムログ表示ボタン、ページ遷移
     systemLog.onClick(function() {
       openScreen(getUrl('SystemLog'), 'SystemLog');
     });
@@ -480,18 +508,20 @@ $(function() {
     // AMHS通信ログ表示ボタン、ページ遷移
     amhsComLog.onClick(function() {
       openScreen(getUrl('AmhsCommunicationLog'), 'AmhsCommunicationLog');
-    });
+    });*/
+    // END 2020.05.06 DONG DEL
 
     // 搬送ログ表示ボタン、ページ遷移
 //    transferLog.onClick(function() {
 //      openScreen(getUrl('TransferLog'), 'TransferLog');
 //    });
 
+    // STD 2020.05.06 DONG DEL
     // 搬送障害ログ表示ボタン、ページ遷移
-    transDisLog.onClick(function() {
-      openScreen(getUrl('TransferDisturbLog'), 'TransferDisturbLog');
-    });
-
+    //transDisLog.onClick(function() {
+    //  openScreen(getUrl('TransferDisturbLog'), 'TransferDisturbLog');
+    //});
+    // END 2020.05.06 DONG DEL
     // パフォーマンスデータログ表示ボタン、ページ遷移
     // MACS4#0016 Del Start
 //  performDtLog.onClick(function() {
@@ -501,10 +531,11 @@ $(function() {
 
     // 戻るボタン、スクリーン非表示
     cancel.onClick(function() {
-      slideMenuLog.hide();
+    	slideMenuSystem.hide();
     });
 
-    return slideMenuLog;
+//    return slideMenuLog;
+    return slideMenuSystem;
   }
 
   /**
@@ -526,7 +557,7 @@ $(function() {
       parent: null,
       slideDiv: $('#mcs-top-slideMenu-st')
     });
-    var mttrMtbf = new McsButton($('#mcs-top-slideMenu-st .st-mttrMtbf'), screenText.slideStatistics.mttrMtbf);
+    /*var mttrMtbf = new McsButton($('#mcs-top-slideMenu-st .st-mttrMtbf'), screenText.slideStatistics.mttrMtbf);
     var binUtil = new McsButton($('#mcs-top-slideMenu-st .st-binUtil'), screenText.slideStatistics.binUtil);
     var avgBinUtil = new McsButton($('#mcs-top-slideMenu-st .st-avg-binUtil'), screenText.slideStatistics.avgBinUtil);
     var avgNumCarrier = new McsButton($('#mcs-top-slideMenu-st .st-avg-numCarrier'),
@@ -542,10 +573,12 @@ $(function() {
     var aveTrnTimeMicro = new McsButton($('#mcs-top-slideMenu-st .st-aveTrnTime-micro'),
         screenText.slideStatistics.aveTranTimeMicro);
     var hostCommResTime = new McsButton($('#mcs-top-slideMenu-st .st-HostComResTime'),
-        screenText.slideStatistics.hostComResTime);
-    var cancel = new McsButton($('#mcs-top-slideMenu-st .st-cancel'), screenText.slideStatistics.cancel);
+        screenText.slideStatistics.hostComResTime);*/
+    var defineTSC = new McsButton($('#mcs-top-slideMenu-st .st-HostComResTime'),
+    		screenText.slideSetup.hostComResTime);
+    var cancel = new McsButton($('#mcs-top-slideMenu-st .st-cancel'), screenText.slideSetup.cancel);
 
-    // MTTR/MTBF統計表示ボタン、ページ遷移
+    /*// MTTR/MTBF統計表示ボタン、ページ遷移
     mttrMtbf.onClick(function() {
       openScreen(getUrl('MttrMtbf'), 'MttrMtbf');
     });
@@ -593,8 +626,12 @@ $(function() {
     // HOST通信応答時間統計表示ボタン、ページ遷移
     hostCommResTime.onClick(function() {
       openScreen(getUrl('HostCommunicationResTime'), 'HostCommunicationResTime');
+    });*/
+ 
+    // Define TSC表示ボタン、ページ遷移
+    defineTSC.onClick(function() {
+      openScreen(getUrl('DefineTSC'), 'DefineTSC');
     });
-
     // 戻るボタン、スクリーン非表示
     cancel.onClick(function() {
       slideMenuStatistics.hide();
@@ -1231,7 +1268,8 @@ $(function() {
     // すべてのスライドをいったん非表示にする
     slideMenuTop.hide();
     slideMenuHistory.hide();
-    slideMenuLog.hide();
+//    slideMenuLog.hide();
+    slideMenuSystem.hide();
     slideMenuStatistics.hide();
     slideMenuMainte.hide()
     slideMenuAmhsCons.hide();
