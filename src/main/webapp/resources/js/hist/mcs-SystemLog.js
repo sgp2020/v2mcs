@@ -352,7 +352,10 @@ $(function() {
           // 検索成功時
     	  if(data.body.length != 0){
     		  enableFlag = true;
-          }
+          }else{
+	    	  
+			  enableFlag = false;
+		  }
         
           downLoadBtn.setEnabled(enableFlag);
              

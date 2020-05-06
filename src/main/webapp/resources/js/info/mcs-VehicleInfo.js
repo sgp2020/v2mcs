@@ -87,7 +87,10 @@ $(function() {
     	 
 		  if(data.body.length != 0){
 			  enableFlag = true;
-	      }
+	      }else{
+	    	  
+			  enableFlag = false;
+		  }
 	    
 	      save.setEnabled(enableFlag);
         // 特にすることなし
@@ -307,7 +310,10 @@ $(function() {
           // 成功時
           if(data.body.length != 0){
   			  enableFlag = true;
-  	      }
+  	      }else{
+	    	  
+			  enableFlag = false;
+		  }
   	    
   	      save.setEnabled(enableFlag);
   	      enableFlag = false;

@@ -91,7 +91,10 @@ $(function() {
     	 
     	  if(data.body.length != 0){
 			  enableFlag = true;
-	      }
+	      }else{
+	    	  
+			  enableFlag = false;
+		  }
 	    
 	      save.setEnabled(enableFlag);
         // 特にすることなし
@@ -337,7 +340,10 @@ $(function() {
           
           if(data.body.length != 0){
   			  enableFlag = true;
-  	      }
+  	      }else{
+	    	  
+			  enableFlag = false;
+		  }
   	    
   	      save.setEnabled(enableFlag);
           // 検索成功時
@@ -459,6 +465,16 @@ $(function() {
         tableCompId: 'I-007-dataTables',
         success: function(data) {
           // 成功時
+          if(data.body.length != 0){
+			  enableFlag = true;
+	      }else{
+	    	  
+			  enableFlag = false;
+		  }
+          
+	    
+	      save.setEnabled(enableFlag);
+	      enableFlag = false;
         },
         serverError: function(retObj) {
           // エラーメッセージクリア
@@ -469,6 +485,7 @@ $(function() {
         ajaxError: function(message, status) {
           // 何もすることなし
         }
+        
       });
     }
 
