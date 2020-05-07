@@ -63,14 +63,14 @@
       hostCommInfo: '<spring:message code="IT-001-02-009" />',//2020.03.18 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000
       // STD APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000
    	  //MACSV4用なLabelを削除する
-      //history: '<spring:message code="IT-001-02-004" />',
-      //log: '<spring:message code="IT-001-01-006" />',
-      //statis: '<spring:message code="IT-001-02-006" />',
-      //maint: '<spring:message code="IT-001-02-007" />',
-      //cancel: '<spring:message code="IT-001-02-010" />' 
+      <%--history: '<spring:message code="IT-001-02-004" />',
+      log: '<spring:message code="IT-001-01-006" />',
+      statis: '<spring:message code="IT-001-02-006" />',
+      maint: '<spring:message code="IT-001-02-007" />',
+      cancel: '<spring:message code="IT-001-02-010" />' --%>
       // END APL 2020.03.10 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
       history: '<spring:message code="IT-001-10-007" />',
-      //log: '<spring:message code="IT-001-10-008" />',
+      <%-- log: '<spring:message code="IT-001-10-008" />',--%>
       system: '<spring:message code="IT-001-10-008" />',
       statis: '<spring:message code="IT-001-10-009" />',
       maint: '<spring:message code="IT-001-10-010" />',
@@ -94,7 +94,8 @@
       jobStatisticsHist: '<spring:message code="IT-001-03-005" />',
       cancel: '<spring:message code="IT-001-03-009" />'
     },
-    /* slideLogText: {
+    <%-- 
+    slideLogText: {
       sysLog: '<spring:message code="IT-001-04-001" />',
       opeLog: '<spring:message code="IT-001-04-007" />',
       hostLog: '<spring:message code="IT-001-04-002" />',
@@ -103,22 +104,23 @@
       transferDisLog: '<spring:message code="IT-001-04-005" />',
       performDtLog: '<spring:message code="IT-001-04-008" />',
       cancel: '<spring:message code="IT-001-04-008" />'
-    }, */
+    }, 
+    --%>
     slideSystemText: {
-      modeSetTSC: '<spring:message code="IT-001-04-001" />',
-      cancel: '<spring:message code="IT-001-04-008" />'
+      modeSetTSC: '<spring:message code="IS-001-01-001" />',
+      cancel: '<spring:message code="IS-001-01-024" />'
     },
     //slideStatistics: {
     slideSetup: {
-     //mttrMtbf: '<spring:message code="IT-001-05-011" />',
-     //binUtil: '<spring:message code="IT-001-05-006" />',
-      //avgBinUtil: '<spring:message code="IT-001-05-007" />',
-      //avgNumCarrier: '<spring:message code="IT-001-05-008" />',
-      //avgUnitUtil: '<spring:message code="IT-001-05-009" />',
-      //transferTime: '<spring:message code="IT-001-05-001" />',
-      //tranTimeMicro: '<spring:message code="IT-001-05-010" />',
-      //aveTranTimeCarrier: '<spring:message code="IT-001-05-004" />',
-      //aveTranTimeMicro: '<spring:message code="IT-001-05-005" />',
+    <%--mttrMtbf: '<spring:message code="IT-001-05-011" />',
+      binUtil: '<spring:message code="IT-001-05-006" />',
+      avgBinUtil: '<spring:message code="IT-001-05-007" />',
+      avgNumCarrier: '<spring:message code="IT-001-05-008" />',
+      avgUnitUtil: '<spring:message code="IT-001-05-009" />',
+      transferTime: '<spring:message code="IT-001-05-001" />',
+      tranTimeMicro: '<spring:message code="IT-001-05-010" />',
+      aveTranTimeCarrier: '<spring:message code="IT-001-05-004" />',
+      aveTranTimeMicro: '<spring:message code="IT-001-05-005" />', --%>
       defineTSC: '<spring:message code="IT-001-05-002" />',
       cancel: '<spring:message code="IT-001-05-016" />'
     },
