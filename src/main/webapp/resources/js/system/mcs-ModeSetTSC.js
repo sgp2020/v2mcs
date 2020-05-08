@@ -22,9 +22,11 @@ $(function() {
 
   //STD 2020.03.15 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
   // ステータス色一覧
-  $('#color1').css('background-color', screenText.colorText.Normal);
-  $('#color2').css('background-color', screenText.colorText.Low);
-  $('#color3').css('background-color', screenText.colorText.High);
+  $('#color1').css('background-color', screenText.colorText.enable);
+  $('#color2').css('background-color', screenText.colorText.disable);
+  $('#color3').css('background-color', screenText.colorText.test);
+  $('#color4').css('background-color', screenText.colorText.PM);
+  $('#color5').css('background-color', screenText.colorText.notReady);
   /*var ctrl1 = new McsTextBox($('#ctrl1'));
   var ctrl2 = new McsTextBox($('#ctrl2'));
   var ctrl3 = new McsTextBox($('#ctrl3'));

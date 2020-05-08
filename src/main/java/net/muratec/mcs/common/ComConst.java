@@ -764,6 +764,13 @@ public class ComConst {
          */
         HIST_STAGEHISTORY("H008", 30800000L, "H008_REF", ""),
 
+        /* STD 2020.05.08 DONG ADD */
+        /**
+         * ModeSetTSC
+         */
+        SYST_MODESETTSC("S001", 40100000L, "S001_REF", ""),
+        /* END 2020.05.08 DONG ADD */
+        
         /**
          * システムログ
          */
