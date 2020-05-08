@@ -158,17 +158,26 @@ McsDataTablesBgColor.prototype = {
 
       //Add Song Start
       var bgcolor;
-      
-      var isSelected = $this.hasClass('selected');
-      if(isSelected == true){//データを選択したら、背景色は青色へ表示される。
-    	  bgcolor=$(this).css("background-color");
-          $(this).attr("bgcolor",bgcolor);
-          $(this).css('background-color', '#08336b');
-    	  $(this).css('color', '#FFFFFF');
-      }else{//データを選択しない時、背景色は元な色へ表示される。
-    	  var bgc = $(this).attr("bgcolor");
-    	  $(this).css('background-color', bgc);
-    	  $(this).css('color', '#000000');
+      bgcolor=$(this).css("background-color");
+      if(bgcolor == "rgb(71, 77, 89)" || bgcolor == "rgb(30, 33, 38)" || bgcolor == "rgb(36, 39, 45)"){//后台没有设置颜色
+    	 
+      }else{
+    	  var isSelected = $this.hasClass('selected');
+          if(isSelected == true){//データを選択したら、背景色は青色へ表示される。
+        	  
+    		  if(bgcolor == "rgb(8, 51, 107)"){
+    			  
+    		  }else{
+    			  //bgcolor=$(this).css("background-color");
+                  $(this).attr("bgcolor",bgcolor);
+                  $(this).css('background-color', '#08336b');
+            	  $(this).css('color', '#FFFFFF'); 
+    		  }
+          }else{//データを選択しない時、背景色は元な色へ表示される。
+        	  var bgc = $(this).attr("bgcolor");
+        	  $(this).css('background-color', bgc);
+        	  $(this).css('color', '#000000');
+          } 
       }
       //Add Song End
       
