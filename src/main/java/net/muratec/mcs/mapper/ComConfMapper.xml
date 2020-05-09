@@ -393,4 +393,81 @@
       T8 = #{t8,jdbcType=DECIMAL}
     where LLC_SID = #{llcSid,jdbcType=DECIMAL}
   </update>
+  
+  <!-- 以下独自SQL -->
+  <select id="getCount" parameterType="net.muratec.mcs.entity.define.ReqGetDefineLLCComEntity" resultType="java.lang.Integer"> 
+	   SELECT  
+		    count(*)
+	   FROM(
+		  	SELECT  
+				  com_conf.llc_sid,  
+				  NVL( tsc.tsc_abbreviation, 'NoUsed' ),  
+				  com_conf.port_no,  
+				  ( CASE com_conf.connect_mode WHEN 0 THEN 'Passive'  
+													  ELSE 'Active'  
+					END ),  
+				  com_conf.host_name,  
+				  com_conf.session_id,  
+				  com_conf.name,  
+				  com_conf.link_test,  
+				  com_conf.t3,  
+				  com_conf.t5,  
+				  com_conf.t6,  
+				  com_conf.t7,  
+				  com_conf.t8  
+			FROM  com_conf  
+			LEFT OUTER JOIN tsc ON tsc.llc_sid = com_conf.llc_sid  
+			ORDER BY com_conf.llc_sid
+	 	   )
+  </select>
+  <!-- レコード取得範囲決定部 -->
+  <sql id="selectRecordWhere">
+    <where>
+      <if test="fromRecordNum != null and toRecordNum != null">
+       rn between #{fromRecordNum,jdbcType=DECIMAL} and #{toRecordNum,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="selectDefineLLCCom" parameterType="net.muratec.mcs.entity.define.ReqGetDefineLLCComEntity" resultMap="BaseResultMap">
+  		SELECT 	
+		  	rn,
+			llc_sid, 
+			description,
+			tsc_id,
+			connect_mode, 
+			host_name,
+			session_id,
+			name,
+			link_test,
+			t3,
+			t5,
+			t6,
+			t7,
+			t8
+		FROM(
+			SELECT  
+				  row_number() over(ORDER BY time DESC) rn,
+				  com_conf.llc_sid,  
+				  NVL( tsc.tsc_abbreviation, 'NoUsed' ) tsc_id,  
+				  com_conf.port_no,  
+				  ( CASE com_conf.connect_mode WHEN 0 THEN 'Passive'  
+													  ELSE 'Active'  
+					END ) connect_mode,  
+				  com_conf.host_name,  
+				  com_conf.session_id,  
+				  com_conf.name,  
+				  com_conf.link_test,  
+				  com_conf.t3,  
+				  com_conf.t5,  
+				  com_conf.t6,  
+				  com_conf.t7,  
+				  com_conf.t8  
+			FROM  com_conf  
+			LEFT OUTER JOIN tsc ON tsc.llc_sid = com_conf.llc_sid  
+			ORDER BY com_conf.llc_sid
+			)
+			<include refid="selectRecordWhere" />
+    </select>
 </mapper>

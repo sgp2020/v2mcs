@@ -1,8 +1,11 @@
 package net.muratec.mcs.mapper;
 
 import java.util.List;
+
+import net.muratec.mcs.entity.define.ReqGetDefineLLCComEntity;
 import net.muratec.mcs.model.ComConf;
 import net.muratec.mcs.model.ComConfExample;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ComConfMapper {
@@ -93,4 +96,6 @@ public interface ComConfMapper {
      * @mbggenerated Fri May 08 15:28:42 CST 2020
      */
     int updateByPrimaryKey(ComConf record);
+    List<ComConf> selectDefineLLCCom(ReqGetDefineLLCComEntity reqEntity);
+    int getCount(ReqGetDefineLLCComEntity record);
 }
