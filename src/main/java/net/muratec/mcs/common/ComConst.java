@@ -1120,7 +1120,14 @@ public class ComConst {
         /**
          * 運用モード変更
          */
-        MAINT_TRANSMODECHANGE("M907", 69700000L, "", "M907_CHG");
+        MAINT_TRANSMODECHANGE("M907", 69700000L, "", "M907_CHG"),
+    	
+        /* STD 2020.05.08 DONG ADD */
+        /**
+         * DefineLLCCom
+         */
+        DEF_LLCCOM("D003", 50300000L, "D003_REF", "");
+        /* END 2020.05.08 DONG ADD */
 
         /**
          * ファンクションID
