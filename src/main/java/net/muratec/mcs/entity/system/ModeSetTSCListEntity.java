@@ -38,11 +38,10 @@ package net.muratec.mcs.entity.system;
 public class ModeSetTSCListEntity {
 
 	public int rum;
-	public String tscName;
-	public String zoneId;
-	public String mode;
-	public String lastModeSetTime;
-	public String lastModeSetSID;
-	public String lastModeSetOriginator;
+	public String tscAbbreviation;
+	public String tscMode;
+	public String modeSetTime;
+	public int modeSetSid;
+	public String modeSetOriginator;
 
 }
