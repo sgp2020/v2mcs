@@ -14,11 +14,11 @@
  * ----------------------------------------------------------------------------
  * DATE       VER.        DESCRIPTION                                    AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/03/11  v1.0.0  	       初版作成                                       								天津村研　董
+ * 2020/05/08  v1.0.0  	       初版作成                                       								天津村研　董
  ******************************************************************************
  */
 //@formatter:on
-package net.muratec.mcs.controller.info;
+package net.muratec.mcs.controller.system;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +50,11 @@ import net.muratec.mcs.controller.common.BaseAjaxController;
 
 import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 import net.muratec.mcs.entity.common.AuthenticationEntity;
-import net.muratec.mcs.entity.info.ReqGetStockerInfoEntity;
 import net.muratec.mcs.entity.info.ReqGetStockerInfoListValidateEntity;
 import net.muratec.mcs.entity.info.ResGetStockerInfoListEntity;
 import net.muratec.mcs.entity.info.ResGetStockerInfoSelectBoxEntity;
+import net.muratec.mcs.entity.system.ReqGetModeSetTSCEntity;
+import net.muratec.mcs.entity.system.ResGetModeSetTSCListEntity;
 import net.muratec.mcs.exception.AjaxAurgumentException;
 import net.muratec.mcs.exception.McsException;
 
@@ -64,23 +65,23 @@ import net.muratec.mcs.service.info.StockerInfoService;
 //@formatter:off
 /**
  ******************************************************************************
- * @brief     StockerInformation画面関連のajaxコントローラクラス
+ * @brief     ModeSetTSC画面関連のajaxコントローラクラス
  * @par       機能:
- *              getStockerInfoList (StockerInformation一覧の取得)
- *              getStockerInfoSelectBoxList (StockerInformation一覧TSCIDセレクトボックスリストの取得)
+ *              getModeSetTSCList (ModeSetTSC一覧の取得)
+ *              getModeSetTSCSelectBoxList (ModeSetTSC一覧TSCTYPEセレクトボックスリストの取得)
  * @attention
  * @note
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * v1.0.0 	   StockerInformationAjaxController					   	           天津村研　董
+ * v1.0.0 	   ModeSetTSCAjaxController					   	           天津村研　董
  ******************************************************************************
  */
 //@formatter:on
 @Controller
-public class StockerInfoAjaxController extends BaseAjaxController {
+public class ModeSetTSCAjaxController extends BaseAjaxController {
 
-    public static final Logger logger = LoggerFactory.getLogger(StockerInfoAjaxController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ModeSetTSCAjaxController.class);
 
     public static Logger getLogger() {
 
@@ -117,24 +118,24 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      ******************************************************************************
      */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerInformationList", method = RequestMethod.POST)
+    @RequestMapping(value = "/ModeSetTSC/GetModeSetTSCList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    @OpLog(screenInfo = ComConst.ScreenInfo.INFO_STOCKER, logOperationType = ComConst.LogOperationType.GET,
+    @OpLog(screenInfo = ComConst.ScreenInfo.SYST_MODESETTSC, logOperationType = ComConst.LogOperationType.GET,
             number = 2L)
-    public ResGetStockerInfoListEntity getStockerInfoList(HttpSession session,
+    public ResGetModeSetTSCListEntity getModeSetTSCList(HttpSession session,
             @Valid @RequestBody ReqGetStockerInfoListValidateEntity reqValidate, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
-        setUserInfo(session, model, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
+        setUserInfo(session, model, locale, ComConst.ScreenInfo.SYST_MODESETTSC.getRefAuthFuncId());
         AuthenticationEntity sessionUserInfo = getUserInfo(session);
        
-        ReqGetStockerInfoEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
-        		ReqGetStockerInfoEntity.class);
+        ReqGetModeSetTSCEntity reqEntity = ComFunction.ajaxAurgumentCheck(errors, logger, locale, reqValidate,
+        		ReqGetModeSetTSCEntity.class);
 
         // レスポンスエンティティ生成
         // 返すJSON全体のオブジェクトをnew
-        ResGetStockerInfoListEntity resEntity = mcsDataTablesService.createResEntity(ResGetStockerInfoListEntity.class,
+        ResGetModeSetTSCListEntity resEntity = mcsDataTablesService.createResEntity(ResGetModeSetTSCListEntity.class,
         		reqEntity, sessionUserInfo.userName, locale);
 
         // 検索処理実装判定
@@ -145,7 +146,7 @@ public class StockerInfoAjaxController extends BaseAjaxController {
 
             // データ取得、設定
 //            resEntity.body = ecService.getEmptyCarrierList(reqEntity);
-            resEntity.body = stockerInfoService.getStockerInfoList(reqEntity);
+/*            resEntity.body = stockerInfoService.getStockerInfoList(reqEntity);
             // 全体レコード数取得、設定
             resEntity.pageInfo.totalRecords = stockerInfoService.getStockerInfoCount(reqEntity);
             
@@ -153,13 +154,13 @@ public class StockerInfoAjaxController extends BaseAjaxController {
             //Rowを色へ変更する
             resEntity.rowColorList = stockerInfoService.getRowColor(reqEntity);
             // END 2020.03.27 天津村研　董  MCSV4　GUI開発  Ver2.0 Rev.000 
-
+*/
         }
         return resEntity;
     }
-/*
+
     //@formatter:off
-    *//**
+    /**
      ******************************************************************************
      * @brief     getStockerInfoSelectBoxList(空FOUP管理一覧 コントローラIDセレクトボックスリストの取得)機能
      * @param     session        セッション情報(Frameworkより付加)
@@ -175,19 +176,19 @@ public class StockerInfoAjaxController extends BaseAjaxController {
      * VER.        DESCRIPTION                                               AUTHOR
      * ----------------------------------------------------------------------------
      ******************************************************************************
-     *//*
+     */
     //@formatter:on
-    @RequestMapping(value = "/StockerInfo/GetStockerSelectBoxList", method = RequestMethod.POST)
+    @RequestMapping(value = "/ModeSetTSC/GetTSCTypeSelectBoxList", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResGetStockerInfoSelectBoxEntity getStockerInfoSelectBoxList(HttpSession session,
+    public ResGetStockerInfoSelectBoxEntity getTSCTypeSelectBoxList(HttpSession session,
             @RequestBody AjaxReqBaseEntity reqEntity, Errors errors, Locale locale, Model model)
             throws AjaxAurgumentException, McsException {
 
         // ------------------------------------
         // アクセス権チェック
         // ------------------------------------
-        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.INFO_STOCKER.getRefAuthFuncId());
+        super.setUserInfoAjax(session, locale, ComConst.ScreenInfo.SYST_MODESETTSC.getRefAuthFuncId());
 
         // ------------------------------------
         // 戻り値宣言
@@ -206,5 +207,5 @@ public class StockerInfoAjaxController extends BaseAjaxController {
         resEntity.result.message = "";
 
         return resEntity;
-    }*/
+    }
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import net.muratec.mcs.model.Tsc;
 import net.muratec.mcs.model.TscExample;
+import net.muratec.mcs.entity.system.ReqGetModeSetTSCEntity;
 import net.muratec.mcs.model.EqpType;
 
 public interface TscMapper {
@@ -115,5 +116,6 @@ public interface TscMapper {
     List<Tsc> selectDefaultTscID(TscExample example);
     List<Tsc> selectOhbSemTscID(TscExample example);
     List<Tsc> selectCdcTscID(TscExample example);  
+    List<Tsc> selectModeSetTSC(ReqGetModeSetTSCEntity example);  
     
 }

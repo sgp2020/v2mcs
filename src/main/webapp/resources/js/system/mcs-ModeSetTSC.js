@@ -84,7 +84,7 @@ $(function() {
 
   // 初期表示処理
   // ---------------------------------------
-  ctrlSelBox.setList(screenValue.tscId);
+  ctrlSelBox.setList(screenValue.tscType);
   showListScreen(false);
   // 一覧画面のデータ取得、表示
   // 自動更新有効化
@@ -193,7 +193,7 @@ $(function() {
         url: getUrl('/ModeSetTSC/GetModeSetTSCList'), // データ取得元
         cond: values, // 検索条件
         searchDataFlag: true,
-        tableCompId: 'I-005-dataTables',
+        tableCompId: 'S-001-ModeSetTSCList',
         success: function(data) {
           // 成功時
         },

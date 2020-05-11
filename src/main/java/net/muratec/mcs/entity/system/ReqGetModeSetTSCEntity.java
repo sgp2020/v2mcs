@@ -1,10 +1,10 @@
 ﻿//@formatter:off
 /**
  ******************************************************************************
- * @file        ModeSetTSCListEntity.java
+ * @file        ReqGetModeSetTSCEntity.java
  * @brief       
- * @par
- * @author       天津村研　董
+ * * @par
+ * @author      天津村研　董
  * $Id:         $
  * @attention
  *
@@ -18,8 +18,13 @@
  ******************************************************************************
  */
 //@formatter:on
-
 package net.muratec.mcs.entity.system;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.muratec.mcs.annotation.FieldNameKey;
+import net.muratec.mcs.entity.common.AjaxDataTablesReqBaseEntity;
+import net.muratec.mcs.entity.common.AjaxReqBaseEntity;
 
 //@formatter:off
 /**
@@ -31,18 +36,13 @@ package net.muratec.mcs.entity.system;
  * ----------------------------------------------------------------------------
  * VER.        DESCRIPTION                                               AUTHOR
  * ----------------------------------------------------------------------------
- * 2020/05/08  ModeSetTSCListEntity							            董 天津村研
+ * v1.0.0	   ReqGetModeSetTSCEntity                                   天津村研　董
  ******************************************************************************
  */
 //@formatter:on
-public class ModeSetTSCListEntity {
+@Getter
+@Setter
+public class ReqGetModeSetTSCEntity extends AjaxDataTablesReqBaseEntity {
 
-	public int rum;
-	public String tscName;
-	public String zoneId;
-	public String mode;
-	public String lastModeSetTime;
-	public String lastModeSetSID;
-	public String lastModeSetOriginator;
-
+    @FieldNameKey(key = "IS-001-01-003") public String tscType = null;
 }

@@ -740,4 +740,29 @@
 	  WHERE  tsc_type = 'CDC' OR tsc_type = 'OCDC' OR tsc_type = 'XCDC' OR tsc_type = 'STC'
 	  ORDER BY 1 
   </select> 
+  <!-- 2020.05.11 DONG　ADD　For　ModeSetTSC -->
+  <sql id="selectWhere">
+    <where>
+      <if test="tsc_type == 'All' ">
+        AND tsc.tsc_type IS NOT NULL 
+      </if>
+      <if test="tsc_type != 'All'">
+        AND tsc.tsc_type = #{tscType}
+      </if>
+    </where>
+  </sql>
+  <select id="selectModeSetTSC" parameterType="net.muratec.mcs.entity.system.ReqGetModeSetTSCEntity" resultMap="BaseResultMap">
+  
+  			SELECT 0,
+							  tsc_abbreviation, 
+							  tsc_mode, 
+							  mode_set_time, 
+							  mode_set_sid, 
+							  mode_set_originator, 
+							  e10_state,
+							  tsc_id
+		　　　　FROM   tsc 
+			 <include refid="selectWhere" /> 
+             ORDER BY 2 ASC
+  </select> 
 </mapper>
